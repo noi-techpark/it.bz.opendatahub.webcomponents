@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="dataservice" />
+        <module name="deliveryservice" />
+        <module name="crawlerservice" />
+        <module name="common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common" target="11" />
+      <module name="crawlerservice" target="11" />
+      <module name="dataservice" target="11" />
+      <module name="deliveryservice" target="11" />
+      <module name="webcomponents" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common" options="-parameters" />
+      <module name="crawlerservice" options="-parameters" />
+      <module name="dataservice" options="-parameters" />
+      <module name="deliveryservice" options="-parameters" />
+      <module name="webcomponents" options="-parameters" />
+    </option>
+  </component>
+</project>

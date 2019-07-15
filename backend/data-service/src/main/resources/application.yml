@@ -1,0 +1,32 @@
+server:
+  port: 9030
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain,text/css,text/javascript,application/javascript
+    min-response-size: 1024
+  http2:
+    enabled: true
+
+spring:
+  application:
+    name: data-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wcs
+    username: wcs
+    password: wcs
+  jpa:
+    properties:
+      hibernate:
+        defaultSchema: public
+        jdbc.lob.non_contextual_creation: true
+    hibernate:
+      naming:
+        physical-strategy: it.bz.opendatahub.webcomponents.common.hibernate.CamelSnakeNamingStrategy
+
+logging:
+  file: logs/data.log
+  level:
+    #org.springframework: 'INFO'
+    org.slf4j: 'INFO'
+    it.bz.opendatahub.webcomponents: 'INFO'
+    liquibase.executor: 'INFO'

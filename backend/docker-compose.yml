@@ -1,0 +1,25 @@
+version: "3"
+services:
+  java:
+    build:
+      context: .
+      dockerfile: docker/dockerfile-java
+    volumes:
+       - ./:/code
+    working_dir: /code
+    command: tail -f /dev/null
+    tty: true
+  postgres:
+    container_name: wcs_postgres
+    image: postgres:9.5
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: wcs
+      POSTGRES_PASSWORD: wcs
+      POSTGRES_DB: wcs
+    volumes:
+      - wcs_pgdata:/var/lib/postgresql/data
+
+volumes:
+  wcs_pgdata:

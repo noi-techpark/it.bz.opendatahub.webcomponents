@@ -1,0 +1,26 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: crawler-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/wcs
+    username: wcs
+    password: wcs
+  jpa:
+    properties:
+      hibernate:
+        defaultSchema: public
+        jdbc.lob.non_contextual_creation: true
+    hibernate:
+      naming:
+        physical-strategy: it.bz.opendatahub.webcomponents.common.hibernate.CamelSnakeNamingStrategy
+
+logging:
+  file: logs/crawler.log
+  level:
+    #org.springframework: 'INFO'
+    org.slf4j: 'INFO'
+    it.bz.opendatahub.webcomponents: 'INFO'
+    liquibase.executor: 'INFO'
