@@ -1,11 +1,9 @@
-create table webcomponent_version
+create table system
 (
-    webcomponent_uuid varchar(64) not null
-        constraint webcomponent_version_pk
+    key  varchar(32) not null
+        constraint system_pk
             primary key,
-    version_tag       varchar(32) not null,
-    release_timestamp timestamp
+    data jsonb default '{}'::jsonb
 );
 
-create unique index webcomponent_version_webcomponent_uuid_version_tag_uindex
-    on webcomponent_version (webcomponent_uuid, version_tag);
+INSERT INTO system (key) VALUES ('ORIGIN');
