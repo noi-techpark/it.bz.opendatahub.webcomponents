@@ -1,8 +1,8 @@
 Replace all `ToDo` notes with the appropriate names, descriptions and commands.
 
-# ToDo: Project Name
+# ODH: Webcomponents
 
-ToDo: Description of the project.
+Webcomponents store for OpenDataHub.
 
 ## Table of contents
 
@@ -21,7 +21,6 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- ToDo: Check the prerequisites
 - Java JDK 11 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
 - [Maven](https://maven.apache.org/) 3.x
 
@@ -32,13 +31,13 @@ For a ready to use Docker environment with all prerequisites already installed a
 Get a copy of the repository:
 
 ```bash
-ToDo: git clone https://github.com/noi-techpark/project-name.git
+git clone https://github.com/noi-techpark/odh-web-components-store.git
 ```
 
 Change directory:
 
 ```bash
-ToDo: cd project-name/
+cd odh-web-components-store/
 ```
 
 ### Build
@@ -59,7 +58,9 @@ mvn clean test
 
 ## Deployment
 
+The project requires a Tomcat server as well as a PostgreSQL 9.6+ database server.
 ToDo: A detailed description about how the application must be deployed.
+The project is composed of three 
 
 ## Docker environment
 

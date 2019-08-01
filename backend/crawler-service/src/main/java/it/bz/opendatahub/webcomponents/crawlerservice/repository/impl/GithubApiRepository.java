@@ -1,5 +1,7 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository.impl;
 
+import it.bz.opendatahub.webcomponents.crawlerservice.data.api.github.Ref;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.api.github.Tag;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,60 +65,6 @@ public class GithubApiRepository implements VcsApiRepository {
         return null;//Collections.emptyList();
     }
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class TagEntry {
-        private String name;
-
-        private String commitSha;
-    }
-
-    @Getter
-    @Setter
-    public static class Tag {
-        private String name;
-
-        private String zipball_url;
-
-        private String tarball_url;
-
-        private String node_id;
-
-        private Commit commit;
-
-        @Getter
-        @Setter
-        public static class Commit {
-            private String sha;
-
-            private String url;
-        }
-    }
-
-    @Getter
-    @Setter
-    public static class Ref {
-        private String ref;
-
-        private String node_id;
-
-        private String url;
-
-        private RefObject object = new RefObject();
-
-        @Getter
-        @Setter
-        public static class RefObject {
-            private String type;
-
-            private String sha;
-
-            private String url;
-        }
-    }
-
     private RepositoryMetadata getMetadataFromRepositoryUrl(String repoUrl) {
         RepositoryMetadata metadata = new RepositoryMetadata();
 
@@ -144,5 +92,15 @@ public class GithubApiRepository implements VcsApiRepository {
         private String ownerName;
 
         private String repositoryName;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TagEntry {
+        private String name;
+
+        private String commitSha;
     }
 }

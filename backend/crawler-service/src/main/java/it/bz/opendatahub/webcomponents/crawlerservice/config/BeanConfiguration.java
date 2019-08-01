@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.config;
 
+import it.bz.opendatahub.webcomponents.crawlerservice.interceptor.GithubHeaderRequestInterceptor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,8 @@ public class BeanConfiguration {
         RestTemplate template = builder.build();
 
         template.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
+
+        template.getInterceptors().add(new GithubHeaderRequestInterceptor());
 
         return template;
     }
