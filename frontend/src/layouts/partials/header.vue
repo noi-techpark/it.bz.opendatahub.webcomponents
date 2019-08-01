@@ -1,0 +1,29 @@
+<template>
+  <header class="border-bottom border-light">
+    <div class="container container-extended pt-4 pb-2 pl-4 pr-4">
+      <div class="d-flex justify-content-between">
+        <nuxt-link to="/">
+          <img src="/logo.png" height="50px" />
+        </nuxt-link>
+        <div>
+          <b-nav class="text-uppercase">
+            <b-nav-item to="/">home</b-nav-item>
+            <b-nav-item-dropdown
+              id="my-nav-dropdown"
+              text="about"
+              toggle-class="nav-link-custom"
+              right
+            >
+              <b-dropdown-item>IDM</b-dropdown-item>
+              <b-dropdown-item>ODH</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item>NOI</b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item>getting started</b-nav-item>
+            <b-nav-item>community</b-nav-item>
+          </b-nav>
+        </div>
+      </div>
+    </div>
+  </header>
+</template>
