@@ -1,8 +1,8 @@
 {
-  "name": "frontend",
+  "name": "odh-webcomponents-frontend",
   "version": "1.0.0",
   "description": "ODH Webcomponents",
-  "author": "Andreas Hufler",
+  "author": "",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
