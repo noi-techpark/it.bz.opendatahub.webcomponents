@@ -1,6 +1,5 @@
 package it.bz.opendatahub.webcomponents.dataservice.controller;
 
-import it.bz.opendatahub.webcomponents.common.data.WebcomponentEntry;
 import it.bz.opendatahub.webcomponents.dataservice.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;

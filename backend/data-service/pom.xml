@@ -13,8 +13,6 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<java.version>11</java.version>
-
 		<!-- SWAGGER -->
 		<swagger.version>2.9.2</swagger.version>
 	</properties>

@@ -2,12 +2,10 @@ package it.bz.opendatahub.webcomponents.crawlerservice.schedule;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.api.Manifest;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.api.Origin;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.OriginSystemEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.OriginRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentRepository;
@@ -21,7 +19,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component

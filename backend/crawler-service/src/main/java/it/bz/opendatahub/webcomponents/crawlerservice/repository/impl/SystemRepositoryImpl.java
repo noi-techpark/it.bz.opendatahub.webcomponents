@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.OriginSystemEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 
 @Repository
 public class SystemRepositoryImpl implements SystemRepository {

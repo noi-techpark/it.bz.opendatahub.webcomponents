@@ -1,8 +1,6 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.service.impl;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.api.Origin;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.OriginRepository;

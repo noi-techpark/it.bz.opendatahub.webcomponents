@@ -16,10 +16,10 @@
 		<java.version>11</java.version>
 
 		<!-- JUNIT -->
-		<junit.version>5.3.2</junit.version>
+		<junit.version>5.5.1</junit.version>
 		<junit-plugin.version>2.22.0</junit-plugin.version>
 
-		<mockito.version>2.22.0</mockito.version>
+		<mockito.version>2.28.2</mockito.version>
 	</properties>
 
 	<dependencies>

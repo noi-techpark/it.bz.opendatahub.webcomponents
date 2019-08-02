@@ -16,11 +16,15 @@
 	</parent>
 
 	<modules>
+		<module>common</module>
 		<module>crawler-service</module>
 		<module>data-service</module>
 		<module>delivery-service</module>
-		<module>common</module>
 	</modules>
+
+	<properties>
+		<java.version>11</java.version>
+	</properties>
 
 	<dependencies>
 		<dependency>

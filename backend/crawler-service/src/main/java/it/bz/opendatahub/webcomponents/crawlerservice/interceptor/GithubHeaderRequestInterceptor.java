@@ -1,7 +1,7 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.interceptor;
 
-import it.bz.opendatahub.webcomponents.crawlerservice.util.AutowireHelper;
 import it.bz.opendatahub.webcomponents.crawlerservice.config.GithubConfiguration;
+import it.bz.opendatahub.webcomponents.crawlerservice.util.AutowireHelper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;

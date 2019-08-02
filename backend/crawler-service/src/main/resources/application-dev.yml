@@ -33,7 +33,7 @@ application:
     component: 60000 # 60*1000
   repository:
     github:
-      token: 
+      token: 9cb9dcdf656762b7e996c3a78401082efcd8f2c1
     origin:
       url: https://github.com/uhufa/odh-web-components-store-demo-origins.git
       branch: master

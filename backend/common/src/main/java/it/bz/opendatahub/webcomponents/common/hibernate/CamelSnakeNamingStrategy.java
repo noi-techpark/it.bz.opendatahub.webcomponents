@@ -5,6 +5,9 @@ import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
 public class CamelSnakeNamingStrategy implements PhysicalNamingStrategy {
+    private static final String REGEX = "([a-z0-9])([A-Z])";
+    private static final String REPLACEMENT = "$1_$2";
+
     @Override
     public Identifier toPhysicalCatalogName(final Identifier identifier, final JdbcEnvironment jdbcEnv) {
         return convertToSnakeCase(identifier);
@@ -35,10 +38,8 @@ public class CamelSnakeNamingStrategy implements PhysicalNamingStrategy {
             return null;
         }
 
-        final String regex = "([a-z0-9])([A-Z])";
-        final String replacement = "$1_$2";
         final String newName = identifier.getText()
-                .replaceAll(regex, replacement)
+                .replaceAll(REGEX, REPLACEMENT)
                 .toLowerCase();
         return Identifier.toIdentifier(newName);
     }
