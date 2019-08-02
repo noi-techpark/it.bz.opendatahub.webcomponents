@@ -1,13 +1,12 @@
-Replace all `ToDo` notes with the appropriate names, descriptions and commands.
+# ODH: Webcomponents
 
-# ToDo: Project Name
-
-ToDo: Description of the project.
+Webcomponents store for OpenDataHub.
 
 ## Table of contents
 
 - [Gettings started](#getting-started)
-- [Running tests](#running-tests)
+- [Building and Testing](#building-and-testing)
+- [Configuration](#configuration)
 - [Deployment](#deployment)
 - [Docker environment](#docker-environment)
 - [Information](#information)
@@ -21,25 +20,38 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- ToDo: Check the prerequisites
 - Java JDK 11 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
 - [Maven](https://maven.apache.org/) 3.x
 
-For a ready to use Docker environment with all prerequisites already installed and prepared, you can check out the [Docker environment](#docker-environment) section.
+To run the project, the following prerequisites must be met:
+
+- Java JDK 11 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
+- Tomcat webserver OR local IDE (eg. [IntelliJ](https://www.jetbrains.com/))
+- PostgreSQL 9.6+
 
 ### Source code
 
 Get a copy of the repository:
 
 ```bash
-ToDo: git clone https://github.com/noi-techpark/project-name.git
+git clone https://github.com/noi-techpark/odh-web-components-store.git
 ```
 
 Change directory:
 
 ```bash
-ToDo: cd project-name/
+cd odh-web-components-store/backend/
 ```
+
+### Project Structure
+
+The backend system is divided in four modules.
+
+The 'common' module holds code that is shared between all parts of the application.
+
+'crawler-service', 'data-service' and 'delivery-service' are distinct spring boot applications.
+
+## Building and Testing
 
 ### Build
 
@@ -49,7 +61,7 @@ Build the project:
 mvn clean install
 ```
 
-## Running tests
+### Running tests
 
 The unit tests can be executed with the following command:
 
@@ -57,15 +69,42 @@ The unit tests can be executed with the following command:
 mvn clean test
 ```
 
+## Configuration
+
+Each service application comes with three profiles that can be configured.
+
+> src/main/resources/application[-profile].yml 
+
+You will have to configure the 'datasource' properly for each application.
+
+There are some specific settings in the 'application' section of the configuration that might need customization:
+
+> crawler-service 
+
+```
+application.repoistory.github.token
+```
+enter your github token to bypass the 60 calls/hour limit
+
 ## Deployment
 
-ToDo: A detailed description about how the application must be deployed.
+The project requires a Tomcat server as well as a PostgreSQL 9.6+ database server.
+
+Build the project
+
+```bash
+mvn clean package
+```
+
+There are three services that need to be deployed.
+
+You will find the .war files to deploy in the 'target' folder of each service.
+
+For an initial setup deploy 'data-service' first to have the database populated with tables.
 
 ## Docker environment
 
-For the project a Docker environment is already prepared and ready to use with all necessary prerequisites.
-
-These Docker containers are the same as used by the continuous integration servers.
+For local development you can use docker to run a PostgreSQL server.
 
 ### Installation
 
@@ -85,29 +124,11 @@ After finished working you can stop the Docker containers:
 docker-compose stop
 ```
 
-### Running commands inside the container
-
-When the containers are running, you can execute any command inside the environment. Just replace the dots `...` in the following example with the command you wish to execute:
-
-```bash
-docker-compose exec java /bin/bash -c "..."
-```
-
-Some examples are:
-
-```bash
-docker-compose exec java /bin/bash -c "mvn clean install"
-
-# or
-
-docker-compose exec java /bin/bash -c "mvn clean test"
-```
-
 ## Information
 
 ### Support
 
-ToDo: For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
 
 ### Contributing
 

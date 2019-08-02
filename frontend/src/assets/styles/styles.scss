@@ -1,0 +1,16 @@
+@import 'bootstrap/bootstrap';
+
+@include media-breakpoint-down(xl) {
+  .container-extended {
+    max-width: 1728px;
+  }
+}
+
+.text-muted {
+  color: $gray-94 !important;
+}
+
+@import 'common/common';
+@import 'common/typography';
+
+@import 'widget/tagcloud';

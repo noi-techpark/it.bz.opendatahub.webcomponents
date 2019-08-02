@@ -103,3 +103,4 @@ buildNumber.properties
 **/*.DS_Store
 
 /logs/
+/workspace/

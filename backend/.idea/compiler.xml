@@ -7,9 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="dataservice" />
-        <module name="deliveryservice" />
         <module name="crawlerservice" />
         <module name="common" />
+        <module name="deliveryservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,7 +17,7 @@
       <module name="crawlerservice" target="11" />
       <module name="dataservice" target="11" />
       <module name="deliveryservice" target="11" />
-      <module name="webcomponents" target="1.8" />
+      <module name="webcomponents" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
