@@ -1,4 +1,4 @@
-create table webcomponent_version
+create table if not exists webcomponent_version
 (
     webcomponent_uuid varchar(64) not null
         constraint webcomponent_version_pk
@@ -7,5 +7,5 @@ create table webcomponent_version
     release_timestamp timestamp
 );
 
-create unique index webcomponent_version_webcomponent_uuid_version_tag_uindex
+create unique index if not exists webcomponent_version_webcomponent_uuid_version_tag_uindex
     on webcomponent_version (webcomponent_uuid, version_tag);

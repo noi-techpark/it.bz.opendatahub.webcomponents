@@ -1,4 +1,4 @@
-create table webcomponent
+create table if not exists webcomponent
 (
     uuid                 varchar(64)               not null
         constraint webcomponent_pk

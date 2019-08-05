@@ -1,4 +1,4 @@
-create table origin
+create table if not exists origin
 (
     uuid            varchar(255)              not null
         constraint origin_pk
@@ -8,5 +8,5 @@ create table origin
     import_metadata jsonb default '{}'::jsonb not null
 );
 
-create unique index origin_url_uindex
+create unique index if not exists origin_url_uindex
     on origin (url);
