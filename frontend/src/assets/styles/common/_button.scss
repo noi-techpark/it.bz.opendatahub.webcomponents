@@ -1,0 +1,36 @@
+.btn-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70px;
+  width: 70px;
+  border-radius: 50%;
+  border: 2px solid $gray-88;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+
+  &.filled {
+    background-color: $gray-88;
+  }
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.arrow-up img {
+    transform: rotate(90deg);
+  }
+
+  &.arrow-down img {
+    transform: rotate(-90deg);
+  }
+
+  &.arrow-left img {
+  }
+
+  &.arrow-right img {
+    transform: rotate(180deg);
+  }
+}

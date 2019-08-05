@@ -19,7 +19,7 @@
     </div>
     <div class="bg-light">
       <div class="container container-extended p-5">
-        <div class="text-center text-uppercase" id="widget-imprint">
+        <div id="widget-imprint" class="text-center text-uppercase">
           <nuxt-link to="/imprint" class="text-muted">imprint</nuxt-link>
           <nuxt-link
             to="https://noi.bz.it/en/privacy-cookie-policy"
@@ -38,9 +38,12 @@
             >
           </div>
           <div>
-            <b-button variant="primary" onclick="window.scrollTo(0,0);"
-              >UP</b-button
+            <div
+              onclick="window.scrollTo(0,0);"
+              class="btn-circle arrow-up filled"
             >
+              <img src="/icons/ic_arrow.svg" />
+            </div>
           </div>
         </div>
       </div>

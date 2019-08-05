@@ -70,7 +70,7 @@
       <div class="row">
         <div class="col-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
-          <b-card class="full-height" id="widget-preview">
+          <b-card id="widget-preview" class="full-height">
             <b-card-text class="text-center">
               <img
                 src="https://static.anychart.com/images/gallery/v8/line-charts-line-chart.png"
@@ -85,7 +85,7 @@
 
         <div class="col-4">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card class="full-height" id="widget-config">
+          <b-card id="widget-config" class="full-height">
             <b-card-text>
               Config...
             </b-card-text>
