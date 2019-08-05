@@ -1,5 +1,6 @@
-package it.bz.opendatahub.webcomponents.crawlerservice.data.api;
+package it.bz.opendatahub.webcomponents.common.data.rest;
 
+import it.bz.opendatahub.webcomponents.common.data.Rest;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,10 +9,10 @@ import java.util.List;
 
 @Getter
 @Setter
-public class Manifest {
-    private String title;
+public class WebcomponentEntry implements Rest {
+    private String uuid;
 
-    private String description;
+    private String title;
 
     private String descriptionAbstract;
 
@@ -20,6 +21,4 @@ public class Manifest {
     private List<Author> authors;
 
     private List<String> searchTags;
-
-    private Object configuration; // TODO: implement configuration
 }

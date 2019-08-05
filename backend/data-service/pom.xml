@@ -15,6 +15,9 @@
 	<properties>
 		<!-- SWAGGER -->
 		<swagger.version>2.9.2</swagger.version>
+
+		<!-- MODELMAPPER -->
+		<modelmapper.version>2.3.5</modelmapper.version>
 	</properties>
 
 	<dependencies>
@@ -63,6 +66,13 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swagger.version}</version>
+		</dependency>
+
+		<!-- MODELMAPPER -->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${modelmapper.version}</version>
 		</dependency>
 	</dependencies>
 

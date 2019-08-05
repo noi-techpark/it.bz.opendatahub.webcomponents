@@ -1,4 +1,4 @@
-package it.bz.opendatahub.webcomponents.crawlerservice.data.struct;
+package it.bz.opendatahub.webcomponents.common.data.struct;
 
 import lombok.Getter;
 import lombok.Setter;

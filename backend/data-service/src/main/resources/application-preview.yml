@@ -23,6 +23,9 @@ spring:
       naming:
         physical-strategy: it.bz.opendatahub.webcomponents.common.hibernate.CamelSnakeNamingStrategy
 
+errorHandling:
+  verboseException: false
+
 logging:
   file: logs/data.log
   level:

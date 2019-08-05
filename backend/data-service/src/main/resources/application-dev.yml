@@ -22,9 +22,14 @@ spring:
     hibernate:
       naming:
         physical-strategy: it.bz.opendatahub.webcomponents.common.hibernate.CamelSnakeNamingStrategy
+  flyway:
+    baselineOnMigrate: true
 
 frontend:
   url-allowed: '*'
+
+errorHandling:
+  verboseException: true
 
 logging:
   file: logs/data.log
