@@ -1,0 +1,23 @@
+$black:           #000 !default;
+$gray-88:         #888888 !default;
+$gray-94:         #949494 !default;
+$white:           #fff !default;
+
+$primary:         #2E3131 !default;
+$secondary:       #9BC320 !default;
+//$success:       #33CC99 !default;
+//$info:          $cyan !default;
+//$warning:       $yellow !default;
+//$danger:        $red !default;
+$light:           #E8ECF1 !default;
+$dark:            $gray-88 !default;
+
+$body-bg:         $white;
+$body-color:      $primary;
+$link-color:      $gray-88;
+
+$font-family-base: "Open Sans", Arial, sans-serif;
+$font-size-base: 0.9rem;
+
+$enable-shadows: true;
+$enable-gradients: true;
