@@ -8,7 +8,6 @@ pipeline {
     }
 
     environment {
-        api.webcomponents.tomcat02.testingmachine.eu
         TESTSERVER_TOMCAT_ENDPOINT_API = "http://api.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
         TESTSERVER_TOMCAT_ENDPOINT_CDN = "http://cdn.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
         TESTSERVER_TOMCAT_CREDENTIALS = credentials('testserver-tomcat8-credentials')
