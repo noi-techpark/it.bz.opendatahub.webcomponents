@@ -9,7 +9,7 @@
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>${artifactId}</artifactId>
+	<artifactId>${custom.artifactId}</artifactId>
 	<packaging>war</packaging>
 
 	<properties>
@@ -114,13 +114,13 @@
 	    <profile>
             <id>default</id>
 			<properties>
-				<artifactId>crawlerservice</artifactId>
+				<custom.artifactId>crawlerservice</custom.artifactId>
 			</properties>
         </profile>
         <profile>
             <id>deploy</id>
 			<properties>
-				<artifactId>crawler</artifactId>
+				<custom.artifactId>crawler</custom.artifactId>
 			</properties>
         </profile>
 	</profiles>

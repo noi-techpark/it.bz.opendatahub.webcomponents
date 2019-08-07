@@ -9,7 +9,7 @@
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>${artifactId}</artifactId>
+	<artifactId>${custom.artifactId}</artifactId>
 	<packaging>war</packaging>
 
 	<dependencies>
@@ -58,13 +58,13 @@
 	    <profile>
             <id>default</id>
 			<properties>
-				<artifactId>deliveryservice</artifactId>
+				<custom.artifactId>deliveryservice</custom.artifactId>
 			</properties>
         </profile>
         <profile>
             <id>deploy</id>
 			<properties>
-				<artifactId>ROOT</artifactId>
+				<custom.artifactId>ROOT</custom.artifactId>
 			</properties>
         </profile>
 	</profiles>
