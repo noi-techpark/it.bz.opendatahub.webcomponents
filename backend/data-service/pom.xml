@@ -9,7 +9,7 @@
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>dataservice</artifactId>
+	<artifactId>${artifactId}</artifactId>
 	<packaging>war</packaging>
 
 	<properties>
@@ -86,9 +86,17 @@
 	</build>
 
 	<profiles>
+	    <profile>
+            <id>default</id>
+			<properties>
+				<artifactId>dataservice</artifactId>
+			</properties>
+        </profile>
         <profile>
             <id>deploy</id>
-            <artifactId>ROOT</artifactId>
+			<properties>
+				<artifactId>ROOT</artifactId>
+			</properties>
         </profile>
 	</profiles>
 
