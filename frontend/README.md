@@ -83,7 +83,7 @@ Chose one of the following ways depending on the 'mode' set during configuration
 ```
 # install dependencies and build the project
 $ yarn install
-$ yarn build
+$ yarn generate
 ```
 
 Copy the generated files in the 'dist' folder to your webroot.

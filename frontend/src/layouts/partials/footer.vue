@@ -21,10 +21,10 @@
       <div class="container container-extended p-5">
         <div id="widget-imprint" class="text-center text-uppercase">
           <nuxt-link to="/imprint" class="text-muted">imprint</nuxt-link>
-          <nuxt-link
-            to="https://noi.bz.it/en/privacy-cookie-policy"
+          <a
+            href="https://noi.bz.it/en/privacy-cookie-policy"
             class="text-muted"
-            >PRIVACY & COOKIE POLICY</nuxt-link
+            >PRIVACY & COOKIE POLICY</a
           >
         </div>
         <div class="d-flex justify-content-between mt-5">

@@ -1,6 +1,8 @@
 package it.bz.opendatahub.webcomponents.dataservice.controller;
 
+import it.bz.opendatahub.webcomponents.common.data.rest.Webcomponent;
 import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentEntry;
+import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentConverter;
 import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentEntryConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;
 import it.bz.opendatahub.webcomponents.dataservice.data.model.WebcomponentModel;
@@ -27,13 +29,16 @@ import java.util.List;
 public class WebcomponentController {
     private WebcomponentService webcomponentService;
     private WebcomponentEntryConverter webcomponentEntryConverter;
+    private WebcomponentConverter webcomponentConverter;
 
     @Autowired
     public WebcomponentController(WebcomponentService webcomponentService,
-                                  WebcomponentEntryConverter webcomponentEntryConverter) {
+                                  WebcomponentEntryConverter webcomponentEntryConverter,
+                                  WebcomponentConverter webcomponentConverter) {
 
         this.webcomponentService = webcomponentService;
         this.webcomponentEntryConverter = webcomponentEntryConverter;
+        this.webcomponentConverter = webcomponentConverter;
     }
 
     @GetMapping
@@ -64,7 +69,7 @@ public class WebcomponentController {
     }
 
     @GetMapping("/detail/{uuid}")
-    public ResponseEntity<WebcomponentEntry> getOne(@PathVariable String uuid) {
-        return null;
+    public ResponseEntity<Webcomponent> getOne(@PathVariable String uuid) {
+        return new ResponseEntity<>(webcomponentConverter.dtoToRest(webcomponentService.findOne(uuid)), HttpStatus.OK);
     }
 }

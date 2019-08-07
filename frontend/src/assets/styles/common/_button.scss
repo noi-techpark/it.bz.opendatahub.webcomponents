@@ -12,25 +12,53 @@
 
   &.filled {
     background-color: $gray-88;
+    border: unset;
   }
 
-  img {
+  &.filled-dark {
+    background-color: $body-color;
+    border: unset;
+  }
+
+  &.outline {
+    border: 2px solid $body-color;
+
+    svg .st0 {
+      fill: $body-color;
+    }
+  }
+
+  &.disabled {
+    border: 2px solid $gray-94;
+    cursor: unset;
+
+    svg .st0 {
+      fill: $gray-94;
+    }
+  }
+
+  img,
+  svg {
     width: 30px;
     height: 30px;
   }
 
-  &.arrow-up img {
+  &.arrow-up img,
+  &.arrow-up svg {
     transform: rotate(90deg);
   }
 
-  &.arrow-down img {
+  &.arrow-down img,
+  &.arrow-down svg {
     transform: rotate(-90deg);
   }
 
-  &.arrow-left img {
+  &.arrow-left img,
+  &.arrow-left svg {
   }
 
-  &.arrow-right img {
+  &.arrow-right img,
+  &.arrow-right svg {
     transform: rotate(180deg);
   }
 }
