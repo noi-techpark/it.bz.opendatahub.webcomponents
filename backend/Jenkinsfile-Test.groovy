@@ -51,11 +51,6 @@ pipeline {
                 sh 'cd backend && mvn -B -U clean test verify'
             }
         }
-        stage('Build') {
-            steps {
-                sh 'cd backend && mvn -B -U clean install package'
-            }
-        }
         stage('Deploy') {
             steps{
                 sh 'cd backend/data-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy'
