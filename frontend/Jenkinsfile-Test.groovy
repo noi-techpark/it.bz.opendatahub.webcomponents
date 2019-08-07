@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh 'cd frontend && yarn run test'
+                sh 'cd frontend && yarn run test --passWithNoTests'
             }
         }
         stage('Build') {
