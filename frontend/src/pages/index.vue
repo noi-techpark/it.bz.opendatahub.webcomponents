@@ -1,14 +1,19 @@
 <template>
   <div>
-    <WcSearch></WcSearch>
+    <WcSearch v-on:term-submitted="redirectSearchTerm($event)"></WcSearch>
+
+    <WcLatest></WcLatest>
 
     <div class="bg-secondary">
       <div id="widget-tagcloud" class="container p-5 text-center text-white">
         <h1>Categories</h1>
         <div class="font-italic text-capitalize">
-          <nuxt-link v-for="tag in searchTags" :key="tag" to="/">{{
-            tag
-          }}</nuxt-link>
+          <nuxt-link
+            v-for="tag in searchTags"
+            :key="tag"
+            :to="'/search/' + tag"
+            >{{ tag }}</nuxt-link
+          >
         </div>
       </div>
     </div>
@@ -17,10 +22,12 @@
 
 <script>
 import WcSearch from '~/components/wc-search.vue';
+import WcLatest from '~/components/wc-latest.vue';
 
 export default {
   components: {
-    WcSearch
+    WcSearch,
+    WcLatest
   },
   data() {
     return {
@@ -33,6 +40,9 @@ export default {
   methods: {
     async loadSearchTags() {
       this.searchTags = await this.$api.searchtag.listAll();
+    },
+    redirectSearchTerm(ev) {
+      this.$router.push('/search/any/' + ev);
     }
   }
 };

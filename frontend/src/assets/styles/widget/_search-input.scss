@@ -1,5 +1,6 @@
 #widget-search {
-  &:focus-within {
+  &:focus-within,
+  &.active {
     border-bottom: 2px solid $secondary !important;
 
     .search-image .a,
@@ -13,6 +14,33 @@
     stroke: $body-color !important;
   }
 
+  .search-image {
+    cursor: pointer;
+  }
+
+  &.active {
+    .search-input {
+      input {
+        color: $secondary;
+
+        &::placeholder {
+          /* Chrome, Firefox, Opera, Safari 10.1+ */
+          color: $secondary;
+          opacity: 1; /* Firefox */
+        }
+
+        &:-ms-input-placeholder {
+          /* Internet Explorer 10-11 */
+          color: $secondary;
+        }
+
+        &::-ms-input-placeholder {
+          /* Microsoft Edge */
+          color: $secondary;
+        }
+      }
+    }
+  }
 
   .search-input {
     input {
