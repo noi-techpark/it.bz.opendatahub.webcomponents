@@ -8,8 +8,9 @@ pipeline {
     }
 
     environment {
-        TESTSERVER_TOMCAT_ENDPOINT_API = "http://api.webcompontents.tomcat02.testingmachine.eu:8080/manager/text"
-        TESTSERVER_TOMCAT_ENDPOINT_CDN = "http://cdn.webcompontents.tomcat02.testingmachine.eu:8080/manager/text"
+        api.webcomponents.tomcat02.testingmachine.eu
+        TESTSERVER_TOMCAT_ENDPOINT_API = "http://api.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
+        TESTSERVER_TOMCAT_ENDPOINT_CDN = "http://cdn.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
         TESTSERVER_TOMCAT_CREDENTIALS = credentials('testserver-tomcat8-credentials')
 
         POSTGRES_URL = "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
