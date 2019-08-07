@@ -125,7 +125,7 @@ public class ComponentUpdateSchedule {
         log.debug("processing version: "+version.getName());
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findByUuidAndTag(webcomponent.getUuid(), version.getName());
 
-        if(probe.isEmpty()) {
+        if(!probe.isPresent()) {
             WebcomponentVersionModel newEntry = new WebcomponentVersionModel();
             newEntry.setWebcomponentUuid(webcomponent.getUuid());
             newEntry.setVersionTag(version.getName());

@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface WebcomponentService {
     Page<WebcomponentDto> listAll(Pageable pageRequest, List<String> tags, String term);
+
+    WebcomponentDto findOne(String uuid);
 }
