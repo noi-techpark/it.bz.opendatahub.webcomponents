@@ -7,17 +7,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="dataservice" />
-        <module name="crawlerservice" />
         <module name="common" />
         <module name="deliveryservice" />
+        <module name="crawlerservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="common" target="11" />
-      <module name="crawlerservice" target="11" />
-      <module name="dataservice" target="11" />
-      <module name="deliveryservice" target="11" />
-      <module name="webcomponents" target="11" />
+      <module name="common" target="1.8" />
+      <module name="crawlerservice" target="1.8" />
+      <module name="dataservice" target="1.8" />
+      <module name="deliveryservice" target="1.8" />
+      <module name="webcomponents" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
