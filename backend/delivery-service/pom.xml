@@ -54,4 +54,11 @@
 		</plugins>
 	</build>
 
+	<profiles>
+        <profile>
+            <id>deploy</id>
+            <artifactId>ROOT</artifactId>
+        </profile>
+	</profiles>
+
 </project>

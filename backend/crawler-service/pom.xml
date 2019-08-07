@@ -110,4 +110,11 @@
 		</plugins>
 	</build>
 
+	<profiles>
+        <profile>
+            <id>deploy</id>
+            <artifactId>crawler</artifactId>
+        </profile>
+	</profiles>
+
 </project>
