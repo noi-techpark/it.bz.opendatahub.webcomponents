@@ -12,9 +12,9 @@ pipeline {
         TESTSERVER_TOMCAT_ENDPOINT_CDN = "http://cdn.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
         TESTSERVER_TOMCAT_CREDENTIALS = credentials('testserver-tomcat8-credentials')
 
-        DATASOURCE_URL = "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
-        DATASOURCE_USERNAME = credentials('webcompstore-test-postgres-username')
-        DATASOURCE_PASSWORD = credentials('webcompstore-test-postgres-password')
+        POSTGRES_URL = "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+        POSTGRES_USERNAME = credentials('webcompstore-test-postgres-username')
+        POSTGRES_PASSWORD = credentials('webcompstore-test-postgres-password')
 
         GITHUB_TOKEN = credentials('webcompstore-test-github-token')
         ORIGIN_URL = "https://github.com/uhufa/odh-web-components-store-demo-origins.git"
@@ -29,6 +29,21 @@ pipeline {
                 sh 'echo "        ${TESTSERVER_TOMCAT_CREDENTIALS}" >> ~/.m2/settings.xml'
                 sh 'echo "    </servers>" >> ~/.m2/settings.xml'
                 sh 'echo "</settings>" >> ~/.m2/settings.xml'
+
+                sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/data-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/data-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/data-service/src/main/resources/application.properties'
+                
+                sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/crawler-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/crawler-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/crawler-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(application.repository.github.token\\s*=\\).*\\$%\\1${GITHUB_TOKEN}%" backend/crawler-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(application.repository.origin.url\\s*=\\).*\\$%\\1${ORIGIN_URL}%" backend/crawler-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(application.repository.origin.branch\\s*=\\).*\\$%\\1${ORIGIN_BRANCH}%" backend/crawler-service/src/main/resources/application.properties'
+
+                sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/delivery-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/delivery-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/delivery-service/src/main/resources/application.properties'
             }
         }
         stage('Test') {
