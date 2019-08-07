@@ -18,6 +18,8 @@
 
 		<!-- MODELMAPPER -->
 		<modelmapper.version>2.3.5</modelmapper.version>
+
+		<custom.artifactId>dataservice</custom.artifactId>
 	</properties>
 
 	<dependencies>
@@ -86,12 +88,6 @@
 	</build>
 
 	<profiles>
-	    <profile>
-            <id>default</id>
-			<properties>
-				<custom.artifactId>dataservice</custom.artifactId>
-			</properties>
-        </profile>
         <profile>
             <id>deploy</id>
 			<properties>

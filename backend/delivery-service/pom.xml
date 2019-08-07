@@ -12,6 +12,10 @@
 	<artifactId>${custom.artifactId}</artifactId>
 	<packaging>war</packaging>
 
+	<properties>
+		<custom.artifactId>deliveryservice</custom.artifactId>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>it.bz.opendatahub.webcomponents</groupId>
@@ -55,12 +59,6 @@
 	</build>
 
 	<profiles>
-	    <profile>
-            <id>default</id>
-			<properties>
-				<custom.artifactId>deliveryservice</custom.artifactId>
-			</properties>
-        </profile>
         <profile>
             <id>deploy</id>
 			<properties>
