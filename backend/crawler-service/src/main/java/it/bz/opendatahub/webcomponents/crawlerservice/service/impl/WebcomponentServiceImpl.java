@@ -7,7 +7,6 @@ import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentMod
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentFactory;
 import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentVersionFactory;
-import it.bz.opendatahub.webcomponents.crawlerservice.repository.OriginRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentVersionRepository;
