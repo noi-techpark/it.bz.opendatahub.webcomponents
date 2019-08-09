@@ -11,19 +11,34 @@ import org.springframework.http.client.ClientHttpResponse;
 import java.io.IOException;
 
 public class GithubHeaderRequestInterceptor implements ClientHttpRequestInterceptor {
-    //@Value("${application.repository.githubToken}")
     private GithubConfiguration githubConfiguration;
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        if(githubConfiguration == null) {
-            githubConfiguration = AutowireHelper.getApplicationContext().getAutowireCapableBeanFactory().getBean(GithubConfiguration.class);
-        }
+        assureConfigurationIsWired();
 
-        if(githubConfiguration.getToken() != null && !githubConfiguration.getToken().isEmpty() && request.getURI().getHost().equals("api.github.com")) {
-            request.getHeaders().set(HttpHeaders.AUTHORIZATION, "token " + githubConfiguration.getToken());
+        if(tokenAvailableAndRequestToGithub(request)) {
+            setTokenInHeader(request);
         }
 
         return execution.execute(request, body);
+    }
+
+    private void assureConfigurationIsWired() {
+        if(githubConfiguration == null) {
+            githubConfiguration = AutowireHelper.getApplicationContext().getAutowireCapableBeanFactory().getBean(GithubConfiguration.class);
+        }
+    }
+
+    private boolean tokenAvailableAndRequestToGithub(HttpRequest request) {
+        return (
+                githubConfiguration.getToken() != null
+                && !githubConfiguration.getToken().isEmpty()
+                && request.getURI().getHost().equals("api.github.com")
+        );
+    }
+
+    private void setTokenInHeader(HttpRequest request) {
+        request.getHeaders().set(HttpHeaders.AUTHORIZATION, "token " + githubConfiguration.getToken());
     }
 }

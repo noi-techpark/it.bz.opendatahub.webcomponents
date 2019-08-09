@@ -15,11 +15,15 @@ public class Manifest {
 
     private String descriptionAbstract;
 
+    private String image;
+
     private String license;
 
     private List<Author> authors;
 
     private List<String> searchTags;
+
+    private List<String> dist;
 
     private Object configuration; // TODO: implement configuration
 }

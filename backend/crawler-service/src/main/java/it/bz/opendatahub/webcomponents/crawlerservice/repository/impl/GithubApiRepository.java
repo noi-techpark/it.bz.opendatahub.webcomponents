@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository.impl;
 
+import it.bz.opendatahub.webcomponents.crawlerservice.data.api.github.File;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.api.github.Ref;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.api.github.Tag;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -62,7 +64,29 @@ public class GithubApiRepository implements VcsApiRepository {
             }
         }
 
-        return null;//Collections.emptyList();
+        return null;
+    }
+
+    @Override
+    public byte[] getFileContentsForCommitHash(String repoUrl, String commitHash, String pathToFile) {
+        RepositoryMetadata metadata = getMetadataFromRepositoryUrl(repoUrl);
+
+        String qs = "";
+        if(commitHash != null && !commitHash.isEmpty()) {
+            qs = "?ref="+commitHash;
+        }
+
+        ResponseEntity<File> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/contents/" + pathToFile + qs, HttpMethod.GET, null, File.class);
+
+        if(res.hasBody()) {
+            File file = res.getBody();
+
+            if(file != null) {
+                return Base64.getDecoder().decode(file.getContent().replace("\n",""));
+            }
+        }
+
+        return new byte[0];
     }
 
     private RepositoryMetadata getMetadataFromRepositoryUrl(String repoUrl) {

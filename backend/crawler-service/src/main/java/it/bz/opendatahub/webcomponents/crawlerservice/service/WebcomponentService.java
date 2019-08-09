@@ -2,8 +2,6 @@ package it.bz.opendatahub.webcomponents.crawlerservice.service;
 
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 
-import java.util.List;
-
-public interface OriginService {
-    List<OriginModel> listAllOrigins();
+public interface WebcomponentService {
+    void updateOrigin(OriginModel origin);
 }

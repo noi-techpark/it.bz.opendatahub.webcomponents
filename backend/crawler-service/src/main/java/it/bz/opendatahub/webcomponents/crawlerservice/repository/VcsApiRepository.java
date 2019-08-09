@@ -8,4 +8,6 @@ public interface VcsApiRepository {
     List<GithubApiRepository.TagEntry> listVersions(String repoUrl);
 
     String getLatestCommitHash(String repoUrl, String branch);
+
+    byte[] getFileContentsForCommitHash(String repoUrl, String commitHash, String pathToFile);
 }

@@ -10,11 +10,13 @@ import javax.validation.constraints.NotNull;
 
 @Validated
 @Configuration
-@ConfigurationProperties("application.workspace")
+@ConfigurationProperties("application.repository.origin")
 @Getter
 @Setter
-@Deprecated
-public class WorkspaceConfiguration {
+public class MasterOriginConfiguration {
     @NotNull
-    private String path;
+    private String url;
+
+    @NotNull
+    private String branch;
 }

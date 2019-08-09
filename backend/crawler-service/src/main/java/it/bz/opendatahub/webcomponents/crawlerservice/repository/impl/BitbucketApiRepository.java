@@ -16,4 +16,9 @@ public class BitbucketApiRepository implements VcsApiRepository {
     public String getLatestCommitHash(String repoUrl, String branch) {
         return null;
     }
+
+    @Override
+    public byte[] getFileContentsForCommitHash(String repoUrl, String commitHash, String pathToFile) {
+        return new byte[0];
+    }
 }

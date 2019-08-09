@@ -1,80 +1,64 @@
-package it.bz.opendatahub.webcomponents.crawlerservice.schedule;
+package it.bz.opendatahub.webcomponents.crawlerservice.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.api.Manifest;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentVersionModel;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
+import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentFactory;
+import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentVersionFactory;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.OriginRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentVersionRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.impl.GithubApiRepository;
-import it.bz.opendatahub.webcomponents.crawlerservice.service.GitWorkspaceService;
+import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Component
-public class ComponentUpdateSchedule {
+@Service
+public class WebcomponentServiceImpl implements WebcomponentService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private OriginRepository originRepository;
     private VcsApiRepository vcsApiRepository;
 
     private WebcomponentRepository webcomponentRepository;
     private WebcomponentVersionRepository webcomponentVersionRepository;
 
-    private GitWorkspaceService gitWorkspaceService;
+    private WebcomponentFactory webcomponentFactory;
+    private WebcomponentVersionFactory webcomponentVersionFactory;
 
     @Autowired
-    public ComponentUpdateSchedule(@Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository,
-                                   OriginRepository originRepository,
-                                   WebcomponentRepository webcomponentRepository,
-                                   GitWorkspaceService gitWorkspaceService,
-                                   WebcomponentVersionRepository webcomponentVersionRepository) {
+    public WebcomponentServiceImpl(@Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository,
+                                      WebcomponentRepository webcomponentRepository,
+                                      WebcomponentVersionRepository webcomponentVersionRepository,
+                                      WebcomponentFactory webcomponentFactory,
+                                      WebcomponentVersionFactory webcomponentVersionFactory) {
 
-        this.originRepository = originRepository;
         this.vcsApiRepository = vcsApiRepository;
 
         this.webcomponentRepository = webcomponentRepository;
         this.webcomponentVersionRepository = webcomponentVersionRepository;
 
-        this.gitWorkspaceService = gitWorkspaceService;
+        this.webcomponentFactory = webcomponentFactory;
+        this.webcomponentVersionFactory = webcomponentVersionFactory;
     }
 
-    @Scheduled(fixedDelayString = "${application.schedule.component}")
-    public void updateComponents() {
-        log.info("comps update");
-
-        List<OriginModel> originModelList = originRepository.findAll();
-
-        for(OriginModel origin : originModelList) {
-            updateOrigin(origin);
-        }
-    }
-
-    private void updateOrigin(OriginModel origin) {
+    @Override
+    public void updateOrigin(OriginModel origin) {
         List<GithubApiRepository.TagEntry> versions = vcsApiRepository.listVersions(origin.getUrl());
 
         log.info(versions.toString());
 
         if(!versions.isEmpty()) {
-            gitWorkspaceService.updateRemote(new GitRemote(origin.getUuid(), origin.getUrl(), origin.getApi()));
-
-            gitWorkspaceService.checkoutRevisionAtTag(new GitRemote(origin.getUuid(), origin.getUrl(), origin.getApi()), getLatestVersion(versions));
-
-            byte[] originsFileData = gitWorkspaceService.readFile(origin.getUuid(), "wcs-manifest.json");
+            byte[] originsFileData = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), getLatestVersion(versions).getCommitSha(), "wcs-manifest.json");
 
             Manifest manifest;
             try {
@@ -88,13 +72,7 @@ public class ComponentUpdateSchedule {
             WebcomponentModel entry;
             Optional<WebcomponentModel> probe = webcomponentRepository.findById(origin.getUuid());
             if(!probe.isPresent()) {
-                WebcomponentModel newEntry = new WebcomponentModel();
-
-                newEntry.setUuid(origin.getUuid());
-                newEntry.setTitle(manifest.getTitle());
-                newEntry.setDescription(manifest.getDescription());
-                newEntry.setDescriptionAbstract(manifest.getDescriptionAbstract());
-                newEntry.setLicense(manifest.getLicense());
+                WebcomponentModel newEntry = webcomponentFactory.createFromManifest(origin.getUuid(), manifest);
 
                 entry = webcomponentRepository.save(newEntry);
             }
@@ -116,7 +94,7 @@ public class ComponentUpdateSchedule {
             throw new RuntimeException("empty list");
         }
 
-        Collections.sort(versions, (entryA, entryB) -> entryA.getName().compareToIgnoreCase(entryB.getName()));
+        versions.sort((entryA, entryB) -> entryA.getName().compareToIgnoreCase(entryB.getName()));
 
         return versions.get(0);
     }
@@ -126,10 +104,7 @@ public class ComponentUpdateSchedule {
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findByUuidAndTag(webcomponent.getUuid(), version.getName());
 
         if(!probe.isPresent()) {
-            WebcomponentVersionModel newEntry = new WebcomponentVersionModel();
-            newEntry.setWebcomponentUuid(webcomponent.getUuid());
-            newEntry.setVersionTag(version.getName());
-            newEntry.setReleaseTimestamp(new Date());
+            WebcomponentVersionModel newEntry = webcomponentVersionFactory.createFromTagEntry(webcomponent.getUuid(), version);
 
             webcomponentVersionRepository.save(newEntry);
         }

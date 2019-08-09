@@ -3,9 +3,7 @@ package it.bz.opendatahub.webcomponents.crawlerservice.service.impl;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.OriginRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.SystemRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
-import it.bz.opendatahub.webcomponents.crawlerservice.service.GitWorkspaceService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,12 +16,9 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class OriginServiceImplTest {
+class MasterOriginServiceImplTest {
     @Mock
     private VcsApiRepository vcsApiRepository;
-
-    @Mock
-    private GitWorkspaceService gitWorkspaceService;
 
     @Mock
     private SystemRepository systemRepository;
@@ -32,7 +27,7 @@ class OriginServiceImplTest {
     private OriginRepository originRepository;
 
     @InjectMocks
-    private OriginServiceImpl originService;
+    private MasterOriginServiceImpl originService;
 
     @BeforeEach
     void initMocks() {
@@ -142,26 +137,5 @@ class OriginServiceImplTest {
         ).thenReturn("lkjhgfdsa");
 
         assertFalse(originService.isUpToDate());
-    }
-
-
-
-    @Test
-    @Disabled
-    void update() {
-        //TODO: not sure what to actually test here... the function is just invoking other things
-        // maybe test that when those go haywire, that the function is stable and able to handle it
-    }
-
-    @Test
-    void processOriginsFile() {
-    }
-
-    @Test
-    void readOriginsFile() {
-    }
-
-    @Test
-    void processOrigin() {
     }
 }
