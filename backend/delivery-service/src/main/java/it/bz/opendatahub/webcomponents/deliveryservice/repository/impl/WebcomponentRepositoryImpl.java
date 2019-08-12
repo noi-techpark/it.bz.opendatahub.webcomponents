@@ -1,0 +1,29 @@
+package it.bz.opendatahub.webcomponents.deliveryservice.repository.impl;
+
+import it.bz.opendatahub.webcomponents.deliveryservice.repository.WebcomponentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public class WebcomponentRepositoryImpl implements WebcomponentRepository {
+    private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public WebcomponentRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public String getLatestVersionOfWebcomponent(String webcomponentId) {
+        List<String> versions = jdbcTemplate.queryForList("SELECT version_tag FROM webcomponent_version WHERE webcomponent_uuid=? ORDER by version_tag DESC", String.class, webcomponentId);
+
+        if(versions.isEmpty()) {
+            throw new RuntimeException();
+        }
+
+        return versions.get(0);
+    }
+}
