@@ -16,7 +16,7 @@ pipeline {
         POSTGRES_USERNAME = credentials('webcompstore-test-postgres-username')
         POSTGRES_PASSWORD = credentials('webcompstore-test-postgres-password')
 
-        WOKRSPACE = "/var/webcomponents-store"
+        WOKRSPACE_PATH = "/var/webcomponents-store"
         GITHUB_TOKEN = credentials('webcompstore-test-github-token')
         ORIGIN_URL = "https://github.com/uhufa/odh-web-components-store-demo-origins.git"
         ORIGIN_BRANCH = "master"
@@ -38,7 +38,7 @@ pipeline {
                 sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/crawler-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/crawler-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/crawler-service/src/main/resources/application.properties'
-                sh 'sed -i -e "s%\\(application.workspace.path\\s*=\\).*\\$%\\1${WORKSPACE}%" backend/crawler-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(application.workspace.path\\s*=\\).*\\$%\\1${WORKSPACE_PATH}%" backend/crawler-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(application.repository.github.token\\s*=\\).*\\$%\\1${GITHUB_TOKEN}%" backend/crawler-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(application.repository.origin.url\\s*=\\).*\\$%\\1${ORIGIN_URL}%" backend/crawler-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(application.repository.origin.branch\\s*=\\).*\\$%\\1${ORIGIN_BRANCH}%" backend/crawler-service/src/main/resources/application.properties'
