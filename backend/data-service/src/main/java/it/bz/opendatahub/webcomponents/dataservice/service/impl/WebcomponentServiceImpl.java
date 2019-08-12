@@ -45,11 +45,13 @@ public class WebcomponentServiceImpl implements WebcomponentService {
             }
         }*/
 
+        int i = webcomponents.size();
         if(!tags.isEmpty()) {
             webcomponents.removeIf(w -> Collections.disjoint(w.getSearchTags(), tags));
         }
+        i = i - webcomponents.size();
 
-        return new PageImpl<>(webcomponentConverter.modelToDto(webcomponents), pageRequest, result.getTotalElements());
+        return new PageImpl<>(webcomponentConverter.modelToDto(webcomponents), pageRequest, result.getTotalElements()-Math.abs(i));
     }
 
     public WebcomponentDto findOne(String uuid) {

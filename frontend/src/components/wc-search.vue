@@ -6,23 +6,40 @@
           <div class="col-6">
             <div>
               <div
+                id="widget-tags"
                 style="border-bottom: 2px solid #000;cursor: pointer;"
                 class="full-height d-flex justify-content-between font-large pb-2"
+                :class="{
+                  active:
+                    userSelectedTags &&
+                    userSelectedTags.length > 0 &&
+                    userSelectedTags[0] !== 'any'
+                }"
                 v-b-toggle.tag-collapse
               >
                 <span>Filter by categories</span>
                 <span class="chevron bottom"></span>
               </div>
-              <b-collapse id="tag-collapse" style="position: absolute;">
+              <b-collapse
+                id="tag-collapse"
+                style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
+              >
                 <div class="d-flex flex-column">
-                  <div><input type="checkbox" /> All Components</div>
-                  <div
-                    v-for="tag in searchTags"
-                    :key="tag"
+                  <b-form-checkbox-group
+                    v-if="show"
+                    id="checkbox-group-2"
+                    v-model="userSelectedTags"
+                    name="flavour-2"
                     class="text-capitalize"
+                    @input="tagsUpdated"
                   >
-                    <input type="checkbox" /> {{ tag }}
-                  </div>
+                    <b-form-checkbox
+                      :value="tag"
+                      v-for="tag in searchTags"
+                      :key="tag"
+                      >{{ tag }}</b-form-checkbox
+                    >
+                  </b-form-checkbox-group>
                 </div>
               </b-collapse>
             </div>
@@ -97,26 +114,45 @@ export default {
     return {
       searchTerm: this.term,
       oldSearchTerm: this.term,
-      searchTags: []
+      searchTags: [],
+      userSelectedTags: this.selectedTags,
+      show: false
     };
   },
   mounted() {
     this.loadSearchTags();
+    this.$nextTick(() => {
+      // this.show = true;
+    });
   },
   methods: {
     async loadSearchTags() {
       this.searchTags = await this.$api.searchtag.listAll();
+      this.show = true;
+    },
+    tagsUpdated() {
+      console.log('XXX');
+      this.$emit('term-updated', {
+        tags: this.userSelectedTags,
+        term: this.searchTerm
+      });
     },
     termUpdated() {
       if (this.isNewSearchTerm()) {
         this.oldSearchTerm = this.searchTerm;
-        this.$emit('term-updated', this.searchTerm);
+        this.$emit('term-updated', {
+          tags: this.userSelectedTags,
+          term: this.searchTerm
+        });
       }
     },
     termSubmitted() {
       // if (this.isNewSearchTerm()) {
       this.oldSearchTerm = this.searchTerm;
-      this.$emit('term-submitted', this.searchTerm);
+      this.$emit('term-submitted', {
+        tags: this.userSelectedTags,
+        term: this.searchTerm
+      });
       // }
     },
     isNewSearchTerm() {

@@ -2,10 +2,11 @@
   <div>
     <WcSearch
       :term="searchTerm"
+      :selectedTags="searchTags"
       v-on:term-updated="updateSearchTerm($event)"
       v-on:term-submitted="redirectSearchTerm($event)"
     />
-    <WcFiltered :tags="$route.params.tags" :term="searchTerm" />
+    <WcFiltered :tags="searchTags" :term="searchTerm" />
   </div>
 </template>
 
@@ -20,17 +21,19 @@ export default {
   },
   data() {
     return {
-      searchTerm: this.$route.params.term
+      searchTerm: this.$route.params.term,
+      searchTags: this.$route.params.tags.split(',')
     };
   },
   methods: {
     updateSearchTerm(ev) {
       console.log(ev);
 
-      this.searchTerm = ev;
+      this.searchTerm = ev.term;
+      this.searchTags = ev.tags;
     },
     redirectSearchTerm(ev) {
-      this.$router.push('/search/' + this.$route.params.tags + '/' + ev);
+      this.$router.push('/search/' + this.$route.params.tags + '/' + ev.term);
     }
   }
 };
