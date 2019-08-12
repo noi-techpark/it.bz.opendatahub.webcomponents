@@ -54,8 +54,27 @@ module.exports = {
     // Doc: https://bootstrap-vue.js.org/docs/
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'nuxt-i18n'
   ],
+
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        file: 'en-US.js'
+      }
+    ],
+    defaultLocale: 'en',
+    lazy: true,
+    langDir: 'assets/locales/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected'
+    },
+    strategy: 'prefix_except_default'
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
