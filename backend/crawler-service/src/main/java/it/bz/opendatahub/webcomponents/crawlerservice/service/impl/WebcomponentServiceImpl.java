@@ -69,12 +69,19 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         if(!versions.isEmpty()) {
             byte[] originsFileData = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), getLatestVersion(versions).getCommitSha(), "wcs-manifest.json");
 
+            workspaceRepository.writeFile(originsFileData, Paths.get(origin.getUuid(),"wcs-manifest.json"));
+
             Manifest manifest;
             try {
                 manifest = objectMapper.readValue(originsFileData, Manifest.class);
             }
             catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+
+            byte[] imageData = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), getLatestVersion(versions).getCommitSha(), manifest.getImage());
+            if(imageData.length > 0) {
+                workspaceRepository.writeFile(imageData, Paths.get(origin.getUuid(),"wcs-logo.png"));
             }
 
             WebcomponentModel newEntry = webcomponentFactory.createFromManifest(origin.getUuid(), manifest);
@@ -142,7 +149,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         for(String file: manifest.getDist()) {
             byte[] distFile = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), version.getCommitSha(), file);
 
-            Path path = Paths.get(origin.getUuid(), version.getName(), file);
+            Path path = Paths.get(origin.getUuid(), "dist", version.getName(), Paths.get(file).getFileName().toString());
 
             workspaceRepository.writeFile(distFile, path);
         }

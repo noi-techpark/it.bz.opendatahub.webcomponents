@@ -76,14 +76,19 @@ public class GithubApiRepository implements VcsApiRepository {
             qs = "?ref="+commitHash;
         }
 
-        ResponseEntity<File> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/contents/" + pathToFile + qs, HttpMethod.GET, null, File.class);
+        try {
+            ResponseEntity<File> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/contents/" + pathToFile + qs, HttpMethod.GET, null, File.class);
 
-        if(res.hasBody()) {
-            File file = res.getBody();
+            if (res.hasBody()) {
+                File file = res.getBody();
 
-            if(file != null) {
-                return Base64.getDecoder().decode(file.getContent().replace("\n",""));
+                if (file != null) {
+                    return Base64.getDecoder().decode(file.getContent().replace("\n", ""));
+                }
             }
+        }
+        catch (Exception e) {
+
         }
 
         return new byte[0];

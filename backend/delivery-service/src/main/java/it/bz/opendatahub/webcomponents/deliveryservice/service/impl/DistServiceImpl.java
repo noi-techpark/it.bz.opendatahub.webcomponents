@@ -29,7 +29,7 @@ public class DistServiceImpl implements DistService {
             version = webcomponentRepository.getLatestVersionOfWebcomponent(webcomponentId);
         }
 
-        Path filePath = Paths.get(webcomponentId, version, "dist", file);
+        Path filePath = Paths.get(webcomponentId, "dist", version, file);
 
         byte[] data = workspaceRepository.readFile(filePath);
 
