@@ -75,7 +75,7 @@ Each service application comes with three profiles that can be configured.
 
 > src/main/resources/application[-profile].yml 
 
-You will have to configure the 'datasource' properly for each application.
+You will have to configure the 'datasource' property for each application.
 
 There are some specific settings in the 'application' section of the configuration that might need customization:
 
@@ -85,6 +85,18 @@ There are some specific settings in the 'application' section of the configurati
 application.repoistory.github.token
 ```
 enter your github token to bypass the 60 calls/hour limit
+
+```
+application.workspace.path
+```
+path to the local file system where the crawler will store the "dist" files.
+
+> delivery-service 
+
+```
+application.workspace.path
+```
+path to the local file system where the crawler has stored the "dist" files
 
 ## Deployment
 

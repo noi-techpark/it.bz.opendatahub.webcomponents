@@ -1,6 +1,6 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository;
 
-import it.bz.opendatahub.webcomponents.crawlerservice.data.model.WebcomponentVersionModel;
+import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

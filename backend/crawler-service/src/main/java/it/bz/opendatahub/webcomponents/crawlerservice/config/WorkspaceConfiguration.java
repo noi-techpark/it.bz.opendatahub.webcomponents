@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @ConfigurationProperties("application.workspace")
 @Getter
 @Setter
-@Deprecated
 public class WorkspaceConfiguration {
     @NotNull
     private String path;

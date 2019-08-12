@@ -1,9 +1,9 @@
-package it.bz.opendatahub.webcomponents.dataservice.data.model;
+package it.bz.opendatahub.webcomponents.common.data.model;
 
+import it.bz.opendatahub.webcomponents.common.data.Model;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListAuthorUserType;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListStringUserType;
-import it.bz.opendatahub.webcomponents.dataservice.data.Model;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;

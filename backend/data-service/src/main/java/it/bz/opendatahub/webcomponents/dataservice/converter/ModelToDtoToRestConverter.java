@@ -2,7 +2,6 @@ package it.bz.opendatahub.webcomponents.dataservice.converter;
 
 import it.bz.opendatahub.webcomponents.common.data.Rest;
 import it.bz.opendatahub.webcomponents.dataservice.data.Dto;
-import it.bz.opendatahub.webcomponents.dataservice.data.Model;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class ModelToDtoToRestConverter<M extends Model, D extends Dto, R extends Rest> extends ModelToDtoConverter<M, D> {
+public abstract class ModelToDtoToRestConverter<M, D extends Dto, R extends Rest> extends ModelToDtoConverter<M, D> {
     private final Type restType;
 
     public ModelToDtoToRestConverter() {
