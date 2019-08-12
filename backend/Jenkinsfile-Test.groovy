@@ -16,7 +16,7 @@ pipeline {
         POSTGRES_USERNAME = credentials('webcompstore-test-postgres-username')
         POSTGRES_PASSWORD = credentials('webcompstore-test-postgres-password')
 
-        WORKSPACE_PATH = "/var/webcomponents-store"
+        WORKSPACE_PATH = "/var/data/webcomponents-store"
         GITHUB_TOKEN = credentials('webcompstore-test-github-token')
         ORIGIN_URL = "https://github.com/uhufa/odh-web-components-store-demo-origins.git"
         ORIGIN_BRANCH = "master"
