@@ -1,7 +1,7 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository;
 
 public interface SystemRepository {
-    String getHeadCommitHashForOrigin();
+    String getHeadOfMasterOrigin();
 
-    void setHeadCommitHashForOrigin(String commitHash);
+    void setHeadOfMasterOrigin(String commitHash);
 }

@@ -13,9 +13,6 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<!-- SWAGGER -->
-		<swagger.version>2.9.2</swagger.version>
-
 		<!-- MODELMAPPER -->
 		<modelmapper.version>2.3.5</modelmapper.version>
 

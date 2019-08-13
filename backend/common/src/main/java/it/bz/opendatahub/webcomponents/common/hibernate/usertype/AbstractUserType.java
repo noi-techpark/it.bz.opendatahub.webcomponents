@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.usertype.ParameterizedType;
 import org.hibernate.usertype.UserType;
+import org.postgresql.util.PGobject;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -48,7 +49,12 @@ public abstract class AbstractUserType implements UserType, ParameterizedType {
     @Override
     public void nullSafeSet(PreparedStatement preparedStatement, Object o, int i, SharedSessionContractImplementor sharedSessionContractImplementor) throws SQLException {
         try {
-            preparedStatement.setString(i, objectMapper.writeValueAsString(o));
+            PGobject pgo = new PGobject();
+            pgo.setType("json");
+            pgo.setValue(objectMapper.writeValueAsString(o));
+
+            preparedStatement.setObject(i, pgo);
+            //preparedStatement.setString(i, objectMapper.writeValueAsString(o));
         }
         catch (IOException e) {
             throw new HibernateException(e);

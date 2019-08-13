@@ -24,6 +24,9 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+
+		<!-- SWAGGER -->
+		<swagger.version>2.9.2</swagger.version>
 	</properties>
 
 	<dependencies>

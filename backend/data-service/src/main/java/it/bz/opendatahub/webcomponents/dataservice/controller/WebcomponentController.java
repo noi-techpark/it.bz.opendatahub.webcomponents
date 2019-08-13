@@ -5,21 +5,15 @@ import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentEntry;
 import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentConverter;
 import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentEntryConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;
-import it.bz.opendatahub.webcomponents.dataservice.data.model.WebcomponentModel;
-import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
-import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -56,16 +50,6 @@ public class WebcomponentController {
         Page<WebcomponentDto> resultPage = webcomponentService.listAll(pageRequest, tagList, term);
 
         return new ResponseEntity<>(new PageImpl(webcomponentEntryConverter.dtoToRest(resultPage.getContent()), pageRequest, resultPage.getTotalElements()), HttpStatus.OK);
-    }
-
-    @GetMapping("/latest")
-    public ResponseEntity<List<WebcomponentEntry>> listLatest() {
-        return null;
-    }
-
-    @GetMapping("/popular")
-    public ResponseEntity<List<WebcomponentEntry>> listPopular() {
-        return null;
     }
 
     @GetMapping("/detail/{uuid}")

@@ -1,8 +1,5 @@
 <template>
   <div>
-    {{ tags }}<br />
-    {{ term }}
-
     <div v-if="isLoaded" class="bg-light">
       <div class="container container-extended p-4">
         <div class="d-flex justify-content-between align-items-center pb-2">
@@ -133,6 +130,15 @@ export default {
 
       this.timer = setTimeout(this.update, 350);
       console.log('Prop changed: ', newVal, ' | was: ', oldVal);
+    },
+    tags(newVal, oldVal) {
+      if (this.timer) {
+        clearTimeout(this.timer);
+        this.timer = null;
+      }
+
+      this.timer = setTimeout(this.update, 350);
+      console.log('Prop changed: ', newVal, ' | was: ', oldVal);
     }
   },
   mounted() {
@@ -164,9 +170,18 @@ export default {
         term = this.term;
       }
 
+      let tags = '';
+      let filtered = [];
+      if (Array.isArray(this.tags)) {
+        filtered = this.tags.filter((elem) => {
+          return elem !== 'any';
+        });
+        tags = filtered.join(',');
+      }
       this.currentPage = await this.$api.webcomponent.findAllPaged(
         pageNumber,
         pageSize,
+        tags,
         term
       );
 

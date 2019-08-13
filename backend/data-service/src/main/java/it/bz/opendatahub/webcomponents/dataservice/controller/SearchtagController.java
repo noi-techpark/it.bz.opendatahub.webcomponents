@@ -1,6 +1,5 @@
 package it.bz.opendatahub.webcomponents.dataservice.controller;
 
-import it.bz.opendatahub.webcomponents.dataservice.repository.SearchtagRepository;
 import it.bz.opendatahub.webcomponents.dataservice.service.SearchtagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

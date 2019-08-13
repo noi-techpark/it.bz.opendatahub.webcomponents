@@ -4,7 +4,7 @@ import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 
-public class CamelSnakeNamingStrategy implements PhysicalNamingStrategy {
+public final class CamelSnakeNamingStrategy implements PhysicalNamingStrategy {
     private static final String REGEX = "([a-z0-9])([A-Z])";
     private static final String REPLACEMENT = "$1_$2";
 

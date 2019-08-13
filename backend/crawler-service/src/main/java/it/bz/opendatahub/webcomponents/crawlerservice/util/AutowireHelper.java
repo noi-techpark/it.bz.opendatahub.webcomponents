@@ -8,15 +8,6 @@ import org.springframework.stereotype.Component;
 public class AutowireHelper implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
-    public static void autowire(Object classToAutowire, Object... beansToAutowireInClass) {
-        for (Object bean : beansToAutowireInClass) {
-            if (bean == null) {
-                applicationContext.getAutowireCapableBeanFactory().autowireBean(classToAutowire);
-                return;
-            }
-        }
-    }
-
     @Override
     public void setApplicationContext(final ApplicationContext applicationContext) {
         AutowireHelper.applicationContext = applicationContext;

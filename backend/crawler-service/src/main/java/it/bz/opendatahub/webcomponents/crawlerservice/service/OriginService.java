@@ -1,13 +1,11 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.service;
 
+import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
+
+import java.util.List;
+
 public interface OriginService {
-    /**
-     * checkForChanges
-     * updateMasterList
-     * importChanges
-     */
+    List<OriginModel> listAllOrigins();
 
-    boolean isUpToDate();
-
-    void update();
+    void updateOrigin(OriginModel origin);
 }

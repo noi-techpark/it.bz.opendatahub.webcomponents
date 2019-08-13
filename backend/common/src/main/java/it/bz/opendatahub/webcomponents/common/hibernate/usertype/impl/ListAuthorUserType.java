@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public class ListAuthorUserType extends ListUserType {
+public final class ListAuthorUserType extends ListUserType {
     public static final String NAME = "ListAuthorUserType";
 
     @Override

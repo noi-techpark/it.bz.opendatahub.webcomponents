@@ -1,8 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.data.dto;
 
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
-import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListAuthorUserType;
-import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListStringUserType;
 import it.bz.opendatahub.webcomponents.dataservice.data.Dto;
 import lombok.Getter;
 import lombok.Setter;
