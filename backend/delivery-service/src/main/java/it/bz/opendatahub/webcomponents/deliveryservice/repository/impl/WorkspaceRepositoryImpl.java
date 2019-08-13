@@ -1,6 +1,7 @@
 package it.bz.opendatahub.webcomponents.deliveryservice.repository.impl;
 
 import it.bz.opendatahub.webcomponents.deliveryservice.config.WorkspaceConfiguration;
+import it.bz.opendatahub.webcomponents.deliveryservice.exception.impl.NotFoundException;
 import it.bz.opendatahub.webcomponents.deliveryservice.repository.WorkspaceRepository;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
             return FileUtils.readFileToByteArray(localPath.toFile());
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new NotFoundException("requested file is unavailable");
         }
     }
 }

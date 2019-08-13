@@ -33,19 +33,21 @@ public class DistServiceImpl implements DistService {
 
         byte[] data = workspaceRepository.readFile(filePath);
 
+        String mimetype = detectMimetype(file);
+
+        return DistFile.of(file, mimetype, data);
+    }
+
+    private String detectMimetype(String filename) {
         String mimetype = "text/plain";
-        if(file.endsWith(".css")) {
+
+        if(filename.endsWith(".css")) {
             mimetype = "text/css";
         }
-        else if(file.endsWith(".js")) {
+        else if(filename.endsWith(".js")) {
             mimetype = "application/javascript";
         }
 
-        DistFile result = new DistFile();
-        result.setName(file);
-        result.setMimetype(mimetype);
-        result.setPayload(data);
-
-        return result;
+        return mimetype;
     }
 }

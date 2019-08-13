@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.deliveryservice.repository.impl;
 
+import it.bz.opendatahub.webcomponents.deliveryservice.exception.impl.NotFoundException;
 import it.bz.opendatahub.webcomponents.deliveryservice.repository.WebcomponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +22,7 @@ public class WebcomponentRepositoryImpl implements WebcomponentRepository {
         List<String> versions = jdbcTemplate.queryForList("SELECT version_tag FROM webcomponent_version WHERE webcomponent_uuid=? ORDER by version_tag DESC", String.class, webcomponentId);
 
         if(versions.isEmpty()) {
-            throw new RuntimeException();
+            throw new NotFoundException("unable to find versions for webcomponent");
         }
 
         return versions.get(0);
