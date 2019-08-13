@@ -31,6 +31,10 @@ public class WebcomponentModel implements Model {
 
     private String descriptionAbstract;
 
+    private String repositoryUrl;
+
+    private String image;
+
     private String license;
 
     @Type(type = ListAuthorUserType.NAME)
@@ -38,6 +42,9 @@ public class WebcomponentModel implements Model {
 
     @Type(type = ListStringUserType.NAME)
     private List<String> searchTags;
+
+    @Type(type = ListStringUserType.NAME)
+    private List<String> dist;
 
     //private Object configuration;
 }

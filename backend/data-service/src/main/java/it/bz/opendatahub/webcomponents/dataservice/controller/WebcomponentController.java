@@ -52,16 +52,6 @@ public class WebcomponentController {
         return new ResponseEntity<>(new PageImpl(webcomponentEntryConverter.dtoToRest(resultPage.getContent()), pageRequest, resultPage.getTotalElements()), HttpStatus.OK);
     }
 
-    @GetMapping("/latest")
-    public ResponseEntity<List<WebcomponentEntry>> listLatest() {
-        return null;
-    }
-
-    @GetMapping("/popular")
-    public ResponseEntity<List<WebcomponentEntry>> listPopular() {
-        return null;
-    }
-
     @GetMapping("/detail/{uuid}")
     public ResponseEntity<Webcomponent> getOne(@PathVariable String uuid) {
         return new ResponseEntity<>(webcomponentConverter.dtoToRest(webcomponentService.findOne(uuid)), HttpStatus.OK);

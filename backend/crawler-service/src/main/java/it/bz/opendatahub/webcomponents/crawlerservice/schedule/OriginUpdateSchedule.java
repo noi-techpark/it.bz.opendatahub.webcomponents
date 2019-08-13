@@ -1,31 +1,37 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.schedule;
 
-import it.bz.opendatahub.webcomponents.crawlerservice.service.MasterOriginService;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
+import it.bz.opendatahub.webcomponents.crawlerservice.service.OriginService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-@Component
+import java.util.List;
+
 @Slf4j
+@Component
 public class OriginUpdateSchedule {
-    private MasterOriginService masterOriginService;
+    private OriginService originService;
 
     @Autowired
-    public OriginUpdateSchedule(MasterOriginService masterOriginService) {
-        this.masterOriginService = masterOriginService;
+    public OriginUpdateSchedule(OriginService originService) {
+
+        this.originService = originService;
     }
 
-    @Scheduled(fixedDelayString = "${application.schedule.origin}")
-    public void updateOrigins() {
-        log.info("looking for changes in origins...");
+    @Scheduled(fixedDelayString = "${application.schedule.component}")
+    public void updateWebcomponents() {
+        log.info("updating origins");
 
-        if(!masterOriginService.isUpToDate()) {
-            log.info("updating origins...");
+        List<OriginModel> originList = originService.listAllOrigins();
 
-            masterOriginService.update();
+        for(OriginModel origin : originList) {
+            log.debug("updating: {}", origin.getUuid());
+
+            originService.updateOrigin(origin);
         }
+        log.info("origins updated");
 
-        log.info("origins are up to date!");
     }
 }

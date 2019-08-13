@@ -1,13 +1,19 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository;
 
-import it.bz.opendatahub.webcomponents.crawlerservice.repository.impl.GithubApiRepository;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public interface VcsApiRepository {
-    List<GithubApiRepository.TagEntry> listVersions(String repoUrl);
+    List<TagEntry> listVersionTags(GitRemote gitRemote);
 
-    String getLatestCommitHash(String repoUrl, String branch);
+    String getLatestRevisionHash(GitRemote gitRemote);
 
-    byte[] getFileContentsForCommitHash(String repoUrl, String commitHash, String pathToFile);
+    String getLatestRevisionHash(GitRemote gitRemote, String branchName);
+
+    ByteArrayOutputStream getFileContents(GitRemote gitRemote, String remotePathToFile);
+
+    ByteArrayOutputStream getFileContents(GitRemote gitRemote, String revisionHash, String remotePathToFile);
 }

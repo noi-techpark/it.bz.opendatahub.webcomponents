@@ -2,6 +2,7 @@ package it.bz.opendatahub.webcomponents.crawlerservice.repository.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.OriginSystemEntry;
+import it.bz.opendatahub.webcomponents.crawlerservice.exception.CrawlerException;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,15 +23,9 @@ public class SystemRepositoryImpl implements SystemRepository {
     }
 
     @Override
-    public String getHeadCommitHashForOrigin() {
+    public String getHeadOfMasterOrigin() {
 
-        String json;
-        //try {
-            json = jdbcTemplate.queryForObject("SELECT data FROM system WHERE key='ORIGIN'", String.class);
-        //}
-        //catch (DataAccessException e) {
-
-        //}
+        String json = jdbcTemplate.queryForObject("SELECT data FROM system WHERE key='ORIGIN'", String.class);
 
         OriginSystemEntry entry = createOriginSystemEntryFromJson(json);
 
@@ -38,7 +33,7 @@ public class SystemRepositoryImpl implements SystemRepository {
     }
 
     @Override
-    public void setHeadCommitHashForOrigin(String commitHash) {
+    public void setHeadOfMasterOrigin(String commitHash) {
         OriginSystemEntry entry = new OriginSystemEntry();
         entry.setHead(commitHash);
         entry.setLastCheck(new Date());
@@ -51,7 +46,7 @@ public class SystemRepositoryImpl implements SystemRepository {
             return objectMapper.readValue(json, OriginSystemEntry.class);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CrawlerException(e);
         }
     }
 
@@ -60,7 +55,7 @@ public class SystemRepositoryImpl implements SystemRepository {
             return objectMapper.writeValueAsString(object);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CrawlerException(e);
         }
     }
 }

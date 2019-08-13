@@ -3,16 +3,20 @@ package it.bz.opendatahub.webcomponents.crawlerservice.service.impl;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.api.Manifest;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.Manifest;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRevision;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
+import it.bz.opendatahub.webcomponents.crawlerservice.exception.CrawlerException;
+import it.bz.opendatahub.webcomponents.crawlerservice.exception.NotFoundException;
 import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentFactory;
 import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentVersionFactory;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentVersionRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WorkspaceRepository;
-import it.bz.opendatahub.webcomponents.crawlerservice.repository.impl.GithubApiRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -30,6 +35,8 @@ import java.util.Optional;
 @Service
 public class WebcomponentServiceImpl implements WebcomponentService {
     private static final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    private static final String MANIFEST_FILE_NAME = "wcs-manifest.json";
 
     private VcsApiRepository vcsApiRepository;
 
@@ -43,10 +50,10 @@ public class WebcomponentServiceImpl implements WebcomponentService {
 
     @Autowired
     public WebcomponentServiceImpl(@Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository,
-                                  WebcomponentRepository webcomponentRepository,
-                                  WebcomponentVersionRepository webcomponentVersionRepository,
-                                  WebcomponentFactory webcomponentFactory,
-                                  WebcomponentVersionFactory webcomponentVersionFactory,
+                                   WebcomponentRepository webcomponentRepository,
+                                   WebcomponentVersionRepository webcomponentVersionRepository,
+                                   WebcomponentFactory webcomponentFactory,
+                                   WebcomponentVersionFactory webcomponentVersionFactory,
                                    WorkspaceRepository workspaceRepository) {
 
         this.vcsApiRepository = vcsApiRepository;
@@ -61,56 +68,92 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     }
 
     @Override
-    public void updateOrigin(OriginModel origin) {
-        List<GithubApiRepository.TagEntry> versions = vcsApiRepository.listVersions(origin.getUrl());
+    public void updateWebcomponentFromOrigin(OriginModel origin) {
+        GitRemote gitRemote = GitRemote.of(origin);
 
-        log.info(versions.toString());
+        List<TagEntry> versions = vcsApiRepository.listVersionTags(gitRemote);
 
-        if(!versions.isEmpty()) {
-            byte[] originsFileData = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), getLatestVersion(versions).getCommitSha(), "wcs-manifest.json");
-
-            workspaceRepository.writeFile(originsFileData, Paths.get(origin.getUuid(),"wcs-manifest.json"));
-
-            Manifest manifest;
-            try {
-                manifest = objectMapper.readValue(originsFileData, Manifest.class);
-            }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
-            byte[] imageData = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), getLatestVersion(versions).getCommitSha(), manifest.getImage());
-            if(imageData.length > 0) {
-                workspaceRepository.writeFile(imageData, Paths.get(origin.getUuid(),"wcs-logo.png"));
-            }
-
-            WebcomponentModel newEntry = webcomponentFactory.createFromManifest(origin.getUuid(), manifest);
-
-            WebcomponentModel entry;
-            Optional<WebcomponentModel> probe = webcomponentRepository.findById(origin.getUuid());
-            if(probe.isPresent()) {
-                entry = probe.get();
-
-                BeanUtils.copyProperties(newEntry, entry);
-            }
-            else {
-                entry = newEntry;
-            }
-
-            entry = webcomponentRepository.save(entry);
-
-            for(GithubApiRepository.TagEntry version : versions) {
-                updateVersion(origin, entry, version);
-            }
-        }
-        else {
+        if(versions.isEmpty()) {
             log.warn("no versions found for: "+origin.getUrl());
+            return;
+        }
+
+        GitRevision gitRevision = GitRevision.of(gitRemote, getLatestVersion(versions));
+
+        Manifest manifest = readManifestFromRemote(gitRevision);
+
+        persistManifest(manifest, origin.getUuid());
+
+        if(manifest.getImage() != null && !manifest.getImage().isEmpty()) {
+            persistImage(gitRevision, manifest, origin.getUuid());
+        }
+
+        persistWebcomponent(manifest, origin.getUuid());
+
+        for(TagEntry version : versions) {
+            updateVersion(GitRevision.of(gitRemote, version), origin.getUuid());
         }
     }
 
-    private GithubApiRepository.TagEntry getLatestVersion(List<GithubApiRepository.TagEntry> versions) {
+    private void persistWebcomponent(Manifest manifest, String originUuid) {
+        WebcomponentModel newEntry = webcomponentFactory.createFromManifest(originUuid, manifest);
+
+        WebcomponentModel entry;
+        Optional<WebcomponentModel> probe = webcomponentRepository.findById(originUuid);
+        if(probe.isPresent()) {
+            entry = probe.get();
+
+            BeanUtils.copyProperties(newEntry, entry);
+        }
+        else {
+            entry = newEntry;
+        }
+
+        webcomponentRepository.save(entry);
+    }
+
+    private void persistImage(GitRevision gitRevision, Manifest manifest, String originUuid) {
+        try {
+            ByteArrayOutputStream imageData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), manifest.getImage());
+            if (imageData.size() > 0) {
+                workspaceRepository.writeFile(imageData, Paths.get(originUuid, "wcs-logo.png"));
+            }
+        }
+        catch (NotFoundException e) {
+            log.debug("image not found");
+        }
+    }
+
+    private Manifest readManifestFromRemote(GitRevision gitRevision) {
+        ByteArrayOutputStream originsFileData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), MANIFEST_FILE_NAME);
+
+        Manifest manifest;
+        try {
+            manifest = objectMapper.readValue(originsFileData.toByteArray(), Manifest.class);
+        }
+        catch (IOException e) {
+            throw new CrawlerException(e);
+        }
+
+        return manifest;
+    }
+
+    private void persistManifest(Manifest manifest, String originUuid) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        try {
+            objectMapper.writeValue(outputStream, manifest);
+        }
+        catch (IOException e) {
+            throw new CrawlerException(e);
+        }
+
+        workspaceRepository.writeFile(outputStream, Paths.get(originUuid, MANIFEST_FILE_NAME));
+    }
+
+    private TagEntry getLatestVersion(List<TagEntry> versions) {
         if(versions.isEmpty()) {
-            throw new RuntimeException("empty list");
+            throw new CrawlerException("empty list");
         }
 
         versions.sort((entryA, entryB) -> entryA.getName().compareToIgnoreCase(entryB.getName()));
@@ -118,38 +161,43 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         return versions.get(0);
     }
 
-    private void updateVersion(OriginModel origin, WebcomponentModel webcomponent, GithubApiRepository.TagEntry version) {
-        log.debug("processing version: "+version.getName());
-        Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findByUuidAndTag(webcomponent.getUuid(), version.getName());
+    private void updateVersion(GitRevision gitRevision, String originUuid) {
+        log.debug("processing version: {}", gitRevision.getTagEntry().getName());
+
+        Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findByUuidAndTag(originUuid, gitRevision.getTagEntry().getName());
 
         if(!probe.isPresent()) {
-            WebcomponentVersionModel newEntry = webcomponentVersionFactory.createFromTagEntry(webcomponent.getUuid(), version);
+            WebcomponentVersionModel newEntry = webcomponentVersionFactory.createFromTagEntry(originUuid, gitRevision.getTagEntry());
 
             webcomponentVersionRepository.save(newEntry);
 
-            saveDist(origin, version);
+            saveDist(gitRevision, originUuid);
         }
     }
 
-    private void saveDist(OriginModel origin, GithubApiRepository.TagEntry version) {
+    private void saveDist(GitRevision gitRevision, String originUuid) {
         //get manifest for this version
 
-        byte[] originsFileData = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), version.getCommitSha(), "wcs-manifest.json");
+        ByteArrayOutputStream originsFileData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), MANIFEST_FILE_NAME);
 
         Manifest manifest;
         try {
-            manifest = objectMapper.readValue(originsFileData, Manifest.class);
+            manifest = objectMapper.readValue(originsFileData.toByteArray(), Manifest.class);
         }
         catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new CrawlerException(e);
         }
 
         //extract all dist files to disk
 
-        for(String file: manifest.getDist()) {
-            byte[] distFile = vcsApiRepository.getFileContentsForCommitHash(origin.getUrl(), version.getCommitSha(), file);
+        extractAllFilesToDisk(gitRevision, Paths.get(originUuid, "dist", gitRevision.getTagEntry().getName()), manifest.getDist());
+    }
 
-            Path path = Paths.get(origin.getUuid(), "dist", version.getName(), Paths.get(file).getFileName().toString());
+    private void extractAllFilesToDisk(GitRevision gitRevision, Path basepath, List<String> files) {
+        for(String file: files) {
+            ByteArrayOutputStream distFile = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), file);
+
+            Path path = Paths.get(basepath.toString(), Paths.get(file).getFileName().toString());
 
             workspaceRepository.writeFile(distFile, path);
         }

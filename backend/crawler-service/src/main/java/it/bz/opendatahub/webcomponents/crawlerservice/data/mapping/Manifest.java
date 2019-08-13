@@ -1,4 +1,4 @@
-package it.bz.opendatahub.webcomponents.crawlerservice.data.api;
+package it.bz.opendatahub.webcomponents.crawlerservice.data.mapping;
 
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import lombok.Getter;
@@ -16,6 +16,8 @@ public class Manifest {
 
     private String descriptionAbstract;
 
+    private String repositoryUrl;
+
     private String image;
 
     private String license;
@@ -26,5 +28,24 @@ public class Manifest {
 
     private List<String> dist = new ArrayList<>();
 
-    private Object configuration; // TODO: implement configuration
+    private Configuration configuration;
+
+    @Getter
+    @Setter
+    public static class Configuration {
+
+        private String tagName;
+
+        private List<Options> options;
+    }
+
+    @Getter
+    @Setter
+    public static class Options {
+        private String key;
+
+        private String type;
+
+        private Object options;
+    }
 }

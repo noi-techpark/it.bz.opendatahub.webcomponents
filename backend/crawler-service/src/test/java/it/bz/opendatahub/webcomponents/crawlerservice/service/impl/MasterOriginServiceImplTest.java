@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -32,18 +33,18 @@ class MasterOriginServiceImplTest {
     @BeforeEach
     void initMocks() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn(null);
     }
 
     @Test
     void isUpToDate_bothNull() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn(null);
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn(null);
 
         assertTrue(originService.isUpToDate());
@@ -52,11 +53,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_localNull() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn(null);
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn("asdfghjkl");
 
         assertFalse(originService.isUpToDate());
@@ -65,11 +66,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_remoteNull() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn("asdfghjkl");
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn(null);
 
         assertFalse(originService.isUpToDate());
@@ -78,11 +79,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_bothEmpty() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn("");
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn("");
 
         assertTrue(originService.isUpToDate());
@@ -91,11 +92,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_localEmpty() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn("");
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn("asdfghjkl");
 
         assertFalse(originService.isUpToDate());
@@ -104,11 +105,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_remoteEmpty() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn("asdfghjkl");
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn("");
 
         assertFalse(originService.isUpToDate());
@@ -117,11 +118,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_sameString() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn("asdfghjkl");
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn("asdfghjkl");
 
         assertTrue(originService.isUpToDate());
@@ -129,11 +130,11 @@ class MasterOriginServiceImplTest {
     @Test
     void isUpToDate_differentString() {
         when(
-                systemRepository.getHeadCommitHashForOrigin()
+                systemRepository.getHeadOfMasterOrigin()
         ).thenReturn("asdfghjkl");
 
         when(
-                vcsApiRepository.getLatestCommitHash(anyString(), anyString())
+                vcsApiRepository.getLatestRevisionHash(any(), anyString())
         ).thenReturn("lkjhgfdsa");
 
         assertFalse(originService.isUpToDate());

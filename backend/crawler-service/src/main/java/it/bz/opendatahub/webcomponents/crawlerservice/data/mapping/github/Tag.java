@@ -1,4 +1,4 @@
-package it.bz.opendatahub.webcomponents.crawlerservice.data.api.github;
+package it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github;
 
 import lombok.Getter;
 import lombok.Setter;

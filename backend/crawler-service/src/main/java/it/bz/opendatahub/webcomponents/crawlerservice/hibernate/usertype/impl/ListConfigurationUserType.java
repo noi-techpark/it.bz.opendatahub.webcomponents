@@ -1,7 +1,8 @@
-package it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl;
+package it.bz.opendatahub.webcomponents.crawlerservice.hibernate.usertype.impl;
 
-import it.bz.opendatahub.webcomponents.common.data.struct.Author;
+import it.bz.opendatahub.webcomponents.common.hibernate.usertype.AbstractUserType;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.ListUserType;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.Manifest;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
@@ -10,8 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public final class ListAuthorUserType extends ListUserType {
-    public static final String NAME = "ListAuthorUserType";
+public final class ListConfigurationUserType extends ListUserType {
+    public static final String NAME = "ListConfigurationUserType";
 
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
@@ -22,7 +23,7 @@ public final class ListAuthorUserType extends ListUserType {
         }
 
         try {
-            return Arrays.asList(objectMapper.readValue(s, Author[].class));
+            return Arrays.asList(objectMapper.readValue(s, Manifest.Configuration[].class));
         }
         catch (IOException e) {
             throw new HibernateException(e);
