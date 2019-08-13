@@ -9,12 +9,8 @@
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>${custom.artifactId}</artifactId>
+	<artifactId>deliveryservice</artifactId>
 	<packaging>war</packaging>
-
-	<properties>
-		<custom.artifactId>deliveryservice</custom.artifactId>
-	</properties>
 
 	<dependencies>
 		<dependency>

@@ -9,14 +9,12 @@
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>${custom.artifactId}</artifactId>
+	<artifactId>dataservice</artifactId>
 	<packaging>war</packaging>
 
 	<properties>
 		<!-- MODELMAPPER -->
 		<modelmapper.version>2.3.5</modelmapper.version>
-
-		<custom.artifactId>dataservice</custom.artifactId>
 	</properties>
 
 	<dependencies>
