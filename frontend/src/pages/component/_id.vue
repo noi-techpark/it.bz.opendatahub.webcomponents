@@ -103,11 +103,19 @@
           <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
           <b-card id="widget-codesnippet">
             <b-card-text>
-              Code
+              <textarea
+                id="code-snippet"
+                class="full-width full-height"
+                style="border: 0; background-color: inherit;"
+              >
+Code</textarea
+              >
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              [] COPY
+              <a href="javascript:void(0);" @click="copySnippetToClipboard()"
+                >[] COPY</a
+              >
             </div>
           </b-card>
         </div>
@@ -131,6 +139,19 @@ export default {
       this.component = await this.$api.webcomponent.getOneById(
         this.$route.params.id
       );
+    },
+    copySnippetToClipboard() {
+      /* Get the text field */
+      const copyText = document.getElementById('code-snippet');
+
+      /* Select the text field */
+      copyText.select();
+
+      /* Copy the text inside the text field */
+      document.execCommand('copy');
+
+      /* Alert the copied text */
+      // alert('Copied the text: ' + copyText.value);
     }
   }
 };
