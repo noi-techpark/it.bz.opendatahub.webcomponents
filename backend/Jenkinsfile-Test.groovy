@@ -46,6 +46,7 @@ pipeline {
                 sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/delivery-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/delivery-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/delivery-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(application.workspace.path\\s*=\\).*\\$%\\1${WORKSPACE_PATH}%" backend/delivery-service/src/main/resources/application.properties'
             }
         }
         stage('Test') {
