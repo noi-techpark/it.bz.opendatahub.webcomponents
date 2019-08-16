@@ -26,7 +26,7 @@
               >
                 <div class="d-flex flex-column">
                   <b-form-checkbox-group
-                    v-if="show"
+                    v-if="isLoaded"
                     id="checkbox-group-2"
                     v-model="userSelectedTags"
                     name="flavour-2"
@@ -35,7 +35,7 @@
                   >
                     <b-form-checkbox
                       :value="tag"
-                      v-for="tag in searchTags"
+                      v-for="tag in availableSearchTags"
                       :key="tag"
                       >{{ tag }}</b-form-checkbox
                     >
@@ -109,30 +109,36 @@
 
 <script>
 export default {
-  props: ['selectedTags', 'term'],
+  props: {
+    selectedTags: {
+      default: () => {
+        return [];
+      },
+      type: Array
+    },
+    searchTerm: { default: '', type: String }
+  },
   data() {
     return {
-      searchTerm: this.term,
-      oldSearchTerm: this.term,
-      searchTags: [],
+      oldSearchTerm: this.searchTerm,
+      availableSearchTags: [],
       userSelectedTags: this.selectedTags,
-      show: false
+      isLoaded: false
     };
   },
   mounted() {
+    console.log(this.selectedTags, this.searchTerm);
+
     this.loadSearchTags();
-    this.$nextTick(() => {
-      // this.show = true;
-    });
   },
   methods: {
     async loadSearchTags() {
-      this.searchTags = await this.$api.searchtag.listAll();
-      this.show = true;
+      this.availableSearchTags = await this.$api.searchtag.listAll();
+      this.isLoaded = true;
     },
     tagsUpdated() {
       console.log('XXX');
-      this.$emit('term-updated', {
+      this.$emit('tags-updated', {
         tags: this.userSelectedTags,
         term: this.searchTerm
       });

@@ -49,7 +49,9 @@
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">Version:</div>
-                <div class="d-table-cell"></div>
+                <div class="d-table-cell">
+                  {{ component.versions[0].versionTag }}
+                </div>
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">License:</div>
@@ -57,11 +59,15 @@
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">Published:</div>
-                <div class="d-table-cell"></div>
+                <div class="d-table-cell">
+                  {{ $d(new Date(component.datePublished)) }}
+                </div>
               </div>
               <div class="d-table-row">
-                <div class="d-table-cell pr-2">Last Update:</div>
-                <div class="d-table-cell"></div>
+                <div class="d-table-cell pr-2 text-nowrap">Last Update:</div>
+                <div class="d-table-cell">
+                  {{ $d(new Date(component.dateUpdated)) }}
+                </div>
               </div>
             </div>
           </div>
@@ -74,13 +80,18 @@
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
           <b-card id="widget-preview" class="full-height">
             <b-card-text class="text-center">
-              <img
-                src="https://static.anychart.com/images/gallery/v8/line-charts-line-chart.png"
-              />
+              <iframe
+                id="tframe"
+                class="full-height full-width"
+                style="min-height: 350px;"
+                frameborder="0"
+              ></iframe>
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              [] auto update [] update preview
+              <b-checkbox class="d-inline-block"></b-checkbox> auto update
+              <font-awesome-icon :icon="['fas', 'redo']" class="ml-4" /> update
+              preview
             </div>
           </b-card>
         </div>
@@ -88,12 +99,12 @@
         <div class="col-4">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card id="widget-config" class="full-height">
-            <b-card-text>
+            <b-card-text @click="tt()">
               Config...
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              [] apply
+              <font-awesome-icon :icon="['fas', 'check']" /> apply
             </div>
           </b-card>
         </div>
@@ -114,7 +125,7 @@ Code</textarea
 
             <div slot="footer" class="text-right text-uppercase">
               <a href="javascript:void(0);" @click="copySnippetToClipboard()"
-                >[] COPY</a
+                ><font-awesome-icon :icon="['far', 'copy']" /> COPY</a
               >
             </div>
           </b-card>
@@ -128,12 +139,17 @@ Code</textarea
 export default {
   data() {
     return {
-      component: null
+      component: null,
+      test:
+        '<map-widget domain="mobility" station-types="CreativeIndustry" ></map-widget><script src="http://localhost:8080/dist/c115c741-e236-4fb9-9420-5a7dfffba933/map_widget.min.js" />'
     };
   },
   mounted() {
     this.loadData();
+
+    setTimeout(this.tt2, 500);
   },
+
   methods: {
     async loadData() {
       this.component = await this.$api.webcomponent.getOneById(
@@ -152,6 +168,23 @@ export default {
 
       /* Alert the copied text */
       // alert('Copied the text: ' + copyText.value);
+    },
+    tt2() {
+      document
+        .getElementById('tframe')
+        .contentDocument.write(
+          '<map-widget domain="tourism"></map-widget><script src="http://localhost:8080/dist/c115c741-e236-4fb9-9420-5a7dfffba933/map_widget.min.js"></scr' +
+            'ipt>'
+        );
+    },
+    tt() {
+      document.getElementById('tframe').contentDocument.close();
+      document
+        .getElementById('tframe')
+        .contentDocument.write(
+          '<map-widget domain="mobility"></map-widget><script src="http://localhost:8080/dist/c115c741-e236-4fb9-9420-5a7dfffba933/map_widget.min.js"></scr' +
+            'ipt>'
+        );
     }
   }
 };

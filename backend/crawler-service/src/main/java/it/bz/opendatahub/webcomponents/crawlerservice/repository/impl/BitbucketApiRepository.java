@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository.impl;
 
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.CommitEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
@@ -32,6 +33,11 @@ public class BitbucketApiRepository implements VcsApiRepository {
 
     @Override
     public ByteArrayOutputStream getFileContents(GitRemote gitRemote, String revisionHash, String remotePathToFile) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public CommitEntry getMetadataForCommit(GitRemote gitRemote, String ref) {
         throw new UnsupportedOperationException();
     }
 }

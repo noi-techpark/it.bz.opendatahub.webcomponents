@@ -19,6 +19,7 @@ public class WebcomponentFactory {
         newEntry.setAuthors(manifest.getAuthors());
         newEntry.setSearchTags(manifest.getSearchTags());
         newEntry.setDist(manifest.getDist());
+        newEntry.setConfiguration(manifest.getConfiguration());
 
         return newEntry;
     }

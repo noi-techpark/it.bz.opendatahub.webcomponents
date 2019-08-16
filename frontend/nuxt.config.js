@@ -28,7 +28,7 @@ module.exports = {
    */
   css: [
     '@/assets/styles/styles.scss',
-    'vue-loading-overlay/dist/vue-loading.css'
+    'vue-loading-overlay/dist/vue-loading.css','@fortawesome/fontawesome-svg-core/styles.css',
   ],
 
   bootstrapVue: {
@@ -39,7 +39,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/api.js'],
+  plugins: ['~/plugins/api.js','~/plugins/fontawesome.js'],
   /*
    ** Nuxt.js dev-modules
    */

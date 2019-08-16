@@ -21,7 +21,7 @@ public class SearchtagController {
     }
 
     @GetMapping
-    public ResponseEntity<List<String>> listAll() {
+    public ResponseEntity<List<String>> listAllUsed() {
         return new ResponseEntity<>(searchtagService.listAllUsedSearchtags(), HttpStatus.OK);
     }
 }

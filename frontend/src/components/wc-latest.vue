@@ -13,7 +13,7 @@
             :key="entry.uuid"
             class="col-sm-6 col-md-4 col-lg-3 mb-4"
           >
-            <WcCard :entry="entry" />
+            <WebcomponentEntryCard :entry="entry" />
           </div>
         </div>
         <div class="text-center">
@@ -43,11 +43,11 @@
 </template>
 
 <script>
-import WcCard from '~/components/wc-card.vue';
+import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default {
   components: {
-    WcCard
+    WebcomponentEntryCard
   },
   data() {
     return {

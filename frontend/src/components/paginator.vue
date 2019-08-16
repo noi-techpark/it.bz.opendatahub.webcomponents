@@ -34,7 +34,10 @@
 
 <script>
 export default {
-  props: ['currentPage', 'totalPages'],
+  props: {
+    currentPage: { default: 0, type: Number },
+    totalPages: { default: 0, type: Number }
+  },
   computed: {
     pagesToDisplay() {
       const start = Math.max(0, this.currentPage - 5);

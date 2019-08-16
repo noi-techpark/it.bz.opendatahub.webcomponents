@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WebcomponentRepository extends JpaRepository<WebcomponentModel, String> {
-    @Query("SELECT w FROM WebcomponentModel w WHERE LOWER(w.title) LIKE ?1")
+    @Query("SELECT w FROM WebcomponentModel w WHERE LOWER(w.title) LIKE ?1 OR LOWER(w.description) LIKE ?1")
     Page<WebcomponentModel> findAllMatchingTerm(String term, Pageable pageRequest);
 }

@@ -1,6 +1,7 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.data.mapping;
 
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
+import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,23 +30,4 @@ public class Manifest {
     private List<String> dist = new ArrayList<>();
 
     private Configuration configuration;
-
-    @Getter
-    @Setter
-    public static class Configuration {
-
-        private String tagName;
-
-        private List<Options> options;
-    }
-
-    @Getter
-    @Setter
-    public static class Options {
-        private String key;
-
-        private String type;
-
-        private Object options;
-    }
 }

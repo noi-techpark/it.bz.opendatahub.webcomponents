@@ -21,4 +21,6 @@ public class WebcomponentEntry implements Rest {
     private List<Author> authors;
 
     private List<String> searchTags;
+
+    private WebcomponentVersion currentVersion;
 }

@@ -1,29 +1,37 @@
 <template>
   <div>
-    <WcSearch
-      :term="searchTerm"
-      :selectedTags="searchTags"
+    <Searchbar
+      :searchTerm="searchTerm"
+      :selectedTags="getSearchTags"
       v-on:term-updated="updateSearchTerm($event)"
       v-on:term-submitted="redirectSearchTerm($event)"
+      v-on:tags-updated="redirectSearchTerm($event)"
     />
     <WcFiltered :tags="searchTags" :term="searchTerm" />
   </div>
 </template>
 
 <script>
-import WcSearch from '~/components/wc-search.vue';
+import Searchbar from '~/components/searchbar.vue';
 import WcFiltered from '~/components/wc-filtered.vue';
 
 export default {
   components: {
-    WcSearch,
+    Searchbar,
     WcFiltered
   },
   data() {
     return {
       searchTerm: this.$route.params.term,
-      searchTags: this.$route.params.tags.split(',')
+      searchTags: this.$route.params.tags.split('|')
     };
+  },
+  computed: {
+    getSearchTags() {
+      return this.searchTags.filter((entry) => {
+        return entry !== 'any';
+      });
+    }
   },
   methods: {
     updateSearchTerm(ev) {
@@ -33,7 +41,26 @@ export default {
       this.searchTags = ev.tags;
     },
     redirectSearchTerm(ev) {
-      this.$router.push('/search/' + this.$route.params.tags + '/' + ev.term);
+      let tags = ev.tags.join('|');
+      if (ev.tags.length === 0) {
+        tags = 'any';
+      }
+
+      if (ev.term !== null && ev.term !== '') {
+        this.$router.push(
+          this.localePath({
+            name: 'search-tags-term',
+            params: { tags, term: ev.term }
+          })
+        );
+      } else {
+        this.$router.push(
+          this.localePath({
+            name: 'search-tags',
+            params: { tags }
+          })
+        );
+      }
     }
   }
 };

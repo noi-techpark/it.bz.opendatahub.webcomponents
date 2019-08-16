@@ -33,18 +33,6 @@ public class WebcomponentServiceImpl implements WebcomponentService {
 
         List<WebcomponentModel> webcomponents = new ArrayList<>(result.getContent());
 
-        /*if(pageRequest.isPaged()) {
-            if(webcomponents.isEmpty()) {
-                result= webcomponentRepository.findAllMatchingTerm("%"+term.toLowerCase()+"%", PageRequest.of(0, pageRequest.getPageSize()));
-                webcomponents = new ArrayList<>(result.getContent());
-            }
-            else {
-                for (int i = webcomponents.size(); i < pageRequest.getPageSize(); i++) {
-                    webcomponents.add(webcomponents.get(0));
-                }
-            }
-        }*/
-
         int i = webcomponents.size();
         if(!tags.isEmpty()) {
             webcomponents.removeIf(w -> Collections.disjoint(w.getSearchTags(), tags));

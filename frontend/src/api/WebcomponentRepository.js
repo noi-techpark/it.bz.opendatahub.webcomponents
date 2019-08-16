@@ -10,6 +10,6 @@ export default ($axios) => ({
     );
   },
   getOneById(id) {
-    return $axios.$get(`${resource}/detail/${id}`);
+    return $axios.$get(`${resource}/${id}`);
   }
 });

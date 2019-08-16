@@ -1,6 +1,6 @@
 <template>
   <nuxt-link
-    :to="'/component/' + entry.uuid"
+    :to="localePath({ name: 'component-id', params: { id: entry.uuid } })"
     style="color:inherit;text-decoration: inherit;"
   >
     <b-card
@@ -42,7 +42,12 @@
           </div>
         </div>
         <div class="col-6">
-          <div>Version: <span class="font-weight-bold">3.4</span></div>
+          <div>
+            Version:
+            <span class="font-weight-bold">{{
+              entry.currentVersion.versionTag
+            }}</span>
+          </div>
           <div>
             License:
             <span class="font-weight-bold">{{ entry.license }}</span>
@@ -55,6 +60,11 @@
 
 <script>
 export default {
-  props: ['entry']
+  props: {
+    entry: {
+      default: null,
+      type: Object
+    }
+  }
 };
 </script>

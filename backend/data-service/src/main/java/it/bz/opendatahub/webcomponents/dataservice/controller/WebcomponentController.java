@@ -52,8 +52,13 @@ public class WebcomponentController {
         return new ResponseEntity<>(new PageImpl(webcomponentEntryConverter.dtoToRest(resultPage.getContent()), pageRequest, resultPage.getTotalElements()), HttpStatus.OK);
     }
 
-    @GetMapping("/detail/{uuid}")
+    @GetMapping("/{uuid}")
     public ResponseEntity<Webcomponent> getOne(@PathVariable String uuid) {
         return new ResponseEntity<>(webcomponentConverter.dtoToRest(webcomponentService.findOne(uuid)), HttpStatus.OK);
     }
+
+    /*@GetMapping("/{uuid}/config")
+    public ResponseEntity<WebcomponentConfiguration> getConfiguration(@PathVariable String uuid) {
+        return new ResponseEntity<>(, HttpStatus.OK);
+    }*/
 }
