@@ -82,4 +82,13 @@
 		</plugins>
 	</build>
 
+	<profiles>
+        <profile>
+            <id>deploy</id>
+			<properties>
+				<custom.artifactId>ROOT</custom.artifactId>
+			</properties>
+        </profile>
+	</profiles>
+
 </project>

@@ -1,4 +1,6 @@
 pipeline {
+    agent any
+
     stages {
         stage('Backend - Test') {
             agent {
@@ -22,7 +24,7 @@ pipeline {
             }
             steps {
                 sh 'cd frontend && yarn install'
-                sh 'cd frontend && yarn run test'
+                sh 'cd frontend && yarn run test --passWithNoTests'
             }
         }
     }
