@@ -1,11 +1,11 @@
 <template>
   <div>
     <Searchbar
-      :searchTerm="searchTerm"
-      :selectedTags="getSearchTags"
-      v-on:term-updated="updateSearchTerm($event)"
-      v-on:term-submitted="redirectSearchTerm($event)"
-      v-on:tags-updated="redirectSearchTerm($event)"
+      :search-term="searchTerm"
+      :selected-tags="getSearchTags"
+      @term-updated="updateSearchTerm($event)"
+      @term-submitted="redirectSearchTerm($event)"
+      @tags-updated="redirectSearchTerm($event)"
     />
     <WcFiltered :tags="searchTags" :term="searchTerm" />
   </div>

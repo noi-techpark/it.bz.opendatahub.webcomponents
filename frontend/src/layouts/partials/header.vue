@@ -2,12 +2,12 @@
   <header class="border-bottom border-light">
     <div class="container container-extended pt-4 pb-2 pl-4 pr-4">
       <div class="d-flex justify-content-between">
-        <nuxt-link to="/">
+        <nuxt-link :to="localePath('index')">
           <img src="/logo.png" height="50px" />
         </nuxt-link>
         <div>
           <b-nav class="text-uppercase">
-            <b-nav-item to="/">home</b-nav-item>
+            <b-nav-item :to="localePath('index')">home</b-nav-item>
             <b-nav-item-dropdown
               id="my-nav-dropdown"
               text="about"
@@ -19,7 +19,9 @@
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item>NOI</b-dropdown-item>
             </b-nav-item-dropdown>
-            <b-nav-item>getting started</b-nav-item>
+            <b-nav-item :to="localePath('getting-started')"
+              >getting started</b-nav-item
+            >
             <b-nav-item>community</b-nav-item>
           </b-nav>
         </div>

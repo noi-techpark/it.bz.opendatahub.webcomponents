@@ -8,18 +8,18 @@
             <Paginator
               :current-page="currentPage.number"
               :total-pages="currentPage.totalPages"
-              v-on:page-select="toPage($event)"
+              @page-select="toPage($event)"
             />
           </div>
           <div class="d-flex flex-row">
             <div
               class="btn-circle arrow-left outline mr-2"
-              @click="previousPage()"
               :class="{ disabled: isFirst }"
+              @click="previousPage()"
             >
               <svg
-                version="1.1"
                 id="Ebene_1"
+                version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px"
@@ -43,12 +43,12 @@
             </div>
             <div
               class="btn-circle arrow-right outline"
-              @click="nextPage()"
               :class="{ disabled: isLast }"
+              @click="nextPage()"
             >
               <svg
-                version="1.1"
                 id="Ebene_1"
+                version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink"
                 x="0px"
@@ -73,7 +73,7 @@
           </div>
         </div>
 
-        <div id="widget-componentcards" class="row" v-if="hasContent">
+        <div v-if="hasContent" id="widget-componentcards" class="row">
           <div
             v-for="entry in currentPage.content"
             :key="entry.uuid"
@@ -128,7 +128,6 @@ export default {
       return this.currentPage.last;
     }
   },
-  fetch() {},
   watch: {
     term(newVal, oldVal) {
       if (this.timer) {
@@ -149,6 +148,7 @@ export default {
       console.log('Prop changed: ', newVal, ' | was: ', oldVal);
     }
   },
+  fetch() {},
   mounted() {
     this.loadPage(this.currentPageNumber, this.pageSize);
   },

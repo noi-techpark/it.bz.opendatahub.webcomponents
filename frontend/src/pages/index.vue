@@ -1,8 +1,8 @@
 <template>
   <div>
     <Searchbar
-      v-on:tags-updated="redirectSearchTerm($event)"
-      v-on:term-submitted="redirectSearchTerm($event)"
+      @tags-updated="redirectSearchTerm($event)"
+      @term-submitted="redirectSearchTerm($event)"
     ></Searchbar>
 
     <WcLatest></WcLatest>

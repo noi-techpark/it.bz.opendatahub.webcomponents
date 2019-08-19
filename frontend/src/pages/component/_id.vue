@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-5" v-if="component">
+  <div v-if="component" class="mb-5">
     <div class="bg-light">
       <div class="container p-5">
         <div class="row">

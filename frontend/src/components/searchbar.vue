@@ -7,6 +7,7 @@
             <div>
               <div
                 id="widget-tags"
+                v-b-toggle.tag-collapse
                 style="border-bottom: 2px solid #000;cursor: pointer;"
                 class="full-height d-flex justify-content-between font-large pb-2"
                 :class="{
@@ -15,7 +16,6 @@
                     userSelectedTags.length > 0 &&
                     userSelectedTags[0] !== 'any'
                 }"
-                v-b-toggle.tag-collapse
               >
                 <span>Filter by categories</span>
                 <span class="chevron bottom"></span>
@@ -34,9 +34,9 @@
                     @input="tagsUpdated"
                   >
                     <b-form-checkbox
-                      :value="tag"
                       v-for="tag in availableSearchTags"
                       :key="tag"
+                      :value="tag"
                       >{{ tag }}</b-form-checkbox
                     >
                   </b-form-checkbox-group>
@@ -54,12 +54,12 @@
               >
                 <div class="full-width pr-2 search-input">
                   <input
+                    v-model="searchTerm"
                     type="text"
                     placeholder="Search custom elements"
                     style="outline: none;"
                     class="p-0 font-large full-width"
                     :onkeyup="termUpdated()"
-                    v-model="searchTerm"
                   />
                 </div>
 

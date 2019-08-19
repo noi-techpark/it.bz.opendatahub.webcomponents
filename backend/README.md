@@ -20,12 +20,12 @@ on your local machine for development and testing purposes.
 
 To build the project, the following prerequisites must be met:
 
-- Java JDK 11 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
+- Java JDK 8 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
 - [Maven](https://maven.apache.org/) 3.x
 
 To run the project, the following prerequisites must be met:
 
-- Java JDK 11 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
+- Java JDK 8 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
 - Tomcat webserver OR local IDE (eg. [IntelliJ](https://www.jetbrains.com/))
 - PostgreSQL 9.6+
 
@@ -108,11 +108,29 @@ Build the project
 mvn clean package
 ```
 
+If you want to indivually build each module, you have to make sure that the common module is built first. eg:
+```bash
+cd common
+mvn clean install
+cd data-service
+mvn clean package
+```
+
 There are three services that need to be deployed.
 
 You will find the .war files to deploy in the 'target' folder of each service.
 
 For an initial setup deploy 'data-service' first to have the database populated with tables.
+
+## API & swagger
+
+> data-service
+
+data-service will expose the main api for webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
+
+> delivery-service
+
+delivery-service will expose api for retrieving the dist files needed to embed webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
 
 ## Docker environment
 
