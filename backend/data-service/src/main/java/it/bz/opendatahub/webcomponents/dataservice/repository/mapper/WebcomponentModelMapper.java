@@ -1,7 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.repository.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;

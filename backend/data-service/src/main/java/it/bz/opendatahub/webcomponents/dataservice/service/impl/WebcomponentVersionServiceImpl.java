@@ -1,7 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.service.impl;
 
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
-import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentVersionConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentVersionDto;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;

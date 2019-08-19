@@ -6,7 +6,6 @@ import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.common.data.model.id.WebcomponentVersionId;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.Manifest;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Commit;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.CommitEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;

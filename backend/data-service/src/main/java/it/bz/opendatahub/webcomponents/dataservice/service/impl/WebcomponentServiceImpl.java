@@ -1,10 +1,9 @@
 package it.bz.opendatahub.webcomponents.dataservice.service.impl;
 
-import it.bz.opendatahub.webcomponents.common.data.rest.Webcomponent;
+import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentConfiguration;
 import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;
-import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentSearchRepository;
@@ -16,8 +15,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
