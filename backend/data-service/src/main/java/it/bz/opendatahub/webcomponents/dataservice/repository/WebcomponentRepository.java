@@ -7,8 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface WebcomponentRepository extends JpaRepository<WebcomponentModel, String> {
-    @Query("SELECT w FROM WebcomponentModel w WHERE LOWER(w.title) LIKE ?1 OR LOWER(w.description) LIKE ?1")
-    Page<WebcomponentModel> findAllMatchingTerm(String term, Pageable pageRequest);
+    @Query("SELECT w FROM WebcomponentModel w WHERE LOWER(w.title) LIKE ?1 OR LOWER(w.description) LIKE ?1 ORDER BY w.title ASC")
+    Page<WebcomponentModel> findAllMatchingSearchTerm(String searchTerm, Pageable pageRequest);
 }

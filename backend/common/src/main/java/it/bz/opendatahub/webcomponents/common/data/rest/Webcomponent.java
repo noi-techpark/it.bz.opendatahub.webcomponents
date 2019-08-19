@@ -21,6 +21,10 @@ public class Webcomponent implements Rest {
 
     private String license;
 
+    private String repositoryUrl;
+
+    private String image;
+
     private List<Author> authors;
 
     private List<String> searchTags;
