@@ -24,13 +24,13 @@
                 id="tag-collapse"
                 style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
               >
-                <div class="d-flex flex-column">
+                <div class="">
                   <b-form-checkbox-group
                     v-if="isLoaded"
                     id="checkbox-group-2"
                     v-model="userSelectedTags"
                     name="flavour-2"
-                    class="text-capitalize"
+                    class="text-capitalize d-flex flex-column"
                     @input="tagsUpdated"
                   >
                     <b-form-checkbox
