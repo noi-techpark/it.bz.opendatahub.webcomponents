@@ -74,6 +74,13 @@ $ yarn generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
+## Adding pages
+
+You can easily add new pages by creating them in the /src/pages/ folder.
+[See Nuxt documentation](https://nuxtjs.org/guide/routing)
+
+See [Nuxt i18n](https://nuxt-community.github.io/nuxt-i18n/basic-usage.html) if you need translation.
+
 ## Deployment
 
 Chose one of the following ways depending on the 'mode' set during configuration
@@ -83,7 +90,7 @@ Chose one of the following ways depending on the 'mode' set during configuration
 ```
 # install dependencies and build the project
 $ yarn install
-$ yarn generate
+$ yarn build
 ```
 
 Copy the generated files in the 'dist' folder to your webroot.

@@ -14,7 +14,7 @@
 
       <div class="mt-4 text-muted">
         Write us an e-mail to
-        <a href="" class="text-secondary">info@opendatahub.bz.it</a>!
+        <a href="" class="text-secondary">help@opendatahub.bz.it</a>!
       </div>
     </div>
     <div class="bg-light">

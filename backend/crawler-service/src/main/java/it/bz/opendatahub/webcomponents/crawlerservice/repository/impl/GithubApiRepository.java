@@ -1,8 +1,10 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository.impl;
 
+import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Commit;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.File;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Ref;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Tag;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.CommitEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.exception.CrawlerException;
@@ -132,6 +134,36 @@ public class GithubApiRepository implements VcsApiRepository {
         }
         catch (IOException e) {
             throw new CrawlerException(e);
+        }
+
+        throw new CrawlerException();
+    }
+
+    @Override
+    public CommitEntry getMetadataForCommit(GitRemote gitRemote, String ref) {
+        RepositoryMetadata metadata = extractRepositoryMetadata(gitRemote);
+
+        try {
+            ResponseEntity<Commit> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/commits/" + ref, HttpMethod.GET, null, Commit.class);
+
+            if (res.hasBody()) {
+                Commit commit = res.getBody();
+
+                if (commit != null) {
+                    CommitEntry commitEntry = new CommitEntry();
+                    commitEntry.setSha(commit.getSha());
+                    commitEntry.setDate(commit.getCommit().getCommitter().getDate());
+
+                    return commitEntry;
+                }
+            }
+        }
+        catch (HttpStatusCodeException e) {
+            if(e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new NotFoundException(e);
+            }
+
+            throw new VcsException(e);
         }
 
         throw new CrawlerException();

@@ -7,6 +7,7 @@
             <div>
               <div
                 id="widget-tags"
+                v-b-toggle.tag-collapse
                 style="border-bottom: 2px solid #000;cursor: pointer;"
                 class="full-height d-flex justify-content-between font-large pb-2"
                 :class="{
@@ -15,7 +16,6 @@
                     userSelectedTags.length > 0 &&
                     userSelectedTags[0] !== 'any'
                 }"
-                v-b-toggle.tag-collapse
               >
                 <span>Filter by categories</span>
                 <span class="chevron bottom"></span>
@@ -24,19 +24,19 @@
                 id="tag-collapse"
                 style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
               >
-                <div class="d-flex flex-column">
+                <div class="">
                   <b-form-checkbox-group
-                    v-if="show"
+                    v-if="isLoaded"
                     id="checkbox-group-2"
                     v-model="userSelectedTags"
                     name="flavour-2"
-                    class="text-capitalize"
+                    class="text-capitalize d-flex flex-column"
                     @input="tagsUpdated"
                   >
                     <b-form-checkbox
-                      :value="tag"
-                      v-for="tag in searchTags"
+                      v-for="tag in availableSearchTags"
                       :key="tag"
+                      :value="tag"
                       >{{ tag }}</b-form-checkbox
                     >
                   </b-form-checkbox-group>
@@ -54,12 +54,12 @@
               >
                 <div class="full-width pr-2 search-input">
                   <input
+                    v-model="searchTerm"
                     type="text"
                     placeholder="Search custom elements"
                     style="outline: none;"
                     class="p-0 font-large full-width"
                     :onkeyup="termUpdated()"
-                    v-model="searchTerm"
                   />
                 </div>
 
@@ -109,30 +109,36 @@
 
 <script>
 export default {
-  props: ['selectedTags', 'term'],
+  props: {
+    selectedTags: {
+      default: () => {
+        return [];
+      },
+      type: Array
+    },
+    searchTerm: { default: '', type: String }
+  },
   data() {
     return {
-      searchTerm: this.term,
-      oldSearchTerm: this.term,
-      searchTags: [],
+      oldSearchTerm: this.searchTerm,
+      availableSearchTags: [],
       userSelectedTags: this.selectedTags,
-      show: false
+      isLoaded: false
     };
   },
   mounted() {
+    console.log(this.selectedTags, this.searchTerm);
+
     this.loadSearchTags();
-    this.$nextTick(() => {
-      // this.show = true;
-    });
   },
   methods: {
     async loadSearchTags() {
-      this.searchTags = await this.$api.searchtag.listAll();
-      this.show = true;
+      this.availableSearchTags = await this.$api.searchtag.listAll();
+      this.isLoaded = true;
     },
     tagsUpdated() {
       console.log('XXX');
-      this.$emit('term-updated', {
+      this.$emit('tags-updated', {
         tags: this.userSelectedTags,
         term: this.searchTerm
       });

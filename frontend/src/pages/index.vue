@@ -1,6 +1,9 @@
 <template>
   <div>
-    <WcSearch v-on:term-submitted="redirectSearchTerm($event)"></WcSearch>
+    <Searchbar
+      @tags-updated="redirectSearchTerm($event)"
+      @term-submitted="redirectSearchTerm($event)"
+    ></Searchbar>
 
     <WcLatest></WcLatest>
 
@@ -11,7 +14,12 @@
           <nuxt-link
             v-for="tag in searchTags"
             :key="tag"
-            :to="'/search/' + tag"
+            :to="
+              localePath({
+                name: 'search-tags-term',
+                params: { tags: tag }
+              })
+            "
             >{{ tag }}</nuxt-link
           >
         </div>
@@ -21,12 +29,12 @@
 </template>
 
 <script>
-import WcSearch from '~/components/wc-search.vue';
+import Searchbar from '~/components/searchbar.vue';
 import WcLatest from '~/components/wc-latest.vue';
 
 export default {
   components: {
-    WcSearch,
+    Searchbar,
     WcLatest
   },
   data() {
@@ -42,7 +50,27 @@ export default {
       this.searchTags = await this.$api.searchtag.listAll();
     },
     redirectSearchTerm(ev) {
-      this.$router.push('/search/any/' + ev);
+      console.log(ev);
+      let tags = ev.tags.join('|');
+      if (ev.tags.length === 0) {
+        tags = 'any';
+      }
+
+      if (ev.term !== null && ev.term !== '') {
+        this.$router.push(
+          this.localePath({
+            name: 'search-tags-term',
+            params: { tags, term: ev.term }
+          })
+        );
+      } else {
+        this.$router.push(
+          this.localePath({
+            name: 'search-tags',
+            params: { tags }
+          })
+        );
+      }
     }
   }
 };

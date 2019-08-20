@@ -1,7 +1,7 @@
 <template>
   <div
-    class="font-weight-bold d-flex justify-content-between"
     v-if="totalPages > 0"
+    class="font-weight-bold d-flex justify-content-between"
   >
     <span class="text-secondary mr-2">Page</span>
     <div v-if="0 < currentPage - 5" class="mr-2">
@@ -34,7 +34,10 @@
 
 <script>
 export default {
-  props: ['currentPage', 'totalPages'],
+  props: {
+    currentPage: { default: 0, type: Number },
+    totalPages: { default: 0, type: Number }
+  },
   computed: {
     pagesToDisplay() {
       const start = Math.max(0, this.currentPage - 5);

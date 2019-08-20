@@ -6,10 +6,13 @@ export default ($axios) => ({
   },
   findAllPaged(page, size, tags, term) {
     return $axios.$get(
-      `${resource}?page=${page}&size=${size}&tags=${tags}&term=${term}`
+      `${resource}?page=${page}&size=${size}&tags=${tags}&searchTerm=${term}`
     );
   },
   getOneById(id) {
-    return $axios.$get(`${resource}/detail/${id}`);
+    return $axios.$get(`${resource}/${id}`);
+  },
+  getConfigById(id) {
+    return $axios.$get(`${resource}/${id}/config`);
   }
 });
