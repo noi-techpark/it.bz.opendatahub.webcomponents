@@ -74,7 +74,10 @@
         </div>
       </div>
     </div>
-    <div class="container container-extended p-4">
+    <div
+      class="container container-extended p-4"
+      v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
+    >
       <div class="row">
         <div class="col-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
@@ -207,6 +210,13 @@ export default {
       return scripts;
     },
     initEventListener() {
+      if (
+        this.component &&
+        this.component.uuid === '226662ad-41c2-4e55-b11f-271d72d30bd4'
+      ) {
+        return;
+      }
+
       console.log(this.$refs.cfig);
       if (this.$refs.cfig === undefined) {
         setTimeout(this.initEventListener, 50);
