@@ -17,7 +17,15 @@ module.exports = {
         content: 'ODH Webcomponents'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      { src: 'https://unpkg.com/vue' },
+      {
+        src:
+          (process.env.CDN_URL || 'http://localhost:8080') +
+          '/dist/226662ad-41c2-4e55-b11f-271d72d30bd4/wcs-config-tool.min.js'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -28,7 +36,8 @@ module.exports = {
    */
   css: [
     '@/assets/styles/styles.scss',
-    'vue-loading-overlay/dist/vue-loading.css','@fortawesome/fontawesome-svg-core/styles.css',
+    'vue-loading-overlay/dist/vue-loading.css',
+    '@fortawesome/fontawesome-svg-core/styles.css'
   ],
 
   bootstrapVue: {
@@ -39,7 +48,7 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/api.js','~/plugins/fontawesome.js'],
+  plugins: ['~/plugins/api.js', '~/plugins/fontawesome.js'],
   /*
    ** Nuxt.js dev-modules
    */

@@ -13,4 +13,6 @@ public interface WebcomponentService {
     WebcomponentDto findOne(String uuid);
 
     WebcomponentConfiguration getConfiguration(String uuid);
+
+    byte[] getLogoImage(String uuid);
 }

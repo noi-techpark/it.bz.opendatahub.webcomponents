@@ -1,6 +1,6 @@
 <template>
   <nuxt-link
-    :to="localePath({ name: 'component-id', params: { id: entry.uuid } })"
+    :to="localePath({ name: 'webcomponent-id', params: { id: entry.uuid } })"
     style="color:inherit;text-decoration: inherit;"
   >
     <b-card

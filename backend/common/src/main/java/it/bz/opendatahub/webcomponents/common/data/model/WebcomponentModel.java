@@ -3,7 +3,9 @@ package it.bz.opendatahub.webcomponents.common.data.model;
 import it.bz.opendatahub.webcomponents.common.data.Model;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
+import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ConfigurationUserType;
+import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.DistUserType;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListAuthorUserType;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListStringUserType;
 import lombok.Getter;
@@ -19,6 +21,7 @@ import java.util.List;
 @TypeDef(name = ListAuthorUserType.NAME, typeClass = ListAuthorUserType.class)
 @TypeDef(name = ListStringUserType.NAME, typeClass = ListStringUserType.class)
 @TypeDef(name = ConfigurationUserType.NAME, typeClass = ConfigurationUserType.class)
+@TypeDef(name = DistUserType.NAME, typeClass = DistUserType.class)
 
 @Getter
 @Setter
@@ -46,8 +49,8 @@ public class WebcomponentModel implements Model {
     @Type(type = ListStringUserType.NAME)
     private List<String> searchTags;
 
-    @Type(type = ListStringUserType.NAME)
-    private List<String> dist;
+    @Type(type = DistUserType.NAME)
+    private Dist dist;
 
     @Type(type = ConfigurationUserType.NAME)
     private Configuration configuration;

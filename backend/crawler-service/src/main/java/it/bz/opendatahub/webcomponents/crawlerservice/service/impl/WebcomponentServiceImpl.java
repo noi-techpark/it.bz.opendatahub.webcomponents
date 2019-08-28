@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.common.data.model.id.WebcomponentVersionId;
+import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.Manifest;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.CommitEntry;
@@ -160,7 +161,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
 
         versions.sort((entryA, entryB) -> entryA.getName().compareToIgnoreCase(entryB.getName()));
 
-        return versions.get(0);
+        return versions.get(versions.size()-1);
     }
 
     private void updateVersion(GitRevision gitRevision, String originUuid) {
@@ -199,9 +200,13 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         extractAllFilesToDisk(gitRevision, Paths.get(originUuid, "dist", gitRevision.getTagEntry().getName()), manifest.getDist());
     }
 
-    private void extractAllFilesToDisk(GitRevision gitRevision, Path basepath, List<String> files) {
-        for(String file: files) {
-            ByteArrayOutputStream distFile = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), file);
+    private void extractAllFilesToDisk(GitRevision gitRevision, Path basepath, Dist dist) {
+        if(dist == null) {
+            return;
+        }
+
+        for(String file: dist.getFiles()) {
+            ByteArrayOutputStream distFile = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), dist.getBasePath()+"/"+ file);
 
             Path path = Paths.get(basepath.toString(), Paths.get(file).getFileName().toString());
 

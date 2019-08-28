@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.OriginSystemEn
 import it.bz.opendatahub.webcomponents.crawlerservice.exception.CrawlerException;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.SystemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,8 +25,15 @@ public class SystemRepositoryImpl implements SystemRepository {
 
     @Override
     public String getHeadOfMasterOrigin() {
+        String json;
+        try {
+            json = jdbcTemplate.queryForObject("SELECT data FROM system WHERE key='ORIGIN'", String.class);
+        }
+        catch (EmptyResultDataAccessException e) {
+            jdbcTemplate.execute("INSERT INTO system (key) VALUES ('ORIGIN') ON CONFLICT DO NOTHING;");
 
-        String json = jdbcTemplate.queryForObject("SELECT data FROM system WHERE key='ORIGIN'", String.class);
+            json = "{}";
+        }
 
         OriginSystemEntry entry = createOriginSystemEntryFromJson(json);
 

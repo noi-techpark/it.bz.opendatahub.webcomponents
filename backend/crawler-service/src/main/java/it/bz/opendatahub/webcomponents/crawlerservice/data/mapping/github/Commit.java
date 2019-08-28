@@ -30,6 +30,8 @@ public class Commit {
         private PersonEntry committer;
 
         private String message;
+
+        private Tree tree;
     }
 
     @Getter
@@ -40,5 +42,13 @@ public class Commit {
         private String email;
 
         private Date date;
+    }
+
+    @Getter
+    @Setter
+    public static class Tree {
+        private String url;
+
+        private String sha;
     }
 }

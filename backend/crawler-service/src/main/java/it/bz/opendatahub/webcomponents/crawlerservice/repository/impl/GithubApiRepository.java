@@ -1,9 +1,6 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository.impl;
 
-import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Commit;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.File;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Ref;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.Tag;
+import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.github.*;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.CommitEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
@@ -95,25 +92,60 @@ public class GithubApiRepository implements VcsApiRepository {
         throw new CrawlerException();
     }
 
-    @Override
+    /*@Override
     public ByteArrayOutputStream getFileContents(GitRemote gitRemote, String remotePathToFile) {
         return getFileContents(gitRemote, null, remotePathToFile);
+    }*/
+
+    private Tree getTree(GitRemote gitRemote, String treeHash) {
+        RepositoryMetadata metadata = extractRepositoryMetadata(gitRemote);
+
+        try {
+        ResponseEntity<Tree> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/git/trees/" + treeHash + "?recursive=1", HttpMethod.GET, null, Tree.class);
+            if (res.hasBody()) {
+                return res.getBody();
+            }
+        }
+        catch (HttpStatusCodeException e) {
+            if(e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new NotFoundException(e);
+            }
+
+            throw new VcsException(e);
+        }
+
+        throw new CrawlerException();
     }
 
     @Override
     public ByteArrayOutputStream getFileContents(GitRemote gitRemote, String revisionHash, String remotePathToFile) {
         RepositoryMetadata metadata = extractRepositoryMetadata(gitRemote);
 
-        String qs = "";
-        if(revisionHash != null && !revisionHash.isEmpty()) {
-            qs = "?ref="+revisionHash;
+        CommitEntry commit = getMetadataForCommit(gitRemote, revisionHash);
+
+        Tree tree = getTree(gitRemote, commit.getTreeSha());
+
+        String fileHash = null;
+        for(Tree.TreeEntry entry: tree.getTree()) {
+            if(remotePathToFile.equals(entry.getPath())) {
+                fileHash = entry.getSha();
+            }
         }
 
+        if(fileHash == null) {
+            throw new NotFoundException();
+        }
+
+        /*String qs = "";
+        if(revisionHash != null && !revisionHash.isEmpty()) {
+            qs = "?ref="+revisionHash;
+        }*/
+
         try {
-            ResponseEntity<File> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/contents/" + remotePathToFile + qs, HttpMethod.GET, null, File.class);
+            ResponseEntity<Blob> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/git/blobs/" + fileHash, HttpMethod.GET, null, Blob.class);
 
             if (res.hasBody()) {
-                File file = res.getBody();
+                Blob file = res.getBody();
 
                 if (file != null) {
                     byte[] data = Base64.getDecoder().decode(file.getContent().replace("\n", ""));
@@ -153,6 +185,7 @@ public class GithubApiRepository implements VcsApiRepository {
                     CommitEntry commitEntry = new CommitEntry();
                     commitEntry.setSha(commit.getSha());
                     commitEntry.setDate(commit.getCommit().getCommitter().getDate());
+                    commitEntry.setTreeSha(commit.getCommit().getTree().getSha());
 
                     return commitEntry;
                 }

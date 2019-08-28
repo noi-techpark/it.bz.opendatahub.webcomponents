@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
+import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.IOException;
@@ -29,7 +30,13 @@ public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
         try {
             model.setAuthors(Arrays.asList(objectMapper.readValue(resultSet.getBytes("authors"), Author[].class)));
             model.setSearchTags(Arrays.asList(objectMapper.readValue(resultSet.getBytes("search_tags"), String[].class)));
-            model.setDist(Arrays.asList(objectMapper.readValue(resultSet.getBytes("dist"), String[].class)));
+
+            if(resultSet.getBytes("dist") != null) {
+                model.setDist(objectMapper.readValue(resultSet.getBytes("dist"), Dist.class));
+            }
+            else {
+                model.setDist(new Dist());
+            }
             model.setConfiguration(objectMapper.readValue(resultSet.getBytes("configuration"), Configuration.class));
         }
         catch (IOException e) {
