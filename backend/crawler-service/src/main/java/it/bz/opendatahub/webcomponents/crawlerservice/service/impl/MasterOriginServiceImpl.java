@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -72,7 +73,20 @@ public class MasterOriginServiceImpl implements MasterOriginService {
 
         processOrigins(origins);
 
+        markAllNoLongerInListAsDeleted(origins);
+
         systemRepository.setHeadOfMasterOrigin(headRevision);
+    }
+
+    private void markAllNoLongerInListAsDeleted(List<Origin> origins) {
+        if(!origins.isEmpty()) {
+            List<String> existingIds = new ArrayList<>();
+            for(Origin origin : origins) {
+                existingIds.add(origin.getUuid());
+            }
+
+            originRepository.markAllNotInListAsDeleted(existingIds);
+        }
     }
 
     private List<Origin> readOriginsFromMaster(String headRevision) {

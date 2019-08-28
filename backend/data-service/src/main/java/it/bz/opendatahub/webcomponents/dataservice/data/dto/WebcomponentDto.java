@@ -30,7 +30,5 @@ public class WebcomponentDto implements Dto {
 
     private List<String> searchTags;
 
-    private Dist dist;
-
-    private Configuration configuration;
+    private Boolean deleted;
 }

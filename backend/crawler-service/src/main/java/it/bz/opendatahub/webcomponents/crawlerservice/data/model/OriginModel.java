@@ -19,4 +19,6 @@ public class OriginModel implements Model {
     private String url;
 
     private String api;
+
+    private Boolean deleted;
 }

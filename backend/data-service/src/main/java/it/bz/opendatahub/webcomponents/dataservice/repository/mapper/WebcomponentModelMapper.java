@@ -31,13 +31,13 @@ public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
             model.setAuthors(Arrays.asList(objectMapper.readValue(resultSet.getBytes("authors"), Author[].class)));
             model.setSearchTags(Arrays.asList(objectMapper.readValue(resultSet.getBytes("search_tags"), String[].class)));
 
-            if(resultSet.getBytes("dist") != null) {
+            /*if(resultSet.getBytes("dist") != null) {
                 model.setDist(objectMapper.readValue(resultSet.getBytes("dist"), Dist.class));
             }
             else {
                 model.setDist(new Dist());
             }
-            model.setConfiguration(objectMapper.readValue(resultSet.getBytes("configuration"), Configuration.class));
+            model.setConfiguration(objectMapper.readValue(resultSet.getBytes("configuration"), Configuration.class));*/
         }
         catch (IOException e) {
             throw new RuntimeException(e);

@@ -18,8 +18,8 @@ public class WebcomponentFactory {
         newEntry.setLicense(manifest.getLicense());
         newEntry.setAuthors(manifest.getAuthors());
         newEntry.setSearchTags(manifest.getSearchTags());
-        newEntry.setDist(manifest.getDist());
-        newEntry.setConfiguration(manifest.getConfiguration());
+
+        newEntry.setDeleted(false);
 
         return newEntry;
     }

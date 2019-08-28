@@ -20,8 +20,6 @@ import java.util.List;
 
 @TypeDef(name = ListAuthorUserType.NAME, typeClass = ListAuthorUserType.class)
 @TypeDef(name = ListStringUserType.NAME, typeClass = ListStringUserType.class)
-@TypeDef(name = ConfigurationUserType.NAME, typeClass = ConfigurationUserType.class)
-@TypeDef(name = DistUserType.NAME, typeClass = DistUserType.class)
 
 @Getter
 @Setter
@@ -49,9 +47,5 @@ public class WebcomponentModel implements Model {
     @Type(type = ListStringUserType.NAME)
     private List<String> searchTags;
 
-    @Type(type = DistUserType.NAME)
-    private Dist dist;
-
-    @Type(type = ConfigurationUserType.NAME)
-    private Configuration configuration;
+    private Boolean deleted;
 }
