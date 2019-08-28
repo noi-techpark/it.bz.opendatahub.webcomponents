@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'cd frontend && yarn run generate'
+                sh 'cd frontend && yarn run build'
             }
         }
         stage('Upload') {
