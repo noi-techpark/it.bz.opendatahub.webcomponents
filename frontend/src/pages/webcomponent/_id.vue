@@ -74,7 +74,10 @@
         </div>
       </div>
     </div>
-    <div class="container container-extended p-4">
+    <div
+      class="container container-extended p-4"
+      v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
+    >
       <div class="row">
         <div class="col-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
@@ -89,9 +92,15 @@
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              <b-checkbox class="d-inline-block"></b-checkbox> auto update
-              <font-awesome-icon :icon="['fas', 'redo']" class="ml-4" /> update
-              preview
+              <b-checkbox
+                class="d-inline-block"
+                v-model="autoUpdate"
+              ></b-checkbox>
+              auto update
+              <span style="cursor: pointer;" @click="updatePreview"
+                ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
+                update preview</span
+              >
             </div>
           </b-card>
         </div>
@@ -99,8 +108,10 @@
         <div class="col-4">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card id="widget-config" class="full-height">
-            <b-card-text @click="tt()">
-              Config...
+            <b-card-text>
+              <wcs-config-tool ref="cfig">{{
+                config.configuration
+              }}</wcs-config-tool>
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
@@ -116,11 +127,10 @@
             <b-card-text>
               <textarea
                 id="code-snippet"
+                v-model="snipp"
                 class="full-width full-height"
                 style="border: 0; background-color: inherit;"
-              >
-Code</textarea
-              >
+              ></textarea>
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
@@ -139,15 +149,17 @@ Code</textarea
 export default {
   data() {
     return {
+      snipp: '',
+      show: false,
       component: null,
-      test:
-        '<map-widget domain="mobility" station-types="CreativeIndustry" ></map-widget><script src="http://localhost:8080/dist/c115c741-e236-4fb9-9420-5a7dfffba933/map_widget.min.js" />'
+      config: { configuration: { tagName: '' } },
+      autoUpdate: true
     };
   },
   mounted() {
     this.loadData();
-
-    setTimeout(this.tt2, 500);
+    this.show = true;
+    this.initEventListener();
   },
 
   methods: {
@@ -155,36 +167,62 @@ export default {
       this.component = await this.$api.webcomponent.getOneById(
         this.$route.params.id
       );
+
+      this.config = await this.$api.webcomponent.getConfigById(
+        this.$route.params.id
+      );
+    },
+    updateSnippet(data) {
+      console.log(data);
+      this.snipp = data.detail[0] + '\n' + this.getDistIncludes().join('\n');
+
+      if (this.autoUpdate) {
+        this.updatePreview();
+      }
     },
     copySnippetToClipboard() {
-      /* Get the text field */
       const copyText = document.getElementById('code-snippet');
 
-      /* Select the text field */
       copyText.select();
 
-      /* Copy the text inside the text field */
       document.execCommand('copy');
-
-      /* Alert the copied text */
-      // alert('Copied the text: ' + copyText.value);
     },
-    tt2() {
-      document
-        .getElementById('tframe')
-        .contentDocument.write(
-          '<map-widget domain="tourism"></map-widget><script src="http://localhost:8080/dist/c115c741-e236-4fb9-9420-5a7dfffba933/map_widget.min.js"></scr' +
-            'ipt>'
-        );
-    },
-    tt() {
+    updatePreview() {
       document.getElementById('tframe').contentDocument.close();
-      document
-        .getElementById('tframe')
-        .contentDocument.write(
-          '<map-widget domain="mobility"></map-widget><script src="http://localhost:8080/dist/c115c741-e236-4fb9-9420-5a7dfffba933/map_widget.min.js"></scr' +
+      document.getElementById('tframe').contentDocument.write(this.snipp);
+    },
+    getDistIncludes() {
+      const scripts = [];
+
+      this.config.dist.files.forEach((item) => {
+        scripts.push(
+          '<script src="' +
+            this.config.deliveryBaseUrl +
+            '/' +
+            this.config.dist.basePath +
+            '/' +
+            item +
+            '"></scr' +
             'ipt>'
         );
+      });
+
+      return scripts;
+    },
+    initEventListener() {
+      if (
+        this.component &&
+        this.component.uuid === '226662ad-41c2-4e55-b11f-271d72d30bd4'
+      ) {
+        return;
+      }
+
+      console.log(this.$refs.cfig);
+      if (this.$refs.cfig === undefined) {
+        setTimeout(this.initEventListener, 50);
+        return;
+      }
+      this.$refs.cfig.addEventListener('snippet', this.updateSnippet);
     }
   }
 };

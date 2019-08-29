@@ -13,6 +13,8 @@ public class OriginModelFactory {
         originModel.setApi(mappedOrigin.getApi());
         originModel.setUrl(mappedOrigin.getUrl());
 
+        originModel.setDeleted(false);
+
         return originModel;
     }
 }

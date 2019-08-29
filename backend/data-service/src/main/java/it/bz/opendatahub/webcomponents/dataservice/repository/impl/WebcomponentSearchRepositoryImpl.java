@@ -26,13 +26,13 @@ public class WebcomponentSearchRepositoryImpl implements WebcomponentSearchRepos
 
     private static final String SEARCH_QUERY =
             "SELECT w.* FROM webcomponent AS w WHERE " +
-                    "(LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm) " +
-                    "AND w.search_tags ??| array[ :searchTags ]::varchar[] " +
+                    "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm)) " +
+                    "AND w.search_tags ??| array[ :searchTags ]::varchar[] AND w.deleted=false " +
                     "ORDER by w.title ASC " +
                     "LIMIT :pagesSize OFFSET :pageOffset";
 
     private static final String COUNT_QUERY = "SELECT count(*) FROM webcomponent AS w WHERE " +
-            "(LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm) " +
+            "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm)) AND w.deleted=false " +
             "AND w.search_tags ??| array[ :searchTags ]::varchar[]";
 
     public Page<WebcomponentModel> findBySearchTermAndTags(String searchTerm, List<String> tags, Pageable pageable) {

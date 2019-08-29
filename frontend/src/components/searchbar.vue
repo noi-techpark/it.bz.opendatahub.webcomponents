@@ -56,7 +56,7 @@
                   <input
                     v-model="searchTerm"
                     type="text"
-                    placeholder="Search custom elements"
+                    placeholder="Search all web components"
                     style="outline: none;"
                     class="p-0 font-large full-width"
                     :onkeyup="termUpdated()"

@@ -12,6 +12,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
 
         BASE_URL = "https://api.webcomponents.opendatahub.testingmachine.eu"
+        CDN_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu"
     }
 
     stages {

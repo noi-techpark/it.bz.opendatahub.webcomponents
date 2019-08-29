@@ -2,12 +2,15 @@ package it.bz.opendatahub.webcomponents.dataservice.service.impl;
 
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentConfiguration;
+import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;
+import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentVersionDto;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentSearchRepository;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentService;
+import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,33 +27,25 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     private WebcomponentRepository webcomponentRepository;
     private WebcomponentConverter webcomponentConverter;
 
+    private WebcomponentVersionService webcomponentVersionService;
+
     @Value("${application.deliveryBaseUrl}")
     private String deliveryBaseUrl;
 
     @Autowired
     public WebcomponentServiceImpl(WebcomponentSearchRepository webcomponentSearchRepository,
                                    WebcomponentRepository webcomponentRepository,
-                                   WebcomponentConverter webcomponentConverter) {
+                                   WebcomponentConverter webcomponentConverter,
+                                   WebcomponentVersionService webcomponentVersionService) {
 
         this.webcomponentSearchRepository = webcomponentSearchRepository;
         this.webcomponentRepository = webcomponentRepository;
         this.webcomponentConverter = webcomponentConverter;
+        this.webcomponentVersionService = webcomponentVersionService;
     }
 
     @Override
     public Page<WebcomponentDto> listAll(Pageable pageRequest, List<String> tags, String searchTerm) {
-        /*Page<WebcomponentModel> result = webcomponentRepository.findAllMatchingSearchTerm("%"+term.toLowerCase()+"%", pageRequest);
-
-        List<WebcomponentModel> webcomponents = new ArrayList<>(result.getContent());
-
-        int i = webcomponents.size();
-        if(!tags.isEmpty()) {
-            webcomponents.removeIf(w -> Collections.disjoint(w.getSearchTags(), tags));
-        }
-        i = i - webcomponents.size();
-
-        return new PageImpl<>(webcomponentConverter.modelToDto(webcomponents), pageRequest, result.getTotalElements()-Math.abs(i));*/
-
         Page<WebcomponentModel> result;
         if(!tags.isEmpty()) {
             result = webcomponentSearchRepository.findBySearchTermAndTags(searchTerm, tags, pageRequest);
@@ -77,12 +72,22 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     public WebcomponentConfiguration getConfiguration(String uuid) {
         WebcomponentDto webcomponent = findOne(uuid);
 
+        WebcomponentVersionDto latestVersion = webcomponentVersionService.getLatestVersionOfWebcomponent(uuid);
+
         WebcomponentConfiguration configuration = new WebcomponentConfiguration();
         configuration.setWebcomponentUuid(uuid);
-        configuration.setConfiguration(webcomponent.getConfiguration());
+        configuration.setConfiguration(latestVersion.getConfiguration());
         configuration.setDeliveryBaseUrl(deliveryBaseUrl);
-        configuration.setDist(webcomponent.getDist());
+
+        configuration.setDist(Dist.of(webcomponent.getUuid(), latestVersion.getDist().getFiles()));
 
         return configuration;
+    }
+
+    @Override
+    public byte[] getLogoImage(String uuid) {
+
+//TODO
+        return new byte[0];
     }
 }

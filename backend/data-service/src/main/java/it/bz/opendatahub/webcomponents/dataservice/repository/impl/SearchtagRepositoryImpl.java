@@ -12,12 +12,12 @@ import java.util.Optional;
 @Repository
 public class SearchtagRepositoryImpl implements SearchtagRepository {
     private static final String QUERY_USED_SEARCHTAGS = "SELECT DISTINCT trim('\"' FROM b::text) FROM\n" +
-            "  (SELECT JSONB_ARRAY_ELEMENTS(search_tags) as b FROM webcomponent) AS foo;";
+            "  (SELECT JSONB_ARRAY_ELEMENTS(search_tags) as b FROM webcomponent WHERE deleted=false) AS foo;";
 
     private static final String QUERY_ALL_SEARCHTAGS = QUERY_USED_SEARCHTAGS;
 
     private static final String QUERY_BY_NAME = "SELECT trim('\"' FROM b::text) FROM\n" +
-            "  (SELECT JSONB_ARRAY_ELEMENTS(search_tags) as b FROM webcomponent) AS foo WHERE b='\"?\"' LIMIT 1;";
+            "  (SELECT JSONB_ARRAY_ELEMENTS(search_tags) as b FROM webcomponent WHERE deleted=false) AS foo WHERE b='\"?\"' LIMIT 1;";
 
     private JdbcTemplate jdbcTemplate;
 

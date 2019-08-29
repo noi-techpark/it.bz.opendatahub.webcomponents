@@ -24,14 +24,16 @@ public class OriginUpdateSchedule {
     public void updateWebcomponents() {
         log.info("updating origins");
 
-        List<OriginModel> originList = originService.listAllOrigins();
+        List<OriginModel> originList = originService.listAllOrigins(false);
 
         for(OriginModel origin : originList) {
             log.debug("updating: {}", origin.getUuid());
 
             originService.updateOrigin(origin);
         }
-        log.info("origins updated");
 
+        originService.cascadeDeletedOrigins();
+
+        log.info("origins updated");
     }
 }

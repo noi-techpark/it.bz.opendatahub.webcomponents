@@ -11,4 +11,6 @@ public class CommitEntry {
     private String sha;
 
     private Date date;
+
+    private String treeSha;
 }

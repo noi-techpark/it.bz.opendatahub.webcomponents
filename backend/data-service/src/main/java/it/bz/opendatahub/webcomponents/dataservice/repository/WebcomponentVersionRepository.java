@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface WebcomponentVersionRepository extends JpaRepository<WebcomponentVersionModel, WebcomponentVersionId> {
-    @Query(value = "SELECT * FROM webcomponent_version AS v WHERE v.webcomponent_uuid=?1 ORDER BY v.version_tag DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM webcomponent_version AS v WHERE v.webcomponent_uuid=?1 AND v.deleted=false ORDER BY v.version_tag DESC LIMIT 1", nativeQuery = true)
     Optional<WebcomponentVersionModel> findLatestVersionForWebcomponent(String webcomponentId);
 
-    @Query("SELECT v FROM WebcomponentVersionModel v WHERE v.webcomponentUuid=?1 ORDER BY v.versionTag DESC")
+    @Query("SELECT v FROM WebcomponentVersionModel v WHERE v.webcomponentUuid=?1 AND v.deleted=false ORDER BY v.versionTag DESC")
     List<WebcomponentVersionModel> findAllVersionsForWebcomponent(String webcomponentId);
 }

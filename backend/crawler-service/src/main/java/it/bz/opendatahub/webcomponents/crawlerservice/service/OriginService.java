@@ -7,5 +7,9 @@ import java.util.List;
 public interface OriginService {
     List<OriginModel> listAllOrigins();
 
+    List<OriginModel> listAllOrigins(boolean deleted);
+
     void updateOrigin(OriginModel origin);
+
+    void cascadeDeletedOrigins();
 }

@@ -3,5 +3,7 @@ package it.bz.opendatahub.webcomponents.crawlerservice.service;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 
 public interface WebcomponentService {
-    void updateWebcomponentFromOrigin(OriginModel origin);
+    void updateWebcomponent(String uuid);
+
+    void markDeletedWhereOriginIsDeleted();
 }
