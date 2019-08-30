@@ -28,7 +28,7 @@
           </a>
           <nuxt-link
             v-else
-            to="#"
+            :to="localePath({ name: 'search-tags', params: { tags: 'any' } })"
             class="text-secondary d-flex flex-column text-decoration-none"
           >
             <span
@@ -67,12 +67,12 @@ export default {
         this.pageSize
       );
 
-      this.maxPage = 1; // Math.min(1, page.totalPages - 1);
+      this.maxPage = Math.min(1, page.totalPages - 1);
 
       this.allList = page.content;
     },
     async loadMore() {
-      // this.currentPage++;
+      this.currentPage++;
 
       const page = await this.$api.webcomponent.listAllPaged(
         ++this.currentPage,

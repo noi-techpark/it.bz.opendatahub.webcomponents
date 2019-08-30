@@ -16,7 +16,7 @@
             :key="tag"
             :to="
               localePath({
-                name: 'search-tags-term',
+                name: 'search-tags',
                 params: { tags: tag }
               })
             "
