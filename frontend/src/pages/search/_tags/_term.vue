@@ -7,7 +7,7 @@
       @term-submitted="redirectSearchTerm($event)"
       @tags-updated="redirectSearchTerm($event)"
     />
-    <WcFiltered :tags="searchTags" :term="searchTerm" />
+    <WcFiltered :tags="searchTags" :term="searchTerm" :return-to="returnTo" />
   </div>
 </template>
 
@@ -30,6 +30,26 @@ export default {
     getSearchTags() {
       return this.searchTags.filter((entry) => {
         return entry !== 'any';
+      });
+    },
+    returnTo() {
+      console.log('x', this.$route.params.tags, this.$route.params.term);
+
+      if (!this.$route.params.term) {
+        return this.localePath({
+          name: 'search-tags',
+          params: {
+            tags: this.$route.params.tags
+          }
+        });
+      }
+
+      return this.localePath({
+        name: 'search-tags-term',
+        params: {
+          tags: this.$route.params.tags,
+          term: this.$route.params.term
+        }
       });
     }
   },

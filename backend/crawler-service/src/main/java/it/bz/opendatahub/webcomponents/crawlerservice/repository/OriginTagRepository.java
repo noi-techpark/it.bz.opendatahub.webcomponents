@@ -1,9 +1,7 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.repository;
 
-import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginTagModel;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.model.id.OriginTagId;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

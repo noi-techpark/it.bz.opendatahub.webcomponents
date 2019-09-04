@@ -4,7 +4,7 @@
       <div class="container container-extended p-4 pb-0">
         <div class="row">
           <div class="col-6">
-            <div>
+            <div class="">
               <div
                 id="widget-tags"
                 v-b-toggle.tag-collapse
@@ -24,7 +24,7 @@
                 id="tag-collapse"
                 style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
               >
-                <div class="">
+                <div class="m-4">
                   <b-form-checkbox-group
                     v-if="isLoaded"
                     id="checkbox-group-2"
@@ -55,6 +55,7 @@
                 <div class="full-width pr-2 search-input">
                   <input
                     v-model="searchTerm"
+                    ref="searchTermInput"
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"
@@ -130,8 +131,13 @@ export default {
     console.log(this.selectedTags, this.searchTerm);
 
     this.loadSearchTags();
+
+    this.focusInput();
   },
   methods: {
+    focusInput() {
+      this.$refs.searchTermInput.focus();
+    },
     async loadSearchTags() {
       this.availableSearchTags = await this.$api.searchtag.listAll();
       this.isLoaded = true;
@@ -171,7 +177,7 @@ export default {
 <style>
 #tag-collapse {
   background-color: white;
-  padding: 1.5rem;
+  /*padding: 1.5rem;*/
   width: 100%;
   font-size: large;
   z-index: 100;

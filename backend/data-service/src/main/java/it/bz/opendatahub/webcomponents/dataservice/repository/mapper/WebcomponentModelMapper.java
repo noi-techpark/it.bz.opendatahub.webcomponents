@@ -3,8 +3,6 @@ package it.bz.opendatahub.webcomponents.dataservice.repository.mapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
-import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
-import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.io.IOException;

@@ -79,7 +79,7 @@
             :key="entry.uuid"
             class="col-sm-6 col-md-4 col-lg-3 mb-4"
           >
-            <WebcomponentEntryCard :entry="entry" />
+            <WebcomponentEntryCard :entry="entry" :return-to="returnTo" />
           </div>
         </div>
         <div v-else class="container text-center h1">
@@ -106,7 +106,11 @@ export default {
       },
       type: Array
     },
-    term: { default: '', type: String }
+    term: { default: '', type: String },
+    returnTo: {
+      default: null,
+      type: String
+    }
   },
   data() {
     return {

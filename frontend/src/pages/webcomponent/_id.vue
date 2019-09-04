@@ -4,12 +4,12 @@
       <div class="container p-5">
         <div class="row">
           <div class="col-1">
-            <div
+            <nuxt-link
+              :to="returnLink"
               class="btn-circle arrow-left filled-dark"
-              @click="$router.push('/')"
             >
               <img src="/icons/ic_arrow.svg" />
-            </div>
+            </nuxt-link>
           </div>
           <div class="col-8">
             <h1>#{{ component.title }}</h1>
@@ -75,8 +75,8 @@
       </div>
     </div>
     <div
-      class="container container-extended p-4"
       v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
+      class="container container-extended p-4"
     >
       <div class="row">
         <div class="col-8">
@@ -93,8 +93,8 @@
 
             <div slot="footer" class="text-right text-uppercase">
               <b-checkbox
-                class="d-inline-block"
                 v-model="autoUpdate"
+                class="d-inline-block"
               ></b-checkbox>
               auto update
               <span style="cursor: pointer;" @click="updatePreview"
@@ -114,9 +114,9 @@
               }}</wcs-config-tool>
             </b-card-text>
 
-            <div slot="footer" class="text-right text-uppercase">
+            <!--<div slot="footer" class="text-right text-uppercase">
               <font-awesome-icon :icon="['fas', 'check']" /> apply
-            </div>
+            </div>-->
           </b-card>
         </div>
       </div>
@@ -155,6 +155,15 @@ export default {
       config: { configuration: { tagName: '' } },
       autoUpdate: true
     };
+  },
+  computed: {
+    returnLink() {
+      if (this.$route.query.from) {
+        return this.$route.query.from;
+      }
+
+      return this.localePath('index');
+    }
   },
   mounted() {
     this.loadData();
@@ -249,5 +258,10 @@ export default {
   .card-footer {
     background-color: inherit;
   }
+}
+
+.d-table {
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
 }
 </style>

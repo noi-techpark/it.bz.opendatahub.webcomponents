@@ -20,6 +20,8 @@ pipeline {
         GITHUB_TOKEN = credentials('webcompstore-test-github-token')
         ORIGIN_URL = "https://github.com/uhufa/odh-web-components-store-demo-origins.git"
         ORIGIN_BRANCH = "master"
+
+        DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
     }
 
     stages {
@@ -34,6 +36,7 @@ pipeline {
                 sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/data-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/data-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/data-service/src/main/resources/application.properties'
+                sh 'sed -i -e "s%\\(application.deliveryBaseUrl\\s*=\\).*\\$%\\1${DELIVERY_BASE_URL}%" backend/delivery-service/src/main/resources/application.properties'
                 
                 sh 'sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/crawler-service/src/main/resources/application.properties'
                 sh 'sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/crawler-service/src/main/resources/application.properties'

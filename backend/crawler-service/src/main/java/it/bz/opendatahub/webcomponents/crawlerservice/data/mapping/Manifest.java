@@ -5,7 +5,6 @@ import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
 import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,7 @@
     <Searchbar
       @tags-updated="redirectSearchTerm($event)"
       @term-submitted="redirectSearchTerm($event)"
+      @term-updated="redirectSearchTerm($event)"
     ></Searchbar>
 
     <WcLatest></WcLatest>
@@ -16,7 +17,7 @@
             :key="tag"
             :to="
               localePath({
-                name: 'search-tags-term',
+                name: 'search-tags',
                 params: { tags: tag }
               })
             "

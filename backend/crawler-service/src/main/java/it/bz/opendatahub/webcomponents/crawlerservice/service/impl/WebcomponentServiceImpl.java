@@ -4,35 +4,21 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
-import it.bz.opendatahub.webcomponents.common.data.model.id.WebcomponentVersionId;
-import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.crawlerservice.data.mapping.Manifest;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.model.OriginModel;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.CommitEntry;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRemote;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.GitRevision;
-import it.bz.opendatahub.webcomponents.crawlerservice.data.struct.TagEntry;
 import it.bz.opendatahub.webcomponents.crawlerservice.exception.CrawlerException;
 import it.bz.opendatahub.webcomponents.crawlerservice.exception.NotFoundException;
 import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentFactory;
-import it.bz.opendatahub.webcomponents.crawlerservice.factory.WebcomponentVersionFactory;
-import it.bz.opendatahub.webcomponents.crawlerservice.repository.VcsApiRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentRepository;
-import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentVersionRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentService;
 import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentVersionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Optional;
 
 @Slf4j
