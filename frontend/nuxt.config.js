@@ -22,8 +22,8 @@ module.exports = {
       { src: 'https://unpkg.com/vue' },
       {
         src:
-          (process.env.CDN_URL || 'http://localhost:8080/dist') +
-          '/226662ad-41c2-4e55-b11f-271d72d30bd4/wcs-config-tool.min.js'
+          (process.env.CDN_URL || 'http://localhost:8080') +
+          '/dist/226662ad-41c2-4e55-b11f-271d72d30bd4/wcs-config-tool.min.js'
       }
     ]
   },
