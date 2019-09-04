@@ -55,6 +55,7 @@
                 <div class="full-width pr-2 search-input">
                   <input
                     v-model="searchTerm"
+                    ref="searchTermInput"
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"
@@ -130,8 +131,13 @@ export default {
     console.log(this.selectedTags, this.searchTerm);
 
     this.loadSearchTags();
+
+    this.focusInput();
   },
   methods: {
+    focusInput() {
+      this.$refs.searchTermInput.focus();
+    },
     async loadSearchTags() {
       this.availableSearchTags = await this.$api.searchtag.listAll();
       this.isLoaded = true;

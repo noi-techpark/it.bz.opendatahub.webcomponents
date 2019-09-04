@@ -1,8 +1,5 @@
 <template>
-  <nuxt-link
-    :to="localePath({ name: 'webcomponent-id', params: { id: entry.uuid } })"
-    style="color:inherit;text-decoration: inherit;"
-  >
+  <nuxt-link :to="returnPath" style="color:inherit;text-decoration: inherit;">
     <b-card
       img-src="https://picsum.photos/600/300/?image=25"
       img-alt="Image"
@@ -64,6 +61,26 @@ export default {
     entry: {
       default: null,
       type: Object
+    },
+    returnTo: {
+      default: null,
+      type: String
+    }
+  },
+  computed: {
+    returnPath() {
+      if (this.returnTo === null) {
+        return this.localePath({
+          name: 'webcomponent-id',
+          params: { id: this.entry.uuid }
+        });
+      }
+
+      return this.localePath({
+        name: 'webcomponent-id',
+        params: { id: this.entry.uuid },
+        query: { from: this.returnTo }
+      });
     }
   }
 };

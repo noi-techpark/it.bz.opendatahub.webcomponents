@@ -3,6 +3,7 @@
     <Searchbar
       @tags-updated="redirectSearchTerm($event)"
       @term-submitted="redirectSearchTerm($event)"
+      @term-updated="redirectSearchTerm($event)"
     ></Searchbar>
 
     <WcLatest></WcLatest>
