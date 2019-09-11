@@ -59,10 +59,10 @@ pipeline {
         }
         stage('Deploy') {
             steps{
-                sh 'cd backend/common && mvn install -B -U'
-                sh 'cd backend/data-service && mvn -B tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
-                sh 'cd backend/crawler-service && mvn -B tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/crawler'
-                sh 'cd backend/delivery-service && mvn -B tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_CDN} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
+                sh 'cd backend && mvn install -B -U'
+                sh 'cd backend/data-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
+                sh 'cd backend/crawler-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/crawler'
+                sh 'cd backend/delivery-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_CDN} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
             }
         }
     }
