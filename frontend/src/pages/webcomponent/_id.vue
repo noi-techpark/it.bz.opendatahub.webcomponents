@@ -48,25 +48,31 @@
                 </div>
               </div>
               <div class="d-table-row">
-                <div class="d-table-cell pr-2">Version:</div>
-                <div class="d-table-cell">
-                  {{ component.versions[0].versionTag }}
-                </div>
-              </div>
-              <div class="d-table-row">
                 <div class="d-table-cell pr-2">License:</div>
                 <div class="d-table-cell">{{ component.license }}</div>
               </div>
               <div class="d-table-row">
-                <div class="d-table-cell pr-2">Published:</div>
+                <div class="d-table-cell pr-2">First Published:</div>
                 <div class="d-table-cell">
                   {{ $d(new Date(component.datePublished)) }}
+                </div>
+              </div>
+              <div class="d-table-row">
+                <div class="d-table-cell pr-2">Current Version:</div>
+                <div class="d-table-cell">
+                  {{ component.versions[0].versionTag }}
                 </div>
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2 text-nowrap">Last Update:</div>
                 <div class="d-table-cell">
                   {{ $d(new Date(component.dateUpdated)) }}
+                </div>
+              </div>
+              <div v-if="component.repositoryUrl" class="d-table-row">
+                <div class="d-table-cell pr-2 text-nowrap">Repository:</div>
+                <div class="d-table-cell">
+                  <a :href="component.repositoryUrl" target="_blank">open</a>
                 </div>
               </div>
             </div>
@@ -123,19 +129,20 @@
       <div class="row mt-5">
         <div class="col-12">
           <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
-          <b-card id="widget-codesnippet">
+          <b-card id="widget-codesnippet" style="min-height: 250px;">
             <b-card-text>
               <textarea
                 id="code-snippet"
                 v-model="snipp"
                 class="full-width full-height"
-                style="border: 0; background-color: inherit;"
+                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
+                disabled
               ></textarea>
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              <a href="javascript:void(0);" @click="copySnippetToClipboard()"
-                ><font-awesome-icon :icon="['far', 'copy']" /> COPY</a
+              <span style="cursor: pointer" @click="copySnippetToClipboard()"
+                ><font-awesome-icon :icon="['far', 'copy']" /> COPY</span
               >
             </div>
           </b-card>
