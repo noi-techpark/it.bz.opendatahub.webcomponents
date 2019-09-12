@@ -47,12 +47,12 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     @Override
     public Page<WebcomponentDto> listAll(Pageable pageRequest, List<String> tags, String searchTerm) {
         Page<WebcomponentModel> result;
-        if(!tags.isEmpty()) {
+        //if(!tags.isEmpty()) {
             result = webcomponentSearchRepository.findBySearchTermAndTags(searchTerm, tags, pageRequest);
-        }
+        /*}
         else {
             result = webcomponentRepository.findAllMatchingSearchTerm("%"+searchTerm.toLowerCase()+"%", pageRequest);
-        }
+        }*/
 
         return new PageImpl<>(webcomponentConverter.modelToDto(result.getContent()), pageRequest, result.getTotalElements());
     }

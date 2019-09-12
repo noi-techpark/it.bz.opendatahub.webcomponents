@@ -8,10 +8,7 @@ import it.bz.opendatahub.webcomponents.dataservice.converter.impl.WebcomponentEn
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,10 +39,17 @@ public class WebcomponentController {
                                                            @RequestParam(name = "tags", required = false) String[] tags,
                                                            @RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
                                                            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer requestPageNumber,
-                                                           @RequestParam(name = "pageSize", required = false, defaultValue = "20") Integer requestPageSize
+                                                           @RequestParam(name = "pageSize", required = false, defaultValue = "20") Integer requestPageSize,
+                                                           @RequestParam(name = "latest", required = false, defaultValue = "false") Boolean latest
                                                            ) {
 
-        Pageable pageRequest = PageRequest.of(requestPageNumber, requestPageSize);
+        Pageable pageRequest;
+        if(latest) {
+            pageRequest = PageRequest.of(requestPageNumber, requestPageSize, Sort.by("latest"));
+        }
+        else {
+            pageRequest = PageRequest.of(requestPageNumber, requestPageSize);
+        }
 
         List<String> tagList = Collections.emptyList();
         if(tags != null) {

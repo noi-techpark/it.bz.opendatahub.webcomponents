@@ -52,7 +52,9 @@
                 <div class="d-table-cell">{{ component.license.name }}</div>
               </div>
               <div class="d-table-row">
-                <div class="d-table-cell pr-2">First Published:</div>
+                <div class="d-table-cell pr-2">
+                  First Published:
+                </div>
                 <div class="d-table-cell">
                   {{ $d(new Date(component.datePublished)) }}
                 </div>

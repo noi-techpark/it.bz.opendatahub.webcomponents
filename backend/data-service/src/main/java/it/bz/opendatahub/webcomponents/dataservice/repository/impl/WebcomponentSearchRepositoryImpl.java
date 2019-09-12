@@ -24,14 +24,27 @@ public class WebcomponentSearchRepositoryImpl implements WebcomponentSearchRepos
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    private static final String SEARCH_QUERY =
+    private static final String SEARCH_QUERY_BASE =
             "SELECT w.* FROM webcomponent AS w WHERE " +
                     "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm)) " +
-                    "AND w.search_tags ??| array[ :searchTags ]::varchar[] AND w.deleted=false " +
-                    "ORDER by w.title ASC " +
-                    "LIMIT :pagesSize OFFSET :pageOffset";
+                    "AND w.deleted=false ";
+
+    private static final String SEARCH_QUERY_TITLE =
+            "ORDER by w.title ASC ";
+
+    private static final String SEARCH_QUERY_LIMIT =
+            "LIMIT :pagesSize OFFSET :pageOffset";
+
+    private static final String SEARCH_QUERY_TAGS =
+            "AND w.search_tags ??| array[ :searchTags ]::varchar[] ";
+
+    private static final String SEARCH_QUERY_LATEST =
+            "ORDER by (SELECT release_timestamp FROM webcomponent_version AS v WHERE v.webcomponent_uuid=w.uuid ORDER by release_timestamp DESC LIMIT 1) DESC ";
 
     private static final String COUNT_QUERY = "SELECT count(*) FROM webcomponent AS w WHERE " +
+            "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm)) AND w.deleted=false";
+
+    private static final String COUNT_QUERY_WITH_TAGS = "SELECT count(*) FROM webcomponent AS w WHERE " +
             "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm)) AND w.deleted=false " +
             "AND w.search_tags ??| array[ :searchTags ]::varchar[]";
 
@@ -43,9 +56,25 @@ public class WebcomponentSearchRepositoryImpl implements WebcomponentSearchRepos
         paramsData.addValue("pagesSize", pageable.getPageSize());
         paramsData.addValue("pageOffset", pageable.getOffset());
 
-        List<WebcomponentModel> result = namedParameterJdbcTemplate.query(SEARCH_QUERY, paramsData, webcomponentModelMapper);
+        String query = SEARCH_QUERY_BASE;
+        String countQuery = COUNT_QUERY;
+        if(!tags.isEmpty()) {
+            query += SEARCH_QUERY_TAGS;
+            countQuery = COUNT_QUERY_WITH_TAGS;
+        }
 
-        Integer count = namedParameterJdbcTemplate.queryForObject(COUNT_QUERY, paramsData, Integer.class);
+        if(pageable.getSort().isSorted()) {
+            query += SEARCH_QUERY_LATEST;
+        }
+        else {
+            query += SEARCH_QUERY_TITLE;
+        }
+
+        query += SEARCH_QUERY_LIMIT;
+
+        List<WebcomponentModel> result = namedParameterJdbcTemplate.query(query, paramsData, webcomponentModelMapper);
+
+        Integer count = namedParameterJdbcTemplate.queryForObject(countQuery, paramsData, Integer.class);
 
         return new PageImpl<>(result, pageable, count);
     }

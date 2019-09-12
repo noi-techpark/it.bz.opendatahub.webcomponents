@@ -3,6 +3,7 @@ package it.bz.opendatahub.webcomponents.dataservice.converter.impl;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.rest.SpdxLicense;
 import it.bz.opendatahub.webcomponents.common.data.rest.Webcomponent;
+import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.converter.ModelToDtoToRestConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
@@ -10,6 +11,8 @@ import it.bz.opendatahub.webcomponents.dataservice.service.SpdxLicenseService;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Comparator;
 
 @Component
 public class WebcomponentConverter extends ModelToDtoToRestConverter<WebcomponentModel, WebcomponentDto, Webcomponent> {
@@ -44,6 +47,8 @@ public class WebcomponentConverter extends ModelToDtoToRestConverter<Webcomponen
             license.setName(dto.getLicense());
             entry.setLicense(license);
         }
+
+        entry.getVersions().sort(Comparator.comparing(WebcomponentVersion::getReleaseTimestamp));
 
         entry.setDatePublished(entry.getVersions().get(0).getReleaseTimestamp());
         entry.setDateUpdated(entry.getVersions().get(entry.getVersions().size()-1).getReleaseTimestamp());
