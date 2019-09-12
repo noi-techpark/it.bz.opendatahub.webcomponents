@@ -16,7 +16,7 @@ public class WebcomponentEntry implements Rest {
 
     private String descriptionAbstract;
 
-    private String license;
+    private SpdxLicense license;
 
     private String repositoryUrl;
 

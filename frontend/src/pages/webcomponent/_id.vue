@@ -49,7 +49,7 @@
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">License:</div>
-                <div class="d-table-cell">{{ component.license }}</div>
+                <div class="d-table-cell">{{ component.license.name }}</div>
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">First Published:</div>
