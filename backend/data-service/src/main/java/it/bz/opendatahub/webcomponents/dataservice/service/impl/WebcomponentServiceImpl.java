@@ -9,6 +9,7 @@ import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentVersionD
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentSearchRepository;
+import it.bz.opendatahub.webcomponents.dataservice.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentService;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +31,8 @@ public class WebcomponentServiceImpl implements WebcomponentService {
 
     private WebcomponentVersionService webcomponentVersionService;
 
+    private WorkspaceRepository workspaceRepository;
+
     @Value("${application.deliveryBaseUrl}")
     private String deliveryBaseUrl;
 
@@ -36,12 +40,14 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     public WebcomponentServiceImpl(WebcomponentSearchRepository webcomponentSearchRepository,
                                    WebcomponentRepository webcomponentRepository,
                                    WebcomponentConverter webcomponentConverter,
-                                   WebcomponentVersionService webcomponentVersionService) {
+                                   WebcomponentVersionService webcomponentVersionService,
+                                   WorkspaceRepository workspaceRepository) {
 
         this.webcomponentSearchRepository = webcomponentSearchRepository;
         this.webcomponentRepository = webcomponentRepository;
         this.webcomponentConverter = webcomponentConverter;
         this.webcomponentVersionService = webcomponentVersionService;
+        this.workspaceRepository = workspaceRepository;
     }
 
     @Override
@@ -87,7 +93,8 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     @Override
     public byte[] getLogoImage(String uuid) {
 
-//TODO
-        return new byte[0];
+        WebcomponentVersionDto latestVersion = webcomponentVersionService.getLatestVersionOfWebcomponent(uuid);
+
+        return workspaceRepository.readFile(Paths.get(uuid, latestVersion.getVersionTag(), "wcs-logo.png"));
     }
 }
