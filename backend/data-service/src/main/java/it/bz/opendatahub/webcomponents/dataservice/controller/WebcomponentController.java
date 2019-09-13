@@ -20,14 +20,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/webcomponent")
 public class WebcomponentController {
-    private WebcomponentService webcomponentService;
-    private WebcomponentEntryConverter webcomponentEntryConverter;
-    private WebcomponentConverter webcomponentConverter;
+    private final WebcomponentService webcomponentService;
+    private final WebcomponentEntryConverter webcomponentEntryConverter;
+    private final WebcomponentConverter webcomponentConverter;
 
     @Autowired
-    public WebcomponentController(WebcomponentService webcomponentService,
-                                  WebcomponentEntryConverter webcomponentEntryConverter,
-                                  WebcomponentConverter webcomponentConverter) {
+    public WebcomponentController(final WebcomponentService webcomponentService,
+                                  final WebcomponentEntryConverter webcomponentEntryConverter,
+                                  final WebcomponentConverter webcomponentConverter) {
 
         this.webcomponentService = webcomponentService;
         this.webcomponentEntryConverter = webcomponentEntryConverter;

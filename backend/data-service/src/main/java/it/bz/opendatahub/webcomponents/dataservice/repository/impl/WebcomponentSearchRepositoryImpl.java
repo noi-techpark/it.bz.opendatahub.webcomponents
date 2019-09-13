@@ -75,6 +75,9 @@ public class WebcomponentSearchRepositoryImpl implements WebcomponentSearchRepos
         List<WebcomponentModel> result = namedParameterJdbcTemplate.query(query, paramsData, webcomponentModelMapper);
 
         Integer count = namedParameterJdbcTemplate.queryForObject(countQuery, paramsData, Integer.class);
+        if(count == null) {
+            throw new RuntimeException("count returned null");
+        }
 
         return new PageImpl<>(result, pageable, count);
     }

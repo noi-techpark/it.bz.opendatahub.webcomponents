@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class SpdxSchedule {
-    private SpdxService spdxService;
+    private final SpdxService spdxService;
 
     @Autowired
-    public SpdxSchedule(SpdxService spdxService) {
+    public SpdxSchedule(final SpdxService spdxService) {
         this.spdxService = spdxService;
     }
 

@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public WebcomponentModel mapRow(ResultSet resultSet, int i) throws SQLException {

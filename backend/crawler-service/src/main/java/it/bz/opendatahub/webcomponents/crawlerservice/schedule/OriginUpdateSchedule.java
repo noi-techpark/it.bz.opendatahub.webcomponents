@@ -12,10 +12,10 @@ import java.util.List;
 @Slf4j
 @Component
 public class OriginUpdateSchedule {
-    private OriginService originService;
+    private final OriginService originService;
 
     @Autowired
-    public OriginUpdateSchedule(OriginService originService) {
+    public OriginUpdateSchedule(final OriginService originService) {
 
         this.originService = originService;
     }

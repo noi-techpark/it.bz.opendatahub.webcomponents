@@ -30,10 +30,10 @@ import java.util.regex.Pattern;
 public class GithubApiRepository implements VcsApiRepository {
     private static final String BASE_URI = "https://api.github.com";
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public GithubApiRepository(RestTemplate restTemplate) {
+    public GithubApiRepository(final RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 

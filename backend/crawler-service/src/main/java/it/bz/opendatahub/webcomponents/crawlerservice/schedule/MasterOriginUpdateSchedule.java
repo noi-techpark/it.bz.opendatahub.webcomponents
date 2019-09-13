@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class MasterOriginUpdateSchedule {
-    private MasterOriginService masterOriginService;
+    private final MasterOriginService masterOriginService;
 
     @Autowired
-    public MasterOriginUpdateSchedule(MasterOriginService masterOriginService) {
+    public MasterOriginUpdateSchedule(final MasterOriginService masterOriginService) {
         this.masterOriginService = masterOriginService;
     }
 
