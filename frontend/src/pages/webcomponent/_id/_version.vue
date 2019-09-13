@@ -119,11 +119,13 @@
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              <b-checkbox
-                v-model="autoUpdate"
-                class="d-inline-block"
-              ></b-checkbox>
-              auto update
+              <span v-if="!editmode"
+                ><b-checkbox
+                  v-model="autoUpdate"
+                  class="d-inline-block"
+                ></b-checkbox>
+                auto update</span
+              >
               <span style="cursor: pointer;" @click="updatePreview"
                 ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
                 update preview</span
@@ -132,9 +134,9 @@
           </b-card>
         </div>
 
-        <div class="col-4">
+        <div class="col-4" v-show="!editmode">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card id="widget-config" class="full-height">
+          <b-card class="full-height widget-config">
             <b-card-text>
               <wcs-config-tool ref="cfig">{{
                 config.configuration
@@ -146,22 +148,53 @@
             </div>-->
           </b-card>
         </div>
+        <div class="col-4" v-show="editmode">
+          <div class="text-uppercase font-weight-bold mb-2">configuration</div>
+          <b-card class="full-height widget-config">
+            <b-card-text>
+              Configurator disabled. Manual configuration active.
+            </b-card-text>
+
+            <!--<div slot="footer" class="text-right text-uppercase">
+              <font-awesome-icon :icon="['fas', 'check']" /> apply
+            </div>-->
+          </b-card>
+        </div>
       </div>
       <div class="row mt-5">
         <div class="col-12">
           <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
-          <b-card id="widget-codesnippet" style="min-height: 250px;">
+          <b-card
+            id="widget-codesnippet"
+            style="min-height: 250px;"
+            :class="{ white: editmode }"
+          >
             <b-card-text>
               <textarea
                 id="code-snippet"
                 v-model="snipp"
                 class="full-width full-height"
                 style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
-                disabled
+                :disabled="!editmode"
+                rows="10"
               ></textarea>
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
+              <span
+                style="cursor: pointer"
+                @click="toggleEditMode()"
+                class="mr-4"
+                v-if="editmode"
+                ><font-awesome-icon :icon="['fas', 'times']" /> RESET</span
+              >
+              <span
+                style="cursor: pointer"
+                @click="toggleEditMode()"
+                class="mr-4"
+                v-else
+                ><font-awesome-icon :icon="['far', 'edit']" /> EDIT</span
+              >
               <span style="cursor: pointer" @click="copySnippetToClipboard()"
                 ><font-awesome-icon :icon="['far', 'copy']" /> COPY</span
               >
@@ -178,7 +211,8 @@ export default {
   data() {
     return {
       snipp: '',
-      show: false,
+      snippOriginal: '',
+      editmode: false,
       component: null,
       config: { configuration: { tagName: '' } },
       autoUpdate: true,
@@ -209,10 +243,20 @@ export default {
   },
   mounted() {
     this.loadData();
-    this.show = true;
     this.initEventListener();
   },
   methods: {
+    toggleEditMode() {
+      this.editmode = !this.editmode;
+      if (this.editmode) {
+        this.snippOriginal = this.snipp;
+      } else {
+        this.snipp = this.snippOriginal;
+        if (this.autoUpdate) {
+          this.updatePreview();
+        }
+      }
+    },
     reloadConfig() {
       this.$router.push(
         this.localePath({
@@ -305,12 +349,16 @@ export default {
     background-color: #f1f1f1;
   }
 
+  &.white .card-body {
+    background-color: white;
+  }
+
   .card-footer {
     background-color: inherit;
   }
 }
 
-#widget-config {
+.widget-config {
   .card-footer {
     background-color: inherit;
   }
