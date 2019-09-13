@@ -14,7 +14,9 @@ public final class OriginTagId implements Serializable {
 
     private String tagName;
 
-    public static OriginTagId of(String originUuid, String tagName) {
+    public static OriginTagId of(String originUuid,
+                                 String tagName) {
+
         return new OriginTagId(originUuid, tagName);
     }
 }

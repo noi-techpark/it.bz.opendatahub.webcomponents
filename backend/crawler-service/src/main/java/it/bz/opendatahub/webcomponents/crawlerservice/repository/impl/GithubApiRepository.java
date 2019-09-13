@@ -22,10 +22,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,7 +45,7 @@ public class GithubApiRepository implements VcsApiRepository {
 
         if(res.hasBody()) {
             List<TagEntry> result = new ArrayList<>();
-            for(Tag tag : res.getBody()) {
+            for(Tag tag : Objects.requireNonNull(res.getBody())) {
                 TagEntry newEntry = new TagEntry();
                 newEntry.setName(tag.getName());
                 newEntry.setRevisionHash(tag.getCommit().getSha());
@@ -92,11 +89,6 @@ public class GithubApiRepository implements VcsApiRepository {
         throw new CrawlerException();
     }
 
-    /*@Override
-    public ByteArrayOutputStream getFileContents(GitRemote gitRemote, String remotePathToFile) {
-        return getFileContents(gitRemote, null, remotePathToFile);
-    }*/
-
     private Tree getTree(GitRemote gitRemote, String treeHash) {
         RepositoryMetadata metadata = extractRepositoryMetadata(gitRemote);
 
@@ -125,21 +117,7 @@ public class GithubApiRepository implements VcsApiRepository {
 
         Tree tree = getTree(gitRemote, commit.getTreeSha());
 
-        String fileHash = null;
-        for(Tree.TreeEntry entry: tree.getTree()) {
-            if(remotePathToFile.equals(entry.getPath())) {
-                fileHash = entry.getSha();
-            }
-        }
-
-        if(fileHash == null) {
-            throw new NotFoundException();
-        }
-
-        /*String qs = "";
-        if(revisionHash != null && !revisionHash.isEmpty()) {
-            qs = "?ref="+revisionHash;
-        }*/
+        String fileHash = getFileHashFromTree(tree, remotePathToFile);
 
         try {
             ResponseEntity<Blob> res = restTemplate.exchange(BASE_URI + "/repos/" + metadata.getOwnerName() + "/" + metadata.getRepositoryName() + "/git/blobs/" + fileHash, HttpMethod.GET, null, Blob.class);
@@ -182,12 +160,11 @@ public class GithubApiRepository implements VcsApiRepository {
                 Commit commit = res.getBody();
 
                 if (commit != null) {
-                    CommitEntry commitEntry = new CommitEntry();
-                    commitEntry.setSha(commit.getSha());
-                    commitEntry.setDate(commit.getCommit().getCommitter().getDate());
-                    commitEntry.setTreeSha(commit.getCommit().getTree().getSha());
-
-                    return commitEntry;
+                    return CommitEntry.of(
+                            commit.getSha(),
+                            commit.getCommit().getCommitter().getDate(),
+                            commit.getCommit().getTree().getSha()
+                    );
                 }
             }
         }
@@ -219,6 +196,21 @@ public class GithubApiRepository implements VcsApiRepository {
         }
 
         return metadata;
+    }
+
+    private String getFileHashFromTree(Tree tree, String remotePathToFile) {
+        String fileHash = null;
+        for(Tree.TreeEntry entry: tree.getTree()) {
+            if(remotePathToFile.equals(entry.getPath())) {
+                fileHash = entry.getSha();
+            }
+        }
+
+        if(fileHash == null) {
+            throw new NotFoundException();
+        }
+
+        return fileHash;
     }
 
     @Getter

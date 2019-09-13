@@ -11,10 +11,10 @@ import java.util.Optional;
 
 @Service
 public class SearchtagServiceImpl implements SearchtagService {
-    private SearchtagRepository searchtagRepository;
+    private final SearchtagRepository searchtagRepository;
 
     @Autowired
-    public SearchtagServiceImpl(SearchtagRepository searchtagRepository) {
+    public SearchtagServiceImpl(final SearchtagRepository searchtagRepository) {
         this.searchtagRepository = searchtagRepository;
     }
 

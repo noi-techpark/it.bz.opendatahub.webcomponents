@@ -7,10 +7,6 @@ import lombok.Setter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-/**
- * Created by SirCotare on 08.03.2016.
- */
-
 @Getter
 @Setter
 public final class ErrorMessage {

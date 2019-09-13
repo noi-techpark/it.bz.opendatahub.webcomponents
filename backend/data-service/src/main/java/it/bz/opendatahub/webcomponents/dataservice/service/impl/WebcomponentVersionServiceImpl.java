@@ -14,13 +14,13 @@ import java.util.Optional;
 
 @Service
 public class WebcomponentVersionServiceImpl implements WebcomponentVersionService {
-    private WebcomponentVersionRepository webcomponentVersionRepository;
+    private final WebcomponentVersionRepository webcomponentVersionRepository;
 
-    private WebcomponentVersionConverter webcomponentVersionConverter;
+    private final WebcomponentVersionConverter webcomponentVersionConverter;
 
     @Autowired
-    public WebcomponentVersionServiceImpl(WebcomponentVersionRepository webcomponentVersionRepository,
-                                          WebcomponentVersionConverter webcomponentVersionConverter) {
+    public WebcomponentVersionServiceImpl(final WebcomponentVersionRepository webcomponentVersionRepository,
+                                          final WebcomponentVersionConverter webcomponentVersionConverter) {
         this.webcomponentVersionRepository = webcomponentVersionRepository;
         this.webcomponentVersionConverter = webcomponentVersionConverter;
     }

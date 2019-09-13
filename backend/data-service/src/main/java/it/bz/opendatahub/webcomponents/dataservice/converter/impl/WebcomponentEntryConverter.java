@@ -12,17 +12,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WebcomponentEntryConverter extends DtoToRestConverter<WebcomponentDto, WebcomponentEntry> {
-    private WebcomponentVersionService webcomponentVersionService;
-    private WebcomponentVersionConverter webcomponentVersionConverter;
+    private final WebcomponentVersionService webcomponentVersionService;
+    private final WebcomponentVersionConverter webcomponentVersionConverter;
 
-    private SpdxLicenseService spdxLicenseService;
-    private SpdxLicenseConverter spdxLicenseConverter;
+    private final SpdxLicenseService spdxLicenseService;
+    private final SpdxLicenseConverter spdxLicenseConverter;
 
     @Autowired
-    public WebcomponentEntryConverter(WebcomponentVersionService webcomponentVersionService,
-                                      WebcomponentVersionConverter webcomponentVersionConverter,
-                                      SpdxLicenseService spdxLicenseService,
-                                      SpdxLicenseConverter spdxLicenseConverter) {
+    public WebcomponentEntryConverter(final WebcomponentVersionService webcomponentVersionService,
+                                      final WebcomponentVersionConverter webcomponentVersionConverter,
+                                      final SpdxLicenseService spdxLicenseService,
+                                      final SpdxLicenseConverter spdxLicenseConverter) {
         this.webcomponentVersionService = webcomponentVersionService;
         this.webcomponentVersionConverter = webcomponentVersionConverter;
         this.spdxLicenseService = spdxLicenseService;

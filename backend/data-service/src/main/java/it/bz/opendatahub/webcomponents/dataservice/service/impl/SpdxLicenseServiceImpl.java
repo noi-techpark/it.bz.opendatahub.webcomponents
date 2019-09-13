@@ -13,11 +13,12 @@ import java.util.Optional;
 
 @Service
 public class SpdxLicenseServiceImpl implements SpdxLicenseService {
-    private SpdxLicenseConverter spdxLicenseConverter;
-    private SpdxLicenseRepository spdxLicenseRepository;
+    private final SpdxLicenseConverter spdxLicenseConverter;
+    private final SpdxLicenseRepository spdxLicenseRepository;
 
     @Autowired
-    public SpdxLicenseServiceImpl(SpdxLicenseConverter spdxLicenseConverter, SpdxLicenseRepository spdxLicenseRepository) {
+    public SpdxLicenseServiceImpl(final SpdxLicenseConverter spdxLicenseConverter,
+                                  final SpdxLicenseRepository spdxLicenseRepository) {
         this.spdxLicenseConverter = spdxLicenseConverter;
         this.spdxLicenseRepository = spdxLicenseRepository;
     }

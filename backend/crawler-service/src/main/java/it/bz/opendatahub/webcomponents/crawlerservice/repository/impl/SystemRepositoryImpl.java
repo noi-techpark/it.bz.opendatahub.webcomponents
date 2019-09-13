@@ -16,10 +16,19 @@ import java.util.Date;
 public class SystemRepositoryImpl implements SystemRepository {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private JdbcTemplate jdbcTemplate;
+    private static final String QUERY_ORIGIN_ENTRY =
+            "SELECT data FROM system WHERE key='ORIGIN'";
+
+    private static final String INSERT_ORIGIN_ENTRY =
+            "INSERT INTO system (key) VALUES ('ORIGIN') ON CONFLICT DO NOTHING";
+
+    private static final String UPDATE_ORIGIN_ENTRY =
+            "UPDATE system SET data=CAST(? AS jsonb) WHERE key='ORIGIN'";
+
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public SystemRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public SystemRepositoryImpl(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -27,10 +36,10 @@ public class SystemRepositoryImpl implements SystemRepository {
     public String getHeadOfMasterOrigin() {
         String json;
         try {
-            json = jdbcTemplate.queryForObject("SELECT data FROM system WHERE key='ORIGIN'", String.class);
+            json = jdbcTemplate.queryForObject(QUERY_ORIGIN_ENTRY, String.class);
         }
         catch (EmptyResultDataAccessException e) {
-            jdbcTemplate.execute("INSERT INTO system (key) VALUES ('ORIGIN') ON CONFLICT DO NOTHING;");
+            jdbcTemplate.execute(INSERT_ORIGIN_ENTRY);
 
             json = "{}";
         }
@@ -42,11 +51,9 @@ public class SystemRepositoryImpl implements SystemRepository {
 
     @Override
     public void setHeadOfMasterOrigin(String commitHash) {
-        OriginSystemEntry entry = new OriginSystemEntry();
-        entry.setHead(commitHash);
-        entry.setLastCheck(new Date());
+        OriginSystemEntry entry = OriginSystemEntry.of(commitHash, new Date());
 
-        jdbcTemplate.update("UPDATE system SET data=CAST(? AS jsonb) WHERE key='ORIGIN'", objectToJson(entry));
+        jdbcTemplate.update(UPDATE_ORIGIN_ENTRY, objectToJson(entry));
     }
 
     private OriginSystemEntry createOriginSystemEntryFromJson(String json) {

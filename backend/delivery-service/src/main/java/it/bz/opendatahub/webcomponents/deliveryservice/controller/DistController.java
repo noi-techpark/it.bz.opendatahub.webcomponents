@@ -15,34 +15,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/dist")
 public class DistController {
-    private DistService distService;
+    private final DistService distService;
 
     @Autowired
-    public DistController(DistService distService) {
+    public DistController(final DistService distService) {
         this.distService = distService;
     }
 
     @GetMapping(value = "/{webcomponentId}/{file}", produces = {"application/javascript", "text/css", "text/plain"})
-    public ResponseEntity<byte[]> getDistLatest(@PathVariable String webcomponentId, @PathVariable String file) {
+    public ResponseEntity<byte[]> getDistLatest(@PathVariable String webcomponentId,
+                                                @PathVariable String file) {
+
         DistFile distFile = getDist(webcomponentId, file, null);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentType(MediaType.parseMediaType(distFile.getMimetype()));
+        HttpHeaders responseHeaders = createResponseHeaders(distFile);
 
         return new ResponseEntity<>(distFile.getPayload(), responseHeaders, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{webcomponentId}/{version}/{file}", produces = {"application/javascript", "text/css", "text/plain"})
-    public ResponseEntity<byte[]> getDistVersioned(@PathVariable String webcomponentId, @PathVariable String version, @PathVariable String file) {
+    public ResponseEntity<byte[]> getDistVersioned(@PathVariable String webcomponentId,
+                                                   @PathVariable String version,
+                                                   @PathVariable String file) {
+
         DistFile distFile = getDist(webcomponentId, file, version);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.setContentType(MediaType.parseMediaType(distFile.getMimetype()));
+        HttpHeaders responseHeaders = createResponseHeaders(distFile);
 
         return new ResponseEntity<>(distFile.getPayload(), responseHeaders, HttpStatus.OK);
     }
 
-    private DistFile getDist(String webcomponentId, String file, String version) {
+    private DistFile getDist(String webcomponentId,
+                             String file,
+                             String version) {
+
         return distService.getDistFile(webcomponentId, file, version);
+    }
+
+    private HttpHeaders createResponseHeaders(DistFile distFile) {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.parseMediaType(distFile.getMimetype()));
+
+        return responseHeaders;
     }
 }

@@ -18,21 +18,11 @@ public class GitRemote {
     }
 
     public static GitRemote of(Origin mappedOrigin) {
-        GitRemote gitRemote = new GitRemote();
-
-        gitRemote.setUrl(mappedOrigin.getUrl());
-        gitRemote.setApi(mappedOrigin.getApi());
-
-        return gitRemote;
+        return GitRemote.of(mappedOrigin.getUrl(), mappedOrigin.getApi());
     }
 
     public static GitRemote of(OriginModel originModel) {
-        GitRemote gitRemote = new GitRemote();
-
-        gitRemote.setUrl(originModel.getUrl());
-        gitRemote.setApi(originModel.getApi());
-
-        return gitRemote;
+        return GitRemote.of(originModel.getUrl(), originModel.getApi());
     }
 
     private String url;

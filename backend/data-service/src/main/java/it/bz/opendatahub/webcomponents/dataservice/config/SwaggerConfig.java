@@ -23,7 +23,14 @@ public class SwaggerConfig {
     @Bean
     public Docket crawlerApiDocket() {
 
-        ApiInfo info = new ApiInfo("ODH Webcomponents", "ODH Webcomponents", "pre-alpha", null, null, null, null, new ArrayList());
+        ApiInfo info = new ApiInfo("ODH Webcomponents",
+                "ODH Webcomponents",
+                "pre-alpha",
+                null,
+                null,
+                null,
+                null,
+                Collections.EMPTY_LIST);
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()

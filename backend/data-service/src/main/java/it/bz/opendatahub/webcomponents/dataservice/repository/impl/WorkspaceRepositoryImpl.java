@@ -13,10 +13,10 @@ import java.nio.file.Paths;
 
 @Repository
 public class WorkspaceRepositoryImpl implements WorkspaceRepository {
-    private WorkspaceConfiguration workspaceConfiguration;
+    private final WorkspaceConfiguration workspaceConfiguration;
 
     @Autowired
-    public WorkspaceRepositoryImpl(WorkspaceConfiguration workspaceConfiguration) {
+    public WorkspaceRepositoryImpl(final WorkspaceConfiguration workspaceConfiguration) {
         this.workspaceConfiguration = workspaceConfiguration;
     }
 

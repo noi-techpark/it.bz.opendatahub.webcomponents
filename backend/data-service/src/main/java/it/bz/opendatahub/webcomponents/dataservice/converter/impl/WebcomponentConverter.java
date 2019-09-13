@@ -16,17 +16,17 @@ import java.util.Comparator;
 
 @Component
 public class WebcomponentConverter extends ModelToDtoToRestConverter<WebcomponentModel, WebcomponentDto, Webcomponent> {
-    private WebcomponentVersionService webcomponentVersionService;
-    private WebcomponentVersionConverter webcomponentVersionConverter;
+    private final WebcomponentVersionService webcomponentVersionService;
+    private final WebcomponentVersionConverter webcomponentVersionConverter;
 
-    private SpdxLicenseService spdxLicenseService;
-    private SpdxLicenseConverter spdxLicenseConverter;
+    private final SpdxLicenseService spdxLicenseService;
+    private final SpdxLicenseConverter spdxLicenseConverter;
 
     @Autowired
-    public WebcomponentConverter(WebcomponentVersionService webcomponentVersionService,
-                                      WebcomponentVersionConverter webcomponentVersionConverter,
-                                      SpdxLicenseService spdxLicenseService,
-                                      SpdxLicenseConverter spdxLicenseConverter) {
+    public WebcomponentConverter(final WebcomponentVersionService webcomponentVersionService,
+                                 final WebcomponentVersionConverter webcomponentVersionConverter,
+                                 final SpdxLicenseService spdxLicenseService,
+                                 final SpdxLicenseConverter spdxLicenseConverter) {
         this.webcomponentVersionService = webcomponentVersionService;
         this.webcomponentVersionConverter = webcomponentVersionConverter;
         this.spdxLicenseService = spdxLicenseService;

@@ -18,6 +18,10 @@ public class SpdxSchedule {
 
     @Scheduled(fixedDelayString = "${application.schedule.spdx}")
     public void updateSpdx() {
+        log.info("updating spdx");
+
         spdxService.update();
+
+        log.info("spdx updated");
     }
 }

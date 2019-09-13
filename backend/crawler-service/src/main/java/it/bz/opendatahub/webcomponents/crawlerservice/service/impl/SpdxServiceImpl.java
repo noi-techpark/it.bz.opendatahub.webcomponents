@@ -28,13 +28,13 @@ public class SpdxServiceImpl implements SpdxService {
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    private SpdxRepository spdxRepository;
+    private final SpdxRepository spdxRepository;
 
-    private VcsApiRepository vcsApiRepository;
+    private final VcsApiRepository vcsApiRepository;
 
     @Autowired
-    public SpdxServiceImpl(SpdxRepository spdxRepository,
-                           @Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository) {
+    public SpdxServiceImpl(final SpdxRepository spdxRepository,
+                           @Qualifier("githubApiRepository") final VcsApiRepository vcsApiRepository) {
         this.spdxRepository = spdxRepository;
         this.vcsApiRepository = vcsApiRepository;
     }

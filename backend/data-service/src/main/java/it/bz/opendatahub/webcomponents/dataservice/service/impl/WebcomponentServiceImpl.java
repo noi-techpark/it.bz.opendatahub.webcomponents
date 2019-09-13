@@ -25,23 +25,23 @@ import java.util.Optional;
 
 @Service
 public class WebcomponentServiceImpl implements WebcomponentService {
-    private WebcomponentSearchRepository webcomponentSearchRepository;
-    private WebcomponentRepository webcomponentRepository;
-    private WebcomponentConverter webcomponentConverter;
+    private final WebcomponentSearchRepository webcomponentSearchRepository;
+    private final WebcomponentRepository webcomponentRepository;
+    private final WebcomponentConverter webcomponentConverter;
 
-    private WebcomponentVersionService webcomponentVersionService;
+    private final WebcomponentVersionService webcomponentVersionService;
 
-    private WorkspaceRepository workspaceRepository;
+    private final WorkspaceRepository workspaceRepository;
 
     @Value("${application.deliveryBaseUrl}")
     private String deliveryBaseUrl;
 
     @Autowired
-    public WebcomponentServiceImpl(WebcomponentSearchRepository webcomponentSearchRepository,
-                                   WebcomponentRepository webcomponentRepository,
-                                   WebcomponentConverter webcomponentConverter,
-                                   WebcomponentVersionService webcomponentVersionService,
-                                   WorkspaceRepository workspaceRepository) {
+    public WebcomponentServiceImpl(final WebcomponentSearchRepository webcomponentSearchRepository,
+                                   final WebcomponentRepository webcomponentRepository,
+                                   final WebcomponentConverter webcomponentConverter,
+                                   final WebcomponentVersionService webcomponentVersionService,
+                                   final WorkspaceRepository workspaceRepository) {
 
         this.webcomponentSearchRepository = webcomponentSearchRepository;
         this.webcomponentRepository = webcomponentRepository;
@@ -52,13 +52,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
 
     @Override
     public Page<WebcomponentDto> listAll(Pageable pageRequest, List<String> tags, String searchTerm) {
-        Page<WebcomponentModel> result;
-        //if(!tags.isEmpty()) {
-            result = webcomponentSearchRepository.findBySearchTermAndTags(searchTerm, tags, pageRequest);
-        /*}
-        else {
-            result = webcomponentRepository.findAllMatchingSearchTerm("%"+searchTerm.toLowerCase()+"%", pageRequest);
-        }*/
+        Page<WebcomponentModel> result = webcomponentSearchRepository.findBySearchTermAndTags(searchTerm, tags, pageRequest);
 
         return new PageImpl<>(webcomponentConverter.modelToDto(result.getContent()), pageRequest, result.getTotalElements());
     }

@@ -16,7 +16,5 @@ public interface VcsApiRepository {
 
     String getLatestRevisionHash(GitRemote gitRemote, String branchName);
 
-    //ByteArrayOutputStream getFileContents(GitRemote gitRemote, String remotePathToFile);
-
     ByteArrayOutputStream getFileContents(GitRemote gitRemote, String revisionHash, String remotePathToFile);
 }

@@ -28,19 +28,19 @@ public class WebcomponentServiceImpl implements WebcomponentService {
 
     private static final String MANIFEST_FILE_NAME = "wcs-manifest.json";
 
-    private WebcomponentVersionService webcomponentVersionService;
+    private final WebcomponentVersionService webcomponentVersionService;
 
-    private WebcomponentRepository webcomponentRepository;
+    private final WebcomponentRepository webcomponentRepository;
 
-    private WebcomponentFactory webcomponentFactory;
+    private final WebcomponentFactory webcomponentFactory;
 
-    private WorkspaceRepository workspaceRepository;
+    private final WorkspaceRepository workspaceRepository;
 
     @Autowired
-    public WebcomponentServiceImpl(WebcomponentVersionService webcomponentVersionService,
-                                   WebcomponentRepository webcomponentRepository,
-                                   WebcomponentFactory webcomponentFactory,
-                                   WorkspaceRepository workspaceRepository) {
+    public WebcomponentServiceImpl(final WebcomponentVersionService webcomponentVersionService,
+                                   final WebcomponentRepository webcomponentRepository,
+                                   final WebcomponentFactory webcomponentFactory,
+                                   final WorkspaceRepository workspaceRepository) {
         this.webcomponentVersionService = webcomponentVersionService;
         this.webcomponentRepository = webcomponentRepository;
         this.webcomponentFactory = webcomponentFactory;

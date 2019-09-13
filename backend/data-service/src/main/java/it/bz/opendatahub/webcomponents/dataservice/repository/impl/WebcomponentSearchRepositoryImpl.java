@@ -17,10 +17,10 @@ import java.util.List;
 public class WebcomponentSearchRepositoryImpl implements WebcomponentSearchRepository {
     private static final WebcomponentModelMapper webcomponentModelMapper = new WebcomponentModelMapper();
 
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
-    public WebcomponentSearchRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public WebcomponentSearchRepositoryImpl(final NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
