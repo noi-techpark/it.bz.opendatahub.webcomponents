@@ -71,6 +71,11 @@ public class WebcomponentController {
         return new ResponseEntity<>(webcomponentService.getConfiguration(uuid), HttpStatus.OK);
     }
 
+    @GetMapping("/{uuid}/config/{versionTag}")
+    public ResponseEntity<WebcomponentConfiguration> getConfigurationForVersion(@PathVariable String uuid, @PathVariable String versionTag) {
+        return new ResponseEntity<>(webcomponentService.getConfiguration(uuid, versionTag), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{uuid}/logo", produces = "image/png")
     public ResponseEntity<byte[]> getLogoImage(@PathVariable String uuid) {
         return new ResponseEntity<>(webcomponentService.getLogoImage(uuid), HttpStatus.OK);

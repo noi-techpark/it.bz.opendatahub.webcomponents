@@ -84,7 +84,26 @@
     </div>
     <div
       v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
-      class="container container-extended p-4"
+      class="container container-extended pt-4 pl-4 pr-4"
+    >
+      <div class="text-right h3">
+        Version
+        <b-form-select v-model="selectedVersion" style="max-width:150px;">
+          <option
+            v-for="version in component.versions"
+            :key="version.versionTag"
+            >{{ version.versionTag }}</option
+          >
+        </b-form-select>
+      </div>
+
+      <b-alert :show="!isLatestVersionActive" variant="danger" class="mt-4 mb-4"
+        >You have not selected the latest version of this webcomponent.</b-alert
+      >
+    </div>
+    <div
+      v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
+      class="container container-extended pb-4 pl-4 pr-4"
     >
       <div class="row">
         <div class="col-8">
@@ -162,7 +181,8 @@ export default {
       show: false,
       component: null,
       config: { configuration: { tagName: '' } },
-      autoUpdate: true
+      autoUpdate: true,
+      selectedVersion: null
     };
   },
   computed: {
@@ -172,6 +192,19 @@ export default {
       }
 
       return this.localePath('index');
+    },
+    isLatestVersionActive() {
+      if (!this.component) {
+        return false;
+      }
+      return this.selectedVersion === this.component.versions[0].versionTag;
+    }
+  },
+  watch: {
+    selectedVersion(newValue, oldValue) {
+      if (oldValue !== null) {
+        this.reloadConfig();
+      }
     }
   },
   mounted() {
@@ -179,15 +212,35 @@ export default {
     this.show = true;
     this.initEventListener();
   },
-
   methods: {
+    reloadConfig() {
+      this.$router.push(
+        this.localePath({
+          name: 'webcomponent-id-version',
+          params: { id: this.$route.params.id, version: this.selectedVersion }
+        })
+      );
+    },
     async loadData() {
       this.component = await this.$api.webcomponent.getOneById(
         this.$route.params.id
       );
 
+      if (this.$route.params.version) {
+        this.component.versions.forEach((entry) => {
+          if (entry.versionTag === this.$route.params.version) {
+            this.selectedVersion = this.$route.params.version;
+          }
+        });
+      }
+
+      if (!this.selectedVersion) {
+        this.selectedVersion = this.component.versions[0].versionTag;
+      }
+
       this.config = await this.$api.webcomponent.getConfigById(
-        this.$route.params.id
+        this.$route.params.id,
+        this.selectedVersion
       );
     },
     updateSnippet(data) {

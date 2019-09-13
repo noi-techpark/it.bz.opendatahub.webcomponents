@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
@@ -80,6 +81,22 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         configuration.setDeliveryBaseUrl(deliveryBaseUrl);
 
         configuration.setDist(Dist.of(webcomponent.getUuid(), latestVersion.getDist().getFiles()));
+
+        return configuration;
+    }
+
+    @Override
+    public WebcomponentConfiguration getConfiguration(String uuid, String versionTag) {
+        WebcomponentDto webcomponent = findOne(uuid);
+
+        WebcomponentVersionDto version = webcomponentVersionService.getSpecificVersionOfWebcomponent(uuid, versionTag);
+
+        WebcomponentConfiguration configuration = new WebcomponentConfiguration();
+        configuration.setWebcomponentUuid(uuid);
+        configuration.setConfiguration(version.getConfiguration());
+        configuration.setDeliveryBaseUrl(deliveryBaseUrl);
+
+        configuration.setDist(Dist.of(webcomponent.getUuid()+"/"+versionTag, version.getDist().getFiles()));
 
         return configuration;
     }

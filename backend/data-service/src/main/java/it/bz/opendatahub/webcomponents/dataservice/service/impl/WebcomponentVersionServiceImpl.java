@@ -40,4 +40,15 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
 
         throw new NotFoundException("no version found");
     }
+
+    @Override
+    public WebcomponentVersionDto getSpecificVersionOfWebcomponent(String webcomponentId, String versionTag) {
+        Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findSpecificVersionOfWebcomponent(webcomponentId, versionTag);
+
+        if(probe.isPresent()) {
+            return webcomponentVersionConverter.modelToDto(probe.get());
+        }
+
+        throw new NotFoundException("version not found");
+    }
 }

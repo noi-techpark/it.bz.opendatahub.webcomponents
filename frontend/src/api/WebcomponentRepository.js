@@ -12,7 +12,7 @@ export default ($axios) => ({
   getOneById(id) {
     return $axios.$get(`${resource}/${id}`);
   },
-  getConfigById(id) {
-    return $axios.$get(`${resource}/${id}/config`);
+  getConfigById(id, version) {
+    return $axios.$get(`${resource}/${id}/config/${version}`);
   }
 });
