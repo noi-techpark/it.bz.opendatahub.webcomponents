@@ -8,8 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="dataservice" />
         <module name="common" />
-        <module name="deliveryservice" />
         <module name="crawlerservice" />
+        <module name="deliveryservice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

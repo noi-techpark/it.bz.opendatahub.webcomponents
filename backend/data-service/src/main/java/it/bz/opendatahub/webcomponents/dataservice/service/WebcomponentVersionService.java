@@ -8,4 +8,6 @@ public interface WebcomponentVersionService {
     List<WebcomponentVersionDto> listAllVersionsOfWebcomponent(String webcomponentId);
 
     WebcomponentVersionDto getLatestVersionOfWebcomponent(String webcomponentId);
+
+    WebcomponentVersionDto getSpecificVersionOfWebcomponent(String webcomponentId, String versionTag);
 }

@@ -7,6 +7,7 @@
 		<groupId>it.bz.opendatahub.webcomponents</groupId>
 		<artifactId>webcomponents</artifactId>
 		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>crawlerservice</artifactId>
@@ -25,20 +26,6 @@
 			<groupId>it.bz.opendatahub.webcomponents</groupId>
 			<artifactId>common</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit -->
-		<!--<dependency>
-			<groupId>org.eclipse.jgit</groupId>
-			<artifactId>org.eclipse.jgit</artifactId>
-			<version>5.3.1.201904271842-r</version>
-		</dependency>-->
-
-		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
 		</dependency>
 
 		<dependency>

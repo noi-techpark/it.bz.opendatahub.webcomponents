@@ -12,12 +12,12 @@ import java.nio.file.Paths;
 
 @Service
 public class DistServiceImpl implements DistService {
-    private WorkspaceRepository workspaceRepository;
-    private WebcomponentRepository webcomponentRepository;
+    private final WorkspaceRepository workspaceRepository;
+    private final WebcomponentRepository webcomponentRepository;
 
     @Autowired
-    public DistServiceImpl(WorkspaceRepository workspaceRepository,
-                           WebcomponentRepository webcomponentRepository) {
+    public DistServiceImpl(final WorkspaceRepository workspaceRepository,
+                           final WebcomponentRepository webcomponentRepository) {
         this.workspaceRepository = workspaceRepository;
         this.webcomponentRepository = webcomponentRepository;
     }

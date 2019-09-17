@@ -14,7 +14,9 @@ public final class WebcomponentVersionId implements Serializable {
 
     private String versionTag;
 
-    public static WebcomponentVersionId of(String webcomponentUuid, String versionTag) {
+    public static WebcomponentVersionId of(String webcomponentUuid,
+                                           String versionTag) {
+
         return new WebcomponentVersionId(webcomponentUuid, versionTag);
     }
 }

@@ -2,7 +2,7 @@ const resource = 'webcomponent';
 
 export default ($axios) => ({
   listAllPaged(page, size) {
-    return $axios.$get(`${resource}?page=${page}&size=${size}`);
+    return $axios.$get(`${resource}?page=${page}&size=${size}&latest=true`);
   },
   findAllPaged(page, size, tags, term) {
     return $axios.$get(
@@ -12,7 +12,7 @@ export default ($axios) => ({
   getOneById(id) {
     return $axios.$get(`${resource}/${id}`);
   },
-  getConfigById(id) {
-    return $axios.$get(`${resource}/${id}/config`);
+  getConfigById(id, version) {
+    return $axios.$get(`${resource}/${id}/config/${version}`);
   }
 });

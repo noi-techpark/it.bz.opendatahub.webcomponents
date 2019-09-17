@@ -26,11 +26,6 @@ public class BitbucketApiRepository implements VcsApiRepository {
         throw new UnsupportedOperationException();
     }
 
-    /*@Override
-    public ByteArrayOutputStream getFileContents(GitRemote gitRemote, String remotePathToFile) {
-        throw new UnsupportedOperationException();
-    }*/
-
     @Override
     public ByteArrayOutputStream getFileContents(GitRemote gitRemote, String revisionHash, String remotePathToFile) {
         throw new UnsupportedOperationException();

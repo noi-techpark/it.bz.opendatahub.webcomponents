@@ -19,10 +19,10 @@ public class SearchtagRepositoryImpl implements SearchtagRepository {
     private static final String QUERY_BY_NAME = "SELECT trim('\"' FROM b::text) FROM\n" +
             "  (SELECT JSONB_ARRAY_ELEMENTS(search_tags) as b FROM webcomponent WHERE deleted=false) AS foo WHERE b='\"?\"' LIMIT 1;";
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public SearchtagRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public SearchtagRepositoryImpl(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

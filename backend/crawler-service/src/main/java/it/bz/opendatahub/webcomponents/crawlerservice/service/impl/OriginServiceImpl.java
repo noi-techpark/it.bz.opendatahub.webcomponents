@@ -21,20 +21,20 @@ import java.util.Optional;
 
 @Service
 public class OriginServiceImpl implements OriginService {
-    private WebcomponentService webcomponentService;
-    private WebcomponentVersionService webcomponentVersionService;
+    private final WebcomponentService webcomponentService;
+    private final WebcomponentVersionService webcomponentVersionService;
 
-    private OriginRepository originRepository;
-    private OriginTagRepository originTagRepository;
+    private final OriginRepository originRepository;
+    private final OriginTagRepository originTagRepository;
 
-    private VcsApiRepository vcsApiRepository;
+    private final VcsApiRepository vcsApiRepository;
 
     @Autowired
-    public OriginServiceImpl(WebcomponentService webcomponentService,
-                             WebcomponentVersionService webcomponentVersionService,
-                             OriginRepository originRepository,
-                             OriginTagRepository originTagRepository,
-                             @Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository) {
+    public OriginServiceImpl(final WebcomponentService webcomponentService,
+                             final WebcomponentVersionService webcomponentVersionService,
+                             final OriginRepository originRepository,
+                             final OriginTagRepository originTagRepository,
+                             @Qualifier("githubApiRepository") final VcsApiRepository vcsApiRepository) {
 
         this.webcomponentService = webcomponentService;
         this.webcomponentVersionService = webcomponentVersionService;

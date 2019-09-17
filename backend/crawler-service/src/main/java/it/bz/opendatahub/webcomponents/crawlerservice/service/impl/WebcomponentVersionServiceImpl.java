@@ -36,18 +36,18 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
 
     private static final String MANIFEST_FILE_NAME = "wcs-manifest.json";
 
-    private VcsApiRepository vcsApiRepository;
+    private final VcsApiRepository vcsApiRepository;
 
-    private WebcomponentVersionRepository webcomponentVersionRepository;
-    private WorkspaceRepository workspaceRepository;
+    private final WebcomponentVersionRepository webcomponentVersionRepository;
+    private final WorkspaceRepository workspaceRepository;
 
-    private WebcomponentVersionFactory webcomponentVersionFactory;
+    private final WebcomponentVersionFactory webcomponentVersionFactory;
 
     @Autowired
-    public WebcomponentVersionServiceImpl(@Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository,
-                                          WebcomponentVersionRepository webcomponentVersionRepository,
-                                          WorkspaceRepository workspaceRepository,
-                                          WebcomponentVersionFactory webcomponentVersionFactory) {
+    public WebcomponentVersionServiceImpl(@Qualifier("githubApiRepository") final VcsApiRepository vcsApiRepository,
+                                          final WebcomponentVersionRepository webcomponentVersionRepository,
+                                          final WorkspaceRepository workspaceRepository,
+                                          final WebcomponentVersionFactory webcomponentVersionFactory) {
 
         this.vcsApiRepository = vcsApiRepository;
 
@@ -85,9 +85,6 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
         saveDist(gitRevision, manifest, versionBasePath);
 
         upsertVersion(gitRevision, origin.getUuid(), manifest);
-        //get files from repo
-        //save to workspace
-        //import to table
     }
 
     @Override
@@ -107,8 +104,6 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
     }
 
     private void upsertVersion(GitRevision gitRevision, String originUuid, Manifest manifest) {
-        // log.debug("processing version: {}", gitRevision.getTagEntry().getName());
-
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findById(WebcomponentVersionId.of(originUuid, gitRevision.getTagEntry().getName()));
 
         if(!probe.isPresent()) {

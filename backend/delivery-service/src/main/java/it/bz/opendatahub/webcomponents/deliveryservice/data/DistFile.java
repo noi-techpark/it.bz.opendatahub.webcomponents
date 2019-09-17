@@ -6,7 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class DistFile {
-    public static DistFile of(String file, String mimetype, byte[] data) {
+    public static DistFile of(String file,
+                              String mimetype,
+                              byte[] data) {
+
         DistFile result = new DistFile();
         result.setName(file);
         result.setMimetype(mimetype);

@@ -23,7 +23,7 @@ public class CorsFilter implements Filter {
     private String allowedFrontendUrl;
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
 
     }
 

@@ -30,22 +30,22 @@ public class MasterOriginServiceImpl implements MasterOriginService {
 
     private static final String ORIGINS_FILE_NAME = "origins.json";
 
-    private MasterOriginConfiguration masterOriginConfiguration;
+    private final MasterOriginConfiguration masterOriginConfiguration;
 
-    private VcsApiRepository vcsApiRepository;
-    private SystemRepository systemRepository;
-    private OriginRepository originRepository;
+    private final VcsApiRepository vcsApiRepository;
+    private final SystemRepository systemRepository;
+    private final OriginRepository originRepository;
 
-    private OriginModelFactory originModelFactory;
+    private final OriginModelFactory originModelFactory;
 
     private final GitRemote gitRemote;
 
     @Autowired
-    public MasterOriginServiceImpl(MasterOriginConfiguration masterOriginConfiguration,
-                                   @Qualifier("githubApiRepository") VcsApiRepository vcsApiRepository,
-                                   SystemRepository systemRepository,
-                                   OriginRepository originRepository,
-                                   OriginModelFactory originModelFactory) {
+    public MasterOriginServiceImpl(final MasterOriginConfiguration masterOriginConfiguration,
+                                   @Qualifier("githubApiRepository") final VcsApiRepository vcsApiRepository,
+                                   final SystemRepository systemRepository,
+                                   final OriginRepository originRepository,
+                                   final OriginModelFactory originModelFactory) {
 
         this.masterOriginConfiguration = masterOriginConfiguration;
         this.vcsApiRepository = vcsApiRepository;

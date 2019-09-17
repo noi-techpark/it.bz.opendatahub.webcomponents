@@ -10,16 +10,19 @@ import java.util.List;
 
 @Repository
 public class WebcomponentRepositoryImpl implements WebcomponentRepository {
-    private JdbcTemplate jdbcTemplate;
+    private static final String QUERY_VERSIONS =
+            "SELECT version_tag FROM webcomponent_version WHERE webcomponent_uuid=? ORDER by version_tag DESC";
+
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public WebcomponentRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public WebcomponentRepositoryImpl(final JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public String getLatestVersionOfWebcomponent(String webcomponentId) {
-        List<String> versions = jdbcTemplate.queryForList("SELECT version_tag FROM webcomponent_version WHERE webcomponent_uuid=? ORDER by version_tag DESC", String.class, webcomponentId);
+        List<String> versions = jdbcTemplate.queryForList(QUERY_VERSIONS, String.class, webcomponentId);
 
         if(versions.isEmpty()) {
             throw new NotFoundException("unable to find versions for webcomponent");

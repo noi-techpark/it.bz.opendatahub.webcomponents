@@ -9,6 +9,7 @@ import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentVersionD
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentRepository;
 import it.bz.opendatahub.webcomponents.dataservice.repository.WebcomponentSearchRepository;
+import it.bz.opendatahub.webcomponents.dataservice.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentService;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,41 +19,41 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.net.URI;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class WebcomponentServiceImpl implements WebcomponentService {
-    private WebcomponentSearchRepository webcomponentSearchRepository;
-    private WebcomponentRepository webcomponentRepository;
-    private WebcomponentConverter webcomponentConverter;
+    private final WebcomponentSearchRepository webcomponentSearchRepository;
+    private final WebcomponentRepository webcomponentRepository;
+    private final WebcomponentConverter webcomponentConverter;
 
-    private WebcomponentVersionService webcomponentVersionService;
+    private final WebcomponentVersionService webcomponentVersionService;
+
+    private final WorkspaceRepository workspaceRepository;
 
     @Value("${application.deliveryBaseUrl}")
     private String deliveryBaseUrl;
 
     @Autowired
-    public WebcomponentServiceImpl(WebcomponentSearchRepository webcomponentSearchRepository,
-                                   WebcomponentRepository webcomponentRepository,
-                                   WebcomponentConverter webcomponentConverter,
-                                   WebcomponentVersionService webcomponentVersionService) {
+    public WebcomponentServiceImpl(final WebcomponentSearchRepository webcomponentSearchRepository,
+                                   final WebcomponentRepository webcomponentRepository,
+                                   final WebcomponentConverter webcomponentConverter,
+                                   final WebcomponentVersionService webcomponentVersionService,
+                                   final WorkspaceRepository workspaceRepository) {
 
         this.webcomponentSearchRepository = webcomponentSearchRepository;
         this.webcomponentRepository = webcomponentRepository;
         this.webcomponentConverter = webcomponentConverter;
         this.webcomponentVersionService = webcomponentVersionService;
+        this.workspaceRepository = workspaceRepository;
     }
 
     @Override
     public Page<WebcomponentDto> listAll(Pageable pageRequest, List<String> tags, String searchTerm) {
-        Page<WebcomponentModel> result;
-        if(!tags.isEmpty()) {
-            result = webcomponentSearchRepository.findBySearchTermAndTags(searchTerm, tags, pageRequest);
-        }
-        else {
-            result = webcomponentRepository.findAllMatchingSearchTerm("%"+searchTerm.toLowerCase()+"%", pageRequest);
-        }
+        Page<WebcomponentModel> result = webcomponentSearchRepository.findBySearchTermAndTags(searchTerm, tags, pageRequest);
 
         return new PageImpl<>(webcomponentConverter.modelToDto(result.getContent()), pageRequest, result.getTotalElements());
     }
@@ -85,9 +86,26 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     }
 
     @Override
+    public WebcomponentConfiguration getConfiguration(String uuid, String versionTag) {
+        WebcomponentDto webcomponent = findOne(uuid);
+
+        WebcomponentVersionDto version = webcomponentVersionService.getSpecificVersionOfWebcomponent(uuid, versionTag);
+
+        WebcomponentConfiguration configuration = new WebcomponentConfiguration();
+        configuration.setWebcomponentUuid(uuid);
+        configuration.setConfiguration(version.getConfiguration());
+        configuration.setDeliveryBaseUrl(deliveryBaseUrl);
+
+        configuration.setDist(Dist.of(webcomponent.getUuid()+"/"+versionTag, version.getDist().getFiles()));
+
+        return configuration;
+    }
+
+    @Override
     public byte[] getLogoImage(String uuid) {
 
-//TODO
-        return new byte[0];
+        WebcomponentVersionDto latestVersion = webcomponentVersionService.getLatestVersionOfWebcomponent(uuid);
+
+        return workspaceRepository.readFile(Paths.get(uuid, latestVersion.getVersionTag(), "wcs-logo.png"));
     }
 }

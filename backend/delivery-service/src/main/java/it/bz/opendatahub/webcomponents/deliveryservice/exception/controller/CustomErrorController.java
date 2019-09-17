@@ -12,7 +12,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 @Controller
 @ApiIgnore
 public class CustomErrorController extends ExceptionHandlerController implements ErrorController {

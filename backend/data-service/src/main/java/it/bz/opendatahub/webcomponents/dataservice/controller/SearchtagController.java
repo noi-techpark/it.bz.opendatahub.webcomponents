@@ -13,10 +13,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/searchtag")
 public class SearchtagController {
-    private SearchtagService searchtagService;
+    private final SearchtagService searchtagService;
 
     @Autowired
-    public SearchtagController(SearchtagService searchtagService) {
+    public SearchtagController(final SearchtagService searchtagService) {
         this.searchtagService = searchtagService;
     }
 

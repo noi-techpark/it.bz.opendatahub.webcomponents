@@ -48,25 +48,33 @@
                 </div>
               </div>
               <div class="d-table-row">
-                <div class="d-table-cell pr-2">Version:</div>
+                <div class="d-table-cell pr-2">License:</div>
+                <div class="d-table-cell">{{ component.license.name }}</div>
+              </div>
+              <div class="d-table-row">
+                <div class="d-table-cell pr-2">
+                  First Published:
+                </div>
                 <div class="d-table-cell">
-                  {{ component.versions[0].versionTag }}
+                  {{ $d(new Date(component.datePublished)) }}
                 </div>
               </div>
               <div class="d-table-row">
-                <div class="d-table-cell pr-2">License:</div>
-                <div class="d-table-cell">{{ component.license }}</div>
-              </div>
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2">Published:</div>
+                <div class="d-table-cell pr-2">Current Version:</div>
                 <div class="d-table-cell">
-                  {{ $d(new Date(component.datePublished)) }}
+                  {{ component.versions[0].versionTag }}
                 </div>
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2 text-nowrap">Last Update:</div>
                 <div class="d-table-cell">
                   {{ $d(new Date(component.dateUpdated)) }}
+                </div>
+              </div>
+              <div v-if="component.repositoryUrl" class="d-table-row">
+                <div class="d-table-cell pr-2 text-nowrap">Repository:</div>
+                <div class="d-table-cell">
+                  <a :href="component.repositoryUrl" target="_blank">open</a>
                 </div>
               </div>
             </div>
@@ -76,7 +84,26 @@
     </div>
     <div
       v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
-      class="container container-extended p-4"
+      class="container container-extended pt-4 pl-4 pr-4"
+    >
+      <div class="text-right h3">
+        Version
+        <b-form-select v-model="selectedVersion" style="max-width:150px;">
+          <option
+            v-for="version in component.versions"
+            :key="version.versionTag"
+            >{{ version.versionTag }}</option
+          >
+        </b-form-select>
+      </div>
+
+      <b-alert :show="!isLatestVersionActive" variant="danger" class="mt-4 mb-4"
+        >You have not selected the latest version of this webcomponent.</b-alert
+      >
+    </div>
+    <div
+      v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
+      class="container container-extended pb-4 pl-4 pr-4"
     >
       <div class="row">
         <div class="col-8">
@@ -92,11 +119,13 @@
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              <b-checkbox
-                v-model="autoUpdate"
-                class="d-inline-block"
-              ></b-checkbox>
-              auto update
+              <span v-if="!editmode"
+                ><b-checkbox
+                  v-model="autoUpdate"
+                  class="d-inline-block"
+                ></b-checkbox>
+                auto update</span
+              >
               <span style="cursor: pointer;" @click="updatePreview"
                 ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
                 update preview</span
@@ -105,9 +134,9 @@
           </b-card>
         </div>
 
-        <div class="col-4">
+        <div class="col-4" v-show="!editmode">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card id="widget-config" class="full-height">
+          <b-card class="full-height widget-config">
             <b-card-text>
               <wcs-config-tool ref="cfig">{{
                 config.configuration
@@ -119,23 +148,55 @@
             </div>-->
           </b-card>
         </div>
+        <div class="col-4" v-show="editmode">
+          <div class="text-uppercase font-weight-bold mb-2">configuration</div>
+          <b-card class="full-height widget-config">
+            <b-card-text>
+              Configurator disabled. Manual configuration active.
+            </b-card-text>
+
+            <!--<div slot="footer" class="text-right text-uppercase">
+              <font-awesome-icon :icon="['fas', 'check']" /> apply
+            </div>-->
+          </b-card>
+        </div>
       </div>
       <div class="row mt-5">
         <div class="col-12">
           <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
-          <b-card id="widget-codesnippet">
+          <b-card
+            id="widget-codesnippet"
+            style="min-height: 250px;"
+            :class="{ white: editmode }"
+          >
             <b-card-text>
               <textarea
                 id="code-snippet"
                 v-model="snipp"
                 class="full-width full-height"
-                style="border: 0; background-color: inherit;"
+                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
+                :disabled="!editmode"
+                rows="10"
               ></textarea>
             </b-card-text>
 
             <div slot="footer" class="text-right text-uppercase">
-              <a href="javascript:void(0);" @click="copySnippetToClipboard()"
-                ><font-awesome-icon :icon="['far', 'copy']" /> COPY</a
+              <span
+                style="cursor: pointer"
+                @click="toggleEditMode()"
+                class="mr-4"
+                v-if="editmode"
+                ><font-awesome-icon :icon="['fas', 'times']" /> RESET</span
+              >
+              <span
+                style="cursor: pointer"
+                @click="toggleEditMode()"
+                class="mr-4"
+                v-else
+                ><font-awesome-icon :icon="['far', 'edit']" /> EDIT</span
+              >
+              <span style="cursor: pointer" @click="copySnippetToClipboard()"
+                ><font-awesome-icon :icon="['far', 'copy']" /> COPY</span
               >
             </div>
           </b-card>
@@ -150,10 +211,12 @@ export default {
   data() {
     return {
       snipp: '',
-      show: false,
+      snippOriginal: '',
+      editmode: false,
       component: null,
       config: { configuration: { tagName: '' } },
-      autoUpdate: true
+      autoUpdate: true,
+      selectedVersion: null
     };
   },
   computed: {
@@ -163,22 +226,65 @@ export default {
       }
 
       return this.localePath('index');
+    },
+    isLatestVersionActive() {
+      if (!this.component) {
+        return false;
+      }
+      return this.selectedVersion === this.component.versions[0].versionTag;
+    }
+  },
+  watch: {
+    selectedVersion(newValue, oldValue) {
+      if (oldValue !== null) {
+        this.reloadConfig();
+      }
     }
   },
   mounted() {
     this.loadData();
-    this.show = true;
     this.initEventListener();
   },
-
   methods: {
+    toggleEditMode() {
+      this.editmode = !this.editmode;
+      if (this.editmode) {
+        this.snippOriginal = this.snipp;
+      } else {
+        this.snipp = this.snippOriginal;
+        if (this.autoUpdate) {
+          this.updatePreview();
+        }
+      }
+    },
+    reloadConfig() {
+      this.$router.push(
+        this.localePath({
+          name: 'webcomponent-id-version',
+          params: { id: this.$route.params.id, version: this.selectedVersion }
+        })
+      );
+    },
     async loadData() {
       this.component = await this.$api.webcomponent.getOneById(
         this.$route.params.id
       );
 
+      if (this.$route.params.version) {
+        this.component.versions.forEach((entry) => {
+          if (entry.versionTag === this.$route.params.version) {
+            this.selectedVersion = this.$route.params.version;
+          }
+        });
+      }
+
+      if (!this.selectedVersion) {
+        this.selectedVersion = this.component.versions[0].versionTag;
+      }
+
       this.config = await this.$api.webcomponent.getConfigById(
-        this.$route.params.id
+        this.$route.params.id,
+        this.selectedVersion
       );
     },
     updateSnippet(data) {
@@ -243,12 +349,16 @@ export default {
     background-color: #f1f1f1;
   }
 
+  &.white .card-body {
+    background-color: white;
+  }
+
   .card-footer {
     background-color: inherit;
   }
 }
 
-#widget-config {
+.widget-config {
   .card-footer {
     background-color: inherit;
   }

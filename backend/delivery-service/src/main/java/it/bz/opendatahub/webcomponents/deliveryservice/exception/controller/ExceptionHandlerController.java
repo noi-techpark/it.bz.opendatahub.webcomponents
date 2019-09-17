@@ -17,10 +17,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 
-/**
- * Created by SirCotare on 08.03.2016.
- */
-
 @ControllerAdvice
 public class ExceptionHandlerController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHandlerController.class);

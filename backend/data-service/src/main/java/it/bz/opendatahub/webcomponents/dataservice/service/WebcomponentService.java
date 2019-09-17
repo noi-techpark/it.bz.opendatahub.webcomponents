@@ -14,5 +14,7 @@ public interface WebcomponentService {
 
     WebcomponentConfiguration getConfiguration(String uuid);
 
+    WebcomponentConfiguration getConfiguration(String uuid, String versionTag);
+
     byte[] getLogoImage(String uuid);
 }

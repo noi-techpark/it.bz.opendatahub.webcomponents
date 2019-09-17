@@ -1,11 +1,6 @@
 <template>
   <nuxt-link :to="returnPath" style="color:inherit;text-decoration: inherit;">
-    <b-card
-      img-src="https://picsum.photos/600/300/?image=25"
-      img-alt="Image"
-      img-top
-      class="full-height"
-    >
+    <b-card :img-src="getLogo" img-alt="Image" img-top class="full-height">
       <b-card-title title-tag="div" class="h4">
         <span class="text-secondary">#</span>{{ entry.title }}
       </b-card-title>
@@ -47,7 +42,7 @@
           </div>
           <div>
             License:
-            <span class="font-weight-bold">{{ entry.license }}</span>
+            <span class="font-weight-bold">{{ entry.license.name }}</span>
           </div>
         </div>
       </div>
@@ -68,6 +63,18 @@ export default {
     }
   },
   computed: {
+    getLogo() {
+      if (this.entry.image) {
+        return (
+          this.$axios.defaults.baseURL +
+          '/webcomponent/' +
+          this.entry.uuid +
+          '/logo'
+        );
+      }
+
+      return 'https://picsum.photos/600/300/?image=25';
+    },
     returnPath() {
       if (this.returnTo === null) {
         return this.localePath({

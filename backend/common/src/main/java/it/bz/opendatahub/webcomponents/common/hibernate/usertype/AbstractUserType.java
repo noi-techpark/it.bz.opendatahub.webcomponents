@@ -54,7 +54,6 @@ public abstract class AbstractUserType implements UserType, ParameterizedType {
             pgo.setValue(objectMapper.writeValueAsString(o));
 
             preparedStatement.setObject(i, pgo);
-            //preparedStatement.setString(i, objectMapper.writeValueAsString(o));
         }
         catch (IOException e) {
             throw new HibernateException(e);
