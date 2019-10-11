@@ -4,14 +4,14 @@
       <h1>Getting Started</h1>
 
       To register with the webcomponents hub a wcs-manifest.json file must be in
-      your repoistory's root directory. A manifest file should look like this:
+      your repository's root directory. A manifest file should look like this:
       <p />
       <pre>
 {
   "title": "Generic Map",
   "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
-  "license": "n/a",
+  "license": "GPL-3.0",
   "authors": [
     {
       "name": "NOI",
@@ -22,15 +22,19 @@
   ],
   "image": "wcs-logo.png",
   "searchTags": ["map"],
-  "dist": [
-    "dist/map_widget.min.js"
-  ],
+  "dist": {
+    "basePath": "dist",
+    "files": [
+      "map_widget.min.js"
+    ]
+  },
   "configuration": {
     "tagName": "map-widget",
     "options": [
       {
         "key": "domain",
         "type": "select",
+        "label": "Domain",
         "options": {
           "values": ["mobility", "tourism"],
           "default": "mobility"
@@ -39,6 +43,7 @@
       {
         "key": "station-types",
         "type": "multiselect",
+        "label": "Station Types",
         "options": {
           "values": ["CreativeIndustry","EChargingStation","EChargingPlug"],
           "default": []
@@ -52,7 +57,6 @@
       <h2>Configuration</h2>
       The configuration section of the manifest is needed for the configurator
       to know what options to include.
-      <div class="font-weight-bold">warning: this is still WIP!</div>
       <p />
       Here are some examples of what a configuration may include:
       <p />
@@ -61,26 +65,27 @@
     "tagName": "map-widget",
     "options": [
       {
-        "key": "domain",
+        "key": "singleSelect",
         "type": "select",
-        "required": false,
+        "label": "a single select",
         "options": {
-          "values": ["mobility", "tourism"],
-          "default": "mobility"
+          "values": ["optionA", "optionB"],
+          "default": "optionA"
         }
       },
       {
-        "key": "station-types",
+        "key": "multiselectField",
         "type": "multiselect",
         "required": true,
         "options": {
-          "values": ["CreativeIndustry","EChargingStation","EChargingPlug"],
+          "label": "a multiselect field",
+          "values": ["optionA","optionB","optionC"],
           "default": []
         }
       },
       {
         "key": "sample-A",
-        "type": "string",
+        "type": "text",
         "required": false,
         "options": {
           "default": "Test String"
@@ -88,7 +93,7 @@
       },
       {
         "key": "sample-B",
-        "type": "text",
+        "type": "textarea",
         "required": false,
         "options": {
           "default": "A multi-\nLine Text"
@@ -96,30 +101,33 @@
       },
       {
         "key": "sample-C",
-        "type": "integer",
+        "type": "number",
         "required": false,
         "options": {
           "default": "342",
           "min": 0,
-          "max": 600
+          "max": 600,
+          "step": 1
         }
       },
       {
         "key": "sample-D",
-        "type": "float",
+        "type": "number",
         "required": false,
         "options": {
           "default": "34.2",
           "min": 0,
-          "max": 60.04
+          "max": 60.04,
+          "step": 0.01
         }
       },
       {
-        "key": "sample-E",
+        "key": "booleanField",
         "type": "bool",
         "required": false,
         "options": {
-          "default": false
+          "label": "a boolean field",
+          "default": false"
         }
       },
       {
