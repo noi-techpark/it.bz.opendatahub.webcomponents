@@ -73,7 +73,7 @@ export default {
         );
       }
 
-      return 'https://picsum.photos/600/300/?image=25';
+      return '/component_placeholder.png';
     },
     returnPath() {
       if (this.returnTo === null) {
