@@ -162,8 +162,9 @@ Adding a new webcomponent requires an entry in the main json file. This file can
 
 1) Use a UUID-generator to create a new id
 2) Create a new entry in the origins file referencing the repository of the webcomponent
+3) Add at least one version-tag to the reposotory of the webcomponent. Version tags must look like this: v1.0
 
-The repository of the new webcomponent must contain a wcs-manifest.json file!
+The repository of the new webcomponent must have at least one version tag and contain a wcs-manifest.json file!
 
 ### wcs-manifest.json
 
