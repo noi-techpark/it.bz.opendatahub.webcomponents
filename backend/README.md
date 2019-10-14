@@ -8,6 +8,8 @@ Webcomponents store for OpenDataHub.
 - [Building and Testing](#building-and-testing)
 - [Configuration](#configuration)
 - [Deployment](#deployment)
+- [API & swagger](#api--swagger)
+- [General Usage](#general-usage)
 - [Docker environment](#docker-environment)
 - [Information](#information)
 
@@ -87,6 +89,12 @@ application.repoistory.github.token
 enter your github token to bypass the 60 calls/hour limit
 
 ```
+application.repository.origin.url
+application.repository.origin.branch
+```
+repository where the master list for webcomponents can be found. must use https and not ssh
+
+```
 application.workspace.path
 ```
 path to the local file system where the crawler will store the "dist" files.
@@ -97,6 +105,18 @@ path to the local file system where the crawler will store the "dist" files.
 application.workspace.path
 ```
 path to the local file system where the crawler has stored the "dist" files
+
+> data-service 
+
+```
+application.workspace.path
+```
+path to the local file system where the crawler has stored the "dist" files
+
+```
+application.deliveryBaseUrl
+```
+url where the frontend can reach the delivery service to load dist files
 
 ## Deployment
 
@@ -131,6 +151,155 @@ data-service will expose the main api for webcomponents. it will also expose a s
 > delivery-service
 
 delivery-service will expose api for retrieving the dist files needed to embed webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
+
+## General Usage
+
+### Adding a webcomponent
+
+Adding a new webcomponent requires an entry in the main json file. This file can be found in the repository configured as "application.repository.origin.url".
+
+> origins.json
+
+1) Use a UUID-generator to create a new id
+2) Create a new entry in the origins file referencing the repository of the webcomponent
+3) Add at least one version-tag to the reposotory of the webcomponent. Version tags must look like this: v1.0
+
+The repository of the new webcomponent must have at least one version tag and contain a wcs-manifest.json file!
+
+### wcs-manifest.json
+
+To register with the webcomponents hub a wcs-manifest.json file must be in your repository's root directory. A manifest file should look like this:
+
+```
+{
+  "title": "Generic Map",
+  "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
+  "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
+  "license": "GPL-3.0",
+  "authors": [
+    {
+      "name": "NOI",
+      "email": "info@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
+    }
+  ],
+  "image": "wcs-logo.png",
+  "searchTags": ["map"],
+  "dist": {
+    "basePath": "dist",
+    "files": [
+      "map_widget.min.js"
+    ]
+  },
+  "configuration": {
+    "tagName": "map-widget",
+    "options": [
+      {
+        "key": "domain",
+        "type": "select",
+        "label": "Domain",
+        "options": {
+          "values": ["mobility", "tourism"],
+          "default": "mobility"
+        }
+      },
+      {
+        "key": "station-types",
+        "type": "multiselect",
+        "label": "Station Types",
+        "options": {
+          "values": ["CreativeIndustry","EChargingStation","EChargingPlug"],
+          "default": []
+        }
+      }
+    ]
+  }
+}
+```
+
+The configuration section of the manifest is needed for the configurator to know what options to include.
+```
+"configuration": {
+    "tagName": "map-widget",
+    "options": [
+      {
+        "key": "singleSelect",
+        "type": "select",
+        "label": "a single select",
+        "options": {
+          "values": ["optionA", "optionB"],
+          "default": "optionA"
+        }
+      },
+      {
+        "key": "multiselectField",
+        "type": "multiselect",
+        "required": true,
+        "options": {
+          "label": "a multiselect field",
+          "values": ["optionA","optionB","optionC"],
+          "default": []
+        }
+      },
+      {
+        "key": "sample-A",
+        "type": "text",
+        "required": false,
+        "options": {
+          "default": "Test String"
+        }
+      },
+      {
+        "key": "sample-B",
+        "type": "textarea",
+        "required": false,
+        "options": {
+          "default": "A multi-\nLine Text"
+        }
+      },
+      {
+        "key": "sample-C",
+        "type": "number",
+        "required": false,
+        "options": {
+          "default": "342",
+          "min": 0,
+          "max": 600,
+          "step": 1
+        }
+      },
+      {
+        "key": "sample-D",
+        "type": "number",
+        "required": false,
+        "options": {
+          "default": "34.2",
+          "min": 0,
+          "max": 60.04,
+          "step": 0.01
+        }
+      },
+      {
+        "key": "booleanField",
+        "type": "bool",
+        "required": false,
+        "options": {
+          "label": "a boolean field",
+          "default": false"
+        }
+      },
+      {
+        "key": "sample-F",
+        "type": "object",
+        "required": false,
+        "options": {
+          "default": {}
+        }
+      }
+    ]
+  }
+```
 
 ## Docker environment
 
