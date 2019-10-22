@@ -138,9 +138,10 @@
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card class="full-height widget-config">
             <b-card-text>
-              <wcs-config-tool ref="cfig">{{
-                config.configuration
-              }}</wcs-config-tool>
+              <WCSConfigTool
+                :config="config.configuration"
+                @snippet="updateSnippet"
+              ></WCSConfigTool>
             </b-card-text>
 
             <!--<div slot="footer" class="text-right text-uppercase">
@@ -207,7 +208,12 @@
 </template>
 
 <script>
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+
 export default {
+  components: {
+    WCSConfigTool
+  },
   data() {
     return {
       snipp: '',
@@ -243,7 +249,7 @@ export default {
   },
   mounted() {
     this.loadData();
-    this.initEventListener();
+    // this.initEventListener();
   },
   methods: {
     toggleEditMode() {
@@ -288,8 +294,7 @@ export default {
       );
     },
     updateSnippet(data) {
-      console.log(data);
-      this.snipp = data.detail[0] + '\n' + this.getDistIncludes().join('\n');
+      this.snipp = data + '\n' + this.getDistIncludes().join('\n');
 
       if (this.autoUpdate) {
         this.updatePreview();
@@ -323,7 +328,7 @@ export default {
       });
 
       return scripts;
-    },
+    } /* ,
     initEventListener() {
       if (
         this.component &&
@@ -338,7 +343,7 @@ export default {
         return;
       }
       this.$refs.cfig.addEventListener('snippet', this.updateSnippet);
-    }
+    } */
   }
 };
 </script>
