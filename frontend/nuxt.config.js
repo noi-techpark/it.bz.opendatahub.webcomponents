@@ -17,15 +17,7 @@ module.exports = {
         content: 'ODH Webcomponents'
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-    script: [
-      { src: 'https://unpkg.com/vue' },
-      {
-        src:
-          (process.env.CDN_URL || 'http://localhost:8080') +
-          '/dist/226662ad-41c2-4e55-b11f-271d72d30bd4/wcs-config-tool.min.js'
-      }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   /*
    ** Customize the progress-bar color
