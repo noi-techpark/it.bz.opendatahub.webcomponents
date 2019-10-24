@@ -18,7 +18,7 @@ pipeline {
 
         WORKSPACE_PATH = "/var/data/webcomponents-store"
         GITHUB_TOKEN = credentials('webcompstore-test-github-token')
-        ORIGIN_URL = "https://github.com/uhufa/odh-web-components-store-demo-origins.git"
+        ORIGIN_URL = "https://github.com/noi-techpark/odh-web-components-store-origins.git"
         ORIGIN_BRANCH = "master"
 
         DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
