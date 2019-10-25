@@ -109,7 +109,7 @@
         <div class="col-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
           <b-card id="widget-preview" class="full-height">
-            <b-card-text class="text-center">
+            <b-card-text class="text-center" id="twrap">
               <iframe
                 id="tframe"
                 class="full-height full-width"
@@ -308,8 +308,20 @@ export default {
       document.execCommand('copy');
     },
     updatePreview() {
-      document.getElementById('tframe').contentDocument.close();
-      document.getElementById('tframe').contentDocument.write(this.snipp);
+      const oldElement = document.getElementById('tframe');
+
+      oldElement.parentNode.removeChild(oldElement);
+
+      const newElement = document.createElement('iframe');
+      newElement.setAttribute('id', 'tframe');
+      newElement.setAttribute('class', 'full-height full-width');
+      newElement.setAttribute('style', 'min-height: 350px;');
+      newElement.setAttribute('frameborder', '0');
+
+      document.getElementById('twrap').appendChild(newElement);
+
+      newElement.contentDocument.close();
+      newElement.contentDocument.write(this.snipp);
     },
     getDistIncludes() {
       const scripts = [];
