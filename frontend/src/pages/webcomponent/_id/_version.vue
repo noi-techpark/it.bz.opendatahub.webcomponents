@@ -1,9 +1,9 @@
 <template>
   <div v-if="component" class="mb-5">
     <div class="bg-light">
-      <div class="container p-5">
+      <div class="container extended p-5">
         <div class="row">
-          <div class="col-1">
+          <div class="col-3 d-flex justify-content-end">
             <nuxt-link
               :to="returnLink"
               class="btn-circle arrow-left filled-dark"
@@ -11,7 +11,7 @@
               <img src="/icons/ic_arrow.svg" />
             </nuxt-link>
           </div>
-          <div class="col-8">
+          <div class="col-9 col-md-5">
             <h1>#{{ component.title }}</h1>
 
             <div class="d-flex">
@@ -25,7 +25,7 @@
               </div>
             </div>
           </div>
-          <div class="col-3 pb-5" style="border-left: 2px solid #d9d9d9;">
+          <div class="col-12 col-md-4 pb-5 detail-border">
             <div class="d-table">
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">Author:</div>
@@ -106,7 +106,7 @@
       class="container container-extended pb-4 pl-4 pr-4"
     >
       <div class="row">
-        <div class="col-8">
+        <div class="col-md-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
           <b-card id="widget-preview" class="full-height">
             <b-card-text class="text-center" id="twrap">
@@ -134,7 +134,7 @@
           </b-card>
         </div>
 
-        <div class="col-4" v-show="!editmode">
+        <div class="col-md-4 mt-5 mt-md-0" v-show="!editmode">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card class="full-height widget-config">
             <b-card-text>
