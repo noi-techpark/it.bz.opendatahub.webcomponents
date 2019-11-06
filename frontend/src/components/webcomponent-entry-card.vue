@@ -1,13 +1,22 @@
 <template>
   <nuxt-link :to="returnPath" style="color:inherit;text-decoration: inherit;">
-    <b-card :img-src="getLogo" img-alt="Image" img-top class="full-height">
-      <b-card-title title-tag="div" class="h4">
-        <span class="text-secondary">#</span>{{ entry.title }}
-      </b-card-title>
+    <b-card no-body class="full-height">
+      <div class="aspect-box">
+        <div
+          class="aspect-container"
+          :style="'background-image: url(' + getLogo + ')'"
+        ></div>
+      </div>
 
-      <b-card-text class="text-muted">
-        {{ entry.descriptionAbstract }}
-      </b-card-text>
+      <b-card-body>
+        <b-card-title title-tag="div" class="h4">
+          <span class="text-secondary">#</span>{{ entry.title }}
+        </b-card-title>
+
+        <b-card-text class="text-muted">
+          {{ entry.descriptionAbstract }}
+        </b-card-text>
+      </b-card-body>
 
       <div slot="footer" class="row font-small">
         <div class="col-6">
@@ -92,3 +101,27 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+.aspect-box {
+  height: 0;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.aspect-box .aspect-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background-size: cover;
+
+  /* img {
+    object-fit: cover;
+    max-width: 100%;
+    height: 100%;
+  } */
+}
+</style>

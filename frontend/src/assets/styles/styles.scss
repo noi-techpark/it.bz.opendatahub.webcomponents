@@ -17,3 +17,16 @@
 
 @import 'widget/search-input';
 @import 'widget/tagcloud';
+
+.detail-border {
+  @include media-breakpoint-down(sm) {
+    border-top: 2px solid #d9d9d9;
+    padding-bottom: 0 !important;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+
+  @include media-breakpoint-up(md) {
+    border-left: 2px solid #d9d9d9;
+  }
+}

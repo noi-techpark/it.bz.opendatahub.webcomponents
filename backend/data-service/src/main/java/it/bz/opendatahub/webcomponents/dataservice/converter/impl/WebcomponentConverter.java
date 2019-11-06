@@ -48,7 +48,7 @@ public class WebcomponentConverter extends ModelToDtoToRestConverter<Webcomponen
             entry.setLicense(license);
         }
 
-        entry.getVersions().sort(Comparator.comparing(WebcomponentVersion::getReleaseTimestamp));
+        entry.getVersions().sort(Comparator.comparing(WebcomponentVersion::getReleaseTimestamp).reversed());
 
         entry.setDatePublished(entry.getVersions().get(0).getReleaseTimestamp());
         entry.setDateUpdated(entry.getVersions().get(entry.getVersions().size()-1).getReleaseTimestamp());
