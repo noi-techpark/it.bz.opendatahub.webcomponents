@@ -73,9 +73,9 @@ pipeline {
         }
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'backend/data-service/target/dataservice.war', onlyIfSuccessful: true
-                archiveArtifacts artifacts: 'backend/crawler-service/target/crawlerservice.war', onlyIfSuccessful: true
-                archiveArtifacts artifacts: 'backend/delivery-service/target/deliveryservice.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/data-service/target/dataservice-1.0.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/crawler-service/target/crawlerservice-1.0.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/delivery-service/target/deliveryservice-1.0.war', onlyIfSuccessful: true
             }
         }
     }
