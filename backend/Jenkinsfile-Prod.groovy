@@ -51,31 +51,16 @@ pipeline {
                 '''
             }
         }
-        stage('Install dependencies') {
+        stage('Install Dependencies & Package Backend Services') {
             steps {
-                sh 'cd backend && mvn install -B -U'
-            }
-        }
-        stage('Test/Build: data-service') {
-            steps {
-                sh 'cd backend/data-service && mvn -B -U clean test verify package'
-            }
-        }
-        stage('Test/Build: crawler-service') {
-            steps {
-                sh 'cd backend/crawler-service && mvn -B -U clean test verify package'
-            }
-        }
-        stage('Test/Build: delivery-service') {
-            steps {
-                sh 'cd backend/delivery-service && mvn -B -U clean test verify package'
+                sh 'cd backend && mvn -B -U clean install test verify package'
             }
         }
         stage('Archive') {
             steps {
-                archiveArtifacts artifacts: 'backend/data-service/target/dataservice-1.0.war', onlyIfSuccessful: true
-                archiveArtifacts artifacts: 'backend/crawler-service/target/crawlerservice-1.0.war', onlyIfSuccessful: true
-                archiveArtifacts artifacts: 'backend/delivery-service/target/deliveryservice-1.0.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/data-service/target/dataservice.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/crawler-service/target/crawlerservice.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/delivery-service/target/deliveryservice.war', onlyIfSuccessful: true
             }
         }
     }
