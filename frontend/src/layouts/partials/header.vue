@@ -4,8 +4,8 @@
       <div class="d-flex justify-content-between">
         <nuxt-link :to="localePath('index')">
           <img src="/logo.png" height="50px" />
-          <a href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Stages_of_development" target="_blank" class="alpha_badge">ALPHA</a>
         </nuxt-link>
+        <a href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Stages_of_development" target="_blank" class="alpha_badge">ALPHA</a>
         <div>
           <b-nav class="text-uppercase">
             <b-nav-item :to="localePath('index')">home</b-nav-item>
