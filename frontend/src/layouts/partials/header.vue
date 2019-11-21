@@ -6,7 +6,7 @@
           <nuxt-link :to="localePath('index')">
             <img src="/logo.png" height="50px" />
           </nuxt-link>
-          <a href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Stages_of_development" target="_blank" class="alpha_badge">ALPHA</a>
+          <a href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Stages_of_development" target="_blank" class="beta_badge">BETA</a>
         </div>
         <div>
           <b-nav class="text-uppercase">
