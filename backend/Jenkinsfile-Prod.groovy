@@ -16,6 +16,7 @@ pipeline {
         GITHUB_TOKEN = credentials('webcompstore-test-github-token')
         ORIGIN_URL = "https://github.com/noi-techpark/odh-web-components-store-origins.git"
         ORIGIN_BRANCH = "master"
+        CRAWLER_FETCH_DELAY_MS = 180000
 
         DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.bz.it/dist"
     }
@@ -43,6 +44,8 @@ pipeline {
                     sed -i -e "s%\\(application.repository.github.token\\s*=\\).*\\$%\\1${GITHUB_TOKEN}%" backend/crawler-service/src/main/resources/application.properties
                     sed -i -e "s%\\(application.repository.origin.url\\s*=\\).*\\$%\\1${ORIGIN_URL}%" backend/crawler-service/src/main/resources/application.properties
                     sed -i -e "s%\\(application.repository.origin.branch\\s*=\\).*\\$%\\1${ORIGIN_BRANCH}%" backend/crawler-service/src/main/resources/application.properties
+                    sed -i -e "s%\\(application.schedule.origin\\s*=\\).*\\$%\\1${CRAWLER_FETCH_DELAY_MS}%" backend/crawler-service/src/main/resources/application.properties
+                    sed -i -e "s%\\(application.schedule.component\\s*=\\).*\\$%\\1${CRAWLER_FETCH_DELAY_MS}%" backend/crawler-service/src/main/resources/application.properties
 
                     sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/delivery-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/delivery-service/src/main/resources/application.properties
