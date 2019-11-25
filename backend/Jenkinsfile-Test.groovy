@@ -17,7 +17,7 @@ pipeline {
         POSTGRES_PASSWORD = credentials('webcompstore-test-postgres-password')
 
         WORKSPACE_PATH = "/var/data/webcomponents-store"
-        GITHUB_TOKEN = credentials('webcompstore-test-github-token')
+        GITHUB_TOKEN = credentials('webcompstore-github-token')
         ORIGIN_URL = "https://github.com/noi-techpark/odh-web-components-store-origins.git"
         ORIGIN_BRANCH = "master"
         CRAWLER_FETCH_DELAY_MS = 360000
