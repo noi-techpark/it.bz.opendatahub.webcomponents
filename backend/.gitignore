@@ -105,3 +105,9 @@ buildNumber.properties
 
 /logs/
 /workspace/
+
+# Eclipse files
+.settings
+.classpath
+.factorypath
+.project

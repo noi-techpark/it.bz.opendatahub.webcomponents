@@ -8,21 +8,17 @@ pipeline {
     }
 
     environment {
-        TESTSERVER_TOMCAT_ENDPOINT_API = "http://api.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
-        TESTSERVER_TOMCAT_ENDPOINT_CDN = "http://cdn.webcomponents.tomcat02.testingmachine.eu:8080/manager/text"
-        TESTSERVER_TOMCAT_CREDENTIALS = credentials('testserver-tomcat8-credentials')
-
-        POSTGRES_URL = "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
-        POSTGRES_USERNAME = credentials('webcompstore-test-postgres-username')
-        POSTGRES_PASSWORD = credentials('webcompstore-test-postgres-password')
+        POSTGRES_URL = "jdbc:postgresql://postgres-prod.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+        POSTGRES_USERNAME = credentials('webcompstore-prod-postgres-username')
+        POSTGRES_PASSWORD = credentials('webcompstore-prod-postgres-password')
 
         WORKSPACE_PATH = "/var/data/webcomponents-store"
         GITHUB_TOKEN = credentials('webcompstore-github-token')
         ORIGIN_URL = "https://github.com/noi-techpark/odh-web-components-store-origins.git"
         ORIGIN_BRANCH = "master"
-        CRAWLER_FETCH_DELAY_MS = 360000
+        CRAWLER_FETCH_DELAY_MS = 180000
 
-        DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
+        DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.bz.it/dist"
     }
 
     stages {
@@ -58,17 +54,16 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
+        stage('Install Dependencies & Package Backend Services') {
             steps {
-                sh 'cd backend && mvn -B -U clean test verify'
+                sh 'cd backend && mvn -B -U clean install test verify package'
             }
         }
-        stage('Deploy') {
-            steps{
-                sh 'cd backend && mvn install -B -U'
-                sh 'cd backend/data-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
-                sh 'cd backend/crawler-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/crawler'
-                sh 'cd backend/delivery-service && mvn -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_CDN} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: 'backend/data-service/target/dataservice.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/crawler-service/target/crawlerservice.war', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'backend/delivery-service/target/deliveryservice.war', onlyIfSuccessful: true
             }
         }
     }

@@ -2,9 +2,12 @@
   <header class="border-bottom border-light">
     <div class="container container-extended pt-4 pb-2 pl-4 pr-4">
       <div class="d-flex justify-content-between">
-        <nuxt-link :to="localePath('index')">
-          <img src="/logo.png" height="50px" />
-        </nuxt-link>
+        <div>
+          <nuxt-link :to="localePath('index')">
+            <img src="/logo.png" height="50px" />
+          </nuxt-link>
+          <a href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Stages_of_development" target="_blank" class="beta_badge">BETA</a>
+        </div>
         <div>
           <b-nav class="text-uppercase">
             <b-nav-item :to="localePath('index')">home</b-nav-item>
