@@ -51,7 +51,7 @@
           </div>
           <div>
             License:
-            <span class="font-weight-bold">{{ entry.license.name }}</span>
+            <span class="font-weight-bold">{{ entry.license.licenseId }}</span>
           </div>
         </div>
       </div>

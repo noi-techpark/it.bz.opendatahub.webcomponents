@@ -22,6 +22,7 @@ export default {
   },
   data() {
     return {
+      timer: null,
       searchTerm: this.$route.params.term,
       searchTags: this.$route.params.tags.split('|')
     };
@@ -33,8 +34,6 @@ export default {
       });
     },
     returnTo() {
-      console.log('x', this.$route.params.tags, this.$route.params.term);
-
       if (!this.$route.params.term) {
         return this.localePath({
           name: 'search-tags',
@@ -55,10 +54,14 @@ export default {
   },
   methods: {
     updateSearchTerm(ev) {
-      console.log(ev);
-
       this.searchTerm = ev.term;
       this.searchTags = ev.tags;
+
+      if (this.timer) {
+        clearTimeout(this.timer);
+      }
+
+      this.timer = setTimeout(this.redirectSearchTerm, 300, ev);
     },
     redirectSearchTerm(ev) {
       let tags = ev.tags.join('|');

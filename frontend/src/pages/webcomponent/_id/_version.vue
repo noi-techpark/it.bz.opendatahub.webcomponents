@@ -1,9 +1,11 @@
 <template>
   <div v-if="component" class="mb-5">
     <div class="bg-light">
-      <div class="container extended p-5">
+      <div class="container extended p-2 p-sm-5">
         <div class="row">
-          <div class="col-3 d-flex justify-content-end">
+          <div
+            class="col-12 col-sm-3 d-flex justify-content-start justify-content-sm-end  mr-2 ml-2 m-sm-0"
+          >
             <nuxt-link
               :to="returnLink"
               class="btn-circle arrow-left filled-dark"
@@ -11,7 +13,7 @@
               <img src="/icons/ic_arrow.svg" />
             </nuxt-link>
           </div>
-          <div class="col-9 col-md-5">
+          <div class="col-12 col-sm-9 col-md-5  mr-2 ml-2 m-sm-0">
             <h1>#{{ component.title }}</h1>
 
             <div class="d-flex">
@@ -26,7 +28,7 @@
             </div>
           </div>
           <div class="col-12 col-md-4 pb-5 detail-border">
-            <div class="d-table">
+            <div class="d-table w-100 mr-2 ml-2 m-sm-0">
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">Author:</div>
                 <div class="d-table-cell">
@@ -49,7 +51,15 @@
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">License:</div>
-                <div class="d-table-cell">{{ component.license.name }}</div>
+                <div class="d-table-cell">
+                  <a
+                    :href="component.license.seeAlso[0]"
+                    target="_blank"
+                    :title="component.license.name"
+                    v-b-tooltip.hover
+                    >{{ component.license.licenseId }}</a
+                  >
+                </div>
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">
@@ -113,12 +123,15 @@
               <iframe
                 id="tframe"
                 class="full-height full-width"
-                style="min-height: 350px;"
+                style="min-height: 450px;"
                 frameborder="0"
               ></iframe>
             </b-card-text>
 
-            <div slot="footer" class="text-right text-uppercase">
+            <div
+              slot="footer"
+              class="text-right text-uppercase d-flex flex-column flex-sm-row"
+            >
               <span v-if="!editmode"
                 ><b-checkbox
                   v-model="autoUpdate"
@@ -126,7 +139,10 @@
                 ></b-checkbox>
                 auto update</span
               >
-              <span style="cursor: pointer;" @click="updatePreview"
+              <span
+                class="mt-2 mt-sm-0"
+                style="cursor: pointer;"
+                @click="updatePreview"
                 ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
                 update preview</span
               >
@@ -149,9 +165,12 @@
             </div>-->
           </b-card>
         </div>
-        <div class="col-4" v-show="editmode">
+        <div class="col-md-4 mt-5 mt-md-0" v-show="editmode">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card class="full-height widget-config">
+          <b-card
+            class="full-height widget-config"
+            style="background-color: #fafafa;"
+          >
             <b-card-text>
               Configurator disabled. Manual configuration active.
             </b-card-text>
@@ -363,7 +382,7 @@ export default {
 <style lang="scss">
 #widget-codesnippet {
   .card-body {
-    background-color: #f1f1f1;
+    background-color: #fafafa;
   }
 
   &.white .card-body {
