@@ -13,7 +13,7 @@ public class WebcomponentVersionFactory {
         WebcomponentVersionModel newEntry = new WebcomponentVersionModel();
         newEntry.setWebcomponentUuid(componentUuid);
         newEntry.setVersionTag(tagEntry.getName());
-        newEntry.setReleaseTimestamp(new Date());
+        newEntry.setReleaseTimestamp(tagEntry.getRevisionDate());
         newEntry.setDist(manifest.getDist());
         newEntry.setConfiguration(manifest.getConfiguration());
 

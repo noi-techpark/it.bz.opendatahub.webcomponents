@@ -6,14 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WebcomponentFactory {
-    public WebcomponentModel createFromManifest(String uuid, Manifest manifest) {
+    public WebcomponentModel createFromManifest(String uuid, Manifest manifest, String repositoryUrl) {
         WebcomponentModel newEntry = new WebcomponentModel();
 
         newEntry.setUuid(uuid);
         newEntry.setTitle(manifest.getTitle());
         newEntry.setDescription(manifest.getDescription());
         newEntry.setDescriptionAbstract(manifest.getDescriptionAbstract());
-        newEntry.setRepositoryUrl(manifest.getRepositoryUrl());
+        newEntry.setRepositoryUrl(repositoryUrl);
+        newEntry.setCopyrightHolder(manifest.getCopyrightHolder());
         newEntry.setImage(manifest.getImage());
         newEntry.setLicense(manifest.getLicense());
         newEntry.setAuthors(manifest.getAuthors());

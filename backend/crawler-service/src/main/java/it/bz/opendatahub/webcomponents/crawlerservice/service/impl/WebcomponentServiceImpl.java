@@ -48,7 +48,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
     }
 
     @Override
-    public void updateWebcomponent(String uuid) {
+    public void updateWebcomponent(String uuid, String repoUrl) {
         Manifest manifest;
         try {
             manifest = getLatestVersionManifest(uuid);
@@ -57,7 +57,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
             return;
         }
 
-        WebcomponentModel newEntry = webcomponentFactory.createFromManifest(uuid, manifest);
+        WebcomponentModel newEntry = webcomponentFactory.createFromManifest(uuid, manifest, repoUrl);
 
         WebcomponentModel entry;
         Optional<WebcomponentModel> probe = webcomponentRepository.findById(uuid);

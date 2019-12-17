@@ -18,11 +18,11 @@ public class Manifest {
 
     private String descriptionAbstract;
 
-    private String repositoryUrl;
-
     private String image;
 
     private String license;
+
+    private String copyrightHolder;
 
     private List<Author> authors = new ArrayList<>();
 

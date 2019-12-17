@@ -37,6 +37,12 @@
                   </div>
                 </div>
               </div>
+              <div v-if="component.copyrightHolder" class="d-table-row">
+                <div class="d-table-cell pr-2">Copyright holder:</div>
+                <div class="d-table-cell">
+                  {{ component.copyrightHolder }}
+                </div>
+              </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">Category:</div>
                 <div class="d-table-cell">
@@ -53,6 +59,7 @@
                 <div class="d-table-cell pr-2">License:</div>
                 <div class="d-table-cell">
                   <a
+                    v-if="component.license && component.license.seeAlso"
                     v-b-tooltip.hover
                     :href="component.license.seeAlso[0]"
                     target="_blank"

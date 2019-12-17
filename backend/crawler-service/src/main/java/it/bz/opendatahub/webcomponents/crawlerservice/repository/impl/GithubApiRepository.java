@@ -50,6 +50,10 @@ public class GithubApiRepository implements VcsApiRepository {
                 newEntry.setName(tag.getName());
                 newEntry.setRevisionHash(tag.getCommit().getSha());
 
+                CommitEntry commitEntry = getMetadataForCommit(gitRemote, tag.getCommit().getSha());
+
+                newEntry.setRevisionDate(commitEntry.getDate());
+
                 result.add(newEntry);
             }
             return result;
