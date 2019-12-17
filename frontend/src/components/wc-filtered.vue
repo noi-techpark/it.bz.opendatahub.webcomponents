@@ -140,7 +140,6 @@ export default {
       }
 
       this.timer = setTimeout(this.update, 350);
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal);
     },
     tags(newVal, oldVal) {
       if (this.timer) {
@@ -149,7 +148,6 @@ export default {
       }
 
       this.timer = setTimeout(this.update, 350);
-      console.log('Prop changed: ', newVal, ' | was: ', oldVal);
     }
   },
   fetch() {},

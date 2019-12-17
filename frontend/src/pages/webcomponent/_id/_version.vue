@@ -53,10 +53,10 @@
                 <div class="d-table-cell pr-2">License:</div>
                 <div class="d-table-cell">
                   <a
+                    v-b-tooltip.hover
                     :href="component.license.seeAlso[0]"
                     target="_blank"
                     :title="component.license.name"
-                    v-b-tooltip.hover
                     >{{ component.license.licenseId }}</a
                   >
                 </div>
@@ -119,7 +119,7 @@
         <div class="col-md-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
           <b-card id="widget-preview" class="full-height">
-            <b-card-text class="text-center" id="twrap">
+            <b-card-text id="twrap" class="text-center">
               <iframe
                 id="tframe"
                 class="full-height full-width"
@@ -150,7 +150,7 @@
           </b-card>
         </div>
 
-        <div class="col-md-4 mt-5 mt-md-0" v-show="!editmode">
+        <div v-show="!editmode" class="col-md-4 mt-5 mt-md-0">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card class="full-height widget-config">
             <b-card-text>
@@ -165,7 +165,7 @@
             </div>-->
           </b-card>
         </div>
-        <div class="col-md-4 mt-5 mt-md-0" v-show="editmode">
+        <div v-show="editmode" class="col-md-4 mt-5 mt-md-0">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card
             class="full-height widget-config"
@@ -202,17 +202,17 @@
 
             <div slot="footer" class="text-right text-uppercase">
               <span
-                style="cursor: pointer"
-                @click="toggleEditMode()"
-                class="mr-4"
                 v-if="editmode"
+                style="cursor: pointer"
+                class="mr-4"
+                @click="toggleEditMode()"
                 ><font-awesome-icon :icon="['fas', 'times']" /> RESET</span
               >
               <span
-                style="cursor: pointer"
-                @click="toggleEditMode()"
-                class="mr-4"
                 v-else
+                style="cursor: pointer"
+                class="mr-4"
+                @click="toggleEditMode()"
                 ><font-awesome-icon :icon="['far', 'edit']" /> EDIT</span
               >
               <span style="cursor: pointer" @click="copySnippetToClipboard()"
@@ -359,22 +359,7 @@ export default {
       });
 
       return scripts;
-    } /* ,
-    initEventListener() {
-      if (
-        this.component &&
-        this.component.uuid === '226662ad-41c2-4e55-b11f-271d72d30bd4'
-      ) {
-        return;
-      }
-
-      console.log(this.$refs.cfig);
-      if (this.$refs.cfig === undefined) {
-        setTimeout(this.initEventListener, 50);
-        return;
-      }
-      this.$refs.cfig.addEventListener('snippet', this.updateSnippet);
-    } */
+    }
   }
 };
 </script>

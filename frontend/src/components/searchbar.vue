@@ -54,8 +54,8 @@
               >
                 <div class="full-width pr-2 search-input">
                   <input
-                    v-model="searchTerm"
                     ref="searchTermInput"
+                    v-model="searchTerm"
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"

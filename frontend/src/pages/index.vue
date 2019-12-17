@@ -51,7 +51,6 @@ export default {
       this.searchTags = await this.$api.searchtag.listAll();
     },
     redirectSearchTerm(ev) {
-      console.log(ev);
       let tags = ev.tags.join('|');
       if (ev.tags.length === 0) {
         tags = 'any';
