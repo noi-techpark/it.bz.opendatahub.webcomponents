@@ -60,7 +60,6 @@
                 <div class="d-table-cell">
                   <a
                     v-if="component.license && component.license.seeAlso"
-                    v-b-tooltip.hover
                     :href="component.license.seeAlso[0]"
                     target="_blank"
                     :title="component.license.name"
@@ -200,7 +199,13 @@
               <textarea
                 id="code-snippet"
                 v-model="snipp"
-                class="full-width full-height"
+                class="full-width full-height code-snippet"
+                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace;position:absolute;z-index:-1;width:1px;height:1px;"
+                rows="10"
+              ></textarea>
+              <textarea
+                v-model="snipp"
+                class="full-width full-height code-snippet"
                 style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
                 :disabled="!editmode"
                 rows="10"
