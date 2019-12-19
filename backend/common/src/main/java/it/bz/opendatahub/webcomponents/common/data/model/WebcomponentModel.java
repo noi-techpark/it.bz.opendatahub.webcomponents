@@ -33,7 +33,8 @@ public class WebcomponentModel implements Model {
 
     private String repositoryUrl;
 
-    private String copyrightHolder;
+    @Type(type = ListAuthorUserType.NAME)
+    private List<Author> copyrightHolders;
 
     private String image;
 

@@ -14,7 +14,7 @@ public class WebcomponentFactory {
         newEntry.setDescription(manifest.getDescription());
         newEntry.setDescriptionAbstract(manifest.getDescriptionAbstract());
         newEntry.setRepositoryUrl(repositoryUrl);
-        newEntry.setCopyrightHolder(manifest.getCopyrightHolder());
+        newEntry.setCopyrightHolders(manifest.getCopyrightHolders());
         newEntry.setImage(manifest.getImage());
         newEntry.setLicense(manifest.getLicense());
         newEntry.setAuthors(manifest.getAuthors());

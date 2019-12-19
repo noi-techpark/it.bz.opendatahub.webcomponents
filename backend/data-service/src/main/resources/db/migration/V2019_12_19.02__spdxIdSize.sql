@@ -1,0 +1,1 @@
+alter table spdx alter column license_id type varchar(255) using license_id::varchar(255);

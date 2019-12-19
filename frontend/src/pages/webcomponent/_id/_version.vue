@@ -1,107 +1,10 @@
 <template>
   <div v-if="component" class="mb-5">
-    <div class="bg-light">
-      <div class="container extended p-2 p-sm-5">
-        <div class="row">
-          <div
-            class="col-12 col-sm-3 d-flex justify-content-start justify-content-sm-end  mr-2 ml-2 m-sm-0"
-          >
-            <nuxt-link
-              :to="returnLink"
-              class="btn-circle arrow-left filled-dark"
-            >
-              <img src="/icons/ic_arrow.svg" />
-            </nuxt-link>
-          </div>
-          <div class="col-12 col-sm-9 col-md-5  mr-2 ml-2 m-sm-0">
-            <h1>#{{ component.title }}</h1>
-
-            <div class="d-flex">
-              <div class="full-width mr-2">
-                <div>
-                  {{ component.descriptionAbstract }}
-                </div>
-                <div class="text-muted mt-4">
-                  {{ component.description }}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-md-4 pb-5 detail-border">
-            <div class="d-table w-100 mr-2 ml-2 m-sm-0">
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2">Author:</div>
-                <div class="d-table-cell">
-                  <div v-for="author in component.authors" :key="author.name">
-                    {{ author.name }}
-                  </div>
-                </div>
-              </div>
-              <div v-if="component.copyrightHolder" class="d-table-row">
-                <div class="d-table-cell pr-2">Copyright holder:</div>
-                <div class="d-table-cell">
-                  {{ component.copyrightHolder }}
-                </div>
-              </div>
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2">Category:</div>
-                <div class="d-table-cell">
-                  <div
-                    v-for="tag in component.searchTags"
-                    :key="tag"
-                    class="text-capitalize"
-                  >
-                    {{ tag }}
-                  </div>
-                </div>
-              </div>
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2">License:</div>
-                <div class="d-table-cell">
-                  <a
-                    v-if="component.license && component.license.seeAlso"
-                    :href="component.license.seeAlso[0]"
-                    target="_blank"
-                    :title="component.license.name"
-                    >{{ component.license.licenseId }}</a
-                  >
-                </div>
-              </div>
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2">
-                  First Published:
-                </div>
-                <div class="d-table-cell">
-                  {{ $d(new Date(component.datePublished)) }}
-                </div>
-              </div>
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2">Current Version:</div>
-                <div class="d-table-cell">
-                  {{ component.versions[0].versionTag }}
-                </div>
-              </div>
-              <div class="d-table-row">
-                <div class="d-table-cell pr-2 text-nowrap">Last Update:</div>
-                <div class="d-table-cell">
-                  {{ $d(new Date(component.dateUpdated)) }}
-                </div>
-              </div>
-              <div v-if="component.repositoryUrl" class="d-table-row">
-                <div class="d-table-cell pr-2 text-nowrap">Repository:</div>
-                <div class="d-table-cell">
-                  <a :href="component.repositoryUrl" target="_blank">open</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
-      class="container container-extended pt-4 pl-4 pr-4"
-    >
+    <WcDetailBlock
+      :component="component"
+      :return-link="returnLink"
+    ></WcDetailBlock>
+    <div class="container container-extended pt-4 pl-4 pr-4">
       <div class="text-right h3">
         Version
         <b-form-select v-model="selectedVersion" style="max-width:150px;">
@@ -117,10 +20,7 @@
         >You have not selected the latest version of this webcomponent.</b-alert
       >
     </div>
-    <div
-      v-if="component.uuid !== '226662ad-41c2-4e55-b11f-271d72d30bd4'"
-      class="container container-extended pb-4 pl-4 pr-4"
-    >
+    <div class="container container-extended pb-4 pl-4 pr-4">
       <div class="row">
         <div class="col-md-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
@@ -129,7 +29,7 @@
               <iframe
                 id="tframe"
                 class="full-height full-width"
-                style="min-height: 450px;"
+                style="min-height: 800px;"
                 frameborder="0"
               ></iframe>
             </b-card-text>
@@ -200,14 +100,8 @@
                 id="code-snippet"
                 v-model="snipp"
                 class="full-width full-height code-snippet"
-                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace;position:absolute;z-index:-1;width:1px;height:1px;"
-                rows="10"
-              ></textarea>
-              <textarea
-                v-model="snipp"
-                class="full-width full-height code-snippet"
                 style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
-                :disabled="!editmode"
+                :readonly="!editmode"
                 rows="10"
               ></textarea>
             </b-card-text>
@@ -240,9 +134,11 @@
 
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
 
 export default {
   components: {
+    WcDetailBlock,
     WCSConfigTool
   },
   data() {
@@ -346,7 +242,7 @@ export default {
       const newElement = document.createElement('iframe');
       newElement.setAttribute('id', 'tframe');
       newElement.setAttribute('class', 'full-height full-width');
-      newElement.setAttribute('style', 'min-height: 350px;');
+      newElement.setAttribute('style', 'min-height: 800px;');
       newElement.setAttribute('frameborder', '0');
 
       document.getElementById('twrap').appendChild(newElement);

@@ -51,7 +51,12 @@
           </div>
           <div>
             License:
-            <span class="font-weight-bold">{{ entry.license.licenseId }}</span>
+            <span class="font-weight-bold" v-if="entry.license">{{
+              entry.license.licenseId
+            }}</span>
+            <span class="font-weight-bold" v-else>{{
+              entry.licenseString
+            }}</span>
           </div>
         </div>
       </div>
