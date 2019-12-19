@@ -176,10 +176,18 @@ To register with the webcomponents hub a wcs-manifest.json file must be in your 
   "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
   "license": "GPL-3.0",
-  "authors": [
+  "copyrightHolder": [
     {
       "name": "NOI",
       "email": "info@noi.bz.it",
+      "organization": "NOI S.p.A",
+      "organizationUrl": "https://noi.bz.it"
+    }
+  ],
+  "authors": [
+    {
+      "name": "John Doe",
+      "email": "j.doe@noi.bz.it",
       "organization": "NOI S.p.A",
       "organizationUrl": "https://noi.bz.it"
     }
