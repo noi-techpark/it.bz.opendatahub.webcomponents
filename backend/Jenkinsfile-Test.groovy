@@ -20,7 +20,7 @@ pipeline {
         GITHUB_TOKEN = credentials('webcompstore-github-token')
         ORIGIN_URL = "https://github.com/noi-techpark/odh-web-components-store-origins.git"
         ORIGIN_BRANCH = "master"
-        CRAWLER_FETCH_DELAY_MS = 360000
+        CRAWLER_FETCH_DELAY_MS = 1800000
 
         DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
     }
