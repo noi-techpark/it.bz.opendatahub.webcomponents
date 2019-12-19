@@ -44,3 +44,10 @@
     color: #fff;
   }
 }
+
+.code-snippet {
+  &:disabled {
+    color: $black !important;
+    background-color: #fafafa !important;
+  }
+}

@@ -23,6 +23,8 @@ public class Webcomponent implements Rest {
 
     private String repositoryUrl;
 
+    private String copyrightHolder;
+
     private String image;
 
     private List<Author> authors;

@@ -3,7 +3,7 @@
     <div>
       <div class="container container-extended p-4 pb-0">
         <div class="row">
-          <div class="col-6">
+          <div class="col-sm-6">
             <div class="">
               <div
                 id="widget-tags"
@@ -18,7 +18,7 @@
                 }"
               >
                 <span>Filter by categories</span>
-                <span class="chevron bottom"></span>
+                <span class="chevron bottom mr-2"></span>
               </div>
               <b-collapse
                 id="tag-collapse"
@@ -44,7 +44,7 @@
               </b-collapse>
             </div>
           </div>
-          <div class="col-6">
+          <div class="col-sm-6 mt-4 mt-sm-0">
             <form @submit.prevent="termSubmitted()">
               <div
                 id="widget-search"
@@ -54,8 +54,8 @@
               >
                 <div class="full-width pr-2 search-input">
                   <input
-                    v-model="searchTerm"
                     ref="searchTermInput"
+                    v-model="searchTerm"
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"
@@ -128,8 +128,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.selectedTags, this.searchTerm);
-
     this.loadSearchTags();
 
     this.focusInput();
@@ -143,7 +141,6 @@ export default {
       this.isLoaded = true;
     },
     tagsUpdated() {
-      console.log('XXX');
       this.$emit('tags-updated', {
         tags: this.userSelectedTags,
         term: this.searchTerm

@@ -1,9 +1,11 @@
 <template>
   <div v-if="component" class="mb-5">
     <div class="bg-light">
-      <div class="container extended p-5">
+      <div class="container extended p-2 p-sm-5">
         <div class="row">
-          <div class="col-3 d-flex justify-content-end">
+          <div
+            class="col-12 col-sm-3 d-flex justify-content-start justify-content-sm-end  mr-2 ml-2 m-sm-0"
+          >
             <nuxt-link
               :to="returnLink"
               class="btn-circle arrow-left filled-dark"
@@ -11,7 +13,7 @@
               <img src="/icons/ic_arrow.svg" />
             </nuxt-link>
           </div>
-          <div class="col-9 col-md-5">
+          <div class="col-12 col-sm-9 col-md-5  mr-2 ml-2 m-sm-0">
             <h1>#{{ component.title }}</h1>
 
             <div class="d-flex">
@@ -26,13 +28,19 @@
             </div>
           </div>
           <div class="col-12 col-md-4 pb-5 detail-border">
-            <div class="d-table">
+            <div class="d-table w-100 mr-2 ml-2 m-sm-0">
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">Author:</div>
                 <div class="d-table-cell">
                   <div v-for="author in component.authors" :key="author.name">
                     {{ author.name }}
                   </div>
+                </div>
+              </div>
+              <div v-if="component.copyrightHolder" class="d-table-row">
+                <div class="d-table-cell pr-2">Copyright holder:</div>
+                <div class="d-table-cell">
+                  {{ component.copyrightHolder }}
                 </div>
               </div>
               <div class="d-table-row">
@@ -49,7 +57,15 @@
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">License:</div>
-                <div class="d-table-cell">{{ component.license.name }}</div>
+                <div class="d-table-cell">
+                  <a
+                    v-if="component.license && component.license.seeAlso"
+                    :href="component.license.seeAlso[0]"
+                    target="_blank"
+                    :title="component.license.name"
+                    >{{ component.license.licenseId }}</a
+                  >
+                </div>
               </div>
               <div class="d-table-row">
                 <div class="d-table-cell pr-2">
@@ -109,16 +125,19 @@
         <div class="col-md-8">
           <div class="text-uppercase font-weight-bold mb-2">preview</div>
           <b-card id="widget-preview" class="full-height">
-            <b-card-text class="text-center" id="twrap">
+            <b-card-text id="twrap" class="text-center">
               <iframe
                 id="tframe"
                 class="full-height full-width"
-                style="min-height: 350px;"
+                style="min-height: 450px;"
                 frameborder="0"
               ></iframe>
             </b-card-text>
 
-            <div slot="footer" class="text-right text-uppercase">
+            <div
+              slot="footer"
+              class="text-right text-uppercase d-flex flex-column flex-sm-row"
+            >
               <span v-if="!editmode"
                 ><b-checkbox
                   v-model="autoUpdate"
@@ -126,7 +145,10 @@
                 ></b-checkbox>
                 auto update</span
               >
-              <span style="cursor: pointer;" @click="updatePreview"
+              <span
+                class="mt-2 mt-sm-0"
+                style="cursor: pointer;"
+                @click="updatePreview"
                 ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
                 update preview</span
               >
@@ -134,7 +156,7 @@
           </b-card>
         </div>
 
-        <div class="col-md-4 mt-5 mt-md-0" v-show="!editmode">
+        <div v-show="!editmode" class="col-md-4 mt-5 mt-md-0">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
           <b-card class="full-height widget-config">
             <b-card-text>
@@ -149,9 +171,12 @@
             </div>-->
           </b-card>
         </div>
-        <div class="col-4" v-show="editmode">
+        <div v-show="editmode" class="col-md-4 mt-5 mt-md-0">
           <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card class="full-height widget-config">
+          <b-card
+            class="full-height widget-config"
+            style="background-color: #fafafa;"
+          >
             <b-card-text>
               Configurator disabled. Manual configuration active.
             </b-card-text>
@@ -174,7 +199,13 @@
               <textarea
                 id="code-snippet"
                 v-model="snipp"
-                class="full-width full-height"
+                class="full-width full-height code-snippet"
+                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace;position:absolute;z-index:-1;width:1px;height:1px;"
+                rows="10"
+              ></textarea>
+              <textarea
+                v-model="snipp"
+                class="full-width full-height code-snippet"
                 style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
                 :disabled="!editmode"
                 rows="10"
@@ -183,17 +214,17 @@
 
             <div slot="footer" class="text-right text-uppercase">
               <span
-                style="cursor: pointer"
-                @click="toggleEditMode()"
-                class="mr-4"
                 v-if="editmode"
+                style="cursor: pointer"
+                class="mr-4"
+                @click="toggleEditMode()"
                 ><font-awesome-icon :icon="['fas', 'times']" /> RESET</span
               >
               <span
-                style="cursor: pointer"
-                @click="toggleEditMode()"
-                class="mr-4"
                 v-else
+                style="cursor: pointer"
+                class="mr-4"
+                @click="toggleEditMode()"
                 ><font-awesome-icon :icon="['far', 'edit']" /> EDIT</span
               >
               <span style="cursor: pointer" @click="copySnippetToClipboard()"
@@ -340,22 +371,7 @@ export default {
       });
 
       return scripts;
-    } /* ,
-    initEventListener() {
-      if (
-        this.component &&
-        this.component.uuid === '226662ad-41c2-4e55-b11f-271d72d30bd4'
-      ) {
-        return;
-      }
-
-      console.log(this.$refs.cfig);
-      if (this.$refs.cfig === undefined) {
-        setTimeout(this.initEventListener, 50);
-        return;
-      }
-      this.$refs.cfig.addEventListener('snippet', this.updateSnippet);
-    } */
+    }
   }
 };
 </script>
@@ -363,7 +379,7 @@ export default {
 <style lang="scss">
 #widget-codesnippet {
   .card-body {
-    background-color: #f1f1f1;
+    background-color: #fafafa;
   }
 
   &.white .card-body {

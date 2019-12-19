@@ -33,6 +33,8 @@ public class WebcomponentModel implements Model {
 
     private String repositoryUrl;
 
+    private String copyrightHolder;
+
     private String image;
 
     private String license;
