@@ -26,6 +26,7 @@ public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
         model.setLicense(resultSet.getString("license"));
 
         try {
+            model.setCopyrightHolders(Arrays.asList(objectMapper.readValue(resultSet.getBytes("copyright_holders"), Author[].class)));
             model.setAuthors(Arrays.asList(objectMapper.readValue(resultSet.getBytes("authors"), Author[].class)));
             model.setSearchTags(Arrays.asList(objectMapper.readValue(resultSet.getBytes("search_tags"), String[].class)));
         }

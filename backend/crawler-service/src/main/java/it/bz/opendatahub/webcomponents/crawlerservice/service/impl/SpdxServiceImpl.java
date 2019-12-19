@@ -45,7 +45,7 @@ public class SpdxServiceImpl implements SpdxService {
 
         List<TagEntry> tags = vcsApiRepository.listVersionTags(gitRemote);
 
-        tags.sort(Comparator.comparing(TagEntry::getName));
+        tags.sort(Comparator.comparing(TagEntry::getName).reversed());
 
         ByteArrayOutputStream data = vcsApiRepository.getFileContents(gitRemote, tags.get(0).getRevisionHash(), "json/licenses.json");
 

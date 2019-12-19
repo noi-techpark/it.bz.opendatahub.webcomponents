@@ -22,7 +22,7 @@ public class WebcomponentDto implements Dto {
 
     private String repositoryUrl;
 
-    private String copyrightHolder;
+    private List<Author> copyrightHolders;
 
     private String image;
 

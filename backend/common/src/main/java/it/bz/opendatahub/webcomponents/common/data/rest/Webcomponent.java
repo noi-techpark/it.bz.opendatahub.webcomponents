@@ -19,11 +19,13 @@ public class Webcomponent implements Rest {
 
     private String descriptionAbstract;
 
+    private String licenseString;
+
     private SpdxLicense license;
 
     private String repositoryUrl;
 
-    private String copyrightHolder;
+    private List<Author> copyrightHolders;
 
     private String image;
 

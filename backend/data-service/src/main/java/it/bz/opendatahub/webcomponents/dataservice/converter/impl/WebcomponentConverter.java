@@ -39,19 +39,18 @@ public class WebcomponentConverter extends ModelToDtoToRestConverter<Webcomponen
 
         entry.setVersions(webcomponentVersionConverter.dtoToRest(webcomponentVersionService.listAllVersionsOfWebcomponent(dto.getUuid())));
 
+        entry.setLicenseString(dto.getLicense());
         try {
             entry.setLicense(spdxLicenseConverter.dtoToRest(spdxLicenseService.getById(dto.getLicense())));
         }
         catch (NotFoundException e) {
-            SpdxLicense license = new SpdxLicense();
-            license.setName(dto.getLicense());
-            entry.setLicense(license);
+            // nothing to do
         }
 
         entry.getVersions().sort(Comparator.comparing(WebcomponentVersion::getReleaseTimestamp).reversed());
 
-        entry.setDatePublished(entry.getVersions().get(0).getReleaseTimestamp());
-        entry.setDateUpdated(entry.getVersions().get(entry.getVersions().size()-1).getReleaseTimestamp());
+        entry.setDateUpdated(entry.getVersions().get(0).getReleaseTimestamp());
+        entry.setDatePublished(entry.getVersions().get(entry.getVersions().size()-1).getReleaseTimestamp());
 
         return entry;
     }

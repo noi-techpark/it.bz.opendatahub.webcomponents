@@ -22,7 +22,7 @@ public class Manifest {
 
     private String license;
 
-    private String copyrightHolder;
+    private List<Author> copyrightHolders = new ArrayList<>();
 
     private List<Author> authors = new ArrayList<>();
 

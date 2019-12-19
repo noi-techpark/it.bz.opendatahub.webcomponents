@@ -35,13 +35,12 @@ public class WebcomponentEntryConverter extends DtoToRestConverter<WebcomponentD
 
         entry.setCurrentVersion(webcomponentVersionConverter.dtoToRest(webcomponentVersionService.getLatestVersionOfWebcomponent(dto.getUuid())));
 
+        entry.setLicenseString(dto.getLicense());
         try {
             entry.setLicense(spdxLicenseConverter.dtoToRest(spdxLicenseService.getById(dto.getLicense())));
         }
         catch (NotFoundException e) {
-            SpdxLicense license = new SpdxLicense();
-            license.setName(dto.getLicense());
-            entry.setLicense(license);
+            // nothing to do
         }
 
         return entry;
