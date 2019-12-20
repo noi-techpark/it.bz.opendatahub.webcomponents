@@ -47,6 +47,6 @@
     "vue-jest": "^3.0.3"
   },
   "resolutions": {
-    "semver": "5.7.1"
+    "semver": "6.3.0"
   }
 }
