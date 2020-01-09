@@ -10,7 +10,7 @@ Functionalities are as follows:
 In addition, it connects the source code of each web component to the actual representation. 
 
 This repository is divided into four sub-projects, namely:
-  - [frontend](#frontend/README.md)
-  - [backend/crawler-service](#backend/crawler-service/README.md)
-  - [backend/data-service](#backend/data-service/README.md)
-  - [backend/delivery-service](#backend/delivery-service/README.md)
+  - [frontend](frontend/README.md)
+  - [backend/crawler-service](backend/crawler-service/README.md)
+  - [backend/data-service](backend/data-service/README.md)
+  - [backend/delivery-service](backend/delivery-service/README.md)
