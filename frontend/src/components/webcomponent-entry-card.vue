@@ -3,8 +3,8 @@
     <b-card no-body class="full-height">
       <div class="aspect-box">
         <div
-          class="aspect-container"
           :style="'background-image: url(' + getLogo + ')'"
+          class="aspect-container"
         ></div>
       </div>
 
@@ -51,10 +51,10 @@
           </div>
           <div>
             License:
-            <span class="font-weight-bold" v-if="entry.license">{{
+            <span v-if="entry.license" class="font-weight-bold">{{
               entry.license.licenseId
             }}</span>
-            <span class="font-weight-bold" v-else>{{
+            <span v-else class="font-weight-bold">{{
               entry.licenseString
             }}</span>
           </div>

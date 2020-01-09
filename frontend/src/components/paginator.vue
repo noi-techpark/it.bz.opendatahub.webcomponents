@@ -5,27 +5,27 @@
   >
     <span class="text-secondary mr-2">Page</span>
     <div v-if="0 < currentPage - 5" class="mr-2">
-      <span class="mr-2" style="cursor: pointer;" @click="selectPage(0)"
+      <span @click="selectPage(0)" class="mr-2" style="cursor: pointer;"
         >1</span
       >
       &mdash;
     </div>
     <div
       v-for="page in pagesToDisplay"
+      @click="selectPage(page)"
       :key="page"
+      :class="{ 'text-secondary': page === currentPage }"
       style="cursor: pointer;"
       class="ml-2 mr-2"
-      :class="{ 'text-secondary': page === currentPage }"
-      @click="selectPage(page)"
     >
       {{ page + 1 }}
     </div>
     <div v-if="totalPages > currentPage + 5" class="ml-2">
       &mdash;
       <span
+        @click="selectPage(totalPages - 1)"
         class="ml-2"
         style="cursor: pointer;"
-        @click="selectPage(totalPages - 1)"
         >{{ totalPages }}</span
       >
     </div>

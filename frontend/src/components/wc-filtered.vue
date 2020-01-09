@@ -13,9 +13,9 @@
           </div>
           <div class="d-flex flex-row">
             <div
-              class="btn-circle arrow-left outline mr-2"
-              :class="{ disabled: isFirst }"
               @click="previousPage()"
+              :class="{ disabled: isFirst }"
+              class="btn-circle arrow-left outline mr-2"
             >
               <svg
                 id="Ebene_1"
@@ -42,9 +42,9 @@
               </svg>
             </div>
             <div
-              class="btn-circle arrow-right outline"
-              :class="{ disabled: isLast }"
               @click="nextPage()"
+              :class="{ disabled: isLast }"
+              class="btn-circle arrow-right outline"
             >
               <svg
                 id="Ebene_1"
@@ -73,7 +73,7 @@
           </div>
         </div>
 
-        <div v-if="hasContent" id="widget-componentcards" class="row">
+        <div id="widget-componentcards" v-if="hasContent" class="row">
           <div
             v-for="entry in currentPage.content"
             :key="entry.uuid"

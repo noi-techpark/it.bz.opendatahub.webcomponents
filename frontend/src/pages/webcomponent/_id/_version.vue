@@ -46,9 +46,9 @@
                 auto update</span
               >
               <span
+                @click="updatePreview"
                 class="mt-2 mt-sm-0"
                 style="cursor: pointer;"
-                @click="updatePreview"
                 ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
                 update preview</span
               >
@@ -92,16 +92,16 @@
           <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
           <b-card
             id="widget-codesnippet"
-            style="min-height: 250px;"
             :class="{ white: editmode }"
+            style="min-height: 250px;"
           >
             <b-card-text>
               <textarea
                 id="code-snippet"
                 v-model="snipp"
+                :readonly="!editmode"
                 class="full-width full-height code-snippet"
                 style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
-                :readonly="!editmode"
                 rows="10"
               ></textarea>
             </b-card-text>
@@ -109,19 +109,19 @@
             <div slot="footer" class="text-right text-uppercase">
               <span
                 v-if="editmode"
+                @click="toggleEditMode()"
                 style="cursor: pointer"
                 class="mr-4"
-                @click="toggleEditMode()"
                 ><font-awesome-icon :icon="['fas', 'times']" /> RESET</span
               >
               <span
                 v-else
+                @click="toggleEditMode()"
                 style="cursor: pointer"
                 class="mr-4"
-                @click="toggleEditMode()"
                 ><font-awesome-icon :icon="['far', 'edit']" /> EDIT</span
               >
-              <span style="cursor: pointer" @click="copySnippetToClipboard()"
+              <span @click="copySnippetToClipboard()" style="cursor: pointer"
                 ><font-awesome-icon :icon="['far', 'copy']" /> COPY</span
               >
             </div>

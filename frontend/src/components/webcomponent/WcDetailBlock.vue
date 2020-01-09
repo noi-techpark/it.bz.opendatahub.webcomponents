@@ -74,8 +74,8 @@
                 <a
                   v-if="component.license && component.license.seeAlso"
                   :href="component.license.seeAlso[0]"
-                  target="_blank"
                   :title="component.license.name"
+                  target="_blank"
                   >{{ component.license.licenseId }}</a
                 >
                 <div v-else-if="component.license">

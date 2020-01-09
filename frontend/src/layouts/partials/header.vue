@@ -16,21 +16,9 @@
         <div class="mt-4 mt-lg-0">
           <b-nav class="text-uppercase">
             <b-nav-item :to="localePath('index')">home</b-nav-item>
-            <b-nav-item-dropdown
-              id="my-nav-dropdown"
-              text="about"
-              toggle-class="nav-link-custom"
-              right
-            >
-              <b-dropdown-item>IDM</b-dropdown-item>
-              <b-dropdown-item>ODH</b-dropdown-item>
-              <b-dropdown-divider></b-dropdown-divider>
-              <b-dropdown-item>NOI</b-dropdown-item>
-            </b-nav-item-dropdown>
-            <b-nav-item :to="localePath('getting-started')"
-              >getting started</b-nav-item
-            >
-            <b-nav-item>community</b-nav-item>
+            <b-nav-item :to="localePath('about')">about</b-nav-item>
+            <b-nav-item :to="localePath('community')">community</b-nav-item>
+            <b-nav-item :to="localePath('contacts')">contacts</b-nav-item>
           </b-nav>
         </div>
       </div>

@@ -19,9 +19,9 @@
         <div class="text-center">
           <a
             v-if="currentPage < maxPage"
+            @click="loadMore()"
             href="javascript: void(0);"
             class="text-secondary d-flex flex-column text-decoration-none"
-            @click="loadMore()"
           >
             <span>load more components</span>
             <span class="chevron bottom bold"></span>

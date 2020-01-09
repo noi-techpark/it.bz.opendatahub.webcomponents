@@ -8,14 +8,14 @@
               <div
                 id="widget-tags"
                 v-b-toggle.tag-collapse
-                style="border-bottom: 2px solid #000;cursor: pointer;"
-                class="full-height d-flex justify-content-between font-large pb-2"
                 :class="{
                   active:
                     userSelectedTags &&
                     userSelectedTags.length > 0 &&
                     userSelectedTags[0] !== 'any'
                 }"
+                style="border-bottom: 2px solid #000;cursor: pointer;"
+                class="full-height d-flex justify-content-between font-large pb-2"
               >
                 <span>Filter by categories</span>
                 <span class="chevron bottom mr-2"></span>
@@ -26,12 +26,12 @@
               >
                 <div class="m-4">
                   <b-form-checkbox-group
-                    v-if="isLoaded"
                     id="checkbox-group-2"
+                    @input="tagsUpdated"
+                    v-if="isLoaded"
                     v-model="userSelectedTags"
                     name="flavour-2"
                     class="text-capitalize d-flex flex-column"
-                    @input="tagsUpdated"
                   >
                     <b-form-checkbox
                       v-for="tag in availableSearchTags"
@@ -48,30 +48,30 @@
             <form @submit.prevent="termSubmitted()">
               <div
                 id="widget-search"
+                :class="{ active: searchTerm && searchTerm !== '' }"
                 style="border-bottom: 2px solid #000;"
                 class="full-height d-flex justify-content-between font-large pb-2"
-                :class="{ active: searchTerm && searchTerm !== '' }"
               >
                 <div class="full-width pr-2 search-input">
                   <input
                     ref="searchTermInput"
+                    :onkeyup="termUpdated()"
                     v-model="searchTerm"
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"
                     class="p-0 font-large full-width"
-                    :onkeyup="termUpdated()"
                   />
                 </div>
 
                 <svg
+                  @click="termSubmitted()"
                   style="margin-top: 0.15rem; height: 1.5rem;"
                   xmlns="http://www.w3.org/2000/svg"
                   width="31.414"
                   height="32.214"
                   viewBox="0 0 31.414 32.214"
                   class="search-image"
-                  @click="termSubmitted()"
                 >
                   <defs>
                     <style>
