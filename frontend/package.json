@@ -45,5 +45,8 @@
     "nodemon": "^1.18.9",
     "prettier": "^1.16.4",
     "vue-jest": "^3.0.3"
+  },
+  "resolutions": {
+    "semver": "5.7.1"
   }
 }
