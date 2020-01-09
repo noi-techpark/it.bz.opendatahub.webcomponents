@@ -1,6 +1,5 @@
 # odh-web-components-store
-This repository contains the source code of the Open Data Hub Web Component Store.
-We collect our web components here. 
+This repository contains the source code of the Open Data Hub Web Component Store. It is a store to collect and preview our web components. 
 
 Functionalities are as follows: 
   - Search 
