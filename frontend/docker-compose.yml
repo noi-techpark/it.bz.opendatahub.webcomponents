@@ -1,0 +1,15 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/dockerfile-node-local
+    volumes:
+      - ./:/code
+    working_dir: /code
+    command: ["yarn dev"]
+    environment:
+      HOST: 0.0.0.0   # Make all IP addresses available to the outside
+    ports:
+      - "3000:3000"
+    tty: true
