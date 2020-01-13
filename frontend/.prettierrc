@@ -1,5 +1,6 @@
 {
   "arrowParens": "always",
   "singleQuote": true,
-  "endOfLine": "auto"
+  "endOfLine": "auto",
+  "semi": false
 }
