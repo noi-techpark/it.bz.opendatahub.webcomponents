@@ -113,7 +113,7 @@ export default {
   props: {
     selectedTags: {
       default: () => {
-        return [];
+        return []
       },
       type: Array
     },
@@ -125,50 +125,50 @@ export default {
       availableSearchTags: [],
       userSelectedTags: this.selectedTags,
       isLoaded: false
-    };
+    }
   },
   mounted() {
-    this.loadSearchTags();
+    this.loadSearchTags()
 
-    this.focusInput();
+    this.focusInput()
   },
   methods: {
     focusInput() {
-      this.$refs.searchTermInput.focus();
+      this.$refs.searchTermInput.focus()
     },
     async loadSearchTags() {
-      this.availableSearchTags = await this.$api.searchtag.listAll();
-      this.isLoaded = true;
+      this.availableSearchTags = await this.$api.searchtag.listAll()
+      this.isLoaded = true
     },
     tagsUpdated() {
       this.$emit('tags-updated', {
         tags: this.userSelectedTags,
         term: this.searchTerm
-      });
+      })
     },
     termUpdated() {
       if (this.isNewSearchTerm()) {
-        this.oldSearchTerm = this.searchTerm;
+        this.oldSearchTerm = this.searchTerm
         this.$emit('term-updated', {
           tags: this.userSelectedTags,
           term: this.searchTerm
-        });
+        })
       }
     },
     termSubmitted() {
       // if (this.isNewSearchTerm()) {
-      this.oldSearchTerm = this.searchTerm;
+      this.oldSearchTerm = this.searchTerm
       this.$emit('term-submitted', {
         tags: this.userSelectedTags,
         term: this.searchTerm
-      });
+      })
       // }
     },
     isNewSearchTerm() {
-      return this.searchTerm !== this.oldSearchTerm;
+      return this.searchTerm !== this.oldSearchTerm
     }
   }
-};
+}
 </script>
 
 <style>

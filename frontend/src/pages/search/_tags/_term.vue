@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Searchbar from '~/components/searchbar.vue';
-import WcFiltered from '~/components/wc-filtered.vue';
+import Searchbar from '~/components/searchbar.vue'
+import WcFiltered from '~/components/wc-filtered.vue'
 
 export default {
   components: {
@@ -25,13 +25,13 @@ export default {
       timer: null,
       searchTerm: this.$route.params.term,
       searchTags: this.$route.params.tags.split('|')
-    };
+    }
   },
   computed: {
     getSearchTags() {
       return this.searchTags.filter((entry) => {
-        return entry !== 'any';
-      });
+        return entry !== 'any'
+      })
     },
     returnTo() {
       if (!this.$route.params.term) {
@@ -40,7 +40,7 @@ export default {
           params: {
             tags: this.$route.params.tags
           }
-        });
+        })
       }
 
       return this.localePath({
@@ -49,24 +49,24 @@ export default {
           tags: this.$route.params.tags,
           term: this.$route.params.term
         }
-      });
+      })
     }
   },
   methods: {
     updateSearchTerm(ev) {
-      this.searchTerm = ev.term;
-      this.searchTags = ev.tags;
+      this.searchTerm = ev.term
+      this.searchTags = ev.tags
 
       if (this.timer) {
-        clearTimeout(this.timer);
+        clearTimeout(this.timer)
       }
 
-      this.timer = setTimeout(this.redirectSearchTerm, 300, ev);
+      this.timer = setTimeout(this.redirectSearchTerm, 300, ev)
     },
     redirectSearchTerm(ev) {
-      let tags = ev.tags.join('|');
+      let tags = ev.tags.join('|')
       if (ev.tags.length === 0) {
-        tags = 'any';
+        tags = 'any'
       }
 
       if (ev.term !== null && ev.term !== '') {
@@ -75,16 +75,16 @@ export default {
             name: 'search-tags-term',
             params: { tags, term: ev.term }
           })
-        );
+        )
       } else {
         this.$router.push(
           this.localePath({
             name: 'search-tags',
             params: { tags }
           })
-        );
+        )
       }
     }
   }
-};
+}
 </script>

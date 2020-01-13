@@ -1,7 +1,7 @@
-const resource = 'searchtag';
+const resource = 'searchtag'
 
 export default ($axios) => ({
   listAll() {
-    return $axios.$get(`${resource}`);
+    return $axios.$get(`${resource}`)
   }
-});
+})

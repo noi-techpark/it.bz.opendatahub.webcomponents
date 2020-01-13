@@ -84,27 +84,27 @@ export default {
           '/webcomponent/' +
           this.entry.uuid +
           '/logo'
-        );
+        )
       }
 
-      return '/component_placeholder.png';
+      return '/component_placeholder.png'
     },
     returnPath() {
       if (this.returnTo === null) {
         return this.localePath({
           name: 'webcomponent-id',
           params: { id: this.entry.uuid }
-        });
+        })
       }
 
       return this.localePath({
         name: 'webcomponent-id',
         params: { id: this.entry.uuid },
         query: { from: this.returnTo }
-      });
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

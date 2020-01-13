@@ -40,22 +40,22 @@ export default {
   },
   computed: {
     pagesToDisplay() {
-      const start = Math.max(0, this.currentPage - 5);
-      const end = Math.min(this.currentPage + 5, this.totalPages);
+      const start = Math.max(0, this.currentPage - 5)
+      const end = Math.min(this.currentPage + 5, this.totalPages)
 
-      const pages = [];
+      const pages = []
 
       for (let i = start; i < end; i++) {
-        pages.push(i);
+        pages.push(i)
       }
 
-      return pages;
+      return pages
     }
   },
   methods: {
     selectPage(page) {
-      this.$emit('page-select', page);
+      this.$emit('page-select', page)
     }
   }
-};
+}
 </script>

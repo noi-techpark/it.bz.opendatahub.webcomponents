@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
+import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue'
 
 export default {
   components: {
@@ -55,34 +55,34 @@ export default {
       currentPage: 0,
       maxPage: 0,
       allList: []
-    };
+    }
   },
   mounted() {
-    this.loadAll();
+    this.loadAll()
   },
   methods: {
     async loadAll() {
       const page = await this.$api.webcomponent.listAllPaged(
         this.currentPage,
         this.pageSize
-      );
+      )
 
-      this.maxPage = Math.min(1, page.totalPages - 1);
+      this.maxPage = Math.min(1, page.totalPages - 1)
 
-      this.allList = page.content;
+      this.allList = page.content
     },
     async loadMore() {
-      this.currentPage++;
+      this.currentPage++
 
       const page = await this.$api.webcomponent.listAllPaged(
         ++this.currentPage,
         this.pageSize
-      );
+      )
 
-      this.allList = this.allList.concat(page.content);
+      this.allList = this.allList.concat(page.content)
     }
   }
-};
+}
 </script>
 
 <style></style>

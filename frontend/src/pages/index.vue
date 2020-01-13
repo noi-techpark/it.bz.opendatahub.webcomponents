@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import Searchbar from '~/components/searchbar.vue';
-import WcLatest from '~/components/wc-latest.vue';
+import Searchbar from '~/components/searchbar.vue'
+import WcLatest from '~/components/wc-latest.vue'
 
 export default {
   components: {
@@ -41,19 +41,19 @@ export default {
   data() {
     return {
       searchTags: []
-    };
+    }
   },
   mounted() {
-    this.loadSearchTags();
+    this.loadSearchTags()
   },
   methods: {
     async loadSearchTags() {
-      this.searchTags = await this.$api.searchtag.listAll();
+      this.searchTags = await this.$api.searchtag.listAll()
     },
     redirectSearchTerm(ev) {
-      let tags = ev.tags.join('|');
+      let tags = ev.tags.join('|')
       if (ev.tags.length === 0) {
-        tags = 'any';
+        tags = 'any'
       }
 
       if (ev.term !== null && ev.term !== '') {
@@ -62,18 +62,18 @@ export default {
             name: 'search-tags-term',
             params: { tags, term: ev.term }
           })
-        );
+        )
       } else {
         this.$router.push(
           this.localePath({
             name: 'search-tags',
             params: { tags }
           })
-        );
+        )
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

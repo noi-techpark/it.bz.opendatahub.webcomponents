@@ -133,8 +133,8 @@
 </template>
 
 <script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
-import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
+import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock'
 
 export default {
   components: {
@@ -150,43 +150,43 @@ export default {
       config: { configuration: { tagName: '' } },
       autoUpdate: true,
       selectedVersion: null
-    };
+    }
   },
   computed: {
     returnLink() {
       if (this.$route.query.from) {
-        return this.$route.query.from;
+        return this.$route.query.from
       }
 
-      return this.localePath('index');
+      return this.localePath('index')
     },
     isLatestVersionActive() {
       if (!this.component) {
-        return false;
+        return false
       }
-      return this.selectedVersion === this.component.versions[0].versionTag;
+      return this.selectedVersion === this.component.versions[0].versionTag
     }
   },
   watch: {
     selectedVersion(newValue, oldValue) {
       if (oldValue !== null) {
-        this.reloadConfig();
+        this.reloadConfig()
       }
     }
   },
   mounted() {
-    this.loadData();
+    this.loadData()
     // this.initEventListener();
   },
   methods: {
     toggleEditMode() {
-      this.editmode = !this.editmode;
+      this.editmode = !this.editmode
       if (this.editmode) {
-        this.snippOriginal = this.snipp;
+        this.snippOriginal = this.snipp
       } else {
-        this.snipp = this.snippOriginal;
+        this.snipp = this.snippOriginal
         if (this.autoUpdate) {
-          this.updatePreview();
+          this.updatePreview()
         }
       }
     },
@@ -196,62 +196,62 @@ export default {
           name: 'webcomponent-id-version',
           params: { id: this.$route.params.id, version: this.selectedVersion }
         })
-      );
+      )
     },
     async loadData() {
       this.component = await this.$api.webcomponent.getOneById(
         this.$route.params.id
-      );
+      )
 
       if (this.$route.params.version) {
         this.component.versions.forEach((entry) => {
           if (entry.versionTag === this.$route.params.version) {
-            this.selectedVersion = this.$route.params.version;
+            this.selectedVersion = this.$route.params.version
           }
-        });
+        })
       }
 
       if (!this.selectedVersion) {
-        this.selectedVersion = this.component.versions[0].versionTag;
+        this.selectedVersion = this.component.versions[0].versionTag
       }
 
       this.config = await this.$api.webcomponent.getConfigById(
         this.$route.params.id,
         this.selectedVersion
-      );
+      )
     },
     updateSnippet(data) {
-      this.snipp = data + '\n' + this.getDistIncludes().join('\n');
+      this.snipp = data + '\n' + this.getDistIncludes().join('\n')
 
       if (this.autoUpdate) {
-        this.updatePreview();
+        this.updatePreview()
       }
     },
     copySnippetToClipboard() {
-      const copyText = document.getElementById('code-snippet');
+      const copyText = document.getElementById('code-snippet')
 
-      copyText.select();
+      copyText.select()
 
-      document.execCommand('copy');
+      document.execCommand('copy')
     },
     updatePreview() {
-      const oldElement = document.getElementById('tframe');
+      const oldElement = document.getElementById('tframe')
 
-      oldElement.parentNode.removeChild(oldElement);
+      oldElement.parentNode.removeChild(oldElement)
 
-      const newElement = document.createElement('iframe');
-      newElement.setAttribute('id', 'tframe');
-      newElement.setAttribute('class', 'full-height full-width');
-      newElement.setAttribute('style', 'min-height: 800px;');
-      newElement.setAttribute('frameborder', '0');
+      const newElement = document.createElement('iframe')
+      newElement.setAttribute('id', 'tframe')
+      newElement.setAttribute('class', 'full-height full-width')
+      newElement.setAttribute('style', 'min-height: 800px;')
+      newElement.setAttribute('frameborder', '0')
 
-      document.getElementById('twrap').appendChild(newElement);
+      document.getElementById('twrap').appendChild(newElement)
 
-      newElement.contentDocument.close();
-      newElement.contentDocument.write(this.snipp);
+      newElement.contentDocument.close()
+      newElement.contentDocument.write(this.snipp)
     },
     getDistIncludes() {
-      const scripts = [];
+      const scripts = []
 
       this.config.dist.files.forEach((item) => {
         scripts.push(
@@ -263,13 +263,13 @@ export default {
             item +
             '"></scr' +
             'ipt>'
-        );
-      });
+        )
+      })
 
-      return scripts;
+      return scripts
     }
   }
-};
+}
 </script>
 
 <style lang="scss">

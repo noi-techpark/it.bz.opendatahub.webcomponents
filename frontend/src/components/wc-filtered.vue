@@ -91,8 +91,8 @@
 </template>
 
 <script>
-import Paginator from '~/components/paginator.vue';
-import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
+import Paginator from '~/components/paginator.vue'
+import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue'
 
 export default {
   components: {
@@ -102,7 +102,7 @@ export default {
   props: {
     tags: {
       default: () => {
-        return [];
+        return []
       },
       type: Array
     },
@@ -119,84 +119,84 @@ export default {
       currentPageNumber: 0,
       currentPage: null,
       timer: null
-    };
+    }
   },
   computed: {
     hasContent() {
-      return !this.currentPage.empty;
+      return !this.currentPage.empty
     },
     isFirst() {
-      return this.currentPage.first;
+      return this.currentPage.first
     },
     isLast() {
-      return this.currentPage.last;
+      return this.currentPage.last
     }
   },
   watch: {
     term(newVal, oldVal) {
       if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
+        clearTimeout(this.timer)
+        this.timer = null
       }
 
-      this.timer = setTimeout(this.update, 350);
+      this.timer = setTimeout(this.update, 350)
     },
     tags(newVal, oldVal) {
       if (this.timer) {
-        clearTimeout(this.timer);
-        this.timer = null;
+        clearTimeout(this.timer)
+        this.timer = null
       }
 
-      this.timer = setTimeout(this.update, 350);
+      this.timer = setTimeout(this.update, 350)
     }
   },
   fetch() {},
   mounted() {
-    this.loadPage(this.currentPageNumber, this.pageSize);
+    this.loadPage(this.currentPageNumber, this.pageSize)
   },
   methods: {
     toPage(page) {
-      this.currentPageNumber = page;
-      this.loadPage(this.currentPageNumber, this.pageSize);
+      this.currentPageNumber = page
+      this.loadPage(this.currentPageNumber, this.pageSize)
     },
     nextPage() {
       if (this.isLast === false) {
-        this.loadPage(++this.currentPageNumber, this.pageSize);
+        this.loadPage(++this.currentPageNumber, this.pageSize)
       }
     },
     previousPage() {
       if (this.isFirst === false) {
-        this.loadPage(--this.currentPageNumber, this.pageSize);
+        this.loadPage(--this.currentPageNumber, this.pageSize)
       }
     },
     update() {
-      this.currentPageNumber = 0;
+      this.currentPageNumber = 0
 
-      this.loadPage(this.currentPageNumber, this.pageSize);
+      this.loadPage(this.currentPageNumber, this.pageSize)
     },
     async loadPage(pageNumber, pageSize) {
-      let term = '';
+      let term = ''
       if (this.term) {
-        term = this.term;
+        term = this.term
       }
 
-      let tags = '';
-      let filtered = [];
+      let tags = ''
+      let filtered = []
       if (Array.isArray(this.tags)) {
         filtered = this.tags.filter((elem) => {
-          return elem !== 'any';
-        });
-        tags = filtered.join(',');
+          return elem !== 'any'
+        })
+        tags = filtered.join(',')
       }
       this.currentPage = await this.$api.webcomponent.findAllPaged(
         pageNumber,
         pageSize,
         tags,
         term
-      );
+      )
 
-      this.isLoaded = true;
+      this.isLoaded = true
     }
   }
-};
+}
 </script>

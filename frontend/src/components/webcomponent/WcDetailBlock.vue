@@ -123,7 +123,7 @@ export default {
     component: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     returnLink: {
@@ -131,5 +131,5 @@ export default {
       default: ''
     }
   }
-};
+}
 </script>
