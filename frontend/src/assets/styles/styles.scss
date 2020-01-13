@@ -45,6 +45,43 @@
   }
 }
 
+.button {
+  display: inline-block;
+  margin: 0 10px 10px 0;
+  padding: 12px 25px;
+  font-size: 1.3rem;
+  max-width: none;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 4px;
+  font-weight: bold;
+  line-height: 1;
+  text-align: center;
+  cursor: pointer;
+  min-width: 170px;
+  background: $secondary;
+  border: 2px solid $secondary;
+  &:hover {
+    color: $secondary;
+    background: none;
+    border: 2px solid $secondary;
+    text-decoration: none;
+  }
+}
+
+.img_container {
+  padding: 10px;
+  width: 33.33%;
+}
+
+.logo_container {
+  background: #fff;
+  padding: 15px; 
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
 .code-snippet {
   &:disabled {
     color: $black !important;
