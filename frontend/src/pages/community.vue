@@ -7,11 +7,13 @@
         project.
       </p>
       <p>
-        <a href="#partners" target="_self" class="button">Partners</a>
-        <a href="#publishers" target="_self" class="button">Publishers</a>
-        <a href="#contributors" target="_self" class="button">Contributors</a>
+        <a v-scroll-to="'#partners'" href="#" class="button">Partners</a>
+        <a v-scroll-to="'#publishers'" href="#" class="button">Publishers</a>
+        <a v-scroll-to="'#contributors'" href="#" class="button"
+          >Contributors</a
+        >
       </p>
-      <h2 ref="partners">Partners</h2>
+      <h2 id="partners">Partners</h2>
       <p>
         Partners worked together to establish the Open Data Hub Web Component
         Store.
@@ -31,30 +33,26 @@
           <img src="/IDM-logo.png" />
         </a>
       </div>
-      <h2 ref="publishers">Publishers</h2>
+      <h2 id="publishers">Publishers</h2>
       <p>
         Publishers have developed Web Components, that are published on the
         Store.
       </p>
-      <div class="logo_container">
-        See Author tags inside
-        <router-link class="text-secondary" to="/">Dashboard</router-link>.
-      </div>
-      <h2 ref="contributors">Contributors</h2>
+      See Author tags inside
+      <router-link class="text-secondary" to="/">Dashboard</router-link>.
+      <h2 id="contributors">Contributors</h2>
       <p>
         Contributors have developed parts of the Open Data Hub Web Component
         Store itself.
       </p>
-      <div class="logo_container">
-        See
-        <a
-          target="_blank"
-          class="text-secondary"
-          href="https://github.com/noi-techpark/odh-web-components-store/graphs/contributors"
-          >Contributors on GitHub</a
-        >
-        for further details.
-      </div>
+      See
+      <a
+        target="_blank"
+        class="text-secondary"
+        href="https://github.com/noi-techpark/odh-web-components-store/graphs/contributors"
+        >Contributors on GitHub</a
+      >
+      for further details.
     </div>
   </div>
 </template>

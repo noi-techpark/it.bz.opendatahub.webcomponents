@@ -38,10 +38,7 @@
             >
           </div>
           <div>
-            <div
-              onclick="window.scrollTo(0,0);"
-              class="btn-circle arrow-up filled"
-            >
+            <div v-scroll-to="'#__nuxt'" class="btn-circle arrow-up filled">
               <img src="/icons/ic_arrow.svg" />
             </div>
           </div>

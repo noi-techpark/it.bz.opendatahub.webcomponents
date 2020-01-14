@@ -56,7 +56,8 @@ module.exports = {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'nuxt-i18n'
+    'nuxt-i18n',
+    ['vue-scrollto/nuxt', { duration: 500 }],
   ],
 
   i18n: {
