@@ -66,8 +66,14 @@ $ cd odh-web-components-store/frontend/
 # Start up the application
 $ docker-compose up
 
+# To know on which address/port the application is listening to, run...
+$ docker-compose logs
+
 # If you like, you can enter the docker container to debug or run commands you like
 $ docker-compose run --rm app bash
+
+# Stop the docker instance
+$ docker-compose stop app
 ```
 
 See [Build Setup](#build-setup) for possible commands.
