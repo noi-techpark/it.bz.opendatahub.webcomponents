@@ -7,7 +7,7 @@ services:
     volumes:
       - ./:/code
     working_dir: /code
-    command: ["yarn dev"]
+    command: yarn dev
     environment:
       HOST: 0.0.0.0   # Make all IP addresses available to the outside
     ports:

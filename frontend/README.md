@@ -7,6 +7,7 @@
 - [Source Code](#source-code)
 - [Requirements](#requirements)
 - [Configuration](#configuration)
+- [Local Development with Docker](#local-development-with-docker)
 - [Build Setup](#build-setup)
 - [Deployment](#deployment)
 
@@ -54,6 +55,22 @@ axios: {
 ```
 
 Adjust the baseURL to where the API is running. The API is provided by "data-service" in the 'backend' package.
+
+## Local Development with Docker
+We use [docker-compose](https://docs.docker.com/compose/) for local development.
+
+```bash
+# Change into directory
+$ cd odh-web-components-store/frontend/
+
+# Start up the application
+$ docker-compose up
+
+# If you like, you can enter the docker container to debug or run commands you like
+$ docker-compose run --rm app bash
+```
+
+See [Build Setup](#build-setup) for possible commands.
 
 ## Build Setup
 
