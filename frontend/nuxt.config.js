@@ -40,7 +40,11 @@ module.exports = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/api.js', '~/plugins/fontawesome.js'],
+  plugins: [
+    '~/plugins/api.js',
+    '~/plugins/fontawesome.js',
+    '~/plugins/tooltip.js'
+  ],
   /*
    ** Nuxt.js dev-modules
    */

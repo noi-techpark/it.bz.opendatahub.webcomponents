@@ -6,12 +6,19 @@
           <nuxt-link :to="localePath('index')">
             <img src="/logo.png" height="50px" style="max-width: 100%" />
           </nuxt-link>
-          <a
-            href="https://en.wikipedia.org/wiki/Software_release_life_cycle#Stages_of_development"
-            target="_blank"
+          <button
+            v-tooltip="{
+              content:
+                'ALPHA: Some missing features, unstable and buggy<br />' +
+                '<b>BETA: All features implemented, testing and on-going bug fixes</b><br />' +
+                'STABLE: All features implemented, stable release',
+              placement: 'right-end',
+              html: true
+            }"
             class="beta_badge d-none d-sm-block"
-            >BETA</a
           >
+            BETA
+          </button>
         </div>
         <div class="mt-4 mt-lg-0">
           <b-nav class="text-uppercase">
