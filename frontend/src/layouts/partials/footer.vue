@@ -30,7 +30,7 @@
         <div class="d-flex justify-content-between mt-5">
           <div class="font-smaller">
             <div class="font-weight-bold">
-              &copy; 2019 Open Data Hub,
+              Open Data Hub,
               <a href="mailto:info@opendatahub.bz.it">info@opendatahub.bz.it</a>
             </div>
             <a href="https://konverto.eu" target="_blank" class="text-muted"

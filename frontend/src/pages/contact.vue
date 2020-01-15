@@ -14,7 +14,7 @@
       <hr />
       <div>
         <h2>NOI Techpark</h2>
-        <h3>Techtranfer - Digital Technologies</h3>
+        <h3>Tech Transfer - Unit Digital</h3>
         <table class="entity">
           <tr>
             <td>Phone</td>
