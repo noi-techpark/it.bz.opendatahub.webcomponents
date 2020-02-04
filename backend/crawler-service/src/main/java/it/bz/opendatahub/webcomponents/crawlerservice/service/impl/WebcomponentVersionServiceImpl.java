@@ -72,19 +72,19 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
         Manifest manifest;
         try {
             manifest = readManifestFromRemote(gitRevision);
-        }
-        catch (NotFoundException e) {
+
+            Path versionBasePath = Paths.get(origin.getUuid(), tagEntry.getName());
+
+            persistManifest(manifest, versionBasePath);
+
+            saveImage(gitRevision, manifest, versionBasePath);
+            saveDist(gitRevision, manifest, versionBasePath);
+
+            upsertVersion(gitRevision, origin.getUuid(), manifest);
+        } catch (NotFoundException e) {
             return;
         }
 
-        Path versionBasePath = Paths.get(origin.getUuid(), tagEntry.getName());
-
-        persistManifest(manifest, versionBasePath);
-
-        saveImage(gitRevision, manifest, versionBasePath);
-        saveDist(gitRevision, manifest, versionBasePath);
-
-        upsertVersion(gitRevision, origin.getUuid(), manifest);
     }
 
     @Override
