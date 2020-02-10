@@ -104,7 +104,8 @@ buildNumber.properties
 **/*.DS_Store
 
 /logs/
-/workspace/
+workspace/
+application.properties
 
 # Eclipse files
 .settings
