@@ -1,6 +1,7 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.exception;
 
 public class VcsException extends CrawlerException {
+
     public VcsException() {
     }
 

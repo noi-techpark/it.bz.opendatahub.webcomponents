@@ -67,24 +67,24 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
     @Override
     public void createVersionFromTag(OriginModel origin, TagEntry tagEntry) {
 
+        log.debug("createVersionFromTag for origin {} with tag {}", origin.getUrl(), tagEntry.getName());
+
         GitRevision gitRevision = GitRevision.of(GitRemote.of(origin), tagEntry);
 
         Manifest manifest;
         try {
             manifest = readManifestFromRemote(gitRevision);
-
-            Path versionBasePath = Paths.get(origin.getUuid(), tagEntry.getName());
-
-            persistManifest(manifest, versionBasePath);
-
-            saveImage(gitRevision, manifest, versionBasePath);
-            saveDist(gitRevision, manifest, versionBasePath);
-
-            upsertVersion(gitRevision, origin.getUuid(), manifest);
         } catch (NotFoundException e) {
             return;
         }
 
+        log.debug("...manifest found with title {}, image {} and dist {}", manifest.getTitle(), manifest.getImage(), manifest.getDist().getBasePath() + manifest.getDist().getFiles());
+
+        Path versionBasePath = Paths.get(origin.getUuid(), tagEntry.getName());
+        saveImage(gitRevision, manifest, versionBasePath);
+        saveDist(gitRevision, manifest, versionBasePath);
+        persistManifest(manifest, versionBasePath);
+        upsertVersion(gitRevision, origin.getUuid(), manifest);
     }
 
     @Override
@@ -131,6 +131,7 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
 
     private void saveImage(GitRevision gitRevision, Manifest manifest, Path versionBasePath) {
         if(manifest.getImage() != null && !manifest.getImage().isEmpty()) {
+            log.debug("...save image {}", manifest.getImage());
             persistImage(gitRevision, manifest, versionBasePath);
         }
     }
@@ -179,12 +180,17 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
             return;
         }
 
+        log.debug("...save dist at base path {}", manifest.getDist().getBasePath());
+
         for(String file: manifest.getDist().getFiles()) {
+
+            log.debug("......save file {}", file);
             ByteArrayOutputStream distFile = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), manifest.getDist().getBasePath()+"/"+ file);
 
             Path path = Paths.get(versionBasePath.toString(), "dist", Paths.get(file).getFileName().toString());
 
             workspaceRepository.writeFile(distFile, path);
+            log.debug("..........OK!");
         }
     }
 }
