@@ -23,6 +23,8 @@ pipeline {
         CRAWLER_FETCH_DELAY_MS = 1800000
 
         DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
+
+        DEBUG_LEVEL = "DEBUG"
     }
 
     stages {
@@ -51,6 +53,8 @@ pipeline {
                     sed -i -e "s%\\(application.repository.origin.branch\\s*=\\).*\\$%\\1${ORIGIN_BRANCH}%" backend/crawler-service/src/main/resources/application.properties
                     sed -i -e "s%\\(application.schedule.origin\\s*=\\).*\\$%\\1${CRAWLER_FETCH_DELAY_MS}%" backend/crawler-service/src/main/resources/application.properties
                     sed -i -e "s%\\(application.schedule.component\\s*=\\).*\\$%\\1${CRAWLER_FETCH_DELAY_MS}%" backend/crawler-service/src/main/resources/application.properties
+                    sed -i -e "s%\\(logging.level.org.slf4j\\s*=\\).*\\$%\\1${DEBUG_LEVEL}%" backend/crawler-service/src/main/resources/application.properties
+                    sed -i -e "s%\\(logging.level.it.bz.opendatahub.webcomponents\\s*=\\).*\\$%\\1${DEBUG_LEVEL}%" backend/crawler-service/src/main/resources/application.properties
 
                     sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/delivery-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/delivery-service/src/main/resources/application.properties
