@@ -289,12 +289,21 @@ The configuration section of the manifest is needed for the configurator to know
         }
       },
       {
+        "key": "nullField",
+        "type": "null",
+        "required": false,
+        "options": {
+          "label": "a field that is either present or absent, but has no value, just a key",
+          "default": null
+        }
+      },
+      {
         "key": "booleanField",
         "type": "bool",
         "required": false,
         "options": {
           "label": "a boolean field",
-          "default": false"
+          "default": false
         }
       },
       {
