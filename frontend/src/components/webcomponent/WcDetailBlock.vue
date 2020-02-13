@@ -5,7 +5,7 @@
         <div
           class="col-md-8 d-flex justify-content-between flex-column flex-md-row w-100"
         >
-          <div>
+          <div style='margin-right: 20px'>
             <nuxt-link
               :to="returnLink"
               class="btn-circle arrow-left filled-dark"
