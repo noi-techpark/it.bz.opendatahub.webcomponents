@@ -56,6 +56,8 @@ axios: {
 
 Adjust the baseURL to where the API is running. The API is provided by "data-service" in the 'backend' package.
 
+This can be done through a `.env` file. Copy `.env.example` to `.env` and adjust the base URL as you like.
+
 ## Local Development with Docker
 We use [docker-compose](https://docs.docker.com/compose/) for local development.
 
