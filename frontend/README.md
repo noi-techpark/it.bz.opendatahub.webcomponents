@@ -29,6 +29,11 @@ cd odh-web-components-store/frontend/
 
 * node.js
 * yarn
+* ODH Web Component Configurator: https://github.com/noi-techpark/webcomp-configtool.git
+  > NB: If you update `webcomp-configtool`, you need to tag that master branch and update
+  > the `package.json` of this repository accordingly. 
+  > See "odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v0.9"
+  > and put the latest version tag to the end
 
 ## Configuration
 
