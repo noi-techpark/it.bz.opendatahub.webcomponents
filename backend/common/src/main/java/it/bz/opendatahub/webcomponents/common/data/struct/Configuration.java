@@ -19,7 +19,11 @@ public class Configuration {
     public static class Options {
         private String key;
 
-        private String type;
+		private String type;
+
+		private Boolean required;
+
+		private String label;
 
         private Object options;
     }

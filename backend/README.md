@@ -235,6 +235,7 @@ The configuration section of the manifest is needed for the configurator to know
         "key": "singleSelect",
         "type": "select",
         "label": "a single select",
+        "required": true,
         "options": {
           "values": ["optionA", "optionB"],
           "default": "optionA"
@@ -243,9 +244,9 @@ The configuration section of the manifest is needed for the configurator to know
       {
         "key": "multiselectField",
         "type": "multiselect",
+        "label": "a multiselect field",
         "required": true,
         "options": {
-          "label": "a multiselect field",
           "values": ["optionA","optionB","optionC"],
           "default": []
         }
