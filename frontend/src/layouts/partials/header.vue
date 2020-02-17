@@ -23,7 +23,7 @@
         <div class="mt-4 mt-lg-0">
           <b-nav class="text-uppercase">
             <b-nav-item :to="localePath('index')">home</b-nav-item>
-            <b-nav-item :to="localePath('about')">about</b-nav-item>
+            <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
             <b-nav-item :to="localePath('community')">community</b-nav-item>
             <b-nav-item :to="localePath('contact')">contact</b-nav-item>
           </b-nav>
