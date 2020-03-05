@@ -13,6 +13,8 @@ pipeline {
 
         BASE_URL = "https://api.webcomponents.opendatahub.testingmachine.eu"
         CDN_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu"
+        GOOGLE_ANALYTICS_ID = credentials('webcompstore-test-google-analytics-id')
+        GOOGLE_ANALYTICS_DEBUG = false
     }
 
     stages {

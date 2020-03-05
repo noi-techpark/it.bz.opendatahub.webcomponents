@@ -50,7 +50,15 @@ module.exports = {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    // Doc: https://github.com/nuxt-community/analytics-module
+    ['@nuxtjs/google-analytics', {
+      id: process.env.GOOGLE_ANALYTICS_ID,
+      debug: {
+        enabled: process.env.GOOGLE_ANALYTICS_DEBUG | false,
+        sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG | false
+      }
+    }]
   ],
   /*
    ** Nuxt.js modules
