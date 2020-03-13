@@ -30,15 +30,15 @@ public class PreviewController {
 	}
 
 	@GetMapping(value = "/{uuid}/{versionTag}/{parameters}")
-	public String getPreview(@PathVariable final String uuid, @PathVariable(required = true) final String version, @RequestParam(defaultValue = "") String style,
-			@RequestParam(defaultValue = "") String slot,
+	public String getPreview(@PathVariable final String uuid, @PathVariable(required = true) final String versionTag,
+			@RequestParam(defaultValue = "") String style, @RequestParam(defaultValue = "") String slot,
 			@MatrixVariable(pathVar = "parameters") Map<String, String> parameters, Model model) {
 
 		WebcomponentConfiguration conf;
-		if ("latest".equalsIgnoreCase(version)) {
+		if ("latest".equalsIgnoreCase(versionTag)) {
 			conf = webcomponentService.getConfiguration(uuid);
 		} else {
-			conf = webcomponentService.getConfiguration(uuid, version);
+			conf = webcomponentService.getConfiguration(uuid, versionTag);
 		}
 
 		model.addAttribute("snippetScripts", conf.getScriptSources());
