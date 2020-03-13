@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentConfiguration;
 import it.bz.opendatahub.webcomponents.dataservice.service.WebcomponentService;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * PreviewController
  */
-@Slf4j
 @Controller
 @RequestMapping("/preview")
 public class PreviewController {
@@ -31,14 +29,20 @@ public class PreviewController {
 		this.webcomponentService = webcomponentService;
 	}
 
-	@GetMapping(value = "/{uuid}/{verstionTag}")
-	public String getPreview(@PathVariable final String uuid, @RequestParam(defaultValue = "") String style,
-			@RequestParam(defaultValue = "") String slot, @MatrixVariable Map<String, String> parameters, Model model) {
-		WebcomponentConfiguration conf = webcomponentService.getConfiguration(uuid);
+	@GetMapping(value = "/{uuid}/{versionTag}/{parameters}")
+	public String getPreview(@PathVariable final String uuid, @PathVariable(required = true) final String version, @RequestParam(defaultValue = "") String style,
+			@RequestParam(defaultValue = "") String slot,
+			@MatrixVariable(pathVar = "parameters") Map<String, String> parameters, Model model) {
+
+		WebcomponentConfiguration conf;
+		if ("latest".equalsIgnoreCase(version)) {
+			conf = webcomponentService.getConfiguration(uuid);
+		} else {
+			conf = webcomponentService.getConfiguration(uuid, version);
+		}
+
 		model.addAttribute("snippetScripts", conf.getScriptSources());
 		model.addAttribute("style", style);
-
-		log.debug("PARAMETERS {}", parameters.toString());
 
 		StringJoiner sj = new StringJoiner(" ", " ", "");
 		for (Entry<String, String> entry : parameters.entrySet()) {

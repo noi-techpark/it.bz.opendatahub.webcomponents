@@ -24,7 +24,7 @@ public class SwaggerConfig {
 
         ApiInfo info = new ApiInfo("ODH Webcomponents",
                 "ODH Webcomponents",
-                "pre-alpha",
+                "beta",
                 null,
                 null,
                 null,

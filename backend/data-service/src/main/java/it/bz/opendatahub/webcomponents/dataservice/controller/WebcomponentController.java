@@ -79,5 +79,6 @@ public class WebcomponentController {
     @GetMapping(value = "/{uuid}/logo", produces = "image/png")
     public ResponseEntity<byte[]> getLogoImage(@PathVariable String uuid) {
         return new ResponseEntity<>(webcomponentService.getLogoImage(uuid), HttpStatus.OK);
-    }
+	}
+
 }

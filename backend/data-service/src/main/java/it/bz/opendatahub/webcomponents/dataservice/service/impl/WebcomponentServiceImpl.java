@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;

@@ -6,13 +6,9 @@
     <style th:utext="${style}"></style>
 </head>
 <body>
-    <h1 th:text="'WEB COMP UUID ' + ${uuid} + ' VERSION ' + ${versionTag} + '!'" />
-
     <div th:utext="${snippetCode}"></div>
-
     <th:block th:each="src : ${snippetScripts}">
-        <script th:src="${src}"></script>
+    <script th:src="${src}"></script>
     </th:block>
-
 </body>
 </html>
