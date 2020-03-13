@@ -78,7 +78,6 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         configuration.setWebcomponentUuid(uuid);
         configuration.setConfiguration(latestVersion.getConfiguration());
 		configuration.setDeliveryBaseUrl(deliveryBaseUrl);
-		configuration.setWebcomponentVersion(latestVersion.getVersionTag());
 
         configuration.setDist(Dist.of(webcomponent.getUuid(), latestVersion.getDist().getFiles()));
 
@@ -95,7 +94,6 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         configuration.setWebcomponentUuid(uuid);
         configuration.setConfiguration(version.getConfiguration());
 		configuration.setDeliveryBaseUrl(deliveryBaseUrl);
-		configuration.setWebcomponentVersion(versionTag);
 
         configuration.setDist(Dist.of(webcomponent.getUuid()+"/"+versionTag, version.getDist().getFiles()));
 

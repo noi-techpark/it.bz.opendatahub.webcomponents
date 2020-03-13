@@ -29,10 +29,10 @@ public class PreviewController {
 		this.webcomponentService = webcomponentService;
 	}
 
-	@GetMapping(value = "/{uuid}/{versionTag}/{parameters}")
+	@GetMapping(value = "/{uuid}/{versionTag}")
 	public String getPreview(@PathVariable final String uuid, @PathVariable(required = true) final String versionTag,
 			@RequestParam(defaultValue = "") String style, @RequestParam(defaultValue = "") String slot,
-			@MatrixVariable(pathVar = "parameters") Map<String, String> parameters, Model model) {
+			@MatrixVariable Map<String, String> parameters, Model model) {
 
 		WebcomponentConfiguration conf;
 		if ("latest".equalsIgnoreCase(versionTag)) {

@@ -58,7 +58,7 @@ public class WebcomponentController {
 
         Page<WebcomponentDto> resultPage = webcomponentService.listAll(pageRequest, tagList, searchTerm);
 
-        return new ResponseEntity<>(new PageImpl(webcomponentEntryConverter.dtoToRest(resultPage.getContent()), pageRequest, resultPage.getTotalElements()), HttpStatus.OK);
+        return new ResponseEntity<>(new PageImpl<>(webcomponentEntryConverter.dtoToRest(resultPage.getContent()), pageRequest, resultPage.getTotalElements()), HttpStatus.OK);
     }
 
     @GetMapping("/{uuid}")

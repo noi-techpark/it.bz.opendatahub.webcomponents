@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 null,
                 null,
                 null,
-                Collections.EMPTY_LIST);
+                Collections.emptyList());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()

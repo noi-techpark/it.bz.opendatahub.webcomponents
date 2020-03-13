@@ -10,7 +10,9 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 public final class WebcomponentVersionId implements Serializable {
-    private String webcomponentUuid;
+	private static final long serialVersionUID = -3551018510641602498L;
+
+	private String webcomponentUuid;
 
     private String versionTag;
 

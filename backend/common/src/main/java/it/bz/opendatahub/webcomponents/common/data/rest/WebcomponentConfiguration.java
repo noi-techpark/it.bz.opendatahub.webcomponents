@@ -14,8 +14,6 @@ import lombok.Setter;
 public class WebcomponentConfiguration implements Rest {
 	private String webcomponentUuid;
 
-	private String webcomponentVersion;
-
     private String deliveryBaseUrl;
 
     private Dist dist;
@@ -25,7 +23,7 @@ public class WebcomponentConfiguration implements Rest {
 	public List<String> getScriptSources() {
 		List<String> result = new ArrayList<String>();
 		for (String file : dist.getFiles()) {
-			result.add(deliveryBaseUrl + "/" + dist.getBasePath() + "/" + webcomponentVersion + "/" + file);
+			result.add(deliveryBaseUrl + "/" + dist.getBasePath() + "/" + file);
 		}
 		return result;
 	}

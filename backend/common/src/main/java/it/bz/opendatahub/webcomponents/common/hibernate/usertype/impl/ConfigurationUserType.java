@@ -6,7 +6,7 @@ import it.bz.opendatahub.webcomponents.common.hibernate.usertype.AbstractUserTyp
 public final class ConfigurationUserType extends AbstractUserType {
     public static final String NAME = "ConfigurationUserType";
 
-    @Override
+	@Override
     public Class returnedClass() {
         return Configuration.class;
     }
