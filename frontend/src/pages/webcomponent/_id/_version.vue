@@ -38,20 +38,39 @@
               slot="footer"
               class="text-right text-uppercase d-flex flex-column flex-sm-row"
             >
-              <span v-if="!editmode"
-                ><b-checkbox
+              <span v-if="!editmode">
+                <b-checkbox
                   v-model="autoUpdate"
                   class="d-inline-block"
-                ></b-checkbox>
-                auto update</span
-              >
+                ></b-checkbox
+                >auto update
+              </span>
               <span
                 @click="updatePreview"
                 class="mt-2 mt-sm-0"
                 style="cursor: pointer;"
-                ><font-awesome-icon :icon="['fas', 'redo']" class="ml-4" />
-                update preview</span
               >
+                <font-awesome-icon
+                  :icon="['fas', 'redo']"
+                  class="ml-4 mr-1"
+                />update preview
+              </span>
+              <a
+                :href="
+                  previewBaseURL +
+                    '/preview/' +
+                    component.uuid +
+                    '/' +
+                    selectedVersion
+                "
+                target="_blank"
+                class="mt-2 mt-sm-0"
+              >
+                <font-awesome-icon
+                  :icon="['fas', 'rocket']"
+                  class="ml-4 mr-1"
+                />external window
+              </a>
             </div>
           </b-card>
         </div>
@@ -77,9 +96,9 @@
             class="full-height widget-config"
             style="background-color: #fafafa;"
           >
-            <b-card-text>
-              Configurator disabled. Manual configuration active.
-            </b-card-text>
+            <b-card-text
+              >Configurator disabled. Manual configuration active.</b-card-text
+            >
 
             <!--<div slot="footer" class="text-right text-uppercase">
               <font-awesome-icon :icon="['fas', 'check']" /> apply
@@ -112,18 +131,20 @@
                 @click="toggleEditMode()"
                 style="cursor: pointer"
                 class="mr-4"
-                ><font-awesome-icon :icon="['fas', 'times']" /> RESET</span
               >
+                <font-awesome-icon :icon="['fas', 'times']" />RESET
+              </span>
               <span
                 v-else
                 @click="toggleEditMode()"
                 style="cursor: pointer"
                 class="mr-4"
-                ><font-awesome-icon :icon="['far', 'edit']" /> EDIT</span
               >
-              <span @click="copySnippetToClipboard()" style="cursor: pointer"
-                ><font-awesome-icon :icon="['far', 'copy']" /> COPY</span
-              >
+                <font-awesome-icon :icon="['far', 'edit']" />EDIT
+              </span>
+              <span @click="copySnippetToClipboard()" style="cursor: pointer">
+                <font-awesome-icon :icon="['far', 'copy']" />COPY
+              </span>
             </div>
           </b-card>
         </div>
@@ -135,6 +156,7 @@
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock'
+import ApiCfg from '../../../../api.config.js'
 
 export default {
   components: {
@@ -149,7 +171,8 @@ export default {
       component: null,
       config: { configuration: { tagName: '' } },
       autoUpdate: true,
-      selectedVersion: null
+      selectedVersion: null,
+      previewBaseURL: ''
     }
   },
   computed: {
@@ -219,6 +242,8 @@ export default {
         this.$route.params.id,
         this.selectedVersion
       )
+
+      this.previewBaseURL = ApiCfg.API_LOCATION
     },
     updateSnippet(data) {
       this.snipp = data + '\n' + this.getDistIncludes().join('\n')
@@ -253,18 +278,21 @@ export default {
     getDistIncludes() {
       const scripts = []
 
-      this.config.dist.files.forEach((item) => {
-        scripts.push(
-          '<script src="' +
-            this.config.deliveryBaseUrl +
-            '/' +
-            this.config.dist.basePath +
-            '/' +
-            item +
-            '"></scr' +
-            'ipt>'
-        )
-      })
+      // Wait until the async loadData method has finished
+      if (this.config.hasOwnProperty('dist')) {
+        this.config.dist.files.forEach((item) => {
+          scripts.push(
+            '<script src="' +
+              this.config.deliveryBaseUrl +
+              '/' +
+              this.config.dist.basePath +
+              '/' +
+              item +
+              '"></scr' +
+              'ipt>'
+          )
+        })
+      }
 
       return scripts
     }
