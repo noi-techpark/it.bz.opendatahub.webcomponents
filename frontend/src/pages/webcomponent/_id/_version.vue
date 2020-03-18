@@ -1,5 +1,9 @@
 <template>
   <div v-if="component" class="mb-5">
+    {{ attribs }}
+
+    <pre>{{ config }}</pre>
+
     <WcDetailBlock
       :component="component"
       :return-link="returnLink"
@@ -167,6 +171,7 @@ export default {
     return {
       snipp: '',
       snippOriginal: '',
+      attribs: {},
       editmode: false,
       component: null,
       config: { configuration: { tagName: '' } },
@@ -247,6 +252,48 @@ export default {
     },
     updateSnippet(data) {
       this.snipp = data + '\n' + this.getDistIncludes().join('\n')
+
+      console.log(data)
+
+      const attributes = data.substring(
+        this.config.configuration.tagName.length + 1
+      )
+
+      let isKey = true
+      let isValue = false
+      let isEscaped = false
+      let key = ''
+      let value = ''
+      for (let i = 0; i < attributes.length; i++) {
+        const c = attributes.charAt(i)
+        console.log(
+          'C = ' + c + '; isKey = ' + isKey + '; isValue = ' + isValue
+        )
+        if (isKey) {
+          if (c === '=') {
+            isKey = false
+          } else {
+            key += c
+          }
+        } else if (isValue) {
+          switch (c) {
+            case '"':
+              this.attribs[key.trim()] = value.trim()
+              isKey = true
+              isValue = false
+              key = ''
+              value = ''
+              break
+            case '\\':
+              isEscaped = !isEscaped
+              break
+            default:
+              value += c
+          }
+        } else if (c === '"') {
+          isValue = true
+        }
+      }
 
       if (this.autoUpdate) {
         this.updatePreview()
