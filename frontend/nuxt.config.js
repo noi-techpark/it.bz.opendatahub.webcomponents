@@ -1,3 +1,5 @@
+import ApiCfg from './api.config.js'
+
 module.exports = {
   mode: 'spa',
 
@@ -52,13 +54,16 @@ module.exports = {
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/analytics-module
-    ['@nuxtjs/google-analytics', {
-      id: process.env.GOOGLE_ANALYTICS_ID,
-      debug: {
-        enabled: process.env.GOOGLE_ANALYTICS_DEBUG || false,
-        sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: process.env.GOOGLE_ANALYTICS_ID,
+        debug: {
+          enabled: process.env.GOOGLE_ANALYTICS_DEBUG || false,
+          sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false
+        }
       }
-    }]
+    ]
   ],
   /*
    ** Nuxt.js modules
@@ -69,7 +74,7 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'nuxt-i18n',
-    ['vue-scrollto/nuxt', { duration: 500 }],
+    ['vue-scrollto/nuxt', { duration: 500 }]
   ],
 
   i18n: {
@@ -94,8 +99,9 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.BASE_URL || 'http://localhost:9030'
+    baseURL: ApiCfg.API_LOCATION
   },
+
   /*
    ** Build configuration
    */
@@ -114,8 +120,8 @@ module.exports = {
           options: {
             fix: true
           }
-        });
+        })
       }
     }
   }
-};
+}
