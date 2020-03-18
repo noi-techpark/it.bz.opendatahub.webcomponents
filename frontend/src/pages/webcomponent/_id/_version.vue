@@ -47,7 +47,7 @@
               </span>
               <span
                 @click="updatePreview"
-                class="mt-2 mt-sm-0"
+                class="mt-2 mt-sm-0 link_with_icon"
                 style="cursor: pointer;"
               >
                 <font-awesome-icon
@@ -64,7 +64,7 @@
                     selectedVersion
                 "
                 target="_blank"
-                class="mt-2 mt-sm-0"
+                class="mt-2 mt-sm-0 link_with_icon"
               >
                 <font-awesome-icon
                   :icon="['fas', 'rocket']"

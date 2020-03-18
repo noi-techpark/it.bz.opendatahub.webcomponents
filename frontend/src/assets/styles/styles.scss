@@ -72,6 +72,16 @@
   }
 }
 
+.link_with_icon {
+	color: $primary;
+
+	&:hover {
+		// Important, otherwise the default style for <a> takes over
+		color: $primary;
+		text-decoration: none;
+	}
+}
+
 .img_container {
   padding: 10px;
   width: 33.33%;
@@ -79,7 +89,7 @@
 
 .logo_container {
   background: #fff;
-  padding: 15px; 
+  padding: 15px;
   border-radius: 8px;
   display: inline-block;
 }
