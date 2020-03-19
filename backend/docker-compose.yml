@@ -13,7 +13,7 @@ services:
     container_name: wcs_postgres
     image: postgres:9.5
     ports:
-      - "5432:5432"
+      - "5555:5432"
     environment:
       POSTGRES_USER: wcs
       POSTGRES_PASSWORD: wcs
