@@ -1,9 +1,5 @@
 <template>
   <div v-if="component" class="mb-5">
-    {{ attribs }}
-
-    <pre>{{ config }}</pre>
-
     <WcDetailBlock
       :component="component"
       :return-link="returnLink"
@@ -65,7 +61,8 @@
                     '/preview/' +
                     component.uuid +
                     '/' +
-                    selectedVersion
+                    selectedVersion +
+                    attribs
                 "
                 target="_blank"
                 class="mt-2 mt-sm-0 link_with_icon"
@@ -171,7 +168,7 @@ export default {
     return {
       snipp: '',
       snippOriginal: '',
-      attribs: {},
+      attribs: '',
       editmode: false,
       component: null,
       config: { configuration: { tagName: '' } },
@@ -204,7 +201,6 @@ export default {
   },
   mounted() {
     this.loadData()
-    // this.initEventListener();
   },
   methods: {
     toggleEditMode() {
@@ -253,48 +249,6 @@ export default {
     updateSnippet(data) {
       this.snipp = data + '\n' + this.getDistIncludes().join('\n')
 
-      console.log(data)
-
-      const attributes = data.substring(
-        this.config.configuration.tagName.length + 1
-      )
-
-      let isKey = true
-      let isValue = false
-      let isEscaped = false
-      let key = ''
-      let value = ''
-      for (let i = 0; i < attributes.length; i++) {
-        const c = attributes.charAt(i)
-        console.log(
-          'C = ' + c + '; isKey = ' + isKey + '; isValue = ' + isValue
-        )
-        if (isKey) {
-          if (c === '=') {
-            isKey = false
-          } else {
-            key += c
-          }
-        } else if (isValue) {
-          switch (c) {
-            case '"':
-              this.attribs[key.trim()] = value.trim()
-              isKey = true
-              isValue = false
-              key = ''
-              value = ''
-              break
-            case '\\':
-              isEscaped = !isEscaped
-              break
-            default:
-              value += c
-          }
-        } else if (c === '"') {
-          isValue = true
-        }
-      }
-
       if (this.autoUpdate) {
         this.updatePreview()
       }
@@ -321,6 +275,57 @@ export default {
 
       newElement.contentDocument.close()
       newElement.contentDocument.write(this.snipp)
+
+      this.parseSnippetAttributes()
+    },
+    parseSnippetAttributes() {
+      let pos = this.snipp.search(this.config.configuration.tagName)
+
+      if (pos < 0) {
+        this.attribs = ''
+        return
+      }
+
+      pos += this.config.configuration.tagName.length
+
+      this.attribs = ''
+      let isKey = true
+      let isValue = false
+      let isEscaped = false
+      let key = ''
+      let value = ''
+      for (let i = pos; i < this.snipp.length; i++) {
+        const c = this.snipp.charAt(i)
+        if (isKey) {
+          switch (c) {
+            case '=':
+              isKey = false
+              break
+            case '>':
+              return
+            default:
+              key += c
+          }
+        } else if (isValue) {
+          switch (c) {
+            case '"':
+              this.attribs +=
+                ';' + key.trim() + '=' + encodeURIComponent(value.trim())
+              isKey = true
+              isValue = false
+              key = ''
+              value = ''
+              break
+            case '\\':
+              isEscaped = !isEscaped
+              break
+            default:
+              value += c
+          }
+        } else if (c === '"') {
+          isValue = true
+        }
+      }
     },
     getDistIncludes() {
       const scripts = []
