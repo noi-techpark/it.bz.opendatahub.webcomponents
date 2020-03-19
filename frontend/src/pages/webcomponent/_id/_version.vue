@@ -276,56 +276,85 @@ export default {
       newElement.contentDocument.close()
       newElement.contentDocument.write(this.snipp)
 
-      this.parseSnippetAttributes()
+      this.attribs = this.parseSnippetAttributes()
     },
     parseSnippetAttributes() {
       let pos = this.snipp.search(this.config.configuration.tagName)
+      let result = ''
 
       if (pos < 0) {
-        this.attribs = ''
-        return
+        return result
       }
 
       pos += this.config.configuration.tagName.length
 
-      this.attribs = ''
       let isKey = true
       let isValue = false
-      let isEscaped = false
       let key = ''
       let value = ''
+      let isQuoted = false
       for (let i = pos; i < this.snipp.length; i++) {
         const c = this.snipp.charAt(i)
+        console.log(
+          'c = ' +
+            c +
+            '; isVAlue = ' +
+            isValue +
+            '; isKey = ' +
+            isKey +
+            '; isQuoted = ' +
+            isQuoted
+        )
         if (isKey) {
           switch (c) {
             case '=':
               isKey = false
+              isValue = true
               break
             case '>':
-              return
+              return '?attribs=' + result
             default:
               key += c
           }
         } else if (isValue) {
           switch (c) {
             case '"':
-              this.attribs +=
-                ';' + key.trim() + '=' + encodeURIComponent(value.trim())
-              isKey = true
-              isValue = false
-              key = ''
-              value = ''
+              if (isQuoted) {
+                result +=
+                  key.trim() + '="' + encodeURIComponent(value.trim()) + '";'
+                isKey = true
+                isValue = false
+                isQuoted = false
+                key = ''
+                value = ''
+              } else {
+                isQuoted = true
+              }
               break
-            case '\\':
-              isEscaped = !isEscaped
+            case ' ':
+              if (!isQuoted) {
+                result +=
+                  key.trim() + '="' + encodeURIComponent(value.trim()) + '";'
+                isKey = true
+                isValue = false
+                isQuoted = false
+                key = ''
+                value = ''
+              }
+              break
+            case '>':
+              if (!isQuoted) {
+                result +=
+                  key.trim() + '="' + encodeURIComponent(value.trim()) + '";'
+                return '?attribs=' + result
+              }
               break
             default:
               value += c
           }
-        } else if (c === '"') {
-          isValue = true
         }
       }
+      return '?attribs=' + result
     },
     getDistIncludes() {
       const scripts = []
