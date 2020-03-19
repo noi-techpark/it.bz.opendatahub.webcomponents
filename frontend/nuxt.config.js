@@ -1,5 +1,3 @@
-import ApiCfg from './api.config.js'
-
 module.exports = {
   mode: 'spa',
 
@@ -95,11 +93,18 @@ module.exports = {
   },
 
   /*
+   * Needed to access it inside templates to generate static links
+   */
+  env: {
+    API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030'
+  },
+
+  /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: ApiCfg.API_LOCATION
+    baseURL: process.env.API_BASE_URL || 'http://localhost:9030'
   },
 
   /*

@@ -157,7 +157,6 @@
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock'
-import ApiCfg from '../../../../api.config.js'
 
 export default {
   components: {
@@ -244,7 +243,7 @@ export default {
         this.selectedVersion
       )
 
-      this.previewBaseURL = ApiCfg.API_LOCATION
+      this.previewBaseURL = this.$api.baseUrl
     },
     updateSnippet(data) {
       this.snipp = data + '\n' + this.getDistIncludes().join('\n')
