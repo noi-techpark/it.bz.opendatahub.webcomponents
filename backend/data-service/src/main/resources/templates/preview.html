@@ -3,9 +3,16 @@
 <head>
     <title>Open Data Hub - Web Component Store - Simple Previewer</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .responsive {
+            position: relative;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
-    <div th:utext="${snippetCode}"></div>
+    
+    <div class="responsive" th:utext="${snippetCode}"></div>
     <th:block th:each="src : ${snippetScripts}">
     <script th:src="${src}"></script>
     </th:block>
