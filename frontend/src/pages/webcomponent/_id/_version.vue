@@ -295,16 +295,6 @@ export default {
       let isQuoted = false
       for (let i = pos; i < this.snipp.length; i++) {
         const c = this.snipp.charAt(i)
-        console.log(
-          'c = ' +
-            c +
-            '; isVAlue = ' +
-            isValue +
-            '; isKey = ' +
-            isKey +
-            '; isQuoted = ' +
-            isQuoted
-        )
         if (isKey) {
           switch (c) {
             case '=':
