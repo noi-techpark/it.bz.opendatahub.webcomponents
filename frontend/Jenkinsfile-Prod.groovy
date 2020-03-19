@@ -11,7 +11,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
 
-        BASE_URL = "https://api.webcomponents.opendatahub.bz.it"
+        API_BASE_URL = "https://api.webcomponents.opendatahub.bz.it"
         CDN_URL = "https://cdn.webcomponents.opendatahub.bz.it"
         GOOGLE_ANALYTICS_ID = credentials('webcompstore-prod-google-analytics-id')
         GOOGLE_ANALYTICS_DEBUG = false
