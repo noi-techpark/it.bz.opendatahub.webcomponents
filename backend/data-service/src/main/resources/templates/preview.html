@@ -6,12 +6,10 @@
     <style>
         .responsive {
             position: relative;
-            margin: 20px auto;
         }
     </style>
 </head>
 <body>
-    
     <div class="responsive" th:utext="${snippetCode}"></div>
     <th:block th:each="src : ${snippetScripts}">
     <script th:src="${src}"></script>
