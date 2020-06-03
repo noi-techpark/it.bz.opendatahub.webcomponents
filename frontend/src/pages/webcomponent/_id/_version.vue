@@ -277,6 +277,11 @@ export default {
 
       this.attribs = this.parseSnippetAttributes()
     },
+    buildAttribute(rawKey, rawValue) {
+      const key = rawKey.trim()
+      const value = encodeURIComponent(rawValue.trim())
+      return key + '="' + value + '";'
+    },
     parseSnippetAttributes() {
       let pos = this.snipp.search(this.config.configuration.tagName)
       let result = ''
@@ -309,8 +314,7 @@ export default {
           switch (c) {
             case '"':
               if (isQuoted) {
-                result +=
-                  key.trim() + '="' + encodeURIComponent(value.trim()) + '";'
+                result += this.buildAttribute(key, value)
                 isKey = true
                 isValue = false
                 isQuoted = false
@@ -321,9 +325,10 @@ export default {
               }
               break
             case ' ':
-              if (!isQuoted) {
-                result +=
-                  key.trim() + '="' + encodeURIComponent(value.trim()) + '";'
+              if (isQuoted) {
+                value += ' '
+              } else {
+                result += this.buildAttribute(key, value)
                 isKey = true
                 isValue = false
                 isQuoted = false
@@ -333,8 +338,7 @@ export default {
               break
             case '>':
               if (!isQuoted) {
-                result +=
-                  key.trim() + '="' + encodeURIComponent(value.trim()) + '";'
+                result += this.buildAttribute(key, value)
                 return '?attribs=' + result
               }
               break
