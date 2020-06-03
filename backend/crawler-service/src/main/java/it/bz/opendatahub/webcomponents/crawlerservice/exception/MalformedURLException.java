@@ -1,7 +1,9 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.exception;
 
 public class MalformedURLException extends CrawlerException {
-    public MalformedURLException() {
+	private static final long serialVersionUID = 5488987343125431438L;
+
+	public MalformedURLException() {
     }
 
     public MalformedURLException(String message) {

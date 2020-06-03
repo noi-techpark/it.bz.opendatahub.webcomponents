@@ -1,7 +1,9 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.exception;
 
 public class NotFoundException extends CrawlerException {
-    public NotFoundException() {
+	private static final long serialVersionUID = 2602541793204391000L;
+
+	public NotFoundException() {
     }
 
     public NotFoundException(String message) {

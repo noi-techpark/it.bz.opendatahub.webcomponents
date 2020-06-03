@@ -3,7 +3,9 @@ package it.bz.opendatahub.webcomponents.deliveryservice.exception;
 import org.springframework.http.HttpStatus;
 
 public abstract class CoreException extends RuntimeException {
-    public CoreException(String message) {
+	private static final long serialVersionUID = -4817356189524214948L;
+
+	public CoreException(String message) {
         super(message);
     }
 

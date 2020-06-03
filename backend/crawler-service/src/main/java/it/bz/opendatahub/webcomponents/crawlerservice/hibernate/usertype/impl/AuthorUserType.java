@@ -7,7 +7,7 @@ public final class AuthorUserType extends AbstractUserType {
     public static final String NAME = "AuthorUserType";
 
     @Override
-    public Class returnedClass() {
+    public Class<Author> returnedClass() {
         return Author.class;
     }
 }

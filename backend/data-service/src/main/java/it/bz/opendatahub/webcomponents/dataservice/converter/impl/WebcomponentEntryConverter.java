@@ -1,6 +1,5 @@
 package it.bz.opendatahub.webcomponents.dataservice.converter.impl;
 
-import it.bz.opendatahub.webcomponents.common.data.rest.SpdxLicense;
 import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentEntry;
 import it.bz.opendatahub.webcomponents.dataservice.converter.DtoToRestConverter;
 import it.bz.opendatahub.webcomponents.dataservice.data.dto.WebcomponentDto;

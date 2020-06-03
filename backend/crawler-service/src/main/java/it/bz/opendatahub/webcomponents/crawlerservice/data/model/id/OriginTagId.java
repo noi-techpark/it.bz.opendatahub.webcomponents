@@ -10,7 +10,9 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode
 public final class OriginTagId implements Serializable {
-    private String originUuid;
+	private static final long serialVersionUID = -2445325599108672031L;
+
+	private String originUuid;
 
     private String tagName;
 

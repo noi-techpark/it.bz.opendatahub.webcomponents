@@ -1,7 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.converter.impl;
 
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
-import it.bz.opendatahub.webcomponents.common.data.rest.SpdxLicense;
 import it.bz.opendatahub.webcomponents.common.data.rest.Webcomponent;
 import it.bz.opendatahub.webcomponents.common.data.rest.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.converter.ModelToDtoToRestConverter;

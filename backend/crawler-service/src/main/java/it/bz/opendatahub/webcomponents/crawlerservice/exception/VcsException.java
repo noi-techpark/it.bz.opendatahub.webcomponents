@@ -1,8 +1,9 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.exception;
 
 public class VcsException extends CrawlerException {
+	private static final long serialVersionUID = 5700734781400240241L;
 
-    public VcsException() {
+	public VcsException() {
     }
 
     public VcsException(String message) {
