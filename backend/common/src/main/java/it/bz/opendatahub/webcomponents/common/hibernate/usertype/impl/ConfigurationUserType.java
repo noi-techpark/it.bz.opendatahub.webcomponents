@@ -7,7 +7,7 @@ public final class ConfigurationUserType extends AbstractUserType {
     public static final String NAME = "ConfigurationUserType";
 
 	@Override
-    public Class returnedClass() {
+    public Class<Configuration> returnedClass() {
         return Configuration.class;
     }
 }

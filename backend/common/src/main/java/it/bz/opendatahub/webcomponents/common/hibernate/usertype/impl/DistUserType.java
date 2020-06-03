@@ -7,7 +7,7 @@ public final class DistUserType extends AbstractUserType {
     public static final String NAME = "DistUserType";
 
     @Override
-    public Class returnedClass() {
+    public Class<Dist> returnedClass() {
         return Dist.class;
     }
 }
