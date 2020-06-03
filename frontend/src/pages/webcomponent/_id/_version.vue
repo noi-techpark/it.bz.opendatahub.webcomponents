@@ -337,7 +337,9 @@ export default {
               }
               break
             case '>':
-              if (!isQuoted) {
+              if (isQuoted) {
+                value += '>'
+              } else {
                 result += this.buildAttribute(key, value)
                 return '?attribs=' + result
               }
