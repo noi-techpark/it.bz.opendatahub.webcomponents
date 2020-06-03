@@ -12,7 +12,6 @@ import it.bz.opendatahub.webcomponents.crawlerservice.repository.WebcomponentRep
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentService;
 import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentVersionService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Optional;
 
-@Slf4j
 @Service
 public class WebcomponentServiceImpl implements WebcomponentService {
     private static final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
