@@ -306,7 +306,17 @@ export default {
               isValue = true
               break
             case '>':
+              if (key.trim().length > 0) {
+                result += key.trim() + ';'
+              }
               return '?attribs=' + result
+            case ' ':
+              if (key.trim().length > 0) {
+                isKey = true
+                isValue = false
+                result += key.trim() + ';'
+              }
+              break
             default:
               key += c
           }

@@ -72,6 +72,9 @@ public class PreviewController {
 						break;
 					case ';':
 					case ' ':
+						if (key.trim().length() > 0) {
+							result += " " + key.trim();
+						}
 						break;
 					default:
 						key += c;
