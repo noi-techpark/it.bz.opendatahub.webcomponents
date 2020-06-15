@@ -1,0 +1,62 @@
+{
+    "title": "Generic Map",
+    "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
+    "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
+    "license": "GPL-3.0",
+    "copyrightHolders": [
+        {
+            "name": "NOI",
+            "email": "info@noi.bz.it",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        }
+    ],
+    "authors": [
+        {
+            "name": "NOI",
+            "email": "info@noi.bz.it",
+            "organization": "NOI S.p.A",
+            "organizationUrl": "https://noi.bz.it"
+        }
+    ],
+    "image": "wcs-logo.png",
+    "searchTags": [
+        "map"
+    ],
+    "dist": {
+        "basePath": "dist",
+        "files": [
+            "map_widget.min.js"
+        ]
+    },
+    "configuration": {
+        "tagName": "map-widget",
+        "options": [
+            {
+                "key": "domain",
+                "type": "select",
+                "label": "Domain",
+                "options": {
+                    "values": [
+                        "mobility",
+                        "tourism"
+                    ],
+                    "default": "mobility"
+                }
+            },
+            {
+                "key": "station-types",
+                "type": "multiselect",
+                "label": "Station Types",
+                "options": {
+                    "values": [
+                        "CreativeIndustry",
+                        "EChargingStation",
+                        "EChargingPlug"
+                    ],
+                    "default": []
+                }
+            }
+        ]
+    }
+}
