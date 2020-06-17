@@ -12,12 +12,15 @@
           </div>
           <b-card id="widget-preview" class="full-height">
             <b-card-text id="twrap" class="text-center">
-              <textarea
+              <AceEditor
                 v-model="wcsManifest"
                 @input="parseJson"
+                @init="editorInit"
+                theme="github"
+                lang="json"
                 class="container-fluid text-monospace"
                 style="min-height: 500px"
-              ></textarea>
+              ></AceEditor>
             </b-card-text>
             <div slot="footer" class="d-flex flex-column flex-sm-row">
               <div v-if="errors">
@@ -95,9 +98,10 @@ import WcsConfigTool from 'odh-web-components-configurator/src/components/wcs-co
 import Ajv from 'ajv'
 import Schema from 'static/schemas/wcs-manifest-schema.json'
 import Example from 'static/wcs-manifest-example.json'
+import AceEditor from 'vue2-ace-editor'
 
 export default {
-  components: { WcsConfigTool },
+  components: { WcsConfigTool, AceEditor },
   data() {
     return {
       wcsManifest: '',
@@ -113,6 +117,11 @@ export default {
     this.parseJson()
   },
   methods: {
+    editorInit() {
+      require('brace/ext/language_tools')
+      require('brace/mode/json')
+      require('brace/theme/github')
+    },
     updateSnippet(data) {
       this.snipp = data
     },
