@@ -25,17 +25,29 @@
             <div slot="footer" class="d-flex flex-column flex-sm-row">
               <div v-if="errors">
                 <table class="d-table">
-                  <tr v-for="(error, idx) in errors" :key="idx">
-                    <td class="d-table-cell">
+                  <tr v-for="(error, idx) in errors" :key="idx" class="">
+                    <td class="d-table-cell align-text-top">
                       <font-awesome-icon
                         :icon="['fas', 'bug']"
                         class="text-danger ml-4 mr-1"
                       />
+                    </td>
+                    <td class="d-table-cell">
                       <span class="text-danger mt-sm-0">
                         <code class="bg-light">{{
                           error.path ? error.path : '(ROOT)'
                         }}</code
                         >: {{ error.text }}
+                        <span v-if="error.params">
+                          &#10132;&nbsp;Parameters are:
+                          <code
+                            v-for="(param, idx) in error.params"
+                            :key="idx"
+                            class="bg-light"
+                          >
+                            {{ param }}
+                          </code>
+                        </span>
                       </span>
                     </td>
                   </tr>
@@ -142,7 +154,6 @@ export default {
           lineNumber = (tmp.match(/\n/g) || '').length + 1
         }
       }
-      console.log(lineNumber)
       return lineNumber
     },
     parseJson() {
@@ -161,7 +172,8 @@ export default {
           const errors = validate.errors.map((error) => {
             return {
               text: error.message,
-              path: error.dataPath
+              path: error.dataPath,
+              params: error.params
             }
           })
           this.errors = [...this.errors, ...errors]
