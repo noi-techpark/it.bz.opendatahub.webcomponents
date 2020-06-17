@@ -1,0 +1,105 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
+    "title": "LineString",
+	"type": "object",
+    "definitions": {
+        "entityOrPerson": {
+            "type": "object",
+            "items": {
+				"name": "string",
+				"email": "string",
+				"organization": "string",
+				"organizationUrl": {
+					"type": "string",
+					"format": "url"
+				}
+			},
+			"required": ["name", "email"]
+		},
+		"stringArray": {
+            "type": "array",
+            "items": { "type": "string" },
+			"uniqueItems": true,
+			"minimum": 1,
+            "default": []
+		},
+		"dist": {
+			"type": "object",
+			"items": {
+				"basePath": "string",
+				"files": { "$ref": "#/definitions/stringArray"}
+			},
+			"required": [
+				"basePath",
+				"files"
+			]
+		},
+		"configuration": {
+			"type": "object",
+			"items": {
+				"tagName": "string",
+				"options": {
+					"type": "array",
+					"items": { "type": "object" },
+					"uniqueItems": true,
+					"minimum": 0,
+					"default": []
+				}
+			},
+			"required": [
+				"tagName"
+			]
+		}
+	},
+    "properties": {
+        "title": {
+			"type": "string"
+        },
+        "description": {
+			"type": "string"
+		},
+        "descriptionAbstract": {
+			"type": "string"
+		},
+        "license": {
+			"type": "string"
+		},
+        "copyrightHolders": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/definitions/entityOrPerson" },
+            "uniqueItems": true
+		},
+        "authors": {
+			"type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/definitions/entityOrPerson" },
+            "uniqueItems": true
+		},
+        "image": {
+			"type": "string"
+		},
+        "searchTags": {
+			"$ref": "#/definitions/stringArray"
+		},
+        "dist": {
+			"$ref": "#/definitions/dist"
+		},
+        "configuration": {
+			"$ref": "#/definitions/configuration"
+		}
+    },
+    "required": [
+		"title",
+        "description",
+        "descriptionAbstract",
+        "license",
+        "copyrightHolders",
+        "authors",
+        "image",
+        "searchTags",
+        "dist",
+        "configuration"
+    ]
+}

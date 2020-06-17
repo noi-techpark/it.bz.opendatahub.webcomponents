@@ -14,19 +14,30 @@
             <b-card-text id="twrap" class="text-center">
               <textarea
                 v-model="wcs_manifest"
-                class="container-fluid"
-                style="min-height: 500px; font-family: monospace"
+                @input="parseJson"
+                class="container-fluid text-monospace"
+                style="min-height: 500px"
               ></textarea>
             </b-card-text>
             <div slot="footer" class="d-flex flex-column flex-sm-row">
-              <font-awesome-icon
-                v-if="errors"
-                :icon="['fas', 'bug']"
-                class="text-danger ml-4 mr-1"
-              />
-              <span v-if="errors" class="text-danger mt-sm-0">
-                {{ errors }}
-              </span>
+              <div v-if="errors">
+                <table class="d-table">
+                  <tr v-for="(error, idx) in errors" :key="idx">
+                    <td class="d-table-cell">
+                      <font-awesome-icon
+                        :icon="['fas', 'bug']"
+                        class="text-danger ml-4 mr-1"
+                      />
+                      <span class="text-danger mt-sm-0">
+                        <code class="bg-light">{{
+                          error.path ? error.path : '(ROOT)'
+                        }}</code
+                        >: {{ error.text }}
+                      </span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
               <span v-else class="text-success mt-sm-0">
                 <font-awesome-icon
                   :icon="['fas', 'check']"
@@ -38,13 +49,19 @@
           </b-card>
         </div>
         <div class="col-md-4 mt-5 mt-md-0">
-          <div class="text-uppercase font-weight-bold mb-2">configuration</div>
+          <div class="text-uppercase font-weight-bold mb-2">
+            configuration preview
+          </div>
           <b-card class="full-height widget-config">
             <b-card-text>
               <WCSConfigTool
-                :config="configonly"
+                v-if="config"
+                :config="config"
                 @snippet="updateSnippet"
               ></WCSConfigTool>
+              <span v-else>
+                No preview due to errors
+              </span>
             </b-card-text>
           </b-card>
         </div>
@@ -56,11 +73,15 @@
             <b-card-text>
               <textarea
                 id="code-snippet"
+                v-if="!errors"
                 v-model="snipp"
                 class="full-width full-height code-snippet"
                 style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
                 rows="10"
               ></textarea>
+              <span v-else>
+                No code snippet due to errors
+              </span>
             </b-card-text>
           </b-card>
         </div>
@@ -72,7 +93,7 @@
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
 import Ajv from 'ajv'
-import Schema from 'static/wcs-manifest-schema.json'
+import Schema from 'static/schemas/wcs-manifest-schema.json'
 import Example from 'static/wcs-manifest-example.json'
 
 export default {
@@ -83,74 +104,50 @@ export default {
       Schema,
       Example,
       snipp: '',
-      errors: []
-    }
-  },
-  computed: {
-    configonly() {
-      // try {
-      //   return this.parseJson(this.wcs_manifest)
-      // } catch (e) {
-      //   console.log(e)
-      // }
-      return {
-        tagName: 'map-widget',
-        options: []
-      }
+      config: null,
+      errors: null
     }
   },
   mounted() {
     this.wcs_manifest = JSON.stringify(this.Example, null, 2)
+    this.parseJson()
   },
   methods: {
     updateSnippet(data) {
       this.snipp = data
     },
-    parseJson(data) {
-      let res = {}
+    parseJson() {
+      let wcsManifestParsed = {}
+      this.errors = []
+      this.config = null
       const ajv = new Ajv({
         $data: true,
         verbose: true,
         allErrors: true
       })
       try {
-        let validate
-        try {
-          validate = ajv.compile(this.Schema)
-        } catch (e) {
-          this.errors = [...this.errors, { text: e.message }]
-          console.log(e.message)
+        const validate = ajv.compile(this.Schema)
+        wcsManifestParsed = JSON.parse(this.wcs_manifest)
+        if (!validate(wcsManifestParsed)) {
+          const errors = validate.errors.map((error) => {
+            return {
+              text: error.message,
+              path: error.dataPath
+            }
+          })
+          this.errors = [...this.errors, ...errors]
           return
-        }
-
-        try {
-          res = JSON.parse(this.wcs_manifest)
-          const valid = validate(res)
-          if (!valid) {
-            const errors = validate.errors.map((error) => {
-              return {
-                text: error.message,
-                path: error.schemaPath
-              }
-            })
-            this.errors = [...this.errors, ...errors]
-            console.log(errors)
-            return
-          }
-        } catch (e) {
-          this.errors = [...this.errors, { text: e.message }]
-          console.log(e.message)
-          return
-        }
-
-        if (res.configuration !== undefined) {
-          this.errors = []
-          return res.configuration
         }
       } catch (e) {
-        this.errors = [...this.errors, { text: 'ERROR: ' + e }]
+        if (e instanceof SyntaxError) {
+          this.errors = [...this.errors, { text: 'Syntax error @ line ' }]
+        } else {
+          this.errors = [...this.errors, { text: e.message }]
+        }
+        return
       }
-      return {}
+      this.errors = null
+      this.config = wcsManifestParsed.configuration
     }
   }
 }
