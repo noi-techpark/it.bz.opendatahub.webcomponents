@@ -13,7 +13,7 @@
           <b-card id="widget-preview" class="full-height">
             <b-card-text id="twrap" class="text-center">
               <textarea
-                v-model="wcs_manifest"
+                v-model="wcsManifest"
                 @input="parseJson"
                 class="container-fluid text-monospace"
                 style="min-height: 500px"
@@ -54,11 +54,11 @@
           </div>
           <b-card class="full-height widget-config">
             <b-card-text>
-              <WCSConfigTool
+              <WcsConfigTool
                 v-if="config"
                 :config="config"
                 @snippet="updateSnippet"
-              ></WCSConfigTool>
+              ></WcsConfigTool>
               <span v-else>
                 No preview due to errors
               </span>
@@ -91,16 +91,16 @@
 </template>
 
 <script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
+import WcsConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
 import Ajv from 'ajv'
 import Schema from 'static/schemas/wcs-manifest-schema.json'
 import Example from 'static/wcs-manifest-example.json'
 
 export default {
-  components: { WCSConfigTool },
+  components: { WcsConfigTool },
   data() {
     return {
-      wcs_manifest: '',
+      wcsManifest: '',
       Schema,
       Example,
       snipp: '',
@@ -109,12 +109,32 @@ export default {
     }
   },
   mounted() {
-    this.wcs_manifest = JSON.stringify(this.Example, null, 2)
+    this.wcsManifest = JSON.stringify(this.Example, null, 2)
     this.parseJson()
   },
   methods: {
     updateSnippet(data) {
       this.snipp = data
+    },
+    getLineNumber(errorMsg) {
+      let lineNumber = null
+
+      /* Firefox gives us the line number */
+      let match = /line ([0-9]+)/.exec(errorMsg)
+      console.log(match)
+      if (match) {
+        lineNumber = match.length > 1 ? match[1] : match[0]
+      } else {
+        /* Other browsers just give a position in the JSON string */
+        match = /position ([0-9]+)/.exec(errorMsg)
+        if (match) {
+          const position = match.length > 1 ? match[1] : match[0]
+          const tmp = this.wcsManifest.substring(0, position)
+          lineNumber = (tmp.match(/\n/g) || '').length + 1
+        }
+      }
+      console.log(lineNumber)
+      return lineNumber
     },
     parseJson() {
       let wcsManifestParsed = {}
@@ -127,7 +147,7 @@ export default {
       })
       try {
         const validate = ajv.compile(this.Schema)
-        wcsManifestParsed = JSON.parse(this.wcs_manifest)
+        wcsManifestParsed = JSON.parse(this.wcsManifest)
         if (!validate(wcsManifestParsed)) {
           const errors = validate.errors.map((error) => {
             return {
@@ -140,7 +160,13 @@ export default {
         }
       } catch (e) {
         if (e instanceof SyntaxError) {
-          this.errors = [...this.errors, { text: 'Syntax error @ line ' }]
+          const lineNumber = this.getLineNumber(e.message)
+          this.errors = [
+            ...this.errors,
+            {
+              text: 'Syntax error' + (lineNumber ? ' @ line ' + lineNumber : '')
+            }
+          ]
         } else {
           this.errors = [...this.errors, { text: e.message }]
         }
