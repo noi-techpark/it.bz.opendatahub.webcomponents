@@ -25,6 +25,7 @@
             <b-nav-item :to="localePath('index')">home</b-nav-item>
             <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
             <b-nav-item :to="localePath('community')">community</b-nav-item>
+            <b-nav-item :to="localePath('validator')">validator</b-nav-item>
             <b-nav-item :to="localePath('contact')">contact</b-nav-item>
           </b-nav>
         </div>
