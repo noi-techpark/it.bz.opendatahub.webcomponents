@@ -37,11 +37,13 @@
 		},
 		"configuration": {
 			"type": "object",
-			"items": {
-				"tagName": "string",
+			"properties": {
+				"tagName": {
+					"type": "string"
+				},
 				"options": {
 					"type": "array",
-					"items": { "type": "object" },
+					"items": { "$ref": "#/definitions/configurationOption" },
 					"uniqueItems": true,
 					"minimum": 0,
 					"default": []
@@ -49,6 +51,45 @@
 			},
 			"required": [
 				"tagName"
+			]
+		},
+		"configurationOption": {
+			"type": "object",
+			"properties": {
+				"key": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"select",
+						"multiselect",
+						"text",
+						"null",
+						"textarea",
+						"bool",
+						"object",
+						"number"
+					]
+				},
+				"label": {
+					"type": "string"
+				},
+				"options": {
+					"type": "object",
+					"properties": {
+						"values": {
+							"$ref": "#/definitions/stringArray"
+						},
+						"default": {
+						}
+					}
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
 			]
 		}
 	},
