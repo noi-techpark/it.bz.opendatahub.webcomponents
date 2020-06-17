@@ -39,7 +39,7 @@
                         }}</code
                         >: {{ error.text }}
                         <span v-if="error.params">
-                          &#10132;&nbsp;Parameters are:
+                          &#10132;&nbsp;
                           <code
                             v-for="(param, idx) in error.params"
                             :key="idx"

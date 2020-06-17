@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
-    "title": "LineString",
+    "title": "WcsManifest",
 	"type": "object",
     "definitions": {
         "entityOrPerson": {
@@ -101,7 +101,8 @@
 						},
 						"default": {
 						}
-					}
+					},
+					"additionalProperties": false
 				}
 			},
 			"required": [
