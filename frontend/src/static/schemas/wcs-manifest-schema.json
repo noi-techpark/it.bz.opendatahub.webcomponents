@@ -6,34 +6,51 @@
     "definitions": {
         "entityOrPerson": {
             "type": "object",
-            "items": {
-				"name": "string",
-				"email": "string",
-				"organization": "string",
+            "properties": {
+				"name": {
+					"type": "string"
+				},
+				"email": {
+					"type": "string"
+				},
+				"organization": {
+					"type": "string"
+				},
 				"organizationUrl": {
 					"type": "string",
-					"format": "url"
+					"format": "uri"
 				}
 			},
-			"required": ["name", "email"]
+			"required": [
+				"name",
+				"email"
+			],
+			"additionalProperties": false
 		},
 		"stringArray": {
             "type": "array",
-            "items": { "type": "string" },
+            "items": {
+				"type": "string"
+			},
 			"uniqueItems": true,
 			"minimum": 1,
             "default": []
 		},
 		"dist": {
 			"type": "object",
-			"items": {
-				"basePath": "string",
-				"files": { "$ref": "#/definitions/stringArray"}
+			"properties": {
+				"basePath": {
+					"type": "string"
+				},
+				"files": {
+					"$ref": "#/definitions/stringArray"
+				}
 			},
 			"required": [
 				"basePath",
 				"files"
-			]
+			],
+			"additionalProperties": false
 		},
 		"configuration": {
 			"type": "object",
@@ -51,7 +68,8 @@
 			},
 			"required": [
 				"tagName"
-			]
+			],
+			"additionalProperties": false
 		},
 		"configurationOption": {
 			"type": "object",
@@ -90,7 +108,8 @@
 				"key",
 				"type",
 				"options"
-			]
+			],
+			"additionalProperties": false
 		}
 	},
     "properties": {
@@ -109,13 +128,17 @@
         "copyrightHolders": {
             "type": "array",
             "minItems": 1,
-            "items": { "$ref": "#/definitions/entityOrPerson" },
+            "items": {
+				"$ref": "#/definitions/entityOrPerson"
+			},
             "uniqueItems": true
 		},
         "authors": {
 			"type": "array",
             "minItems": 1,
-            "items": { "$ref": "#/definitions/entityOrPerson" },
+			"items": {
+				"$ref": "#/definitions/entityOrPerson"
+			},
             "uniqueItems": true
 		},
         "image": {
