@@ -3,6 +3,7 @@
     "$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
     "title": "WcsManifest",
 	"type": "object",
+	"additionalProperties": false,
     "definitions": {
         "entityOrPerson": {
             "type": "object",
