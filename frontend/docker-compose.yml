@@ -12,5 +12,5 @@ services:
     environment:
       HOST: 0.0.0.0   # Make all IP addresses available to the outside
     ports:
-      - "3000:3000"
-    # tty: true
+      - "8999:3000"
+    tty: true

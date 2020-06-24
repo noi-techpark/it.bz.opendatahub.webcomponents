@@ -25,7 +25,7 @@
             <div slot="footer" class="d-flex flex-column flex-sm-row">
               <div v-if="errors">
                 <table class="d-table">
-                  <tr v-for="(error, idx) in errors" :key="idx" class="">
+                  <tr v-for="(error, eidx) in errors" :key="eidx" class="">
                     <td class="d-table-cell align-text-top">
                       <font-awesome-icon
                         :icon="['fas', 'bug']"
@@ -41,8 +41,8 @@
                         <span v-if="error.params">
                           &#10132;&nbsp;
                           <code
-                            v-for="(param, idx) in error.params"
-                            :key="idx"
+                            v-for="(param, pidx) in error.params"
+                            :key="pidx"
                             class="bg-light"
                           >
                             {{ param }}
@@ -90,8 +90,8 @@
                 id="code-snippet"
                 v-if="!errors"
                 v-model="snipp"
-                class="full-width full-height code-snippet"
-                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
+                class="full-width full-height code-snippet text-monospace"
+                style="border: 0; background-color: inherit;"
                 rows="10"
               ></textarea>
               <span v-else>
@@ -142,7 +142,6 @@ export default {
 
       /* Firefox gives us the line number */
       let match = /line ([0-9]+)/.exec(errorMsg)
-      console.log(match)
       if (match) {
         lineNumber = match.length > 1 ? match[1] : match[0]
       } else {
@@ -162,14 +161,39 @@ export default {
       this.config = null
       const ajv = new Ajv({
         $data: true,
-        verbose: true,
-        allErrors: true
+        verbose: false,
+        allErrors: false,
+        format: 'full'
+      })
+      ajv.addKeyword('validDefault', {
+        type: ['string', 'null', 'array'],
+        modifying: true,
+        validate(
+          schema,
+          data,
+          parentSchema,
+          dataPath,
+          parentData,
+          parentDataProperty,
+          rootData
+        ) {
+          if (
+            !!parentData.default &&
+            !!parentData.values &&
+            parentData.values.includes(parentData.default)
+          ) {
+            return true
+          }
+          return false
+        },
+        errors: true
       })
       try {
         const validate = ajv.compile(this.Schema)
         wcsManifestParsed = JSON.parse(this.wcsManifest)
         if (!validate(wcsManifestParsed)) {
           const errors = validate.errors.map((error) => {
+            console.log(error)
             return {
               text: error.message,
               path: error.dataPath,
