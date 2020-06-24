@@ -25,7 +25,14 @@
             <b-nav-item :to="localePath('index')">home</b-nav-item>
             <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
             <b-nav-item :to="localePath('community')">community</b-nav-item>
-            <b-nav-item :to="localePath('validator')">validator</b-nav-item>
+            <b-nav-item-dropdown
+              id="my-nav-dropdown"
+              text="tools"
+              toggle-class="nav-link-custom"
+              right
+            >
+              <b-nav-item :to="localePath('validator')">validator</b-nav-item>
+            </b-nav-item-dropdown>
             <b-nav-item :to="localePath('contact')">contact</b-nav-item>
           </b-nav>
         </div>
