@@ -34,15 +34,16 @@
 		  "label": "TEST option0: TEXT",
 		  "required": false,
 		  "options": {
+			"default": "default text 1"
 		  }
 		},
 		{
 		  "key": "option1",
 		  "type": "text",
-		  "label": "TEST option1: TEXT with default (required)",
+		  "label": "TEST option1: TEXT (required)",
 		  "required": true,
 		  "options": {
-			"default": "default text"
+			"default": "default text 2"
 		  }
 		},
 		{
@@ -66,8 +67,18 @@
 		},
 		{
 		  "key": "option4",
+		  "type": "multiselect",
+		  "label": "TEST option4: MULTISELECT",
+		  "required": false,
+		  "options": {
+			"values": ["en", "de", "it"],
+			"default": "de"
+		  }
+		},
+		{
+		  "key": "option5",
 		  "type": "object",
-		  "label": "TEST option4: OBJECT (required)",
+		  "label": "TEST option5: OBJECT (required)",
 		  "required": true,
 		  "options": {
 			"default": {
@@ -82,9 +93,9 @@
 		  }
 		},
 		{
-		  "key": "option5",
+		  "key": "option6",
 		  "type": "null",
-		  "label": "TEST option5: NULL FIELD (required)",
+		  "label": "TEST option6: NULL FIELD (required)",
 		  "required": true,
 		  "options": {
 			"default": true
