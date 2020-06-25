@@ -77,25 +77,8 @@
 		},
 		{
 		  "key": "option5",
-		  "type": "object",
-		  "label": "TEST option5: OBJECT (required)",
-		  "required": true,
-		  "options": {
-			"default": {
-				"blabla": [
-					"arr1",
-					"arr2",
-					3,
-					null,
-					true
-				]
-			}
-		  }
-		},
-		{
-		  "key": "option6",
 		  "type": "null",
-		  "label": "TEST option6: NULL FIELD (required)",
+		  "label": "TEST option5: NULL FIELD (required)",
 		  "required": true,
 		  "options": {
 			"default": true
