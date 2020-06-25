@@ -34,7 +34,7 @@
 		  "label": "TEST option0: TEXT",
 		  "required": false,
 		  "options": {
-			"default": "default text 1"
+			"default": "true"
 		  }
 		},
 		{

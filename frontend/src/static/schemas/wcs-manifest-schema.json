@@ -5,6 +5,241 @@
 	"type": "object",
 	"additionalProperties": false,
     "definitions": {
+		"optionFallbackError": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"enum": [
+						"null",
+						"bool",
+						"text",
+						"textarea",
+						"object",
+						"select",
+						"multiselect"
+					]
+				},
+				"key": {
+					"type": "string"
+				},
+				"label": {
+					"type": "string"
+				},
+				"required": {
+					"type": "boolean"
+				},
+				"options": {
+					"type": "object"
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
+			],
+			"additionalProperties": false
+		},
+		"optionNullBool": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"enum": [
+						"null",
+						"bool"
+					]
+				},
+				"key": {
+					"type": "string"
+				},
+				"label": {
+					"type": "string"
+				},
+				"required": {
+					"type": "boolean"
+				},
+				"options": {
+					"type": "object",
+					"properties": {
+						"default": {
+							"type": "boolean"
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
+			],
+			"additionalProperties": false
+		},
+		"optionNumber": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"const": "number"
+				},
+				"key": {
+					"type": "string"
+				},
+				"label": {
+					"type": "string"
+				},
+				"required": {
+					"type": "boolean"
+				},
+				"options": {
+					"type": "object",
+					"properties": {
+						"default": {
+							"type": "number"
+						},
+						"min": {
+							"type": "number"
+						},
+						"max": {
+							"type": "number"
+						},
+						"step": {
+							"type": "number"
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
+			],
+			"additionalProperties": false
+		},
+		"optionTextTextArea": {
+			"type": "object",
+			"properties": {
+				"key": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"text",
+						"textarea"
+					]
+				},
+				"label": {
+					"type": "string"
+				},
+				"required": {
+					"type": "boolean"
+				},
+				"options": {
+					"type": "object",
+					"properties": {
+						"default": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"default"
+					],
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
+			],
+			"additionalProperties": false
+		},
+		"optionSelectMultiSelect": {
+			"type": "object",
+			"properties": {
+				"key": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"enum": [
+						"select",
+						"multiselect"
+					]
+				},
+				"label": {
+					"type": "string"
+				},
+				"required": {
+					"type": "boolean"
+				},
+				"options": {
+					"type": "object",
+					"properties": {
+						"values": {
+							"type": "array",
+							"items": {
+								"type": "string"
+							},
+							"uniqueItems": true,
+							"minimum": 1
+						},
+						"default": {
+							"type": "string",
+							"validDefault": {
+								"$data": "2/values"
+							}
+						}
+					},
+					"required": [
+						"values"
+					],
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
+			],
+			"additionalProperties": false
+		},
+		"optionObject": {
+			"type": "object",
+			"properties": {
+				"key": {
+					"type": "string"
+				},
+				"type": {
+					"type": "string",
+					"const": "object"
+				},
+				"label": {
+					"type": "string"
+				},
+				"required": {
+					"type": "boolean"
+				},
+				"options": {
+					"type": "object",
+					"properties": {
+						"placeholder": {
+							"type": "object"
+						},
+						"default": {
+							"type": "object"
+						}
+					},
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"key",
+				"type",
+				"options"
+			],
+			"additionalProperties": false
+		},
 		"configurationItem": {
 			"type": "object",
 			"properties": {
@@ -94,205 +329,54 @@
 		"configurationItems": {
 			"anyOf": [
 				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"enum": [
-								"null",
-								"bool"
-							]
-						},
-						"key": {
-							"type": "string"
-						},
-						"label": {
-							"type": "string"
-						},
-						"required": {
-							"type": "boolean"
-						},
-						"options": {
-							"type": "object",
-							"properties": {
-								"default": {
-									"type": "boolean"
-								}
-							},
-							"additionalProperties": false
-						}
-					},
-					"required": [
-						"key",
-						"type",
-						"options"
-					],
-					"additionalProperties": false
+					"if": { "properties": { "type": {
+						"enum": ["null", "bool"]
+					}}},
+					"then": { "$ref": "#/definitions/optionNullBool" },
+					"else": false
 				},
 				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"const": "number"
-						},
-						"key": {
-							"type": "string"
-						},
-						"label": {
-							"type": "string"
-						},
-						"required": {
-							"type": "boolean"
-						},
-						"options": {
-							"type": "object",
-							"properties": {
-								"default": {
-									"type": "number"
-								},
-								"min": {
-									"type": "number"
-								},
-								"max": {
-									"type": "number"
-								},
-								"step": {
-									"type": "number"
-								}
-							},
-							"additionalProperties": false
-						}
-					},
-					"required": [
-						"key",
-						"type",
-						"options"
-					],
-					"additionalProperties": false
+					"if": { "properties": { "type": {
+						"const": "number"
+					}}},
+					"then": { "$ref": "#/definitions/optionNumber" },
+					"else": false
 				},
 				{
-					"type": "object",
-					"properties": {
-						"key": {
-							"type": "string"
-						},
-						"type": {
-							"type": "string",
-							"enum": [
-								"text",
-								"textarea"
-							]
-						},
-						"label": {
-							"type": "string"
-						},
-						"required": {
-							"type": "boolean"
-						},
-						"options": {
-							"type": "object",
-							"properties": {
-								"default": {
-									"type": "string"
-								}
-							},
-							"required": [
-								"default"
-							],
-							"additionalProperties": false
-						}
-					},
-					"required": [
-						"key",
-						"type",
-						"options"
-					],
-					"additionalProperties": false
+					"if": { "properties": { "type": {
+						"enum": ["select", "multiselect"]
+					}}},
+					"then": { "$ref": "#/definitions/optionSelectMultiSelect" },
+					"else": false
 				},
 				{
-					"type": "object",
-					"properties": {
-						"key": {
-							"type": "string"
-						},
-						"type": {
-							"type": "string",
-							"enum": [
-								"select",
-								"multiselect"
-							]
-						},
-						"label": {
-							"type": "string"
-						},
-						"required": {
-							"type": "boolean"
-						},
-						"options": {
-							"type": "object",
-							"properties": {
-								"values": {
-									"type": "array",
-									"items": {
-										"type": "string"
-									},
-									"uniqueItems": true,
-									"minimum": 1
-								},
-								"default": {
-									"type": "string",
-									"validDefault": {
-										"$data": "2/values"
-									}
-								}
-							},
-							"required": [
-								"values"
-							],
-							"additionalProperties": false
-						}
-					},
-					"required": [
-						"key",
-						"type",
-						"options"
-					],
-					"additionalProperties": false
+					"if": { "properties": { "type": {
+						"enum": ["text", "textarea"]
+					}}},
+					"then": { "$ref": "#/definitions/optionTextTextArea" },
+					"else": false
 				},
 				{
-					"type": "object",
-					"properties": {
-						"key": {
-							"type": "string"
-						},
-						"type": {
-							"type": "string",
-							"const": "object"
-						},
-						"label": {
-							"type": "string"
-						},
-						"required": {
-							"type": "boolean"
-						},
-						"options": {
-							"type": "object",
-							"properties": {
-								"placeholder": {
-									"type": "object"
-								},
-								"default": {
-									"type": "object"
-								}
-							},
-							"additionalProperties": false
-						}
-					},
-					"required": [
-						"key",
-						"type",
-						"options"
-					],
-					"additionalProperties": false
+					"if": { "properties": { "type": {
+						"const": "object"
+					}}},
+					"then": { "$ref": "#/definitions/optionObject" },
+					"else": {
+						"if": { "properties": {
+							"type": {
+								"enum": [
+									"null",
+									"bool",
+									"text",
+									"textarea",
+									"object",
+									"select",
+									"multiselect"
+								]
+							}}}
+					, "then": false,
+					"else": { "$ref": "#/definitions/optionFallbackError" }
+					}
 				}
 			]
 		}

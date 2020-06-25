@@ -162,7 +162,7 @@ export default {
       const ajv = new Ajv({
         $data: true,
         verbose: false,
-        allErrors: false,
+        allErrors: true,
         format: 'full'
       })
       ajv.addKeyword('validDefault', {
@@ -192,15 +192,36 @@ export default {
         const validate = ajv.compile(this.Schema)
         wcsManifestParsed = JSON.parse(this.wcsManifest)
         if (!validate(wcsManifestParsed)) {
-          const errors = validate.errors.map((error) => {
-            console.log(error)
-            return {
-              text: error.message,
-              path: error.dataPath,
-              params: error.params
-            }
-          })
+          const errors = validate.errors
+            .filter((error) => {
+              switch (error.message) {
+                case 'boolean schema is false':
+                case 'should match "then" schema':
+                case 'should match "else" schema':
+                case 'should match some schema in anyOf':
+                  return false
+              }
+              return true
+            })
+            .map((error) => {
+              if (
+                error.params.keyword &&
+                error.params.keyword === 'validDefault'
+              ) {
+                error.params.keyword = 'Choose any item inside .values'
+              }
+              return {
+                text: error.message,
+                path: error.dataPath,
+                params:
+                  Object.keys(error.params).length === 0 &&
+                  error.params.constructor === Object
+                    ? null
+                    : error.params
+              }
+            })
           this.errors = [...this.errors, ...errors]
+
           return
         }
       } catch (e) {
