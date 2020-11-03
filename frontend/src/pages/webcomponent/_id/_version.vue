@@ -366,18 +366,35 @@ export default {
 
       // Wait until the async loadData method has finished
       if (this.config.hasOwnProperty('dist')) {
-        this.config.dist.files.forEach((item) => {
-          scripts.push(
-            '<script src="' +
-              this.config.deliveryBaseUrl +
-              '/' +
-              this.config.dist.basePath +
-              '/' +
-              item +
-              '"></scr' +
-              'ipt>'
-          )
-        })
+        if (this.config.dist.hasOwnProperty('scripts')) {
+          this.config.dist.scripts.forEach((item) => {
+            scripts.push(
+              '<script ' +
+                item.parameters +
+                ' src="' +
+                this.config.deliveryBaseUrl +
+                '/' +
+                this.config.dist.basePath +
+                '/' +
+                item.file +
+                '"></scr' +
+                'ipt>'
+            )
+          })
+        } else {
+          this.config.dist.files.forEach((item) => {
+            scripts.push(
+              '<script src="' +
+                this.config.deliveryBaseUrl +
+                '/' +
+                this.config.dist.basePath +
+                '/' +
+                item +
+                '"></scr' +
+                'ipt>'
+            )
+          })
+        }
       }
 
       return scripts
