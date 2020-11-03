@@ -37,6 +37,7 @@ pipeline {
                     echo "    </servers>" >> ~/.m2/settings.xml
                     echo "</settings>" >> ~/.m2/settings.xml
 
+                    cp backend/data-service/src/main/resources/application-dev.properties backend/data-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/data-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/data-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/data-service/src/main/resources/application.properties
@@ -56,6 +57,7 @@ pipeline {
                     sed -i -e "s%\\(logging.level.org.slf4j\\s*=\\).*\\$%\\1${DEBUG_LEVEL}%" backend/crawler-service/src/main/resources/application.properties
                     sed -i -e "s%\\(logging.level.it.bz.opendatahub.webcomponents\\s*=\\).*\\$%\\1${DEBUG_LEVEL}%" backend/crawler-service/src/main/resources/application.properties
 
+                    cp backend/delivery-service/src/main/resources/application-dev.properties backend/delivery-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/delivery-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.username\\s*=\\).*\\$%\\1${POSTGRES_USERNAME}%" backend/delivery-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.password\\s*=\\).*\\$%\\1${POSTGRES_PASSWORD}%" backend/delivery-service/src/main/resources/application.properties
