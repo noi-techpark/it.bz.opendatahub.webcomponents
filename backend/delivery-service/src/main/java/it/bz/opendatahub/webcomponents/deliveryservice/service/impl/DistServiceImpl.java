@@ -7,6 +7,9 @@ import it.bz.opendatahub.webcomponents.deliveryservice.service.DistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -37,16 +40,12 @@ public class DistServiceImpl implements DistService {
         return DistFile.of(file, mimetype, data);
     }
 
-    private String detectMimetype(String filename) {
-        String mimetype = "text/plain";
-
-        if(filename.endsWith(".css")) {
-            mimetype = "text/css";
-        }
-        else if(filename.endsWith(".js")) {
-            mimetype = "application/javascript";
-        }
-
-        return mimetype;
+	private String detectMimetype(String filename) {
+		Path path = new File(filename).toPath();
+		try {
+			return Files.probeContentType(path);
+		} catch (IOException e) {
+			return "text/plain";
+		}
     }
 }
