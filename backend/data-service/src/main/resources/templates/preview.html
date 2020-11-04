@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Open Data Hub - Web Component Store - Simple Previewer</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,7 +12,7 @@
 <body>
     <div class="responsive" th:utext="${snippetCode}"></div>
     <th:block th:each="src : ${snippetScripts}">
-    <script th:src="${src}"></script>
+    <th:block th:utext="${src}"></th:block>
     </th:block>
 </body>
 </html>
