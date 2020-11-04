@@ -30,7 +30,7 @@
                 id="tframe"
                 class="full-height full-width"
                 style="min-height: 800px;"
-                frameborder="0"
+                title="iframe-preview"
               ></iframe>
             </b-card-text>
 
@@ -312,8 +312,6 @@ export default {
               return '?attribs=' + result
             case ' ':
               if (key.trim().length > 0) {
-                isKey = true
-                isValue = false
                 result += key.trim() + ';'
               }
               break
@@ -341,7 +339,6 @@ export default {
                 result += this.buildAttribute(key, value)
                 isKey = true
                 isValue = false
-                isQuoted = false
                 key = ''
                 value = ''
               }
@@ -366,7 +363,10 @@ export default {
 
       // Wait until the async loadData method has finished
       if (this.config.hasOwnProperty('dist')) {
-        if (this.config.dist.hasOwnProperty('scripts')) {
+        if (
+          this.config.dist.hasOwnProperty('scripts') &&
+          this.config.dist.scripts.length > 0
+        ) {
           this.config.dist.scripts.forEach((item) => {
             scripts.push(
               '<script ' +
