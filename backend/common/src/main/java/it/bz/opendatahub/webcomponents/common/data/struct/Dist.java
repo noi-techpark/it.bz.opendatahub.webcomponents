@@ -11,13 +11,15 @@ import java.util.List;
 public class Dist {
     private String basePath;
 
-    private List<String> files = new ArrayList<>();
+	private List<String> files = new ArrayList<>();
+	private List<DistSource> sources = new ArrayList<>();
 
-    public static Dist of(String basePath, List<String> files) {
+    public static Dist of(String basePath, List<String> files, List<DistSource> sources) {
         Dist newDist = new Dist();
 
         newDist.setBasePath(basePath);
-        newDist.setFiles(new ArrayList<>(files));
+		newDist.setFiles(new ArrayList<>(files));
+		newDist.setSources(new ArrayList<>(sources));
 
         return newDist;
     }
