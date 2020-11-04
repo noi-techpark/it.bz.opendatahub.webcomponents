@@ -48,21 +48,17 @@ public class PreviewController {
 			attribs += " style=\"" + style + "\"";
 		}
 
-		model.addAttribute("snippetCode", "<" + conf.getConfiguration().getTagName() + attribs + ">" + decode(slot)
+		model.addAttribute("snippetCode", "<" + conf.getConfiguration().getTagName() + attribs + ">" + slot
 				+ "</" + conf.getConfiguration().getTagName() + ">");
 		return "preview";
 	}
 
-	private static String decode(final String rawString) throws UnsupportedEncodingException {
-		return URLDecoder.decode(rawString, StandardCharsets.UTF_8.name());
-	}
-
-	private static String parseAttribs(final String rawString) throws UnsupportedEncodingException {
+	private static String parseAttribs(final String rawString) {
 		boolean isKey = true;
 		boolean isValue = false;
 		String key = "";
 		String value = "";
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < rawString.length(); i++) {
 			char c = rawString.charAt(i);
 			if (isKey) {
@@ -73,7 +69,8 @@ public class PreviewController {
 					case ';':
 					case ' ':
 						if (key.trim().length() > 0) {
-							result += " " + key.trim();
+							result.append(" ");
+							result.append(key.trim());
 						}
 						break;
 					default:
@@ -82,7 +79,11 @@ public class PreviewController {
 			} else if (isValue) {
 				switch (c) {
 					case '"':
-						result += " " + key.trim() + "=\"" + decode(value.trim()) + "\"";
+						result.append(" ");
+						result.append(key.trim());
+						result.append("=\"");
+						result.append(value.trim());
+						result.append("\"");
 						isKey = true;
 						isValue = false;
 						key = "";
@@ -95,7 +96,7 @@ public class PreviewController {
 				isValue = true;
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 }
