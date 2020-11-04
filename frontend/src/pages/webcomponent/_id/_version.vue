@@ -370,7 +370,7 @@ export default {
           this.config.dist.scripts.forEach((item) => {
             scripts.push(
               '<script ' +
-                item.parameters +
+                item.parameter +
                 ' src="' +
                 this.config.deliveryBaseUrl +
                 '/' +

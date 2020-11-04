@@ -12,14 +12,14 @@ public class Dist {
     private String basePath;
 
 	private List<String> files = new ArrayList<>();
-	private List<DistSource> sources = new ArrayList<>();
+	private List<DistSource> scripts = new ArrayList<>();
 
-    public static Dist of(String basePath, List<String> files, List<DistSource> sources) {
+    public static Dist of(String basePath, List<String> files, List<DistSource> scripts) {
         Dist newDist = new Dist();
 
         newDist.setBasePath(basePath);
 		newDist.setFiles(new ArrayList<>(files));
-		newDist.setSources(new ArrayList<>(sources));
+		newDist.setScripts(new ArrayList<>(scripts));
 
         return newDist;
     }

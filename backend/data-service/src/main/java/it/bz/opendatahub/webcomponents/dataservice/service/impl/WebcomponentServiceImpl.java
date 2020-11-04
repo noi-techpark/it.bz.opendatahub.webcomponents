@@ -79,7 +79,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         configuration.setConfiguration(latestVersion.getConfiguration());
 		configuration.setDeliveryBaseUrl(deliveryBaseUrl);
 
-        configuration.setDist(Dist.of(webcomponent.getUuid(), latestVersion.getDist().getFiles(), latestVersion.getDist().getSources()));
+        configuration.setDist(Dist.of(webcomponent.getUuid(), latestVersion.getDist().getFiles(), latestVersion.getDist().getScripts()));
 
         return configuration;
     }
@@ -95,7 +95,7 @@ public class WebcomponentServiceImpl implements WebcomponentService {
         configuration.setConfiguration(version.getConfiguration());
 		configuration.setDeliveryBaseUrl(deliveryBaseUrl);
 
-        configuration.setDist(Dist.of(webcomponent.getUuid()+"/"+versionTag, version.getDist().getFiles(), version.getDist().getSources()));
+        configuration.setDist(Dist.of(webcomponent.getUuid()+"/"+versionTag, version.getDist().getFiles(), version.getDist().getScripts()));
 
         return configuration;
     }
