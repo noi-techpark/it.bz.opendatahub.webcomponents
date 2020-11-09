@@ -272,8 +272,8 @@ export default {
 
       document.getElementById('twrap').appendChild(newElement)
 
-      newElement.contentDocument.close()
       newElement.contentDocument.write(this.snipp)
+      newElement.contentDocument.close()
 
       this.attribs = this.parseSnippetAttributes()
     },
