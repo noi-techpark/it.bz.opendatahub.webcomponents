@@ -24,7 +24,7 @@ mkdir -p "tmp/$WC_NAME/$WC_TAG/dist"
 
 cd tmp
 wget --no-verbose "$GIT_BASEURL/odh-web-components-store-origins/development/origins.json"
-UUID=$(jq -r '.[] | select(.url | test(".*webcomp-mobility-traffic.*")) | .uuid' origins.json)
+UUID=$(jq -r '.[] | select(.url | test(".*$WC_NAME.*")) | .uuid' origins.json)
 
 cd "$WC_NAME/$WC_TAG"
 wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/wcs-manifest.json" 
