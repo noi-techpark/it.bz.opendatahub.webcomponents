@@ -16,7 +16,7 @@
     </style>
 </head>
 <body>
-    <div th:utext="${snippetCode}"></div>
+    <th:block th:utext="${snippetCode}"></th:block>
     <th:block th:each="src : ${snippetScripts}">
     <th:block th:utext="${src}"></th:block>
     </th:block>
