@@ -1,16 +1,22 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!doctype html>
+<html dir="ltr" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Open Data Hub - Web Component Store - Simple Previewer</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0">
     <style>
-        .responsive {
-            position: relative;
+        html, body {
+            display: block;
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
         }
     </style>
 </head>
 <body>
-    <div class="responsive" th:utext="${snippetCode}"></div>
+    <div th:utext="${snippetCode}"></div>
     <th:block th:each="src : ${snippetScripts}">
     <th:block th:utext="${src}"></th:block>
     </th:block>
