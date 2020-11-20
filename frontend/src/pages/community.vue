@@ -22,9 +22,6 @@
         <a class="img_container" href="https://noi.bz.it" target="_blank">
           <img src="/NOI-logo.png" />
         </a>
-        <a class="img_container" href="https://konverto.eu" target="_blank">
-          <img src="/KONVERTO.png" />
-        </a>
         <a
           class="img_container"
           href="https://idm-suedtirol.com"
