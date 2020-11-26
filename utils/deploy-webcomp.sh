@@ -1,167 +1,252 @@
 #!/bin/bash
-set -xeuo pipefail
+set -euo pipefail
+SCRIPTNAME=${0##*/}
 
-#
-# Configuration
-#
-set -o allexport
-if [ -f .env ]; then
-    source .env
-else
-    echo ".env file not found in $PWD"
-fi
-set +o allexport
+# All output should be in English
+export LC_ALL=C
 
-PSQL="psql -h $DB_HOST -p $DB_PORT -U $DB_USER"
-GIT_BASEURL="https://raw.githubusercontent.com/noi-techpark"
-GITHUBURL="https://github.com/noi-techpark"
 
-#
-# Prepare local temporary folders and files, download the manifest file and parse information
-#
-rm -rf "tmp/${WC_NAME:?}/${WC_TAG:?}"*
-mkdir -p "tmp/$WC_NAME/$WC_TAG/dist"
+function showHelp {
+    echo "
+USAGE:
+    $SCRIPTNAME [OPTIONS]
 
-cd tmp
-wget --no-verbose "$GIT_BASEURL/odh-web-components-store-origins/development/origins.json"
-UUID=$(jq -r '.[] | select(.url | test(".*$WC_NAME.*")) | .uuid' origins.json)
+    This is the CLI tool to the web component store. It gets configured through a
+    .env file. See .env.example for details.
 
-cd "$WC_NAME/$WC_TAG"
-wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/wcs-manifest.json" 
+OPTIONS:
+  -h                    Show this help message
+  -d WEBCOMP TAG        Deploy a web component to the store
+"
+}
 
-WCS_IMAGE=$(jq -r '.image' ./wcs-manifest.json)
-wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/$WCS_IMAGE"
+function outError {
+    echo -e "\e[31m>> $SCRIPTNAME | $(date -Is) | ERROR | $*\e[0m" >&2
+    exit 1
+}
 
-cd dist
-DIST_PATH=$(jq -r '.dist.basePath' ../wcs-manifest.json)
-jq -r '.dist.files[]' ../wcs-manifest.json \
-    | xargs -I '{}' wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/$DIST_PATH/{}"
+function outInfo {
+    echo -e "\e[32m>> $SCRIPTNAME | $(date -Is) | INFO  | $*\e[0m" >&2
+}
 
-#
-# Update the database records
-#
+function loadDotEnv {
+    set -o allexport
+    if [ -f .env ]; then
+        source .env
+    else
+        outError ".env file not found in $PWD"
+    fi
+    set +o allexport
+    return 0
+}
 
-$PSQL <<SQL
+function jsonGet {
+    FILEPATH="$1"
+    shift
+    RES=$(jq -r "$@" "$FILEPATH")
+    RES=${RES//\'/\'\'}
+    if [ "x${RES}x" = "xx" ] || [ "$RES" = "null" ]; then
+        outError "JSON query '$*' did not produce a result in '$FILEPATH' (empty or null)"
+    fi
+	echo "$RES"
+}
 
-    insert into origin (uuid, url, api, deleted) 
-    values (
-        'TEST-$UUID',
-        '$GITHUBURL/$WC_NAME.git',
-        'github',
-        false
-    ) on conflict (uuid) do 
-        update set 
-            url = excluded.url, 
-            api = excluded.api, 
-            deleted = excluded.deleted;
+################################################################################
+## MAIN
+################################################################################
 
+# Handling of script arguments...
+# Each short option character in shortopts may be followed by one colon to
+# indicate it has a required argument, and by two colons to indicate it has
+# an optional argument.
+ARGS=$(getopt -o "hd:" -n "$SCRIPTNAME" -- "$@")
+eval set -- "$ARGS"
+
+while true; do
+    case "$1" in
+
+        ## HELP ###############################################################
+        -h)
+            showHelp
+            exit 0
+        ;;
+        ## HELP ###############################################################
+
+        ## DEPLOY #############################################################
+        -d)
+            loadDotEnv
+
+            #
+            # Test SSH connection before doing anything
+            #
+            outInfo "# Testing SSH connection"
+            ssh tomcattest2 "date" > /dev/null || {
+                outError "Could not establish SSH connection. Exiting..."
+            }
+            outInfo "> SUCCESS"
+
+            WC_NAME="${2:?"Parameter #1 WEBCOMP null or not set"}"
+            WC_TAG="${4:?"Parameter #2 TAG null or not set"}"
+
+            PSQL="psql -h $DB_HOST -p $DB_PORT -U $DB_USER"
+            GIT_BASEURL="https://raw.githubusercontent.com/noi-techpark"
+            GITHUBURL="https://github.com/noi-techpark"
+
+            #
+            # Prepare local temporary folders and files, download the manifest file and parse information
+            #
+            PATH_LOCAL_WC="tmp/${WC_NAME:?}/${WC_TAG:?}"
+            rm -rf "$PATH_LOCAL_WC"*
+            mkdir -p "$PATH_LOCAL_WC/dist"
+
+            #
+            # Get origins.json and parse UUID
+            #
+            outInfo "# Get origins.json and parse UUID"
+            PATH_ORIGINS_JSON="tmp/origins.json"
+            wget --no-verbose "$GIT_BASEURL/odh-web-components-store-origins/development/origins.json" -O "$PATH_ORIGINS_JSON"
+            UUID=$(jsonGet "$PATH_ORIGINS_JSON" '.[] | select(.url | test(".*'"$WC_NAME"'.*")) | .uuid')
+            outInfo "> SUCCESS"
+
+            outInfo "# Get wcs-manifest.json and parse it"
+            PATH_WCS_MANIFEST_JSON="$PATH_LOCAL_WC/wcs-manifest.json"
+            wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/wcs-manifest.json" -O "$PATH_WCS_MANIFEST_JSON"
+            MF_WCS_IMAGE=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.image')
+            MF_DIST_PATH=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist.basePath')
+            MF_TITLE=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.title')
+            MF_DESCRIPTION=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.description')
+            MF_DESCRIPTION_ABSTRACT=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.descriptionAbstract')
+            MF_AUTHORS=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.authors')
+            MF_COPYRIGHTHOLDERS=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.copyrightHolders')
+            MF_CONFIGURATION=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.configuration')
+            MF_DIST=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist')
+			MF_LICENSE=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.license')
+			MF_SEARCH_TAGS=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.searchTags')
+            outInfo "> SUCCESS"
+
+            outInfo "# Get the image file"
+            wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE"
+            outInfo "> SUCCESS"
+
+            outInfo "# Get all dist files"
+            jq -r '.dist.files[]' "$PATH_WCS_MANIFEST_JSON" \
+                | xargs -I '{}' wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/$MF_DIST_PATH/{}" -O "$PATH_LOCAL_WC/dist/{}"
+            outInfo "> SUCCESS"
+
+            #
+            # Update the database records
+            #
+            outInfo "# Update the database records"
+            PGPASSWORD="$DB_PASS" $PSQL <<SQL
+
+                begin;
+
+                insert into origin (uuid, url, api, deleted)
+                values (
+                    '$UUID',
+                    '$GITHUBURL/$WC_NAME.git',
+                    'github',
+                    false
+                ) on conflict (url) do
+                    update set
+                        uuid = excluded.uuid,
+                        url = excluded.url,
+                        api = excluded.api,
+                        deleted = excluded.deleted;
+
+                insert into webcomponent (
+                    uuid,
+                    title,
+                    description,
+                    description_abstract,
+                    license,
+                    authors,
+                    search_tags,
+                    image,
+                    repository_url,
+                    deleted,
+                    copyright_holders
+                ) values (
+                    '$UUID',
+                    '$MF_TITLE',
+                    '$MF_DESCRIPTION',
+                    '$MF_DESCRIPTION_ABSTRACT',
+                    '$MF_LICENSE',
+                    '$MF_AUTHORS',
+                    '$MF_SEARCH_TAGS',
+                    '$MF_WCS_IMAGE',
+                    '$GITHUBURL/$WC_NAME.git',
+                    false,
+                    '$MF_COPYRIGHTHOLDERS'
+                ) on conflict (uuid) do
+                    update set
+                        title = excluded.title,
+                        description = excluded.description,
+                        description_abstract = excluded.description_abstract,
+                        license = excluded.license,
+                        authors = excluded.authors,
+                        search_tags = excluded.search_tags,
+                        image = excluded.image,
+                        repository_url = excluded.repository_url,
+                        deleted = excluded.deleted,
+                        copyright_holders = excluded.copyright_holders;
+
+                insert into webcomponent_version (
+                    webcomponent_uuid,
+                    version_tag,
+                    release_timestamp,
+                    configuration,
+                    dist,
+                    deleted
+                ) values (
+                    '$UUID',
+                    '$WC_TAG',
+                    '$(date -Iseconds)',
+                    '$MF_CONFIGURATION',
+                    '$MF_DIST',
+                    false
+                ) on conflict (webcomponent_uuid, version_tag) do
+                    update set
+                        release_timestamp = excluded.release_timestamp,
+                        configuration = excluded.configuration,
+                        dist = excluded.dist,
+                        deleted = excluded.deleted;
+
+                commit;
 SQL
+            outInfo "> SUCCESS"
 
-MF_TITLE=$(jq -r '.title' ../wcs-manifest.json)
-MF_TITLE=${MF_TITLE//\'/\'\'}
+            #
+            # Upload to the CDN
+            #
+            outInfo "# Upload dist files to the CDN"
+            ssh tomcattest2 "mkdir -p /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
+            scp -r "$PATH_LOCAL_WC/dist/"* "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
+            scp "$PATH_WCS_MANIFEST_JSON" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+            scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+            outInfo "> SUCCESS"
 
-MF_DESCRIPTION=$(jq -r '.description' ../wcs-manifest.json)
-MF_DESCRIPTION=${MF_DESCRIPTION//\'/\'\'}
+            outInfo "# Set permissions and paths of the uploaded dist files inside the CDN server"
+            ssh tomcattest2 bash -c "'
+                set -xeuo pipefail
+                sudo rm -rf /var/data/webcomponents-store/$UUID/$WC_TAG
+                sudo mkdir -p /var/data/webcomponents-store/$UUID/$WC_TAG
+                sudo cp -R /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/* /var/data/webcomponents-store/$UUID/$WC_TAG
+                sudo chown -R tomcat8: /var/data/webcomponents-store/$UUID
+            '"
+            outInfo "> SUCCESS"
 
-MF_DESCRIPTION_ABSTRACT=$(jq -r '.descriptionAbstract' ../wcs-manifest.json)
-MF_DESCRIPTION_ABSTRACT=${MF_DESCRIPTION_ABSTRACT//\'/\'\'}
+            exit 0
+        ;;
+        ## DEPLOY #############################################################
 
-MF_AUTHORS=$(jq -r '.authors' ../wcs-manifest.json)
-MF_AUTHORS=${MF_AUTHORS//\'/\'\'}
+        -- )
+            shift
+            break
+        ;;
+    esac
+done
 
-MF_COPYRIGHTHOLDERS=$(jq -r '.copyrightHolders' ../wcs-manifest.json)
-MF_COPYRIGHTHOLDERS=${MF_COPYRIGHTHOLDERS//\'/\'\'}
-
-$PSQL <<SQL
-
-    insert into webcomponent (
-        uuid, 
-        title, 
-        description, 
-        description_abstract, 
-        license, 
-        authors, 
-        search_tags, 
-        image, 
-        repository_url, 
-        deleted, 
-        copyright_holders
-    ) values (
-        'TEST-$UUID',
-        '$MF_TITLE',
-        '$MF_DESCRIPTION',
-        '$MF_DESCRIPTION_ABSTRACT',
-        '$(jq -r '.license' ../wcs-manifest.json)',
-        '$MF_AUTHORS',
-        '$(jq -r '.searchTags' ../wcs-manifest.json)',
-        '$(jq -r '.image' ../wcs-manifest.json)',
-        '$GITHUBURL/$WC_NAME.git',
-        false,
-        '$MF_COPYRIGHTHOLDERS'
-    ) on conflict (uuid) do 
-        update set 
-            title = excluded.title, 
-            description = excluded.description, 
-            description_abstract = excluded.description_abstract, 
-            license = excluded.license, 
-            authors = excluded.authors, 
-            search_tags = excluded.search_tags, 
-            image = excluded.image, 
-            repository_url = excluded.repository_url, 
-            deleted = excluded.deleted, 
-            copyright_holde = excluded.copyright_holders
-
-SQL
-
-MF_CONFIGURATION=$(jq -r '.configuration' ../wcs-manifest.json)
-MF_CONFIGURATION=${MF_CONFIGURATION//\'/\'\'}
-
-MF_DIST=$(jq -r '.dist' ../wcs-manifest.json)
-MF_DIST=${MF_DIST//\'/\'\'}
-
-
-$PSQL <<SQL
-
-    insert into webcomponent_version (
-        webcomponent_uuid, 
-        version_tag, 
-        release_timestamp, 
-        configuration, 
-        dist, 
-        deleted 
-    ) values (
-        'TEST-$UUID',
-        '$WC_TAG',
-        '$(date -Iseconds)',
-        '$MF_CONFIGURATION',
-        '$MF_DIST',
-        false
-    ) on conflict (webcomponent_uuid, version_tag) do 
-        update set 
-            release_timestamp = excluded.release_timestamp, 
-            configuration = excluded.configuration, 
-            dist = excluded.dist, 
-            deleted = excluded.deleted 
-
-SQL
-
-
-#
-# Upload to the CDN
-#
-ssh tomcattest2 "mkdir -p /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
-scp -r ./* "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
-scp "../wcs-manifest.json" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
-scp "../$WCS_IMAGE" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
-
-ssh tomcattest2 bash -c "'
-    set -xeuo pipefail
-    sudo rm -rf /var/data/webcomponents-store/$UUID/$WC_TAG
-    sudo mkdir -p /var/data/webcomponents-store/$UUID/$WC_TAG
-    sudo cp -R /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/* /var/data/webcomponents-store/$UUID/$WC_TAG
-    sudo chown -R tomcat8: /var/data/webcomponents-store/$UUID
-'"
-
-
-
+# Show help, if now arguments given...
+showHelp
 exit 0
