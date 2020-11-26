@@ -55,7 +55,7 @@ pipeline {
                 sshagent (credentials: ['tomcatkey']) {
                     sh """
                         cd utils
-                        ./deploy-webcomp.sh "$WC_NAME" "$WC_TAG"
+                        ./deploy-webcomp.sh -d "$WC_NAME" "$WC_TAG"
                     """
                 }
             }
