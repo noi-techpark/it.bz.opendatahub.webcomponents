@@ -35,7 +35,7 @@ pipeline {
     stages {
         stage('Configure') {
             steps {
-                sh """
+                sh '''
                     cd utils
 					echo 'DB_HOST=test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com' > .env
 					echo 'DB_PORT=5432' >> .env
@@ -47,7 +47,7 @@ pipeline {
                     echo 'Host tomcattest2' >> ~/.ssh/config
                     echo '  User $SSH_CDN_USER' >> ~/.ssh/config
                     echo '  Hostname $SSH_CDN_ADDR' >> ~/.ssh/config
-				"""
+				'''
             }
         }
         stage('Deploy') {
