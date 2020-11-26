@@ -249,4 +249,4 @@ done
 
 # Show help, if now arguments given...
 showHelp
-exit 0
+showError "No arguments given"
