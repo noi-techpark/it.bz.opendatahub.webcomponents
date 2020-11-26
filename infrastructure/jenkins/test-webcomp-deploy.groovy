@@ -11,6 +11,8 @@ pipeline {
     }
 
     environment {
+		DB_HOST = "test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com"
+		DB_PORT = "5432"
         DB_USER = credentials('webcompstore-test-postgres-username')
         DB_PASS = credentials('webcompstore-test-postgres-password')
         SSH_CDN_ADDR = "172.31.37.40"
@@ -36,18 +38,19 @@ pipeline {
         stage('Configure') {
             steps {
                 sh '''
-                    cd utils
-					echo 'DB_HOST=test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com' > .env
-					echo 'DB_PORT=5432' >> .env
-					echo 'DB_USER=$DB_USER' >> .env
-					echo 'DB_PASS=$DB_PASS' >> .env
+					echo 'DB_USER=$DB_USER' >> utils/.env
+					echo 'DB_PASS=$DB_PASS' >> utils/.env
+				'''
+				sh """
+					echo 'DB_HOST=$DB_HOST' >> utils/.env
+					echo 'DB_PORT=$DB_PORT' >> utils/.env
 
                     mkdir -p ~/.ssh
                     ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts
                     echo 'Host tomcattest2' >> ~/.ssh/config
                     echo '  User $SSH_CDN_USER' >> ~/.ssh/config
                     echo '  Hostname $SSH_CDN_ADDR' >> ~/.ssh/config
-				'''
+				"""
             }
         }
         stage('Deploy') {
