@@ -125,7 +125,7 @@ while true; do
             outInfo "> SUCCESS"
 
             outInfo "# Get the image file"
-            wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE"
+            wget --no-verbose "$GIT_BASEURL/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE" -O "$PATH_LOCAL_WC/$MF_WCS_IMAGE"
             outInfo "> SUCCESS"
 
             outInfo "# Get all dist files"
