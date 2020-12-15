@@ -17,6 +17,10 @@ pipeline {
         DB_PASS = credentials('webcompstore-test-postgres-password')
         SSH_CDN_ADDR = "172.31.37.40"
         SSH_CDN_USER = "admin"
+		GITHUB_ORGANIZATION = "noi-techpark"
+		GITHUB_ORIGINS_REPO = "odh-web-components-store-origins"
+		GITHUB_ORIGINS_BRANCH = "development"
+		GITHUB_ORIGINS_FILE = "origins.json"
     }
 
     parameters {
@@ -44,6 +48,10 @@ pipeline {
 				sh """
 					echo 'DB_HOST=$DB_HOST' >> infrastructure/utils/.env
 					echo 'DB_PORT=$DB_PORT' >> infrastructure/utils/.env
+					echo 'GITHUB_ORGANIZATION=$GITHUB_ORGANIZATION' >> infrastructure/utils/.env
+					echo 'GITHUB_ORIGINS_REPO=$GITHUB_ORIGINS_REPO' >> infrastructure/utils/.env
+					echo 'GITHUB_ORIGINS_BRANCH=$GITHUB_ORIGINS_BRANCH' >> infrastructure/utils/.env
+					echo 'GITHUB_ORIGINS_FILE=$GITHUB_ORIGINS_FILE' >> infrastructure/utils/.env
 
                     mkdir -p ~/.ssh
                     ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts
