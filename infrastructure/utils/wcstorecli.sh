@@ -70,23 +70,29 @@ function jsonGet {
 
 
 function updateOrigin {
-	outInfo ">> GIT clone/checkout/pull"
-	if [ ! -d "tmp/origins-repo" ]; then
-		git clone "git@github.com:$GITHUB_ORGANIZATION/$GITHUB_ORIGINS_REPO.git" -o "tmp/origins-repo"
+	outInfo ">> GIT clone"
+	mkdir -p tmp/
+	cd tmp
+	if [ ! -d "$GITHUB_ORIGINS_REPO" ]; then
+		git clone "git@github.com:$GITHUB_ORGANIZATION/$GITHUB_ORIGINS_REPO.git"
 	fi
-	cd tmp/origins-repo
+	outInfo ">> SUCCESS"
+	outInfo ">> GIT checkout/pull"
+	cd "$GITHUB_ORIGINS_REPO"
 	git checkout "$GITHUB_ORIGINS_BRANCH"
 	git pull
 	outInfo ">> SUCCESS"
 	outInfo ">> Updating $GITHUB_ORIGINS_FILE"
 	UUID=$(uuidgen)
-	jq '. += [ {"uuid": "'"$UUID"'", "url": "'"$_GITHUBURL/$WC_NAME"'.git", "api": "github" } ]' "$GITHUB_ORIGINS_FILE"
+	jq '. += [ {"uuid": "'"$UUID"'", "url": "'"$_GITHUBURL/$WC_NAME"'.git", "api": "github" } ]' "$GITHUB_ORIGINS_FILE" > tmp-origins.json
+	mv tmp-origins.json "$GITHUB_ORIGINS_FILE"
 	outInfo ">> SUCCESS"
 	outInfo ">> GIT commit/push changes"
 	git add "$GITHUB_ORIGINS_FILE"
 	git commit -m "Add $WC_NAME"
 	git push
 	outInfo ">> SUCCESS"
+	cd ../..
 }
 
 ################################################################################
@@ -192,7 +198,7 @@ while true; do
 			fi
 			outInfo ">> UUID is '$UUID'"
 			outInfo "> SUCCESS"
-exit 0
+
             #
             # Update the database records
             #

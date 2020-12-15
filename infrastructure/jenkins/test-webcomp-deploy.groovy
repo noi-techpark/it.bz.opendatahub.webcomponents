@@ -55,15 +55,20 @@ pipeline {
 
                     mkdir -p ~/.ssh
                     ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts
+					ssh-keyscan -H github.com >> ~/.ssh/known_hosts
                     echo 'Host tomcattest2' >> ~/.ssh/config
                     echo '  User $SSH_CDN_USER' >> ~/.ssh/config
                     echo '  Hostname $SSH_CDN_ADDR' >> ~/.ssh/config
+
+					git config --global user.email "info@opendatahub.bz.it"
+					git config --global user.name "Jenkins"
+					git remote set-url origin $GIT_URL
 				"""
             }
         }
         stage('Deploy') {
             steps {
-                sshagent (credentials: ['tomcatkey']) {
+                sshagent (credentials: ['tomcatkey', 'jenkins_github_ssh_key']) {
                     sh """
                         cd infrastructure/utils
                         ./wcstorecli.sh -d "$WC_NAME" "$WC_TAG"

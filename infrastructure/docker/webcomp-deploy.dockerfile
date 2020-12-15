@@ -11,7 +11,9 @@ RUN apt-get update \
     && apt-get -y install --no-install-recommends \
         postgresql-client \
         jq \
+        git \
         wget \
+        uuid-runtime \
         ca-certificates \
         openssh-client \
     && apt-get clean \
