@@ -150,7 +150,7 @@ while true; do
             outInfo "# Get wcs-manifest.json and parse it"
             PATH_WCS_MANIFEST_JSON="$PATH_LOCAL_WC/wcs-manifest.json"
             wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/wcs-manifest.json" -O "$PATH_WCS_MANIFEST_JSON"
-            MF_WCS_IMAGE=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.image')
+            MF_WCS_IMAGE=$(jsonGetPermissive "$PATH_WCS_MANIFEST_JSON" '.image')
             MF_DIST_PATH=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist.basePath')
             MF_TITLE=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.title')
             MF_DESCRIPTION=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.description')
@@ -164,7 +164,13 @@ while true; do
             outInfo "> SUCCESS"
 
             outInfo "# Get the image file"
-            wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE" -O "$PATH_LOCAL_WC/$MF_WCS_IMAGE"
+			if [ -z "$MF_WCS_IMAGE" ]; then
+				outInfo ">> No image path defined... skipping."
+				MF_WCS_IMAGE_SQL="null"
+			else
+            	wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE" -O "$PATH_LOCAL_WC/$MF_WCS_IMAGE"
+				MF_WCS_IMAGE_SQL="\'$MF_WCS_IMAGE\'"
+			fi
             outInfo "> SUCCESS"
 
             outInfo "# Get all dist files"
@@ -228,7 +234,7 @@ exit 0
                     '$MF_LICENSE',
                     '$MF_AUTHORS',
                     '$MF_SEARCH_TAGS',
-                    '$MF_WCS_IMAGE',
+                    $MF_WCS_IMAGE_SQL,
                     '$_GITHUBURL/$WC_NAME.git',
                     false,
                     '$MF_COPYRIGHTHOLDERS'
@@ -277,7 +283,9 @@ SQL
             ssh tomcattest2 "mkdir -p /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
             scp -r "$PATH_LOCAL_WC/dist/"* "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
             scp "$PATH_WCS_MANIFEST_JSON" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
-            scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+			if [ -n "$MF_WCS_IMAGE" ]; then
+            	scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+			fi
             outInfo "> SUCCESS"
 
             outInfo "# Set permissions and paths of the uploaded dist files inside the CDN server"
