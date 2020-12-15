@@ -38,12 +38,12 @@ pipeline {
         stage('Configure') {
             steps {
                 sh '''
-					echo 'DB_USER=$DB_USER' >> utils/.env
-					echo 'DB_PASS=$DB_PASS' >> utils/.env
+					echo 'DB_USER=$DB_USER' >> infrastructure/utils/.env
+					echo 'DB_PASS=$DB_PASS' >> infrastructure/utils/.env
 				'''
 				sh """
-					echo 'DB_HOST=$DB_HOST' >> utils/.env
-					echo 'DB_PORT=$DB_PORT' >> utils/.env
+					echo 'DB_HOST=$DB_HOST' >> infrastructure/utils/.env
+					echo 'DB_PORT=$DB_PORT' >> infrastructure/utils/.env
 
                     mkdir -p ~/.ssh
                     ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts
@@ -57,8 +57,8 @@ pipeline {
             steps {
                 sshagent (credentials: ['tomcatkey']) {
                     sh """
-                        cd utils
-                        ./deploy-webcomp.sh -d "$WC_NAME" "$WC_TAG"
+                        cd infrastructure/utils
+                        ./wcstorecli.sh -d "$WC_NAME" "$WC_TAG"
                     """
                 }
             }
