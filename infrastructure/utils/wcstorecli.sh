@@ -141,7 +141,7 @@ while true; do
             WC_NAME="${2:?"Parameter #1 WEBCOMP null or not set"}"
             WC_TAG="${4:?"Parameter #2 TAG null or not set"}"
 
-            PSQL="psql -h $DB_HOST -p $DB_PORT -U $DB_USER"
+            PSQL="psql --set AUTOCOMMIT=off --set ON_ERROR_STOP=on -h $DB_HOST -p $DB_PORT -U $DB_USER"
 
             #
             # Prepare local temporary folders and files, download the manifest file and parse information
@@ -175,7 +175,7 @@ while true; do
 				MF_WCS_IMAGE_SQL="null"
 			else
             	wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE" -O "$PATH_LOCAL_WC/$MF_WCS_IMAGE"
-				MF_WCS_IMAGE_SQL="\'$MF_WCS_IMAGE\'"
+				MF_WCS_IMAGE_SQL="'$MF_WCS_IMAGE'"
 			fi
             outInfo "> SUCCESS"
 
