@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -xeuo pipefail
 SCRIPTNAME=${0##*/}
 
 GIT_BASEURL="https://github.com"
@@ -63,7 +63,7 @@ function jsonGetPermissive {
 function jsonGet {
     RES=$(jsonGetPermissive "$@")
     if [ -z "${RES}" ]; then
-        outError "JSON query '$*' did not produce a result in '$FILEPATH' (empty or null)"
+        outError "JSON query '$*' did not produce a result (empty or null)"
     fi
 	echo "$RES"
 }
