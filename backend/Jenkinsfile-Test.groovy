@@ -75,7 +75,9 @@ pipeline {
             steps{
                 sh 'cd backend && mvn install -Dmaven.test.skip=true -B -U'
                 sh 'cd backend/data-service && mvn -Dmaven.test.skip=true -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
-                sh 'cd backend/crawler-service && mvn -Dmaven.test.skip=true -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/crawler'
+                /*  We no longer use the crawler on testing, since we deploy it directly with our CLI script for now!
+				 *  sh 'cd backend/crawler-service && mvn -Dmaven.test.skip=true -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_API} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/crawler'
+				 */
                 sh 'cd backend/delivery-service && mvn -Dmaven.test.skip=true -B -U tomcat:redeploy -Dmaven.tomcat.url=${TESTSERVER_TOMCAT_ENDPOINT_CDN} -Dmaven.tomcat.server=testServer -Pdeploy -Dmaven.tomcat.path=/'
             }
         }
