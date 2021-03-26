@@ -189,7 +189,7 @@ while true; do
             # Get origins.json and parse UUID, create it if absent
             #
 			outInfo "# Get origins.json and parse UUID"
-			PATH_ORIGINS_JSON="tmp/origins.json"
+			PATH_ORIGINS_JSON="/tmp/origins.json"
 			wget --no-verbose "$_GITHUBRAW/$GITHUB_ORIGINS_REPO/$GITHUB_ORIGINS_BRANCH/$GITHUB_ORIGINS_FILE" -O "$PATH_ORIGINS_JSON"
 			UUID=$(jsonGetPermissive "$PATH_ORIGINS_JSON" '.[] | select(.url | test(".*'"$WC_NAME"'.*")) | .uuid')
 			if [ -z "${UUID}" ]; then
