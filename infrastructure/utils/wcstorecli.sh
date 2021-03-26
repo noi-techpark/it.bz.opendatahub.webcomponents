@@ -133,7 +133,7 @@ while true; do
             # Test SSH connection before doing anything
             #
             outInfo "# Testing SSH connection"
-            ssh tomcattest2 "date" > /dev/null || {
+            ssh testcdnhost "date" > /dev/null || {
                 outError "Could not establish SSH connection. Exiting..."
             }
             outInfo "> SUCCESS"
@@ -147,15 +147,16 @@ while true; do
             # Prepare local temporary folders and files, download the manifest file and parse information
             #
             PATH_LOCAL_WC="tmp/${WC_NAME:?}/${WC_TAG:?}"
-            rm -rf "$PATH_LOCAL_WC"*
-            mkdir -p "$PATH_LOCAL_WC/dist"
+			PATH_LOCAL_WC=$(pwd)
+            #rm -rf "$PATH_LOCAL_WC"*
+            #mkdir -p "$PATH_LOCAL_WC/dist"
 
 			#
 			# Get manifest file and parse metadata
 			#
             outInfo "# Get wcs-manifest.json and parse it"
             PATH_WCS_MANIFEST_JSON="$PATH_LOCAL_WC/wcs-manifest.json"
-            wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/wcs-manifest.json" -O "$PATH_WCS_MANIFEST_JSON"
+            #wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/wcs-manifest.json" -O "$PATH_WCS_MANIFEST_JSON"
             MF_WCS_IMAGE=$(jsonGetPermissive "$PATH_WCS_MANIFEST_JSON" '.image')
             MF_DIST_PATH=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist.basePath')
             MF_TITLE=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.title')
@@ -174,15 +175,15 @@ while true; do
 				outInfo ">> No image path defined... skipping."
 				MF_WCS_IMAGE_SQL="null"
 			else
-            	wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE" -O "$PATH_LOCAL_WC/$MF_WCS_IMAGE"
+            	#wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_WCS_IMAGE" -O "$PATH_LOCAL_WC/$MF_WCS_IMAGE"
 				MF_WCS_IMAGE_SQL="'$MF_WCS_IMAGE'"
 			fi
             outInfo "> SUCCESS"
 
-            outInfo "# Get all dist files"
-            jq -r '.dist.files[]' "$PATH_WCS_MANIFEST_JSON" \
-                | xargs -I '{}' wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_DIST_PATH/{}" -O "$PATH_LOCAL_WC/dist/{}"
-            outInfo "> SUCCESS"
+            #outInfo "# Get all dist files"
+            #jq -r '.dist.files[]' "$PATH_WCS_MANIFEST_JSON" \
+            #    | xargs -I '{}' wget --no-verbose "$_GITHUBRAW/$WC_NAME/$WC_TAG/$MF_DIST_PATH/{}" -O "$PATH_LOCAL_WC/dist/{}"
+            #outInfo "> SUCCESS"
 
 			#
             # Get origins.json and parse UUID, create it if absent
@@ -286,16 +287,16 @@ SQL
             # Upload to the CDN
             #
             outInfo "# Upload dist files to the CDN"
-            ssh tomcattest2 "mkdir -p /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
-            scp -r "$PATH_LOCAL_WC/dist/"* "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
-            scp "$PATH_WCS_MANIFEST_JSON" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+            ssh testcdnhost "mkdir -p /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
+            scp -r "$PATH_LOCAL_WC/$MF_DIST_PATH/"* "testcdnhost:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
+            scp "$PATH_WCS_MANIFEST_JSON" "testcdnhost:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
 			if [ -n "$MF_WCS_IMAGE" ]; then
-            	scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "tomcattest2:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+            	scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "testcdnhost:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
 			fi
             outInfo "> SUCCESS"
 
             outInfo "# Set permissions and paths of the uploaded dist files inside the CDN server"
-            ssh tomcattest2 bash -c "'
+            ssh testcdnhost bash -c "'
                 set -xeuo pipefail
                 sudo rm -rf /var/data/webcomponents-store/$UUID/$WC_TAG
                 sudo mkdir -p /var/data/webcomponents-store/$UUID/$WC_TAG
@@ -317,4 +318,4 @@ done
 
 # Show help, if now arguments given...
 showHelp
-showError "No arguments given"
+outError "No arguments given"
