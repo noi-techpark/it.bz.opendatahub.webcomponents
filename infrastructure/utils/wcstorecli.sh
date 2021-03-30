@@ -127,7 +127,6 @@ while true; do
 		## UPDATE ORIGINS #####################################################
 
 		-u)
-			loadDotEnv
 			PATH_LOCAL_WC=$(pwd)
 			PATH_WCS_MANIFEST_JSON="$PATH_LOCAL_WC/wcs-manifest.json"
 			MF_DIST_PATH=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist.basePath')
