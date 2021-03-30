@@ -21,6 +21,7 @@ OPTIONS:
   -h                    Show this help message
   -d WEBCOMP TAG        Deploy a web component to the store
   -o WEBCOMP            Add a new web component to the origins file
+  -u                    Add all dist files to wcs-manifest.json
 "
 }
 
@@ -103,7 +104,7 @@ function updateOrigin {
 # Each short option character in shortopts may be followed by one colon to
 # indicate it has a required argument, and by two colons to indicate it has
 # an optional argument.
-ARGS=$(getopt -o "hd:o:" -n "$SCRIPTNAME" -- "$@")
+ARGS=$(getopt -o "hd:o:u" -n "$SCRIPTNAME" -- "$@")
 eval set -- "$ARGS"
 
 while true; do
@@ -124,6 +125,17 @@ while true; do
 			exit 0
 		;;
 		## UPDATE ORIGINS #####################################################
+
+		-u)
+			loadDotEnv
+			PATH_LOCAL_WC=$(pwd)
+			PATH_WCS_MANIFEST_JSON="$PATH_LOCAL_WC/wcs-manifest.json"
+			MF_DIST_PATH=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist.basePath')
+			ls "$MF_DIST_PATH/" | jq -R -s -c 'split("\\n")[:-1]' | jq '.' > files-list.json
+            jq '.dist.files = input' wcs-manifest.json files-list.json > wcs-manifest-tmp.json
+            mv wcs-manifest-tmp.json wcs-manifest.json
+            rm -f files-list.json
+		;;
 
         ## DEPLOY #############################################################
         -d)
@@ -146,7 +158,7 @@ while true; do
             #
             # Prepare local temporary folders and files, download the manifest file and parse information
             #
-            PATH_LOCAL_WC="tmp/${WC_NAME:?}/${WC_TAG:?}"
+            #PATH_LOCAL_WC="tmp/${WC_NAME:?}/${WC_TAG:?}"
 			PATH_LOCAL_WC=$(pwd)
             #rm -rf "$PATH_LOCAL_WC"*
             #mkdir -p "$PATH_LOCAL_WC/dist"
