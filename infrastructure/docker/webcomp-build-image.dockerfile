@@ -10,6 +10,7 @@ ENV PATH="$PATH:/home/jenkins/.local/bin"
 RUN groupadd --gid $JENKINS_GROUP_ID jenkins && \
     useradd --uid $JENKINS_USER_ID --gid $JENKINS_GROUP_ID --create-home jenkins && \
     mkdir -p /home/jenkins/.local/bin && \
+    chown -R jenkins: /home/jenkins && \
     echo "export PATH=$PATH" >> /home/jenkins/.bashrc
 
 RUN apt-get update \
