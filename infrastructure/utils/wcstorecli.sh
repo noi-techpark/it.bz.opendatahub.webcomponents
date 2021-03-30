@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -exuo pipefail
 SCRIPTNAME=${0##*/}
 
 GIT_BASEURL="https://github.com"
@@ -127,13 +127,15 @@ while true; do
 		## UPDATE ORIGINS #####################################################
 
 		-u)
-			PATH_LOCAL_WC=$(pwd)
-			PATH_WCS_MANIFEST_JSON="$PATH_LOCAL_WC/wcs-manifest.json"
-			MF_DIST_PATH=$(jsonGet "$PATH_WCS_MANIFEST_JSON" '.dist.basePath')
-			ls "$MF_DIST_PATH/" | jq -R -s -c 'split("\\n")[:-1]' | jq '.' > files-list.json
+			MF_DIST_PATH=$(jsonGet "./wcs-manifest.json" '.dist.basePath')
+			find "./$MF_DIST_PATH/" -maxdepth 1 -type f -print0 \
+				| xargs -L1 -I{} basename "{}" \
+				| jq -R -s -c 'split("\n")[:-1]' \
+				| jq '.' > files-list.json
             jq '.dist.files = input' wcs-manifest.json files-list.json > wcs-manifest-tmp.json
             mv wcs-manifest-tmp.json wcs-manifest.json
             rm -f files-list.json
+			exit 0
 		;;
 
         ## DEPLOY #############################################################
