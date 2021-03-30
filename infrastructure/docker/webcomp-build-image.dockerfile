@@ -5,8 +5,12 @@ ARG JENKINS_USER_ID=2000
 ARG SSH_CDN_ADDR
 ARG SSH_CDN_USER
 
+ENV PATH="$PATH:/home/jenkins/.local/bin"
+
 RUN groupadd --gid $JENKINS_GROUP_ID jenkins && \
-    useradd --uid $JENKINS_USER_ID --gid $JENKINS_GROUP_ID --create-home jenkins
+    useradd --uid $JENKINS_USER_ID --gid $JENKINS_GROUP_ID --create-home jenkins && \
+    mkdir -p /home/jenkins/.local/bin && \
+    echo "export PATH=$PATH" >> /home/jenkins/.bashrc
 
 RUN apt-get update \
     && apt-get -y upgrade \
@@ -19,7 +23,7 @@ RUN apt-get update \
         ca-certificates \
         openssh-client \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* 
 
 USER jenkins
 WORKDIR /webcompbuild
