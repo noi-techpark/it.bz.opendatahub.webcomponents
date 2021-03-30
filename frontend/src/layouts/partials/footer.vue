@@ -1,25 +1,15 @@
 <template>
   <footer>
-    <div class="container p-5 text-center font-larger">
-      <div class="text-uppercase">get in touch</div>
-      <hr />
-      <div class="text-muted">
-        If you would like to become a member of the Open Data Hub Community as a
-        Data Provider, Data Consumer, Web Component User or as a Contributer,
-        you can meet us at our events, or get in touch with us through e-mail.
-      </div>
-      <hr style="width: 80%" />
-      <div class="text-muted">
-        If you find a bug in a web component or like to share your ideas on how
-        to improve them, have a look at the provided repository links and drop a
-        comment their, or write us an e-mail.
-      </div>
-      <hr style="width: 60%" />
-      <div class="mt-4 text-muted">
-        Write us an e-mail to
-        <a href="mailto:help@opendatahub.bz.it" class="text-secondary"
-          >help@opendatahub.bz.it</a
-        >!
+    <div class="get-in-touch">
+      <div class="container p-5 text-center font-larger">
+        <div class="text-uppercase h1 footer-text">get in touch</div>
+        <hr style="width: 10%; background-color: white" />
+        <div class="h1 footer-text">
+          If you would like to become a member of the Open Data Hub Community as
+          a Data Provider, Data Consumer, Web Component User or as a
+          Contributer, you can meet us at our events, or get in touch with us
+          through e-mail or contact form.
+        </div>
       </div>
     </div>
     <div class="bg-light">
@@ -54,10 +44,19 @@
 </template>
 
 <style lang="scss">
+@import 'src/assets/styles/bootstrap/_variables.scss';
 #widget-imprint {
   a {
     margin-left: 1rem;
     margin-right: 1rem;
   }
+}
+
+.get-in-touch {
+  background-color: $secondary;
+}
+
+.footer-text {
+  color: white;
 }
 </style>
