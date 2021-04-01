@@ -7,13 +7,13 @@
             <div class="">
               <div
                 id="widget-tags"
-                v-b-toggle.tag-collapse
                 :class="{
                   active:
                     userSelectedTags &&
                     userSelectedTags.length > 0 &&
                     userSelectedTags[0] !== 'any'
                 }"
+                @click="searchTagsVisible = !searchTagsVisible"
                 style="border-bottom: 2px solid #000;cursor: pointer;"
                 class="full-height d-flex justify-content-between font-large pb-2"
               >
@@ -22,6 +22,7 @@
               </div>
               <b-collapse
                 id="tag-collapse"
+                v-model="searchTagsVisible"
                 style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
               >
                 <div class="m-4">
@@ -124,7 +125,8 @@ export default {
       oldSearchTerm: this.searchTerm,
       availableSearchTags: [],
       userSelectedTags: this.selectedTags,
-      isLoaded: false
+      isLoaded: false,
+      searchTagsVisible: false
     }
   },
   mounted() {
@@ -178,5 +180,9 @@ export default {
   width: 100%;
   font-size: large;
   z-index: 100;
+}
+
+.custom-checkbox {
+  padding-bottom: 8px;
 }
 </style>
