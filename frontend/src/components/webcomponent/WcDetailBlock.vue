@@ -8,9 +8,9 @@
           <div style="margin-right: 20px">
             <nuxt-link
               :to="returnLink"
-              class="btn-circle arrow-left filled-dark"
+              class="btn-circle arrow-left filled-dark return-button"
             >
-              <img src="/icons/ic_arrow.svg" />
+              <img src="/icons/ic_arrow.svg" class="return-icon" />
             </nuxt-link>
           </div>
 
@@ -133,3 +133,17 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@media (max-width: 576px) {
+  .return-button {
+    height: 35px;
+    width: 35px;
+  }
+
+  .return-icon {
+    height: 15px;
+    width: 15px;
+    transform: scale(0.6);
+  }
+}
+</style>
