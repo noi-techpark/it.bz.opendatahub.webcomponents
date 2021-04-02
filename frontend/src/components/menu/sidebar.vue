@@ -58,6 +58,6 @@ export default {
   top: 0;
   height: 100vh;
   z-index: 999;
-  padding: 2rem 20px 2rem 20px;
+  padding: 0 !important;
 }
 </style>
