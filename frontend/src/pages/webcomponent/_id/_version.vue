@@ -165,7 +165,7 @@
       </div>
     </div>
     <div v-else>
-      Readme
+      <component-read-me></component-read-me>
     </div>
   </div>
 </template>
@@ -173,9 +173,11 @@
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock'
+import ComponentReadMe from '~/components/webcomponent/ComponentReadMe'
 
 export default {
   components: {
+    ComponentReadMe,
     WcDetailBlock,
     WCSConfigTool
   },
