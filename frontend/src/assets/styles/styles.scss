@@ -18,6 +18,8 @@
 
 @import 'widget/search-input';
 @import 'widget/tagcloud';
+@import 'widget/nav-dropdown';
+@import 'widget/nav-menu';
 
 .detail-border {
   @include media-breakpoint-down(sm) {
@@ -225,4 +227,12 @@
     opacity: 1;
     transition: opacity .15s;
   }
+}
+
+a {
+	color: $primary !important;
+}
+
+a:hover {
+	color: black !important;
 }

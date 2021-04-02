@@ -1,0 +1,45 @@
+@import 'src/assets/styles/bootstrap/bootstrap.scss';
+
+@media (max-width: 576px) {
+	.nav-content {
+		padding: 16px;
+	}
+}
+
+@media (max-width: 768px) {
+	.nav-bar {
+		display: none;
+	}
+}
+
+@media (min-width: 576px) {
+	.nav-content {
+		padding: 5rem !important;
+	}
+}
+
+@media (min-width: 768px) {
+	.mobile-only {
+		display: none;
+	}
+}
+
+.side-menu-item-closed {
+	margin-bottom: 30px;
+}
+
+.side-menu-item-open {
+	margin-bottom: 10px;
+}
+
+.side-menu-item {
+	cursor: pointer;
+}
+
+.side-menu-item:hover {
+	color: black;
+}
+
+a:hover {
+	text-decoration: none !important;
+}
