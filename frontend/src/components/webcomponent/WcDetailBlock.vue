@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light">
-    <div class="container extended p-2 p-sm-5">
+    <div class="container-fluid extended p-2 p-sm-5">
       <div class="row">
         <div
           class="col-md-8 d-flex justify-content-between flex-column flex-md-row w-100"
@@ -114,6 +114,24 @@
         </div>
       </div>
     </div>
+    <div class="container-fluid">
+      <div class="d-flex flex-row tab-buttons pl-2 pl-sm-0">
+        <div
+          @click="$emit('set-show-preview', true)"
+          :class="[showPreview ? 'tab-button' : 'tab-button-disabled']"
+          class="text-uppercase"
+        >
+          preview
+        </div>
+        <div
+          @click="$emit('set-show-preview', false)"
+          :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
+          class="text-uppercase"
+        >
+          readme
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -129,6 +147,10 @@ export default {
     returnLink: {
       type: String,
       default: ''
+    },
+    showPreview: {
+      type: Boolean,
+      default: true
     }
   }
 }
@@ -145,5 +167,29 @@ export default {
     width: 15px;
     transform: scale(0.6);
   }
+
+  .tab-buttons {
+    margin-left: 0;
+    padding-left: 0 !important;
+  }
+}
+
+.tab-button {
+  cursor: pointer;
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid black;
+  padding: 12px;
+  font-weight: bold;
+}
+
+.tab-button-disabled {
+  cursor: pointer;
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  color: #888888;
+  padding: 12px;
 }
 </style>

@@ -3,153 +3,169 @@
     <WcDetailBlock
       :component="component"
       :return-link="returnLink"
+      :show-preview="showPreview"
+      @set-show-preview="setShowPreview"
     ></WcDetailBlock>
-    <div class="container container-extended pt-4 pl-4 pr-4">
-      <div class="text-right h3">
-        Version
-        <b-form-select v-model="selectedVersion" style="max-width:150px;">
-          <option
-            v-for="version in component.versions"
-            :key="version.versionTag"
-            >{{ version.versionTag }}</option
-          >
-        </b-form-select>
-      </div>
+    <div v-if="showPreview">
+      <div class="container container-extended pt-4 pl-4 pr-4">
+        <div class="text-right h3">
+          Version
+          <b-form-select v-model="selectedVersion" style="max-width:150px;">
+            <option
+              v-for="version in component.versions"
+              :key="version.versionTag"
+              >{{ version.versionTag }}</option
+            >
+          </b-form-select>
+        </div>
 
-      <b-alert :show="!isLatestVersionActive" variant="danger" class="mt-4 mb-4"
-        >You have not selected the latest version of this webcomponent.</b-alert
-      >
+        <b-alert
+          :show="!isLatestVersionActive"
+          variant="danger"
+          class="mt-4 mb-4"
+          >You have not selected the latest version of this
+          webcomponent.</b-alert
+        >
+      </div>
+      <div class="container container-extended pb-4 pl-4 pr-4">
+        <div class="row">
+          <div class="col-md-8">
+            <div class="text-uppercase font-weight-bold mb-2">preview</div>
+            <b-card id="widget-preview" class="full-height">
+              <b-card-text id="twrap" class="text-center">
+                <iframe
+                  id="tframe"
+                  class="full-height full-width"
+                  style="min-height: 800px;"
+                  title="iframe-preview"
+                ></iframe>
+              </b-card-text>
+
+              <div
+                slot="footer"
+                class="text-right text-uppercase d-flex flex-column flex-sm-row"
+              >
+                <span v-if="!editmode">
+                  <b-checkbox
+                    v-model="autoUpdate"
+                    class="d-inline-block"
+                  ></b-checkbox
+                  >auto update
+                </span>
+                <span
+                  @click="updatePreview"
+                  class="mt-2 mt-sm-0 link_with_icon"
+                  style="cursor: pointer;"
+                >
+                  <font-awesome-icon
+                    :icon="['fas', 'redo']"
+                    class="ml-4 mr-1"
+                  />update preview
+                </span>
+                <a
+                  :href="
+                    previewBaseURL +
+                      '/preview/' +
+                      component.uuid +
+                      '/' +
+                      selectedVersion +
+                      attribs
+                  "
+                  target="_blank"
+                  class="mt-2 mt-sm-0 link_with_icon"
+                >
+                  <font-awesome-icon
+                    :icon="['fas', 'rocket']"
+                    class="ml-4 mr-1"
+                  />external window
+                </a>
+              </div>
+            </b-card>
+          </div>
+
+          <div v-show="!editmode" class="col-md-4 mt-5 mt-md-0">
+            <div class="text-uppercase font-weight-bold mb-2">
+              configuration
+            </div>
+            <b-card class="full-height widget-config">
+              <b-card-text>
+                <WCSConfigTool
+                  :config="config.configuration"
+                  @snippet="updateSnippet"
+                ></WCSConfigTool>
+              </b-card-text>
+
+              <!--<div slot="footer" class="text-right text-uppercase">
+                <font-awesome-icon :icon="['fas', 'check']" /> apply
+              </div>-->
+            </b-card>
+          </div>
+          <div v-show="editmode" class="col-md-4 mt-5 mt-md-0">
+            <div class="text-uppercase font-weight-bold mb-2">
+              configuration
+            </div>
+            <b-card
+              class="full-height widget-config"
+              style="background-color: #fafafa;"
+            >
+              <b-card-text
+                >Configurator disabled. Manual configuration
+                active.</b-card-text
+              >
+
+              <!--<div slot="footer" class="text-right text-uppercase">
+                <font-awesome-icon :icon="['fas', 'check']" /> apply
+              </div>-->
+            </b-card>
+          </div>
+        </div>
+        <div class="row mt-5">
+          <div class="col-12">
+            <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
+            <b-card
+              id="widget-codesnippet"
+              :class="{ white: editmode }"
+              style="min-height: 250px;"
+            >
+              <b-card-text>
+                <textarea
+                  id="code-snippet"
+                  v-model="snipp"
+                  :readonly="!editmode"
+                  class="full-width full-height code-snippet"
+                  style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
+                  rows="10"
+                ></textarea>
+              </b-card-text>
+
+              <div slot="footer" class="text-right text-uppercase">
+                <span
+                  v-if="editmode"
+                  @click="toggleEditMode()"
+                  style="cursor: pointer"
+                  class="mr-4"
+                >
+                  <font-awesome-icon :icon="['fas', 'times']" />RESET
+                </span>
+                <span
+                  v-else
+                  @click="toggleEditMode()"
+                  style="cursor: pointer"
+                  class="mr-4"
+                >
+                  <font-awesome-icon :icon="['far', 'edit']" />EDIT
+                </span>
+                <span @click="copySnippetToClipboard()" style="cursor: pointer">
+                  <font-awesome-icon :icon="['far', 'copy']" />COPY
+                </span>
+              </div>
+            </b-card>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="container container-extended pb-4 pl-4 pr-4">
-      <div class="row">
-        <div class="col-md-8">
-          <div class="text-uppercase font-weight-bold mb-2">preview</div>
-          <b-card id="widget-preview" class="full-height">
-            <b-card-text id="twrap" class="text-center">
-              <iframe
-                id="tframe"
-                class="full-height full-width"
-                style="min-height: 800px;"
-                title="iframe-preview"
-              ></iframe>
-            </b-card-text>
-
-            <div
-              slot="footer"
-              class="text-right text-uppercase d-flex flex-column flex-sm-row"
-            >
-              <span v-if="!editmode">
-                <b-checkbox
-                  v-model="autoUpdate"
-                  class="d-inline-block"
-                ></b-checkbox
-                >auto update
-              </span>
-              <span
-                @click="updatePreview"
-                class="mt-2 mt-sm-0 link_with_icon"
-                style="cursor: pointer;"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'redo']"
-                  class="ml-4 mr-1"
-                />update preview
-              </span>
-              <a
-                :href="
-                  previewBaseURL +
-                    '/preview/' +
-                    component.uuid +
-                    '/' +
-                    selectedVersion +
-                    attribs
-                "
-                target="_blank"
-                class="mt-2 mt-sm-0 link_with_icon"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'rocket']"
-                  class="ml-4 mr-1"
-                />external window
-              </a>
-            </div>
-          </b-card>
-        </div>
-
-        <div v-show="!editmode" class="col-md-4 mt-5 mt-md-0">
-          <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card class="full-height widget-config">
-            <b-card-text>
-              <WCSConfigTool
-                :config="config.configuration"
-                @snippet="updateSnippet"
-              ></WCSConfigTool>
-            </b-card-text>
-
-            <!--<div slot="footer" class="text-right text-uppercase">
-              <font-awesome-icon :icon="['fas', 'check']" /> apply
-            </div>-->
-          </b-card>
-        </div>
-        <div v-show="editmode" class="col-md-4 mt-5 mt-md-0">
-          <div class="text-uppercase font-weight-bold mb-2">configuration</div>
-          <b-card
-            class="full-height widget-config"
-            style="background-color: #fafafa;"
-          >
-            <b-card-text
-              >Configurator disabled. Manual configuration active.</b-card-text
-            >
-
-            <!--<div slot="footer" class="text-right text-uppercase">
-              <font-awesome-icon :icon="['fas', 'check']" /> apply
-            </div>-->
-          </b-card>
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col-12">
-          <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
-          <b-card
-            id="widget-codesnippet"
-            :class="{ white: editmode }"
-            style="min-height: 250px;"
-          >
-            <b-card-text>
-              <textarea
-                id="code-snippet"
-                v-model="snipp"
-                :readonly="!editmode"
-                class="full-width full-height code-snippet"
-                style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
-                rows="10"
-              ></textarea>
-            </b-card-text>
-
-            <div slot="footer" class="text-right text-uppercase">
-              <span
-                v-if="editmode"
-                @click="toggleEditMode()"
-                style="cursor: pointer"
-                class="mr-4"
-              >
-                <font-awesome-icon :icon="['fas', 'times']" />RESET
-              </span>
-              <span
-                v-else
-                @click="toggleEditMode()"
-                style="cursor: pointer"
-                class="mr-4"
-              >
-                <font-awesome-icon :icon="['far', 'edit']" />EDIT
-              </span>
-              <span @click="copySnippetToClipboard()" style="cursor: pointer">
-                <font-awesome-icon :icon="['far', 'copy']" />COPY
-              </span>
-            </div>
-          </b-card>
-        </div>
-      </div>
+    <div v-else>
+      Readme
     </div>
   </div>
 </template>
@@ -173,7 +189,8 @@ export default {
       config: { configuration: { tagName: '' } },
       autoUpdate: true,
       selectedVersion: null,
-      previewBaseURL: ''
+      previewBaseURL: '',
+      showPreview: true
     }
   },
   computed: {
@@ -202,6 +219,9 @@ export default {
     this.loadData()
   },
   methods: {
+    setShowPreview(show) {
+      this.showPreview = show
+    },
     toggleEditMode() {
       this.editmode = !this.editmode
       if (this.editmode) {
