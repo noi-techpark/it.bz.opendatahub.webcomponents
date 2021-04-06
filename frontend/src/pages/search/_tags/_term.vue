@@ -1,5 +1,6 @@
 <template>
   <div>
+    <banner></banner>
     <Searchbar
       :search-term="searchTerm"
       :selected-tags="getSearchTags"
@@ -14,9 +15,11 @@
 <script>
 import Searchbar from '~/components/searchbar.vue'
 import WcFiltered from '~/components/wc-filtered.vue'
+import Banner from '~/components/banner'
 
 export default {
   components: {
+    Banner,
     Searchbar,
     WcFiltered
   },
