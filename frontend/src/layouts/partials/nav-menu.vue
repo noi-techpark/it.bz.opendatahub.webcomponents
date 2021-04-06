@@ -147,4 +147,9 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+h4,
+h5 {
+  font-weight: normal !important;
+}
+</style>

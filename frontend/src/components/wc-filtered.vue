@@ -164,7 +164,6 @@ export default {
       this.loadPage(this.currentPageNumber, this.pageSize)
     },
     nextPage() {
-      console.log('next page')
       if (this.isLast === false) {
         this.loadPage(++this.currentPageNumber, this.pageSize)
       }
@@ -176,7 +175,6 @@ export default {
     },
     update() {
       this.currentPageNumber = 0
-
       this.loadPage(this.currentPageNumber, this.pageSize)
     },
     async loadPage(pageNumber, pageSize) {
