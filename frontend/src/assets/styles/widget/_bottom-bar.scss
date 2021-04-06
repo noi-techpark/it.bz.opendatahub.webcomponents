@@ -1,0 +1,39 @@
+.bottom-bar {
+	bottom: 0;
+	position: fixed;
+	width: 100%;
+	z-index: 2;
+
+	.bottom-bar-button {
+		width: 240px;
+		height: 60px;
+		background-color: #2e3131;
+		color: white;
+		border-right: 1px solid white;
+		font-size: 14px;
+		cursor: pointer;
+	}
+
+	.selected {
+		background-color: #9bc320;
+	}
+
+	.bottom-bar-button:first-child {
+		border-radius: 6px 0px 0px 0px;
+		border-left: 1px solid white;
+	}
+
+	.bottom-bar-button:last-child {
+		border-radius: 0px 6px 0px 0px;
+	}
+
+	@media (max-width: 768px) {
+		.bottom-bar-button-text {
+			display: none;
+		}
+
+		.bottom-bar-button {
+			height: 40px;
+		}
+	}
+}

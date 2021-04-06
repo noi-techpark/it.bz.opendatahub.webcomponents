@@ -31,7 +31,7 @@
         </b-col>
       </b-row>
       <a href="https://noi.bz.it/en/privacy-cookie-policy" class="text-muted"
-        >learn more about or community</a
+        >learn more about our community</a
       >
     </div>
     <div class="get-in-touch">
