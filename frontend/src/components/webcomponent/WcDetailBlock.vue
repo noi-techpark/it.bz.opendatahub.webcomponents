@@ -1,9 +1,13 @@
 <template>
-  <div class="bg-light">
-    <div class="container-fluid extended p-2 pb-0 p-sm-5">
+  <div class="bg-light" style="display: flex; flex-direction: column">
+    <div v-if="!isHeaderExpanded" class="header-gradient"></div>
+    <div
+      :class="{ 'detail-block': !isHeaderExpanded }"
+      class="container-fluid extended p-2 pb-0 p-sm-5"
+    >
       <div class="row">
         <div
-          class="col-md-8 d-flex justify-content-between flex-column flex-md-row w-100"
+          class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100"
         >
           <div style="margin-right: 20px">
             <nuxt-link
@@ -114,6 +118,18 @@
         </div>
       </div>
     </div>
+    <div class="d-flex justify-content-center flex-row">
+      <span
+        v-if="!isHeaderExpanded"
+        @click="toggleHeaderHeight"
+        class="chevron bottom mr-2 expanding-button"
+      ></span>
+      <span
+        v-else
+        @click="toggleHeaderHeight"
+        class="chevron top mr-2 expanding-button"
+      ></span>
+    </div>
     <div class="container-fluid extended pl-sm-5">
       <div
         class="row col-md-8 d-flex justify-content-start flex-column flex-md-row w-100"
@@ -157,6 +173,16 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  data() {
+    return {
+      isHeaderExpanded: false
+    }
+  },
+  methods: {
+    toggleHeaderHeight() {
+      this.isHeaderExpanded = !this.isHeaderExpanded
+    }
   }
 }
 </script>
@@ -196,5 +222,23 @@ export default {
   justify-content: center;
   color: #888888;
   padding: 12px;
+}
+
+.detail-block {
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.header-gradient {
+  height: 70px;
+  width: 100%;
+  margin-top: 130px;
+  position: absolute;
+  background: linear-gradient(0deg, #e8ecf1, transparent);
+  z-index: 1;
+}
+
+.expanding-button {
+  cursor: pointer;
 }
 </style>
