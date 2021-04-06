@@ -33,7 +33,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 detail-border">
+        <div class="col-md-4 detail-border pl-md-5">
           <div class="d-table w-100 mr-2 ml-2 m-sm-0">
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
