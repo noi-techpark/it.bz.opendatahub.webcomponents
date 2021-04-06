@@ -1,6 +1,6 @@
 <template>
   <div class="bg-light">
-    <div class="container-fluid extended p-2 p-sm-5">
+    <div class="container-fluid extended p-2 pb-0 p-sm-5">
       <div class="row">
         <div
           class="col-md-8 d-flex justify-content-between flex-column flex-md-row w-100"
@@ -114,21 +114,26 @@
         </div>
       </div>
     </div>
-    <div class="container-fluid">
-      <div class="d-flex flex-row tab-buttons pl-2 pl-sm-0">
-        <div
-          @click="$emit('set-show-preview', true)"
-          :class="[showPreview ? 'tab-button' : 'tab-button-disabled']"
-          class="text-uppercase"
-        >
-          preview
-        </div>
-        <div
-          @click="$emit('set-show-preview', false)"
-          :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
-          class="text-uppercase"
-        >
-          readme
+    <div class="container-fluid extended pl-sm-5">
+      <div
+        class="row col-md-8 d-flex justify-content-start flex-column flex-md-row w-100"
+      >
+        <div style="width: 90px"></div>
+        <div class="d-flex flex-row tab-buttons">
+          <div
+            @click="$emit('set-show-preview', true)"
+            :class="[showPreview ? 'tab-button' : 'tab-button-disabled']"
+            class="text-uppercase"
+          >
+            preview
+          </div>
+          <div
+            @click="$emit('set-show-preview', false)"
+            :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
+            class="text-uppercase"
+          >
+            readme
+          </div>
         </div>
       </div>
     </div>
