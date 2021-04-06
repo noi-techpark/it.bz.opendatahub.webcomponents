@@ -58,3 +58,22 @@
     transform: rotate(180deg);
   }
 }
+
+@media (max-width: 576px) {
+	.btn-circle {
+		height: 35px;
+		width: 35px;
+
+		&.arrow-right {
+			svg {
+				transform: scale(0.6) rotate(180deg) !important;
+			}
+		}
+
+		&.arrow-left {
+			svg {
+				transform: scale(0.6);
+			}
+		}
+	}
+}

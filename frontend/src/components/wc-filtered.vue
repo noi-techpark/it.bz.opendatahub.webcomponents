@@ -2,8 +2,12 @@
   <div>
     <div v-if="isLoaded" class="bg-light">
       <div class="container container-extended p-4">
-        <div class="d-flex justify-content-between align-items-center pb-2">
-          <h1>{{ currentPage.totalElements }} components</h1>
+        <div
+          class="d-flex justify-content-between align-items-center pb-2 flex-wrap"
+        >
+          <h1 class="components-title">
+            {{ currentPage.totalElements }} components
+          </h1>
           <div>
             <Paginator
               :current-page="currentPage.number"
@@ -160,6 +164,7 @@ export default {
       this.loadPage(this.currentPageNumber, this.pageSize)
     },
     nextPage() {
+      console.log('next page')
       if (this.isLast === false) {
         this.loadPage(++this.currentPageNumber, this.pageSize)
       }
@@ -200,3 +205,10 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+@media (max-width: 768px) {
+  .components-title {
+    width: 100%;
+  }
+}
+</style>
