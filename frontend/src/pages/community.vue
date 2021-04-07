@@ -113,17 +113,12 @@
       <router-link class="text-secondary" to="/">Dashboard</router-link>
     </div>
     <div v-else-if="selectedTab === 'contributors'" class="container">
-      <p>
-        Contributors have developed parts of the Open Data Hub Web Component
-        Store itself.
-      </p>
-      See
-      <a
-        target="_blank"
-        class="text-secondary"
-        href="https://github.com/noi-techpark/odh-web-components-store/graphs/contributors"
-        >Contributors on GitHub</a
-      >
+      <contributor-item></contributor-item>
+      <contributor-item></contributor-item>
+      <contributor-item></contributor-item>
+      <contributor-item></contributor-item>
+      <contributor-item></contributor-item>
+      <contributor-item></contributor-item>
     </div>
     <div v-else-if="selectedTab === 'partners'" class="container">
       <p>
@@ -146,7 +141,9 @@
   </div>
 </template>
 <script>
+import ContributorItem from '@/components/contributor-item'
 export default {
+  components: { ContributorItem },
   data() {
     return {
       selectedTab: 'publishers'

@@ -22,6 +22,7 @@
 @import 'widget/nav-menu';
 @import 'widget/bottom-bar';
 @import 'widget/tab-button';
+@import 'widget/contributor-item';
 
 .detail-border {
   @include media-breakpoint-down(sm) {

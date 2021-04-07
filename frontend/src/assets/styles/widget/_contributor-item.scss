@@ -1,0 +1,19 @@
+.contributor-item {
+
+	border-bottom: 2px solid #CFCFCF;
+
+	.description {
+		color: $primary;
+		font-size: 14px;
+	}
+
+	.value {
+		color: $primary;
+		font-size: 14px;
+		font-weight: bold;
+	}
+}
+
+.contributor-item:first-child {
+	border-top: 2px solid #CFCFCF;
+}
