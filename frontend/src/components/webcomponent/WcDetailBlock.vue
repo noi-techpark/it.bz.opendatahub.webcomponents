@@ -198,30 +198,6 @@ export default {
     width: 15px;
     transform: scale(0.6);
   }
-
-  .tab-buttons {
-    margin-left: 0;
-    padding-left: 0 !important;
-  }
-}
-
-.tab-button {
-  cursor: pointer;
-  min-width: 100px;
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid black;
-  padding: 12px;
-  font-weight: bold;
-}
-
-.tab-button-disabled {
-  cursor: pointer;
-  min-width: 100px;
-  display: flex;
-  justify-content: center;
-  color: #888888;
-  padding: 12px;
 }
 
 .detail-block {
