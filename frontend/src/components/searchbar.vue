@@ -3,7 +3,7 @@
     <div>
       <div class="container container-extended p-4 pb-0">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-md-6">
             <div class="">
               <div
                 id="widget-tags"
@@ -17,7 +17,7 @@
                 style="border-bottom: 2px solid #000;cursor: pointer;"
                 class="full-height d-flex justify-content-between font-large pb-2"
               >
-                <span>Filter by categories</span>
+                <span class="h4">Filter by categories</span>
                 <span class="chevron bottom mr-2"></span>
               </div>
               <b-collapse
@@ -45,7 +45,7 @@
               </b-collapse>
             </div>
           </div>
-          <div class="col-sm-6 mt-4 mt-sm-0">
+          <div class="col-md-6 mt-4 mt-md-0">
             <form @submit.prevent="termSubmitted()">
               <div
                 id="widget-search"
@@ -61,7 +61,7 @@
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"
-                    class="p-0 font-large full-width"
+                    class="p-0 full-width h4"
                   />
                 </div>
 
