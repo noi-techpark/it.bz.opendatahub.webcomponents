@@ -4,7 +4,12 @@
       <div class="d-flex justify-content-between flex-row">
         <div>
           <nuxt-link :to="localePath('index')">
-            <img src="/logo.png" height="50px" style="max-width: 100%" />
+            <img
+              id="logo"
+              src="/logo.png"
+              height="50px"
+              style="max-width: 100%"
+            />
           </nuxt-link>
         </div>
         <div class="d-flex flex-row align-items-center">
