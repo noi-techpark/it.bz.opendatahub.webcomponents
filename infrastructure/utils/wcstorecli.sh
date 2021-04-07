@@ -128,8 +128,7 @@ while true; do
 
 		-u)
 			MF_DIST_PATH=$(jsonGet "./wcs-manifest.json" '.dist.basePath')
-			find "./$MF_DIST_PATH/" -maxdepth 1 -type f -print0 \
-				| xargs -L1 -I{} basename "{}" \
+			find "./$MF_DIST_PATH/" -maxdepth 1 -type f -exec basename "{}" \; \
 				| jq -R -s -c 'split("\n")[:-1]' \
 				| jq '.' > files-list.json
             jq '.dist.files = input' wcs-manifest.json files-list.json > wcs-manifest-tmp.json
