@@ -21,7 +21,7 @@
           <div
             v-scroll-to="'#__nuxt'"
             v-if="showScrollButton"
-            class="btn-circle arrow-up filled"
+            class="btn-circle btn-circle-footer arrow-up filled"
           >
             <img src="/icons/ic_arrow.svg" />
           </div>
