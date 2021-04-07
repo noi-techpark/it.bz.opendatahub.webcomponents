@@ -30,8 +30,8 @@
           ></quote-item>
         </b-col>
       </b-row>
-      <a href="https://noi.bz.it/en/privacy-cookie-policy" class="text-muted"
-        >learn more about our community</a
+      <nuxt-link :to="localePath('community')"
+        >learn more about our community</nuxt-link
       >
     </div>
     <div class="get-in-touch">
