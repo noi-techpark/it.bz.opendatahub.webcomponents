@@ -12,7 +12,9 @@
     <div class="bg-secondary">
       <div id="widget-tagcloud" class="container p-5 text-center text-white">
         <h1>Categories</h1>
-        <div class="font-italic text-capitalize">
+        <div
+          class="font-italic text-capitalize d-flex flex-wrap justify-content-center"
+        >
           <nuxt-link
             v-for="tag in searchTags"
             :key="tag"
