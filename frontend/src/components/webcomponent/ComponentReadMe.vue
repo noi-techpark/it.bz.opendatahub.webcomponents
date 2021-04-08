@@ -19,21 +19,17 @@
       </div>
       <div class="col-md-4 detail-border pl-md-5">
         <h3>#Author</h3>
-        <div class="d-flex flex-row align-items-center bottom-border">
+        <div
+          v-for="author in component.authors"
+          class="d-flex flex-row align-items-center bottom-border"
+        >
           <div class="circle-icon"></div>
           <div class="pl-5">
-            <div class="font-weight-bold">Vorname Nachname</div>
-            <div class="font-weight-bold">Company Name</div>
+            <div class="font-weight-bold">{{ author.name }}</div>
+            <div class="font-weight-bold">{{ author.organization }}</div>
           </div>
         </div>
-        <div class="d-flex flex-row align-items-center bottom-border">
-          <div class="circle-icon"></div>
-          <div class="pl-5">
-            <div class="font-weight-bold">Vorname Nachname</div>
-            <div class="font-weight-bold">Company Name</div>
-          </div>
-        </div>
-        <h3>#Licenceagreeements</h3>
+        <h3 class="pt-4">#Licenceagreeements</h3>
         <div>
           Permissions of this strongest copyleft license are conditioned on
           making available complete source code of licensed works and
@@ -50,7 +46,18 @@
 
 <script>
 export default {
-  name: 'ComponentReadMe'
+  name: 'ComponentReadMe',
+  props: {
+    component: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    }
+  },
+  mounted() {
+    console.log(this.component)
+  }
 }
 </script>
 

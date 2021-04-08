@@ -105,10 +105,6 @@
       </div>
     </div>
     <div v-if="selectedTab === 'publishers'" class="container">
-      <p>
-        Publishers have developed Web Components, that are published on the
-        Store.
-      </p>
       See Author tags inside
       <router-link class="text-secondary" to="/">Dashboard</router-link>
     </div>
@@ -121,10 +117,6 @@
       <contributor-item></contributor-item>
     </div>
     <div v-else-if="selectedTab === 'partners'" class="container">
-      <p>
-        Partners worked together to establish the Open Data Hub Web Component
-        Store.
-      </p>
       <div class="logo_container">
         <a class="img_container" href="https://noi.bz.it" target="_blank">
           <img src="/NOI-logo.png" />

@@ -213,7 +213,7 @@
       </div>
     </div>
     <div v-else>
-      <component-read-me></component-read-me>
+      <component-read-me :component="component"></component-read-me>
     </div>
   </div>
 </template>
