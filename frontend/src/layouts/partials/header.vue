@@ -6,7 +6,7 @@
           <nuxt-link :to="localePath('index')">
             <img
               id="logo"
-              src="/logo.png"
+              src="/logo.svg"
               height="50px"
               style="max-width: 100%"
             />
