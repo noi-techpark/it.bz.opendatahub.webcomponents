@@ -52,6 +52,7 @@ module.exports = {
     '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/stylelint-module',
     // Doc: https://github.com/nuxt-community/analytics-module
     [
       '@nuxtjs/google-analytics',
@@ -118,4 +119,4 @@ module.exports = {
      */
     extend(config, ctx) {}
   }
-}
+};
