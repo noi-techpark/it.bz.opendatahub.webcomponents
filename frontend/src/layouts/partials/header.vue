@@ -6,7 +6,7 @@
           <nuxt-link :to="localePath('index')">
             <img
               id="logo"
-              src="/logo.png"
+              src="/logo.svg"
               height="50px"
               style="max-width: 100%"
             />
@@ -19,35 +19,58 @@
               <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
               <b-nav-item-dropdown
                 id="my-nav-dropdown"
+                ref="dropdown1"
                 text="contribute"
                 toggle-class="nav-link-custom nav-dropdown"
                 right
               >
-                <b-nav-item>... as web component developer</b-nav-item>
+                <b-nav-item
+                  :to="localePath('/contribute/developer')"
+                  @click="$refs.dropdown1.hide()"
+                  >... as web component developer</b-nav-item
+                >
                 <hr />
-                <b-nav-item>... as data provider</b-nav-item>
+                <b-nav-item
+                  :to="localePath('/contribute/data-provider')"
+                  @click="$refs.dropdown1.hide()"
+                  >... as data provider</b-nav-item
+                >
               </b-nav-item-dropdown>
               <b-nav-item-dropdown
                 id="my-nav-dropdown"
+                ref="dropdown2"
                 text="make use"
                 toggle-class="nav-link-custom"
                 right
               >
-                <b-nav-item>... technically</b-nav-item>
+                <b-nav-item
+                  :to="localePath('/make-use/technically')"
+                  @click="$refs.dropdown2.hide()"
+                  >... technically</b-nav-item
+                >
                 <hr />
-                <b-nav-item>... legally</b-nav-item>
+                <b-nav-item
+                  :to="localePath('/make-use/legally')"
+                  @click="$refs.dropdown2.hide()"
+                  >... legally</b-nav-item
+                >
               </b-nav-item-dropdown>
               <b-nav-item-dropdown
                 id="my-nav-dropdown"
+                ref="dropdown3"
                 text="contact"
                 toggle-class="nav-link-custom"
                 right
               >
-                <b-nav-item :to="localePath('contact')"
+                <b-nav-item
+                  :to="localePath('/contact/idea')"
+                  @click="$refs.dropdown3.hide()"
                   >... a new web component (idea)</b-nav-item
                 >
                 <hr />
-                <b-nav-item :to="localePath('contact')"
+                <b-nav-item
+                  :to="localePath('/contact/data-correction')"
+                  @click="$refs.dropdown3.hide()"
                   >... a correction of data</b-nav-item
                 >
               </b-nav-item-dropdown>

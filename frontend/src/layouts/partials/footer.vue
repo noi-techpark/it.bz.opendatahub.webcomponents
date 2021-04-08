@@ -36,14 +36,35 @@
     </div>
     <div class="get-in-touch">
       <div class="p-5 text-center font-larger">
-        <h1 class="text-uppercase footer-text">get in touch</h1>
+        <h1 class="pt-5 text-uppercase footer-text">get in touch</h1>
         <hr style="width: 50px; background-color: white" />
-        <h1 class="footer-text">
+        <h1 class="footer-text pb-5">
           If you would like to become a member of the Open Data Hub Community as
           a Data Provider, Data Consumer, Web Component User or as a
           Contributer, you can meet us at our events, or get in touch with us
           through e-mail or contact form.
         </h1>
+      </div>
+    </div>
+    <div class="bg-light" hidden>
+      <div id="widget-tagcloud" class="container p-5 text-center">
+        <h1>Categories</h1>
+        <div
+          class="font-italic text-capitalize d-flex flex-wrap justify-content-center"
+        >
+          <nuxt-link
+            v-for="tag in searchTags"
+            :key="tag"
+            :to="
+              localePath({
+                name: 'search-tags',
+                params: { tags: tag }
+              })
+            "
+            class="category"
+            >{{ tag }}</nuxt-link
+          >
+        </div>
       </div>
     </div>
     <footer-info show-scroll-button="true"></footer-info>
@@ -77,7 +98,13 @@
 <script>
 import QuoteItem from '~/components/quote-item'
 import FooterInfo from '~/layouts/partials/footer-info'
+import { searchtagsStore } from '~/utils/store-accessor'
 export default {
-  components: { FooterInfo, QuoteItem }
+  components: { FooterInfo, QuoteItem },
+  computed: {
+    searchTags() {
+      return searchtagsStore.getSearchtags
+    }
+  }
 }
 </script>

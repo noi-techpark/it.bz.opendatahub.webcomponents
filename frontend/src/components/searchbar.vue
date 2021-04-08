@@ -3,7 +3,7 @@
     <div>
       <div class="container container-extended p-4 pb-0">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-6">
             <div class="">
               <div
                 id="widget-tags"
@@ -14,10 +14,10 @@
                     userSelectedTags[0] !== 'any'
                 }"
                 @click="searchTagsVisible = !searchTagsVisible"
-                style="border-bottom: 2px solid #000;cursor: pointer;"
-                class="full-height d-flex justify-content-between font-large pb-2"
+                style="cursor: pointer;"
+                class="full-height d-flex justify-content-between font-large pb-2 align-items-center"
               >
-                <span class="h4">Filter by categories</span>
+                <span class="filter-text">Filter by categories</span>
                 <span class="chevron bottom mr-2"></span>
               </div>
               <b-collapse
@@ -44,12 +44,11 @@
               </b-collapse>
             </div>
           </div>
-          <div class="col-md-6 mt-4 mt-md-0">
+          <div class="col-6 mt-0">
             <form @submit.prevent="termSubmitted()">
               <div
                 id="widget-search"
                 :class="{ active: searchTerm && searchTerm !== '' }"
-                style="border-bottom: 2px solid #000;"
                 class="full-height d-flex justify-content-between font-large pb-2"
               >
                 <div class="full-width pr-2 search-input">
@@ -58,9 +57,9 @@
                     :onkeyup="termUpdated()"
                     v-model="internalSearchTerm"
                     type="text"
-                    placeholder="Search all web components"
+                    placeholder="Search elements"
                     style="outline: none;"
-                    class="p-0 full-width h4"
+                    class="p-0 full-width search-text"
                   />
                 </div>
 

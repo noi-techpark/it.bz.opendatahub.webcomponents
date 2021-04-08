@@ -8,27 +8,6 @@
     ></Searchbar>
 
     <WcLatest></WcLatest>
-
-    <div class="bg-secondary">
-      <div id="widget-tagcloud" class="container p-5 text-center text-white">
-        <h1>Categories</h1>
-        <div
-          class="font-italic text-capitalize d-flex flex-wrap justify-content-center"
-        >
-          <nuxt-link
-            v-for="tag in searchTags"
-            :key="tag"
-            :to="
-              localePath({
-                name: 'search-tags',
-                params: { tags: tag }
-              })
-            "
-            >{{ tag }}</nuxt-link
-          >
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -36,18 +15,12 @@
 import Searchbar from '~/components/searchbar.vue'
 import WcLatest from '~/components/wc-latest.vue'
 import Banner from '~/components/banner'
-import { searchtagsStore } from '~/utils/store-accessor'
 
 export default {
   components: {
     Banner,
     Searchbar,
     WcLatest
-  },
-  computed: {
-    searchTags() {
-      return searchtagsStore.getSearchtags
-    }
   },
   methods: {
     redirectSearchTerm(ev) {

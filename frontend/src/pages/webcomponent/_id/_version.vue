@@ -7,8 +7,10 @@
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
     <div v-if="showPreview">
-      <div class="container container-extended pt-4 pl-4 pr-4">
-        <div class="text-right h3">
+      <div
+        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-sm-2"
+      >
+        <div class="d-flex justify-content-end h3 row detail-content-right">
           Version
           <b-form-select v-model="selectedVersion" style="max-width:150px;">
             <option
@@ -27,9 +29,11 @@
           webcomponent.</b-alert
         >
       </div>
-      <div class="container container-extended pb-4 pl-4 pr-4">
+      <div
+        class="container-fluid container-extended pb-4 p-2 pr-sm-5 pl-sm-5 pt-sm-2"
+      >
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-8 detail-content-left">
             <div class="text-uppercase font-weight-bold mb-2">preview</div>
             <b-card id="widget-preview" class="full-height">
               <b-card-text id="twrap" class="text-center">
@@ -83,7 +87,10 @@
             </b-card>
           </div>
 
-          <div v-show="!editmode" class="col-md-4 mt-5 mt-md-0">
+          <div
+            v-show="!editmode"
+            class="col-md-4 mt-5 mt-md-0 detail-content-right"
+          >
             <div class="text-uppercase font-weight-bold mb-2">
               configuration
             </div>
@@ -170,7 +177,7 @@
             @click="selectedView = ''"
             class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
           >
-            <img :src="require('@/assets/img/ic_min_preview.svg')" />
+            <img :src="require('static/icons/ic_min_preview.svg')" />
             <div class="bottom-bar-button-text p-1">minimize preview</div>
           </div>
           <div
@@ -178,7 +185,7 @@
             @click="selectedView = 'preview'"
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
           >
-            <img :src="require('@/assets/img/ic_max_preview.svg')" />
+            <img :src="require('static/icons/ic_max_preview.svg')" />
             <div class="bottom-bar-button-text p-1">fullscreen preview</div>
           </div>
           <div
@@ -186,7 +193,7 @@
             @click="selectedView = ''"
             class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
           >
-            <img :src="require('@/assets/img/ic_min_editing.svg')" />
+            <img :src="require('static/icons/ic_min_editing.svg')" />
             <div class="bottom-bar-button-text p-1">minimize editing</div>
           </div>
           <div
@@ -194,19 +201,19 @@
             @click="selectedView = 'editing'"
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
           >
-            <img :src="require('@/assets/img/ic_max_editing.svg')" />
+            <img :src="require('static/icons/ic_max_editing.svg')" />
             <div class="bottom-bar-button-text p-1">fullscreen editing</div>
           </div>
           <div
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
           >
-            <img :src="require('@/assets/img/ic_copy.svg')" />
+            <img :src="require('static/icons/ic_copy.svg')" />
             <div class="bottom-bar-button-text p-1">copy code</div>
           </div>
           <div
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
           >
-            <img :src="require('@/assets/img/ic_update.svg')" />
+            <img :src="require('static/icons/ic_update.svg')" />
             <div class="bottom-bar-button-text p-1">update preview</div>
           </div>
         </div>
@@ -433,8 +440,10 @@ export default {
       const scripts = []
 
       // Wait until the async loadData method has finished
+      // eslint-disable-next-line no-prototype-builtins
       if (this.config.hasOwnProperty('dist')) {
         if (
+          // eslint-disable-next-line no-prototype-builtins
           this.config.dist.hasOwnProperty('scripts') &&
           this.config.dist.scripts.length > 0
         ) {
