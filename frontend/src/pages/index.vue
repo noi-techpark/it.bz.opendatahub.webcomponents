@@ -36,6 +36,7 @@
 import Searchbar from '~/components/searchbar.vue'
 import WcLatest from '~/components/wc-latest.vue'
 import Banner from '~/components/banner'
+import { searchtagsStore } from '~/utils/store-accessor'
 
 export default {
   components: {
@@ -43,18 +44,12 @@ export default {
     Searchbar,
     WcLatest
   },
-  data() {
-    return {
-      searchTags: []
+  computed: {
+    searchTags() {
+      return searchtagsStore.getSearchtags
     }
   },
-  mounted() {
-    this.loadSearchTags()
-  },
   methods: {
-    async loadSearchTags() {
-      this.searchTags = await this.$api.searchtag.listAll()
-    },
     redirectSearchTerm(ev) {
       let tags = ev.tags.join('|')
       if (ev.tags.length === 0) {

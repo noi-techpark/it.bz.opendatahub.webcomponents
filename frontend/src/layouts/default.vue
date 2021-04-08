@@ -8,14 +8,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+
 import Header from './partials/header'
 import Footer from './partials/footer'
+import { searchtagsStore } from '~/store'
 
-export default {
+export default Vue.extend({
   components: {
     Header,
     Footer
+  },
+  created() {
+    searchtagsStore.loadSearchtags()
   }
-}
+})
 </script>

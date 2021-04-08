@@ -29,7 +29,6 @@
                   <b-form-checkbox-group
                     id="checkbox-group-2"
                     @input="tagsUpdated"
-                    v-if="isLoaded"
                     v-model="userSelectedTags"
                     name="flavour-2"
                     class="text-capitalize d-flex flex-column"
@@ -57,7 +56,7 @@
                   <input
                     ref="searchTermInput"
                     :onkeyup="termUpdated()"
-                    v-model="searchTerm"
+                    v-model="internalSearchTerm"
                     type="text"
                     placeholder="Search all web components"
                     style="outline: none;"
@@ -110,6 +109,8 @@
 </template>
 
 <script>
+import { searchtagsStore } from '~/utils/store-accessor'
+
 export default {
   props: {
     selectedTags: {
@@ -122,52 +123,48 @@ export default {
   },
   data() {
     return {
+      internalSearchTerm: this.searchTerm,
       oldSearchTerm: this.searchTerm,
-      availableSearchTags: [],
       userSelectedTags: this.selectedTags,
-      isLoaded: false,
       searchTagsVisible: false
     }
   },
+  computed: {
+    availableSearchTags() {
+      return searchtagsStore.getSearchtags
+    }
+  },
   mounted() {
-    this.loadSearchTags()
-
     this.focusInput()
   },
   methods: {
     focusInput() {
       this.$refs.searchTermInput.focus()
     },
-    async loadSearchTags() {
-      this.availableSearchTags = await this.$api.searchtag.listAll()
-      this.isLoaded = true
-    },
     tagsUpdated() {
       this.$emit('tags-updated', {
         tags: this.userSelectedTags,
-        term: this.searchTerm
+        term: this.internalSearchTerm
       })
     },
     termUpdated() {
       if (this.isNewSearchTerm()) {
-        this.oldSearchTerm = this.searchTerm
+        this.oldSearchTerm = this.internalSearchTerm
         this.$emit('term-updated', {
           tags: this.userSelectedTags,
-          term: this.searchTerm
+          term: this.internalSearchTerm
         })
       }
     },
     termSubmitted() {
-      // if (this.isNewSearchTerm()) {
-      this.oldSearchTerm = this.searchTerm
+      this.oldSearchTerm = this.internalSearchTerm
       this.$emit('term-submitted', {
         tags: this.userSelectedTags,
-        term: this.searchTerm
+        term: this.internalSearchTerm
       })
-      // }
     },
     isNewSearchTerm() {
-      return this.searchTerm !== this.oldSearchTerm
+      return this.internalSearchTerm !== this.oldSearchTerm
     }
   }
 }

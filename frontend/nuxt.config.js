@@ -41,7 +41,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/api.js',
+    '~/plugins/api-accessor-plugin.ts',
     '~/plugins/fontawesome.js',
     '~/plugins/tooltip.js'
   ],
@@ -49,6 +49,7 @@ module.exports = {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/analytics-module
@@ -89,7 +90,8 @@ module.exports = {
       useCookie: true,
       cookieKey: 'i18n_redirected'
     },
-    strategy: 'prefix_except_default'
+    strategy: 'prefix_except_default',
+    vuex: false
   },
 
   /*
