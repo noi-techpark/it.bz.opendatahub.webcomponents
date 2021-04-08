@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.6.RELEASE</version>
+		<version>2.3.9.RELEASE</version>
 	</parent>
 
 	<modules>
@@ -26,6 +26,12 @@
 
 		<!-- SWAGGER -->
 		<swagger.version>2.9.2</swagger.version>
+
+		<!-- JUNIT -->
+		<junit.version>5.7.0</junit.version>
+		<junit-plugin.version>2.22.0</junit-plugin.version>
+
+		<mockito.version>3.5.13</mockito.version>
 	</properties>
 
 	<dependencies>
@@ -33,6 +39,16 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 		<dependency>
@@ -45,7 +61,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.6</version>
+			<version>2.8.0</version>
 		</dependency>
 	</dependencies>
 
