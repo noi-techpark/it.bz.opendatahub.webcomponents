@@ -270,3 +270,10 @@ a:hover {
 	align-items: center;
 	display: flex;
 }
+
+
+@media (max-width: 576px) {
+	.card-footer {
+		display: none;
+	}
+}
