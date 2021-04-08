@@ -11,5 +11,22 @@
 		a {
 			color: white !important;
 		}
+
+		li {
+			background-color: #9BC320 !important;
+		}
+
+		.submenu-item:hover {
+			background-color: green !important;
+			color: green !important;
+		}
+	}
+
+	.dropdown-menu:hover {
+		background-color: #9BC320 !important;
+	}
+
+	::v-deep .dropdown-item:hover {
+		background-color: #9bc320 !important;
 	}
 }

@@ -42,10 +42,18 @@
             class="pb-3 mobile-only"
           >
             <div class="pl-4 side-menu-item menu-sub-link">
-              ...as web component developer
+              <nuxt-link
+                :to="localePath('/contribute/developer')"
+                @click.native="toggleMenu"
+                >...as web component developer</nuxt-link
+              >
             </div>
             <div class="pl-4 side-menu-item menu-sub-link">
-              ...as data provider
+              <nuxt-link
+                :to="localePath('/contribute/data-provider')"
+                @click.native="toggleMenu"
+                >...as data provider</nuxt-link
+              >
             </div>
           </b-collapse>
           <div
@@ -67,8 +75,20 @@
             v-model="makeUseActive"
             class="pb-3 mobile-only"
           >
-            <div class="pl-4 side-menu-item menu-sub-link">...technically</div>
-            <div class="pl-4 side-menu-item menu-sub-link">...legally</div>
+            <div class="pl-4 side-menu-item menu-sub-link">
+              <nuxt-link
+                :to="localePath('/make-use/technically')"
+                @click.native="toggleMenu"
+                >...technically</nuxt-link
+              >
+            </div>
+            <div class="pl-4 side-menu-item menu-sub-link">
+              <nuxt-link
+                :to="localePath('/make-use/technically')"
+                @click.native="toggleMenu"
+                >...legally</nuxt-link
+              >
+            </div>
           </b-collapse>
           <div
             @click="contactActive = !contactActive"
@@ -90,10 +110,18 @@
             class="pb-3 mobile-only"
           >
             <div class="pl-4 side-menu-item menu-sub-link">
-              ...a new web component (idea)
+              <nuxt-link
+                :to="localePath('/contact/idea')"
+                @click.native="toggleMenu"
+                >...a new web component (idea)</nuxt-link
+              >
             </div>
             <div class="pl-4 side-menu-item menu-sub-link">
-              ...a correction of data
+              <nuxt-link
+                :to="localePath('/contact/data-correction')"
+                @click.native="toggleMenu"
+                >...a correction of data</nuxt-link
+              >
             </div>
           </b-collapse>
           <div class="side-menu-item side-menu-item-closed menu-link">
@@ -112,7 +140,9 @@
             >
           </div>
           <div class="side-menu-item-closed menu-link">
-            FAQ
+            <nuxt-link :to="localePath('faq')" @click.native="toggleMenu"
+              >FAQ</nuxt-link
+            >
           </div>
         </div>
         <div style="min-height: 200px !important; background-color: #888888">
