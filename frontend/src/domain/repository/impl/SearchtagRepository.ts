@@ -1,13 +1,13 @@
-import ARepository from '~/domain/repository/ARepository'
+import ARepository from '~/domain/repository/ARepository';
 
-const basePath = 'searchtag'
+const basePath = 'searchtag';
 
 export default class SearchtagRepository extends ARepository {
   constructor(ctx: any, defaultErrorCallback: any) {
-    super(ctx, defaultErrorCallback, basePath)
+    super(ctx, defaultErrorCallback, basePath);
   }
 
   listAll(errorHandler?: any): Promise<Array<string>> {
-    return this.$get(``, errorHandler)
+    return this.$get(``, errorHandler);
   }
 }

@@ -47,7 +47,7 @@
             <div
               v-if="
                 component.copyrightHolders &&
-                  component.copyrightHolders.length > 0
+                component.copyrightHolders.length > 0
               "
               class="d-table-row"
             >
@@ -90,9 +90,7 @@
               </div>
             </div>
             <div class="d-table-row">
-              <div class="d-table-cell pr-2">
-                First Published:
-              </div>
+              <div class="d-table-cell pr-2">First Published:</div>
               <div class="d-table-cell">
                 {{ $d(new Date(component.datePublished)) }}
               </div>
@@ -122,13 +120,13 @@
     <div class="d-flex justify-content-center flex-row">
       <span
         v-if="!isHeaderExpanded"
-        @click="toggleHeaderHeight"
         class="chevron bottom mr-2 expanding-button"
+        @click="toggleHeaderHeight"
       ></span>
       <span
         v-else
-        @click="toggleHeaderHeight"
         class="chevron top mr-2 expanding-button"
+        @click="toggleHeaderHeight"
       ></span>
     </div>
     <div class="container-fluid extended pl-sm-5">
@@ -138,16 +136,16 @@
         <div style="width: 90px"></div>
         <div class="d-flex flex-row tab-buttons">
           <div
-            @click="$emit('set-show-preview', true)"
             :class="[showPreview ? 'tab-button' : 'tab-button-disabled']"
             class="text-uppercase"
+            @click="$emit('set-show-preview', true)"
           >
             preview
           </div>
           <div
-            @click="$emit('set-show-preview', false)"
             :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
             class="text-uppercase"
+            @click="$emit('set-show-preview', false)"
           >
             readme
           </div>
@@ -163,29 +161,29 @@ export default {
     component: {
       type: Object,
       default: () => {
-        return {}
-      }
+        return {};
+      },
     },
     returnLink: {
       type: String,
-      default: ''
+      default: '',
     },
     showPreview: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      isHeaderExpanded: false
-    }
+      isHeaderExpanded: false,
+    };
   },
   methods: {
     toggleHeaderHeight() {
-      this.isHeaderExpanded = !this.isHeaderExpanded
-    }
-  }
-}
+      this.isHeaderExpanded = !this.isHeaderExpanded;
+    },
+  },
+};
 </script>
 <style lang="scss">
 @media (max-width: 576px) {

@@ -1,10 +1,10 @@
-import { API } from '../plugins/api'
+import { API } from '../plugins/api';
 
 // eslint-disable-next-line import/no-mutable-exports
-let $api: API
+let $api: API;
 
 export function initializeApi(apiInstance: API) {
-  $api = apiInstance
+  $api = apiInstance;
 }
 
-export { $api }
+export { $api };

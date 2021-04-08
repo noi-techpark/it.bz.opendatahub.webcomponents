@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="returnPath" style="color:inherit;text-decoration: inherit;">
+  <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">
     <b-card no-body class="full-height">
       <div class="aspect-box">
         <div
@@ -69,12 +69,12 @@ export default {
   props: {
     entry: {
       default: null,
-      type: Object
+      type: Object,
     },
     returnTo: {
       default: null,
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     getLogo() {
@@ -84,27 +84,27 @@ export default {
           '/webcomponent/' +
           this.entry.uuid +
           '/logo'
-        )
+        );
       }
 
-      return '/component_placeholder.png'
+      return '/component_placeholder.png';
     },
     returnPath() {
       if (this.returnTo === null) {
         return this.localePath({
           name: 'webcomponent-id',
-          params: { id: this.entry.uuid }
-        })
+          params: { id: this.entry.uuid },
+        });
       }
 
       return this.localePath({
         name: 'webcomponent-id',
         params: { id: this.entry.uuid },
-        query: { from: this.returnTo }
-      })
-    }
-  }
-}
+        query: { from: this.returnTo },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -120,7 +120,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-
   background-size: cover;
 
   /* img {

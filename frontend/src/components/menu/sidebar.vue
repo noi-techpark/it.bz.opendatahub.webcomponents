@@ -1,9 +1,9 @@
 <template>
   <div class="sidebar row">
     <div
-      @click="toggleActive"
       v-if="isPanelOpen"
       class="sidebar-backdrop"
+      @click="toggleActive"
     ></div>
     <transition name="slide">
       <b-col v-if="isPanelOpen" class="sidebar-panel" cols="12" md="7">
@@ -16,15 +16,15 @@
 export default {
   props: {
     isPanelOpen: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   methods: {
     toggleActive() {
-      this.$emit('toggle-menu')
-    }
-  }
-}
+      this.$emit('toggle-menu');
+    },
+  },
+};
 </script>
 <style>
 .slide-enter-active,

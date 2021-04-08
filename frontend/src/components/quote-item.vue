@@ -15,9 +15,9 @@ export default {
   name: 'QuoteItem',
   props: {
     title: { default: '', type: String },
-    quote: { default: '', type: String }
-  }
-}
+    quote: { default: '', type: String },
+  },
+};
 </script>
 
 <style scoped lang="scss">

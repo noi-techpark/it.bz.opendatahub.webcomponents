@@ -1,22 +1,22 @@
-$black:           #000 !default;
-$gray-88:         #888888 !default;
-$gray-94:         #949494 !default;
-$white:           #fff !default;
+$black: #000 !default;
+$gray-88: #888 !default;
+$gray-94: #949494 !default;
+$white: #fff !default;
 
-$primary:         #2E3131 !default;
-$secondary:       #9BC320 !default;
+$primary: #2e3131 !default;
+$secondary: #9bc320 !default;
 //$success:       #33CC99 !default;
 //$info:          $cyan !default;
 //$warning:       $yellow !default;
 //$danger:        $red !default;
-$light:           #E8ECF1 !default;
-$dark:            $gray-88 !default;
+$light: #e8ecf1 !default;
+$dark: $gray-88 !default;
 
-$body-bg:         $white;
-$body-color:      $primary;
-$link-color:      $gray-88;
+$body-bg: $white;
+$body-color: $primary;
+$link-color: $gray-88;
 
-$font-family-base: "Source Sans Pro", Arial, sans-serif;
+$font-family-base: 'Source Sans Pro', arial, sans-serif;
 $font-size-base: 0.9rem;
 
 $enable-shadows: true;

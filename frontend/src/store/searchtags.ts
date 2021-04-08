@@ -1,33 +1,33 @@
-import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators'
-import { $api } from '~/utils/api-accessor'
+import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { $api } from '~/utils/api-accessor';
 
 @Module({
   name: 'searchtags',
   stateFactory: true,
-  namespaced: true
+  namespaced: true,
 })
 export default class SearchtagsModule extends VuexModule {
-  searchtags: Array<string> = []
+  searchtags: Array<string> = [];
 
   get getSearchtags(): Array<string> {
-    return this.searchtags
+    return this.searchtags;
   }
 
   @Mutation
   setSearchtags(searchtags: Array<string>) {
-    this.searchtags = searchtags
+    this.searchtags = searchtags;
   }
 
   @Action
   async loadSearchtags() {
-    console.log('yo')
+    console.log('yo');
     /* await new Promise(() => {
       return true
     }) */
-    console.log('?', $api)
-    const result = await $api.searchtag.listAll()
+    console.log('?', $api);
+    const result = await $api.searchtag.listAll();
 
-    this.setSearchtags(result)
+    this.setSearchtags(result);
     // const users = await $axios.$get('/users')
     // this.setUsers(users)
   }

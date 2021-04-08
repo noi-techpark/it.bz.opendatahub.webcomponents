@@ -1,13 +1,13 @@
 @import 'bootstrap/bootstrap';
 
 @include media-breakpoint-down(xl) {
-  .container-extended {
-    max-width: 1728px;
-  }
+	.container-extended {
+		max-width: 1728px;
+	}
 }
 
 .text-muted {
-  color: $gray-94 !important;
+	color: $gray-94 !important;
 }
 
 @import 'common/button';
@@ -25,16 +25,16 @@
 @import 'widget/contributor-item';
 
 .detail-border {
-  @include media-breakpoint-down(sm) {
-    border-top: 1px solid #d9d9d9;
-    padding-bottom: 0 !important;
-    padding-top: 1rem;
-    margin-top: 1rem;
-  }
+	@include media-breakpoint-down(sm) {
+		border-top: 1px solid #d9d9d9;
+		padding-bottom: 0 !important;
+		padding-top: 1rem;
+		margin-top: 1rem;
+	}
 
-  @include media-breakpoint-up(md) {
-    border-left: 1px solid #d9d9d9;
-  }
+	@include media-breakpoint-up(md) {
+		border-left: 1px solid #d9d9d9;
+	}
 }
 
 .bottom-border {
@@ -44,44 +44,44 @@
 }
 
 .beta_badge {
-  display: block;
-  color: #fff;
-  background-color: $secondary;
-  border-radius: 4px;
-  border: 2px solid $secondary;
-  padding: 14px 6px;
-  font-weight: bold;
-  float: right;
-  &:hover {
-    text-decoration: none;
-    color: #fff;
-    cursor: pointer;
-  }
+	display: block;
+	color: #fff;
+	background-color: $secondary;
+	border-radius: 4px;
+	border: 2px solid $secondary;
+	padding: 14px 6px;
+	font-weight: bold;
+	float: right;
+	&:hover {
+		text-decoration: none;
+		color: #fff;
+		cursor: pointer;
+	}
 }
 
 .button {
-  display: inline-block;
-  margin: 0 10px 10px 0;
-  padding: 12px 25px;
-  font-size: 1.3rem;
-  max-width: none;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
-  border-radius: 4px;
-  font-weight: bold;
-  line-height: 1;
-  text-align: center;
-  cursor: pointer;
-  min-width: 170px;
-  background: $secondary;
-  border: 2px solid $secondary;
-  &:hover {
-    color: $secondary;
-    background: none;
-    border: 2px solid $secondary;
-    text-decoration: none;
-  }
+	display: inline-block;
+	margin: 0 10px 10px 0;
+	padding: 12px 25px;
+	font-size: 1.3rem;
+	max-width: none;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #fff;
+	border-radius: 4px;
+	font-weight: bold;
+	line-height: 1;
+	text-align: center;
+	cursor: pointer;
+	min-width: 170px;
+	background: $secondary;
+	border: 2px solid $secondary;
+	&:hover {
+		color: $secondary;
+		background: none;
+		border: 2px solid $secondary;
+		text-decoration: none;
+	}
 }
 
 .link_with_icon {
@@ -95,147 +95,147 @@
 }
 
 .img_container {
-  padding: 10px;
-  width: 33.33%;
+	padding: 10px;
+	width: 33.33%;
 }
 
 .logo_container {
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  display: inline-block;
+	background: #fff;
+	padding: 15px;
+	border-radius: 8px;
+	display: inline-block;
 }
 
 .code-snippet {
-  &:disabled {
-    color: $black !important;
-    background-color: #fafafa !important;
-  }
+	&:disabled {
+		color: $black !important;
+		background-color: #fafafa !important;
+	}
 }
 
 .entity {
-  tr td:first-child {
-    text-align: right;
-    padding-right: 30px;
-    text-transform: capitalize;
-  }
-  tr td:nth-child(2) {
-    font-weight: 600;
-  }
+	tr td:first-child {
+		text-align: right;
+		padding-right: 30px;
+		text-transform: capitalize;
+	}
+	tr td:nth-child(2) {
+		font-weight: 600;
+	}
 }
 
 .container h2 {
-  margin-top: 40px;
+	margin-top: 40px;
 }
 
 .tooltip {
-  display: block !important;
-  z-index: 10000;
+	display: block !important;
+	z-index: 10000;
 
-  .tooltip-inner {
-    background: black;
-    color: white;
-    border-radius: 16px;
-    padding: 5px 10px 4px;
-  }
+	.tooltip-inner {
+		background: black;
+		color: white;
+		border-radius: 16px;
+		padding: 5px 10px 4px;
+	}
 
-  .tooltip-arrow {
-    width: 0;
-    height: 0;
-    border-style: solid;
-    position: absolute;
-    margin: 5px;
-    border-color: black;
-    z-index: 1;
-  }
+	.tooltip-arrow {
+		width: 0;
+		height: 0;
+		border-style: solid;
+		position: absolute;
+		margin: 5px;
+		border-color: black;
+		z-index: 1;
+	}
 
-  &[x-placement^="top"] {
-    margin-bottom: 5px;
+	&[x-placement^='top'] {
+		margin-bottom: 5px;
 
-    .tooltip-arrow {
-      border-width: 5px 5px 0 5px;
-      border-left-color: transparent !important;
-      border-right-color: transparent !important;
-      border-bottom-color: transparent !important;
-      bottom: -5px;
-      left: calc(50% - 5px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
+		.tooltip-arrow {
+			border-width: 5px 5px 0 5px;
+			border-left-color: transparent !important;
+			border-right-color: transparent !important;
+			border-bottom-color: transparent !important;
+			bottom: -5px;
+			left: calc(50% - 5px);
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
 
-  &[x-placement^="bottom"] {
-    margin-top: 5px;
+	&[x-placement^='bottom'] {
+		margin-top: 5px;
 
-    .tooltip-arrow {
-      border-width: 0 5px 5px 5px;
-      border-left-color: transparent !important;
-      border-right-color: transparent !important;
-      border-top-color: transparent !important;
-      top: -5px;
-      left: calc(50% - 5px);
-      margin-top: 0;
-      margin-bottom: 0;
-    }
-  }
+		.tooltip-arrow {
+			border-width: 0 5px 5px 5px;
+			border-left-color: transparent !important;
+			border-right-color: transparent !important;
+			border-top-color: transparent !important;
+			top: -5px;
+			left: calc(50% - 5px);
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
 
-  &[x-placement^="right"] {
-    margin-left: 5px;
+	&[x-placement^='right'] {
+		margin-left: 5px;
 
-    .tooltip-arrow {
-      border-width: 5px 5px 5px 0;
-      border-left-color: transparent !important;
-      border-top-color: transparent !important;
-      border-bottom-color: transparent !important;
-      left: -5px;
-      top: calc(50% - 5px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
+		.tooltip-arrow {
+			border-width: 5px 5px 5px 0;
+			border-left-color: transparent !important;
+			border-top-color: transparent !important;
+			border-bottom-color: transparent !important;
+			left: -5px;
+			top: calc(50% - 5px);
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
 
-  &[x-placement^="left"] {
-    margin-right: 5px;
+	&[x-placement^='left'] {
+		margin-right: 5px;
 
-    .tooltip-arrow {
-      border-width: 5px 0 5px 5px;
-      border-top-color: transparent !important;
-      border-right-color: transparent !important;
-      border-bottom-color: transparent !important;
-      right: -5px;
-      top: calc(50% - 5px);
-      margin-left: 0;
-      margin-right: 0;
-    }
-  }
+		.tooltip-arrow {
+			border-width: 5px 0 5px 5px;
+			border-top-color: transparent !important;
+			border-right-color: transparent !important;
+			border-bottom-color: transparent !important;
+			right: -5px;
+			top: calc(50% - 5px);
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
 
-  &.popover {
-    $color: #f9f9f9;
+	&.popover {
+		$color: #f9f9f9;
 
-    .popover-inner {
-      background: $color;
-      color: black;
-      padding: 24px;
-      border-radius: 5px;
-      box-shadow: 0 5px 30px rgba(black, .1);
-    }
+		.popover-inner {
+			background: $color;
+			color: black;
+			padding: 24px;
+			border-radius: 5px;
+			box-shadow: 0 5px 30px rgba(black, 0.1);
+		}
 
-    .popover-arrow {
-      border-color: $color;
-    }
-  }
+		.popover-arrow {
+			border-color: $color;
+		}
+	}
 
-  &[aria-hidden='true'] {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity .15s, visibility .15s;
-  }
+	&[aria-hidden='true'] {
+		visibility: hidden;
+		opacity: 0;
+		transition: opacity 0.15s, visibility 0.15s;
+	}
 
-  &[aria-hidden='false'] {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity .15s;
-  }
+	&[aria-hidden='false'] {
+		visibility: visible;
+		opacity: 1;
+		transition: opacity 0.15s;
+	}
 }
 
 a {
@@ -247,7 +247,7 @@ a:hover {
 }
 
 .nav-link {
-	color: #888888 !important;
+	color: #888 !important;
 }
 
 .menu-link {
@@ -270,7 +270,6 @@ a:hover {
 	align-items: center;
 	display: flex;
 }
-
 
 @media (max-width: 576px) {
 	.card-footer {

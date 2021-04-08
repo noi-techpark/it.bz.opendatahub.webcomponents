@@ -19,8 +19,8 @@
         </div>
         <div>
           <div
-            v-scroll-to="'#__nuxt'"
             v-if="showScrollButton"
+            v-scroll-to="'#__nuxt'"
             class="btn-circle btn-circle-footer arrow-up filled"
           >
             <img src="/icons/ic_arrow.svg" />
@@ -36,8 +36,8 @@ export default {
   props: {
     showScrollButton: {
       type: Boolean,
-      default: false
-    }
-  }
-}
+      default: false,
+    },
+  },
+};
 </script>

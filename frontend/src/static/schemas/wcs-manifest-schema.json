@@ -1,10 +1,10 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
-    "title": "WcsManifest",
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
+	"title": "WcsManifest",
 	"type": "object",
 	"additionalProperties": false,
-    "definitions": {
+	"definitions": {
 		"optionFallbackError": {
 			"type": "object",
 			"properties": {
@@ -32,21 +32,14 @@
 					"type": "object"
 				}
 			},
-			"required": [
-				"key",
-				"type",
-				"options"
-			],
+			"required": ["key", "type", "options"],
 			"additionalProperties": false
 		},
 		"optionNullBool": {
 			"type": "object",
 			"properties": {
 				"type": {
-					"enum": [
-						"null",
-						"bool"
-					]
+					"enum": ["null", "bool"]
 				},
 				"key": {
 					"type": "string"
@@ -67,11 +60,7 @@
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"key",
-				"type",
-				"options"
-			],
+			"required": ["key", "type", "options"],
 			"additionalProperties": false
 		},
 		"optionNumber": {
@@ -108,11 +97,7 @@
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"key",
-				"type",
-				"options"
-			],
+			"required": ["key", "type", "options"],
 			"additionalProperties": false
 		},
 		"optionTextTextArea": {
@@ -123,10 +108,7 @@
 				},
 				"type": {
 					"type": "string",
-					"enum": [
-						"text",
-						"textarea"
-					]
+					"enum": ["text", "textarea"]
 				},
 				"label": {
 					"type": "string"
@@ -141,17 +123,11 @@
 							"type": "string"
 						}
 					},
-					"required": [
-						"default"
-					],
+					"required": ["default"],
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"key",
-				"type",
-				"options"
-			],
+			"required": ["key", "type", "options"],
 			"additionalProperties": false
 		},
 		"optionSelectMultiSelect": {
@@ -162,10 +138,7 @@
 				},
 				"type": {
 					"type": "string",
-					"enum": [
-						"select",
-						"multiselect"
-					]
+					"enum": ["select", "multiselect"]
 				},
 				"label": {
 					"type": "string"
@@ -191,17 +164,11 @@
 							}
 						}
 					},
-					"required": [
-						"values"
-					],
+					"required": ["values"],
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"key",
-				"type",
-				"options"
-			],
+			"required": ["key", "type", "options"],
 			"additionalProperties": false
 		},
 		"optionObject": {
@@ -233,11 +200,7 @@
 					"additionalProperties": false
 				}
 			},
-			"required": [
-				"key",
-				"type",
-				"options"
-			],
+			"required": ["key", "type", "options"],
 			"additionalProperties": false
 		},
 		"configurationItem": {
@@ -253,15 +216,12 @@
 					"type": "boolean"
 				}
 			},
-			"required": [
-				"key",
-				"type"
-			],
+			"required": ["key", "type"],
 			"additionalProperties": false
 		},
-        "entityOrPerson": {
-            "type": "object",
-            "properties": {
+		"entityOrPerson": {
+			"type": "object",
+			"properties": {
 				"name": {
 					"type": "string"
 				},
@@ -276,15 +236,12 @@
 					"format": "uri"
 				}
 			},
-			"required": [
-				"name",
-				"email"
-			],
+			"required": ["name", "email"],
 			"additionalProperties": false
 		},
 		"stringArray": {
-            "type": "array",
-            "items": {
+			"type": "array",
+			"items": {
 				"type": "string"
 			},
 			"uniqueItems": true,
@@ -301,10 +258,7 @@
 					"$ref": "#/definitions/stringArray"
 				}
 			},
-			"required": [
-				"basePath",
-				"files"
-			],
+			"required": ["basePath", "files"],
 			"additionalProperties": false
 		},
 		"configuration": {
@@ -321,118 +275,139 @@
 					"default": []
 				}
 			},
-			"required": [
-				"tagName"
-			],
+			"required": ["tagName"],
 			"additionalProperties": false
 		},
 		"configurationItems": {
 			"anyOf": [
 				{
-					"if": { "properties": { "type": {
-						"enum": ["null", "bool"]
-					}}},
+					"if": {
+						"properties": {
+							"type": {
+								"enum": ["null", "bool"]
+							}
+						}
+					},
 					"then": { "$ref": "#/definitions/optionNullBool" },
 					"else": false
 				},
 				{
-					"if": { "properties": { "type": {
-						"const": "number"
-					}}},
+					"if": {
+						"properties": {
+							"type": {
+								"const": "number"
+							}
+						}
+					},
 					"then": { "$ref": "#/definitions/optionNumber" },
 					"else": false
 				},
 				{
-					"if": { "properties": { "type": {
-						"enum": ["select", "multiselect"]
-					}}},
+					"if": {
+						"properties": {
+							"type": {
+								"enum": ["select", "multiselect"]
+							}
+						}
+					},
 					"then": { "$ref": "#/definitions/optionSelectMultiSelect" },
 					"else": false
 				},
 				{
-					"if": { "properties": { "type": {
-						"enum": ["text", "textarea"]
-					}}},
+					"if": {
+						"properties": {
+							"type": {
+								"enum": ["text", "textarea"]
+							}
+						}
+					},
 					"then": { "$ref": "#/definitions/optionTextTextArea" },
 					"else": false
 				},
 				{
-					"if": { "properties": { "type": {
-						"const": "object"
-					}}},
+					"if": {
+						"properties": {
+							"type": {
+								"const": "object"
+							}
+						}
+					},
 					"then": { "$ref": "#/definitions/optionObject" },
 					"else": {
-						"if": { "properties": {
-							"type": {
-								"enum": [
-									"null",
-									"bool",
-									"text",
-									"textarea",
-									"object",
-									"select",
-									"multiselect"
-								]
-							}}}
-					, "then": false,
-					"else": { "$ref": "#/definitions/optionFallbackError" }
+						"if": {
+							"properties": {
+								"type": {
+									"enum": [
+										"null",
+										"bool",
+										"text",
+										"textarea",
+										"object",
+										"select",
+										"multiselect"
+									]
+								}
+							}
+						},
+						"then": false,
+						"else": { "$ref": "#/definitions/optionFallbackError" }
 					}
 				}
 			]
 		}
 	},
-    "properties": {
-        "title": {
-			"type": "string"
-        },
-        "description": {
+	"properties": {
+		"title": {
 			"type": "string"
 		},
-        "descriptionAbstract": {
+		"description": {
 			"type": "string"
 		},
-        "license": {
+		"descriptionAbstract": {
 			"type": "string"
 		},
-        "copyrightHolders": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-				"$ref": "#/definitions/entityOrPerson"
-			},
-            "uniqueItems": true
+		"license": {
+			"type": "string"
 		},
-        "authors": {
+		"copyrightHolders": {
 			"type": "array",
-            "minItems": 1,
+			"minItems": 1,
 			"items": {
 				"$ref": "#/definitions/entityOrPerson"
 			},
-            "uniqueItems": true
+			"uniqueItems": true
 		},
-        "image": {
+		"authors": {
+			"type": "array",
+			"minItems": 1,
+			"items": {
+				"$ref": "#/definitions/entityOrPerson"
+			},
+			"uniqueItems": true
+		},
+		"image": {
 			"type": "string"
 		},
-        "searchTags": {
+		"searchTags": {
 			"$ref": "#/definitions/stringArray"
 		},
-        "dist": {
+		"dist": {
 			"$ref": "#/definitions/dist"
 		},
-        "configuration": {
+		"configuration": {
 			"$ref": "#/definitions/configuration"
 		}
-    },
-    "required": [
+	},
+	"required": [
 		"title",
-        "description",
-        "descriptionAbstract",
-        "license",
-        "copyrightHolders",
-        "authors",
-        "image",
-        "searchTags",
-        "dist",
-        "configuration"
-    ]
+		"description",
+		"descriptionAbstract",
+		"license",
+		"copyrightHolders",
+		"authors",
+		"image",
+		"searchTags",
+		"dist",
+		"configuration"
+	]
 }

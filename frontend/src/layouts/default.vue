@@ -9,19 +9,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from 'vue';
 
-import Header from './partials/header'
-import Footer from './partials/footer'
-import { searchtagsStore } from '~/store'
+import Header from './partials/header';
+import Footer from './partials/footer';
+import { searchtagsStore } from '~/store';
 
 export default Vue.extend({
   components: {
     Header,
-    Footer
+    Footer,
   },
   created() {
-    searchtagsStore.loadSearchtags()
-  }
-})
+    searchtagsStore.loadSearchtags();
+  },
+});
 </script>

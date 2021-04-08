@@ -12,12 +12,13 @@
       >
         <div class="d-flex justify-content-end h3 row detail-content-right">
           Version
-          <b-form-select v-model="selectedVersion" style="max-width:150px;">
+          <b-form-select v-model="selectedVersion" style="max-width: 150px">
             <option
               v-for="version in component.versions"
               :key="version.versionTag"
-              >{{ version.versionTag }}</option
             >
+              {{ version.versionTag }}
+            </option>
           </b-form-select>
         </div>
 
@@ -40,7 +41,7 @@
                 <iframe
                   id="tframe"
                   class="full-height full-width"
-                  style="min-height: 800px;"
+                  style="min-height: 800px"
                   title="iframe-preview"
                 ></iframe>
               </b-card-text>
@@ -57,9 +58,9 @@
                   >auto update
                 </span>
                 <span
-                  @click="updatePreview"
                   class="mt-2 mt-sm-0 link_with_icon"
-                  style="cursor: pointer;"
+                  style="cursor: pointer"
+                  @click="updatePreview"
                 >
                   <font-awesome-icon
                     :icon="['fas', 'redo']"
@@ -69,11 +70,11 @@
                 <a
                   :href="
                     previewBaseURL +
-                      '/preview/' +
-                      component.uuid +
-                      '/' +
-                      selectedVersion +
-                      attribs
+                    '/preview/' +
+                    component.uuid +
+                    '/' +
+                    selectedVersion +
+                    attribs
                   "
                   target="_blank"
                   class="mt-2 mt-sm-0 link_with_icon"
@@ -113,7 +114,7 @@
             </div>
             <b-card
               class="full-height widget-config"
-              style="background-color: #fafafa;"
+              style="background-color: #fafafa"
             >
               <b-card-text
                 >Configurator disabled. Manual configuration
@@ -132,7 +133,7 @@
             <b-card
               id="widget-codesnippet"
               :class="{ white: editmode }"
-              style="min-height: 250px;"
+              style="min-height: 250px"
             >
               <b-card-text>
                 <textarea
@@ -140,7 +141,11 @@
                   v-model="snipp"
                   :readonly="!editmode"
                   class="full-width full-height code-snippet"
-                  style="border: 0; background-color: inherit;font-family: 'Courier New', Courier, monospace"
+                  style="
+                    border: 0;
+                    background-color: inherit;
+                    font-family: 'Courier New', Courier, monospace;
+                  "
                   rows="10"
                 ></textarea>
               </b-card-text>
@@ -148,21 +153,21 @@
               <div slot="footer" class="text-right text-uppercase">
                 <span
                   v-if="editmode"
-                  @click="toggleEditMode()"
                   style="cursor: pointer"
                   class="mr-4"
+                  @click="toggleEditMode()"
                 >
                   <font-awesome-icon :icon="['fas', 'times']" />RESET
                 </span>
                 <span
                   v-else
-                  @click="toggleEditMode()"
                   style="cursor: pointer"
                   class="mr-4"
+                  @click="toggleEditMode()"
                 >
                   <font-awesome-icon :icon="['far', 'edit']" />EDIT
                 </span>
-                <span @click="copySnippetToClipboard()" style="cursor: pointer">
+                <span style="cursor: pointer" @click="copySnippetToClipboard()">
                   <font-awesome-icon :icon="['far', 'copy']" />COPY
                 </span>
               </div>
@@ -174,32 +179,32 @@
         <div class="d-flex justify-content-center">
           <div
             v-if="selectedView === 'preview'"
-            @click="selectedView = ''"
             class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
+            @click="selectedView = ''"
           >
             <img :src="require('static/icons/ic_min_preview.svg')" />
             <div class="bottom-bar-button-text p-1">minimize preview</div>
           </div>
           <div
             v-else
-            @click="selectedView = 'preview'"
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            @click="selectedView = 'preview'"
           >
             <img :src="require('static/icons/ic_max_preview.svg')" />
             <div class="bottom-bar-button-text p-1">fullscreen preview</div>
           </div>
           <div
             v-if="selectedView === 'editing'"
-            @click="selectedView = ''"
             class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
+            @click="selectedView = ''"
           >
             <img :src="require('static/icons/ic_min_editing.svg')" />
             <div class="bottom-bar-button-text p-1">minimize editing</div>
           </div>
           <div
             v-else
-            @click="selectedView = 'editing'"
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            @click="selectedView = 'editing'"
           >
             <img :src="require('static/icons/ic_max_editing.svg')" />
             <div class="bottom-bar-button-text p-1">fullscreen editing</div>
@@ -226,15 +231,15 @@
 </template>
 
 <script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
-import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock'
-import ComponentReadMe from '~/components/webcomponent/ComponentReadMe'
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
+import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
 
 export default {
   components: {
     ComponentReadMe,
     WcDetailBlock,
-    WCSConfigTool
+    WCSConfigTool,
   },
   data() {
     return {
@@ -248,46 +253,46 @@ export default {
       selectedVersion: null,
       previewBaseURL: '',
       showPreview: true,
-      selectedView: ''
-    }
+      selectedView: '',
+    };
   },
   computed: {
     returnLink() {
       if (this.$route.query.from) {
-        return this.$route.query.from
+        return this.$route.query.from;
       }
 
-      return this.localePath('index')
+      return this.localePath('index');
     },
     isLatestVersionActive() {
       if (!this.component) {
-        return false
+        return false;
       }
-      return this.selectedVersion === this.component.versions[0].versionTag
-    }
+      return this.selectedVersion === this.component.versions[0].versionTag;
+    },
   },
   watch: {
     selectedVersion(newValue, oldValue) {
       if (oldValue !== null) {
-        this.reloadConfig()
+        this.reloadConfig();
       }
-    }
+    },
   },
   mounted() {
-    this.loadData()
+    this.loadData();
   },
   methods: {
     setShowPreview(show) {
-      this.showPreview = show
+      this.showPreview = show;
     },
     toggleEditMode() {
-      this.editmode = !this.editmode
+      this.editmode = !this.editmode;
       if (this.editmode) {
-        this.snippOriginal = this.snipp
+        this.snippOriginal = this.snipp;
       } else {
-        this.snipp = this.snippOriginal
+        this.snipp = this.snippOriginal;
         if (this.autoUpdate) {
-          this.updatePreview()
+          this.updatePreview();
         }
       }
     },
@@ -295,149 +300,149 @@ export default {
       this.$router.push(
         this.localePath({
           name: 'webcomponent-id-version',
-          params: { id: this.$route.params.id, version: this.selectedVersion }
+          params: { id: this.$route.params.id, version: this.selectedVersion },
         })
-      )
+      );
     },
     async loadData() {
       this.component = await this.$api.webcomponent.getOneById(
         this.$route.params.id
-      )
+      );
 
       if (this.$route.params.version) {
         this.component.versions.forEach((entry) => {
           if (entry.versionTag === this.$route.params.version) {
-            this.selectedVersion = this.$route.params.version
+            this.selectedVersion = this.$route.params.version;
           }
-        })
+        });
       }
 
       if (!this.selectedVersion) {
-        this.selectedVersion = this.component.versions[0].versionTag
+        this.selectedVersion = this.component.versions[0].versionTag;
       }
 
       this.config = await this.$api.webcomponent.getConfigById(
         this.$route.params.id,
         this.selectedVersion
-      )
+      );
 
-      this.previewBaseURL = this.$api.baseUrl
+      this.previewBaseURL = this.$api.baseUrl;
     },
     updateSnippet(data) {
-      this.snipp = data + '\n' + this.getDistIncludes().join('\n')
+      this.snipp = data + '\n' + this.getDistIncludes().join('\n');
 
       if (this.autoUpdate) {
-        this.updatePreview()
+        this.updatePreview();
       }
     },
     copySnippetToClipboard() {
-      const copyText = document.getElementById('code-snippet')
+      const copyText = document.getElementById('code-snippet');
 
-      copyText.select()
+      copyText.select();
 
-      document.execCommand('copy')
+      document.execCommand('copy');
     },
     updatePreview() {
-      const oldElement = document.getElementById('tframe')
+      const oldElement = document.getElementById('tframe');
 
-      oldElement.parentNode.removeChild(oldElement)
+      oldElement.parentNode.removeChild(oldElement);
 
-      const newElement = document.createElement('iframe')
-      newElement.setAttribute('id', 'tframe')
-      newElement.setAttribute('class', 'full-height full-width')
-      newElement.setAttribute('style', 'min-height: 800px;')
-      newElement.setAttribute('frameborder', '0')
+      const newElement = document.createElement('iframe');
+      newElement.setAttribute('id', 'tframe');
+      newElement.setAttribute('class', 'full-height full-width');
+      newElement.setAttribute('style', 'min-height: 800px;');
+      newElement.setAttribute('frameborder', '0');
 
-      document.getElementById('twrap').appendChild(newElement)
+      document.getElementById('twrap').appendChild(newElement);
 
-      newElement.contentDocument.write(this.snipp)
-      newElement.contentDocument.close()
+      newElement.contentDocument.write(this.snipp);
+      newElement.contentDocument.close();
 
-      this.attribs = this.parseSnippetAttributes()
+      this.attribs = this.parseSnippetAttributes();
     },
     buildAttribute(rawKey, rawValue) {
-      const key = rawKey.trim()
-      const value = encodeURIComponent(rawValue.trim())
-      return key + '="' + value + '";'
+      const key = rawKey.trim();
+      const value = encodeURIComponent(rawValue.trim());
+      return key + '="' + value + '";';
     },
     parseSnippetAttributes() {
-      let pos = this.snipp.search(this.config.configuration.tagName)
-      let result = ''
+      let pos = this.snipp.search(this.config.configuration.tagName);
+      let result = '';
 
       if (pos < 0) {
-        return result
+        return result;
       }
 
-      pos += this.config.configuration.tagName.length
+      pos += this.config.configuration.tagName.length;
 
-      let isKey = true
-      let isValue = false
-      let key = ''
-      let value = ''
-      let isQuoted = false
+      let isKey = true;
+      let isValue = false;
+      let key = '';
+      let value = '';
+      let isQuoted = false;
       for (let i = pos; i < this.snipp.length; i++) {
-        const c = this.snipp.charAt(i)
+        const c = this.snipp.charAt(i);
         if (isKey) {
           switch (c) {
             case '=':
-              isKey = false
-              isValue = true
-              break
+              isKey = false;
+              isValue = true;
+              break;
             case '>':
               if (key.trim().length > 0) {
-                result += key.trim() + ';'
+                result += key.trim() + ';';
               }
-              return '?attribs=' + result
+              return '?attribs=' + result;
             case ' ':
               if (key.trim().length > 0) {
-                result += key.trim() + ';'
+                result += key.trim() + ';';
               }
-              break
+              break;
             default:
-              key += c
+              key += c;
           }
         } else if (isValue) {
           switch (c) {
             case '"':
               if (isQuoted) {
-                result += this.buildAttribute(key, value)
-                isKey = true
-                isValue = false
-                isQuoted = false
-                key = ''
-                value = ''
+                result += this.buildAttribute(key, value);
+                isKey = true;
+                isValue = false;
+                isQuoted = false;
+                key = '';
+                value = '';
               } else {
-                isQuoted = true
+                isQuoted = true;
               }
-              break
+              break;
             case ' ':
               if (isQuoted) {
-                value += ' '
+                value += ' ';
               } else {
-                result += this.buildAttribute(key, value)
-                isKey = true
-                isValue = false
-                key = ''
-                value = ''
+                result += this.buildAttribute(key, value);
+                isKey = true;
+                isValue = false;
+                key = '';
+                value = '';
               }
-              break
+              break;
             case '>':
               if (isQuoted) {
-                value += '>'
+                value += '>';
               } else {
-                result += this.buildAttribute(key, value)
-                return '?attribs=' + result
+                result += this.buildAttribute(key, value);
+                return '?attribs=' + result;
               }
-              break
+              break;
             default:
-              value += c
+              value += c;
           }
         }
       }
-      return '?attribs=' + result
+      return '?attribs=' + result;
     },
     getDistIncludes() {
-      const scripts = []
+      const scripts = [];
 
       // Wait until the async loadData method has finished
       // eslint-disable-next-line no-prototype-builtins
@@ -459,8 +464,8 @@ export default {
                 item.file +
                 '"></scr' +
                 'ipt>'
-            )
-          })
+            );
+          });
         } else {
           this.config.dist.files.forEach((item) => {
             scripts.push(
@@ -472,18 +477,24 @@ export default {
                 item +
                 '"></scr' +
                 'ipt>'
-            )
-          })
+            );
+          });
         }
       }
 
-      return scripts
-    }
-  }
-}
+      return scripts;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
+.widget-config {
+  .card-footer {
+    background-color: inherit;
+  }
+}
+
 #widget-codesnippet {
   .card-body {
     background-color: #fafafa;
@@ -493,12 +504,6 @@ export default {
     background-color: white;
   }
 
-  .card-footer {
-    background-color: inherit;
-  }
-}
-
-.widget-config {
   .card-footer {
     background-color: inherit;
   }

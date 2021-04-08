@@ -58,7 +58,7 @@
             :to="
               localePath({
                 name: 'search-tags',
-                params: { tags: tag }
+                params: { tags: tag },
               })
             "
             class="category"
@@ -70,6 +70,20 @@
     <footer-info show-scroll-button="true"></footer-info>
   </footer>
 </template>
+
+<script>
+import QuoteItem from '~/components/quote-item';
+import FooterInfo from '~/layouts/partials/footer-info';
+import { searchtagsStore } from '~/utils/store-accessor';
+export default {
+  components: { FooterInfo, QuoteItem },
+  computed: {
+    searchTags() {
+      return searchtagsStore.getSearchtags;
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 @import 'src/assets/styles/bootstrap/_variables.scss';
@@ -95,16 +109,3 @@
   margin-bottom: 50px;
 }
 </style>
-<script>
-import QuoteItem from '~/components/quote-item'
-import FooterInfo from '~/layouts/partials/footer-info'
-import { searchtagsStore } from '~/utils/store-accessor'
-export default {
-  components: { FooterInfo, QuoteItem },
-  computed: {
-    searchTags() {
-      return searchtagsStore.getSearchtags
-    }
-  }
-}
-</script>

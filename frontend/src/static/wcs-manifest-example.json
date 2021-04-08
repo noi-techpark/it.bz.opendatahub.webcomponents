@@ -4,86 +4,86 @@
 	"descriptionAbstract": "A widget that helps to test all configurable options.",
 	"license": "AGPL-3.0-or-later",
 	"copyrightHolders": [
-	  {
-		"name": "NOI",
-		"email": "info@noi.bz.it",
-		"organization": "NOI AG/SpA Südtirol - Alto Adige",
-		"organizationUrl": "https://noi.bz.it"
-	  }
+		{
+			"name": "NOI",
+			"email": "info@noi.bz.it",
+			"organization": "NOI AG/SpA Südtirol - Alto Adige",
+			"organizationUrl": "https://noi.bz.it"
+		}
 	],
 	"authors": [
-	  {
-		"name": "Peter Moser",
-		"email": "p.moser@noi.bz.it",
-		"organization": "NOI S.p.A",
-		"organizationUrl": "https://noi.bz.it"
-	  }
+		{
+			"name": "Peter Moser",
+			"email": "p.moser@noi.bz.it",
+			"organization": "NOI S.p.A",
+			"organizationUrl": "https://noi.bz.it"
+		}
 	],
 	"image": "wcs-logo.png",
 	"searchTags": ["testing", "tools"],
 	"dist": {
-	  "basePath": "dist",
-	  "files": ["no-existing-widget.min.js"]
+		"basePath": "dist",
+		"files": ["no-existing-widget.min.js"]
 	},
 	"configuration": {
-	  "tagName": "testable-widget",
-	  "options": [
-		{
-		  "key": "option0",
-		  "type": "text",
-		  "label": "TEST option0: TEXT",
-		  "required": false,
-		  "options": {
-			"default": "true"
-		  }
-		},
-		{
-		  "key": "option1",
-		  "type": "text",
-		  "label": "TEST option1: TEXT (required)",
-		  "required": true,
-		  "options": {
-			"default": "default text 2"
-		  }
-		},
-		{
-		  "key": "option2",
-		  "type": "textarea",
-		  "label": "TEST option2: TEXTAREA",
-		  "required": false,
-		  "options": {
-			"default": ""
-		  }
-		},
-		{
-		  "key": "option3",
-		  "type": "select",
-		  "label": "TEST option3: SELECT",
-		  "required": false,
-		  "options": {
-			"values": ["en", "de", "it"],
-			"default": "en"
-		  }
-		},
-		{
-		  "key": "option4",
-		  "type": "multiselect",
-		  "label": "TEST option4: MULTISELECT",
-		  "required": false,
-		  "options": {
-			"values": ["en", "de", "it"],
-			"default": "de"
-		  }
-		},
-		{
-		  "key": "option5",
-		  "type": "null",
-		  "label": "TEST option5: NULL FIELD (required)",
-		  "required": true,
-		  "options": {
-			"default": true
-		  }
-		}
-	  ]
+		"tagName": "testable-widget",
+		"options": [
+			{
+				"key": "option0",
+				"type": "text",
+				"label": "TEST option0: TEXT",
+				"required": false,
+				"options": {
+					"default": "true"
+				}
+			},
+			{
+				"key": "option1",
+				"type": "text",
+				"label": "TEST option1: TEXT (required)",
+				"required": true,
+				"options": {
+					"default": "default text 2"
+				}
+			},
+			{
+				"key": "option2",
+				"type": "textarea",
+				"label": "TEST option2: TEXTAREA",
+				"required": false,
+				"options": {
+					"default": ""
+				}
+			},
+			{
+				"key": "option3",
+				"type": "select",
+				"label": "TEST option3: SELECT",
+				"required": false,
+				"options": {
+					"values": ["en", "de", "it"],
+					"default": "en"
+				}
+			},
+			{
+				"key": "option4",
+				"type": "multiselect",
+				"label": "TEST option4: MULTISELECT",
+				"required": false,
+				"options": {
+					"values": ["en", "de", "it"],
+					"default": "de"
+				}
+			},
+			{
+				"key": "option5",
+				"type": "null",
+				"label": "TEST option5: NULL FIELD (required)",
+				"required": true,
+				"options": {
+					"default": true
+				}
+			}
+		]
 	}
-  }
+}

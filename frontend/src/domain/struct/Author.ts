@@ -1,9 +1,9 @@
 export interface Author {
-  name: string
+  name: string;
 
-  email: string
+  email: string;
 
-  organization: string
+  organization: string;
 
-  organizationUrl: string
+  organizationUrl: string;
 }

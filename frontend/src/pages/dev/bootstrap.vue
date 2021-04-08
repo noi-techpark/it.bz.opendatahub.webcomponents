@@ -1,30 +1,16 @@
 <template>
   <div class="container">
     <h1>Alert</h1>
-    <div class="alert alert-primary">
-      A simple primary alert—check it out!
-    </div>
+    <div class="alert alert-primary">A simple primary alert—check it out!</div>
     <div class="alert alert-secondary">
       A simple secondary alert—check it out!
     </div>
-    <div class="alert alert-success">
-      A simple success alert—check it out!
-    </div>
-    <div class="alert alert-danger">
-      A simple danger alert—check it out!
-    </div>
-    <div class="alert alert-warning">
-      A simple warning alert—check it out!
-    </div>
-    <div class="alert alert-info">
-      A simple info alert—check it out!
-    </div>
-    <div class="alert alert-light">
-      A simple light alert—check it out!
-    </div>
-    <div class="alert alert-dark">
-      A simple dark alert—check it out!
-    </div>
+    <div class="alert alert-success">A simple success alert—check it out!</div>
+    <div class="alert alert-danger">A simple danger alert—check it out!</div>
+    <div class="alert alert-warning">A simple warning alert—check it out!</div>
+    <div class="alert alert-info">A simple info alert—check it out!</div>
+    <div class="alert alert-light">A simple light alert—check it out!</div>
+    <div class="alert alert-dark">A simple dark alert—check it out!</div>
 
     <!-- Navbar
     ================================================== -->
@@ -345,7 +331,7 @@
             </button>
           </p>
 
-          <div class="bs-component" style="margin-bottom: 15px;">
+          <div class="bs-component" style="margin-bottom: 15px">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
               <label class="btn btn-primary active">
                 <input type="checkbox" checked="" autocomplete="off" /> Active
@@ -359,7 +345,7 @@
             </div>
           </div>
 
-          <div class="bs-component" style="margin-bottom: 15px;">
+          <div class="bs-component" style="margin-bottom: 15px">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
               <label class="btn btn-primary active">
                 <input
@@ -403,7 +389,7 @@
             </div>
           </div>
 
-          <div class="bs-component" style="margin-bottom: 15px;">
+          <div class="bs-component" style="margin-bottom: 15px">
             <div class="btn-group" role="group" aria-label="Basic example">
               <button type="button" class="btn btn-secondary">Left</button>
               <button type="button" class="btn btn-secondary">Middle</button>
@@ -411,7 +397,7 @@
             </div>
           </div>
 
-          <div class="bs-component" style="margin-bottom: 15px;">
+          <div class="bs-component" style="margin-bottom: 15px">
             <div
               class="btn-toolbar"
               role="toolbar"
@@ -1076,7 +1062,7 @@
         </div>
       </div>
 
-      <div class="row" style="margin-bottom: 2rem;">
+      <div class="row" style="margin-bottom: 2rem">
         <div class="col-lg-6">
           <h2 id="nav-tabs">Tabs</h2>
           <div class="bs-component">
@@ -1439,7 +1425,7 @@
       </div>
       <div>
         <h2>Badges</h2>
-        <div class="bs-component" style="margin-bottom: 40px;">
+        <div class="bs-component" style="margin-bottom: 40px">
           <span class="badge badge-primary">Primary</span>
           <span class="badge badge-secondary">Secondary</span>
           <span class="badge badge-success">Success</span>
@@ -1477,7 +1463,7 @@
               <div
                 class="progress-bar"
                 role="progressbar"
-                style="width: 25%;"
+                style="width: 25%"
                 aria-valuenow="25"
                 aria-valuemin="0"
                 aria-valuemax="100"
@@ -1755,7 +1741,7 @@
           <div class="bs-component">
             <div
               class="card text-white bg-primary mb-3"
-              style="max-width: 20rem;"
+              style="max-width: 20rem"
             >
               <div class="card-header">Header</div>
               <div class="card-body">
@@ -1768,7 +1754,7 @@
             </div>
             <div
               class="card text-white bg-secondary mb-3"
-              style="max-width: 20rem;"
+              style="max-width: 20rem"
             >
               <div class="card-header">Header</div>
               <div class="card-body">
@@ -1781,7 +1767,7 @@
             </div>
             <div
               class="card text-white bg-success mb-3"
-              style="max-width: 20rem;"
+              style="max-width: 20rem"
             >
               <div class="card-header">Header</div>
               <div class="card-body">
@@ -1794,7 +1780,7 @@
             </div>
             <div
               class="card text-white bg-danger mb-3"
-              style="max-width: 20rem;"
+              style="max-width: 20rem"
             >
               <div class="card-header">Header</div>
               <div class="card-body">
@@ -1807,7 +1793,7 @@
             </div>
             <div
               class="card text-white bg-warning mb-3"
-              style="max-width: 20rem;"
+              style="max-width: 20rem"
             >
               <div class="card-header">Header</div>
               <div class="card-body">
@@ -1818,7 +1804,7 @@
                 </p>
               </div>
             </div>
-            <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+            <div class="card text-white bg-info mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Info card title</h4>
@@ -1828,7 +1814,7 @@
                 </p>
               </div>
             </div>
-            <div class="card bg-light mb-3" style="max-width: 20rem;">
+            <div class="card bg-light mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Light card title</h4>
@@ -1838,7 +1824,7 @@
                 </p>
               </div>
             </div>
-            <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+            <div class="card text-white bg-dark mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Dark card title</h4>
@@ -1852,7 +1838,7 @@
         </div>
         <div class="col-lg-4">
           <div class="bs-component">
-            <div class="card border-primary mb-3" style="max-width: 20rem;">
+            <div class="card border-primary mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Primary card title</h4>
@@ -1862,7 +1848,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-secondary mb-3" style="max-width: 20rem;">
+            <div class="card border-secondary mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Secondary card title</h4>
@@ -1872,7 +1858,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-success mb-3" style="max-width: 20rem;">
+            <div class="card border-success mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Success card title</h4>
@@ -1882,7 +1868,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-danger mb-3" style="max-width: 20rem;">
+            <div class="card border-danger mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Danger card title</h4>
@@ -1892,7 +1878,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-warning mb-3" style="max-width: 20rem;">
+            <div class="card border-warning mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Warning card title</h4>
@@ -1902,7 +1888,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-info mb-3" style="max-width: 20rem;">
+            <div class="card border-info mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Info card title</h4>
@@ -1912,7 +1898,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-light mb-3" style="max-width: 20rem;">
+            <div class="card border-light mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Light card title</h4>
@@ -1922,7 +1908,7 @@
                 </p>
               </div>
             </div>
-            <div class="card border-dark mb-3" style="max-width: 20rem;">
+            <div class="card border-dark mb-3" style="max-width: 20rem">
               <div class="card-header">Header</div>
               <div class="card-body">
                 <h4 class="card-title">Dark card title</h4>
@@ -1944,7 +1930,7 @@
                 <h6 class="card-subtitle text-muted">Support card subtitle</h6>
               </div>
               <img
-                style="height: 200px; width: 100%; display: block;"
+                style="height: 200px; width: 100%; display: block"
                 src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22318%22%20height%3D%22180%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20318%20180%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_158bd1d28ef%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A16pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_158bd1d28ef%22%3E%3Crect%20width%3D%22318%22%20height%3D%22180%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%22129.359375%22%20y%3D%2297.35%22%3EImage%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"
                 alt="Card image"
               />
@@ -1963,9 +1949,7 @@
                 <a href="#" class="card-link">Card link</a>
                 <a href="#" class="card-link">Another link</a>
               </div>
-              <div class="card-footer text-muted">
-                2 days ago
-              </div>
+              <div class="card-footer text-muted">2 days ago</div>
             </div>
             <div class="card">
               <div class="card-body">
@@ -2034,7 +2018,7 @@
         </div>
         <div class="col-lg-6">
           <h2>Popovers</h2>
-          <div class="bs-component" style="margin-bottom: 3em;">
+          <div class="bs-component" style="margin-bottom: 3em">
             <button
               type="button"
               class="btn btn-secondary"

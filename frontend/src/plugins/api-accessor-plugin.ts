@@ -1,13 +1,13 @@
-import { Plugin } from '@nuxt/types'
-import { initializeApi } from '../utils/api-accessor'
-import api from './api'
+import { Plugin } from '@nuxt/types';
+import { initializeApi } from '../utils/api-accessor';
+import api from './api';
 
 const accessor: Plugin = (ctx, inject) => {
-  const instance = api(ctx)
+  const instance = api(ctx);
 
-  inject('api', instance)
+  inject('api', instance);
 
-  initializeApi(instance)
-}
+  initializeApi(instance);
+};
 
-export default accessor
+export default accessor;

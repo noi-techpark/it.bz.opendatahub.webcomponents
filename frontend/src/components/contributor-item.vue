@@ -34,8 +34,6 @@
 
 <script>
 export default {
-  name: 'ContributorItem'
-}
+  name: 'ContributorItem',
+};
 </script>
-
-<style scoped></style>

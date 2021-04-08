@@ -11,11 +11,11 @@
                   active:
                     userSelectedTags &&
                     userSelectedTags.length > 0 &&
-                    userSelectedTags[0] !== 'any'
+                    userSelectedTags[0] !== 'any',
                 }"
-                @click="searchTagsVisible = !searchTagsVisible"
-                style="cursor: pointer;"
+                style="cursor: pointer"
                 class="full-height d-flex justify-content-between font-large pb-2 align-items-center"
+                @click="searchTagsVisible = !searchTagsVisible"
               >
                 <span class="filter-text">Filter by categories</span>
                 <span class="chevron bottom mr-2"></span>
@@ -23,15 +23,20 @@
               <b-collapse
                 id="tag-collapse"
                 v-model="searchTagsVisible"
-                style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
+                style="
+                  position: absolute;
+                  border-left: 1px solid #e8ecf1;
+                  border-bottom: 1px solid #e8ecf1;
+                  border-right: 1px solid #e8ecf1;
+                "
               >
                 <div class="m-4">
                   <b-form-checkbox-group
                     id="checkbox-group-2"
-                    @input="tagsUpdated"
                     v-model="userSelectedTags"
                     name="flavour-2"
                     class="text-capitalize d-flex flex-column"
+                    @input="tagsUpdated"
                   >
                     <b-form-checkbox
                       v-for="tag in availableSearchTags"
@@ -54,23 +59,23 @@
                 <div class="full-width pr-2 search-input">
                   <input
                     ref="searchTermInput"
-                    :onkeyup="termUpdated()"
                     v-model="internalSearchTerm"
+                    :onkeyup="termUpdated()"
                     type="text"
                     placeholder="Search elements"
-                    style="outline: none;"
+                    style="outline: none"
                     class="p-0 full-width search-text"
                   />
                 </div>
 
                 <svg
-                  @click="termSubmitted()"
-                  style="margin-top: 0.15rem; height: 1.5rem;"
+                  style="margin-top: 0.15rem; height: 1.5rem"
                   xmlns="http://www.w3.org/2000/svg"
                   width="31.414"
                   height="32.214"
                   viewBox="0 0 31.414 32.214"
                   class="search-image"
+                  @click="termSubmitted()"
                 >
                   <defs>
                     <style>
@@ -108,71 +113,70 @@
 </template>
 
 <script>
-import { searchtagsStore } from '~/utils/store-accessor'
+import { searchtagsStore } from '~/utils/store-accessor';
 
 export default {
   props: {
     selectedTags: {
       default: () => {
-        return []
+        return [];
       },
-      type: Array
+      type: Array,
     },
-    searchTerm: { default: '', type: String }
+    searchTerm: { default: '', type: String },
   },
   data() {
     return {
       internalSearchTerm: this.searchTerm,
       oldSearchTerm: this.searchTerm,
       userSelectedTags: this.selectedTags,
-      searchTagsVisible: false
-    }
+      searchTagsVisible: false,
+    };
   },
   computed: {
     availableSearchTags() {
-      return searchtagsStore.getSearchtags
-    }
+      return searchtagsStore.getSearchtags;
+    },
   },
   mounted() {
-    this.focusInput()
+    this.focusInput();
   },
   methods: {
     focusInput() {
-      this.$refs.searchTermInput.focus()
+      this.$refs.searchTermInput.focus();
     },
     tagsUpdated() {
       this.$emit('tags-updated', {
         tags: this.userSelectedTags,
-        term: this.internalSearchTerm
-      })
+        term: this.internalSearchTerm,
+      });
     },
     termUpdated() {
       if (this.isNewSearchTerm()) {
-        this.oldSearchTerm = this.internalSearchTerm
+        this.oldSearchTerm = this.internalSearchTerm;
         this.$emit('term-updated', {
           tags: this.userSelectedTags,
-          term: this.internalSearchTerm
-        })
+          term: this.internalSearchTerm,
+        });
       }
     },
     termSubmitted() {
-      this.oldSearchTerm = this.internalSearchTerm
+      this.oldSearchTerm = this.internalSearchTerm;
       this.$emit('term-submitted', {
         tags: this.userSelectedTags,
-        term: this.internalSearchTerm
-      })
+        term: this.internalSearchTerm,
+      });
     },
     isNewSearchTerm() {
-      return this.internalSearchTerm !== this.oldSearchTerm
-    }
-  }
-}
+      return this.internalSearchTerm !== this.oldSearchTerm;
+    },
+  },
+};
 </script>
 
 <style>
 #tag-collapse {
   background-color: white;
-  /*padding: 1.5rem;*/
   width: 100%;
   font-size: large;
   z-index: 100;

@@ -5,27 +5,25 @@
   >
     <span class="text-secondary mr-2">Page</span>
     <div v-if="0 < currentPage - 5" class="mr-2">
-      <span @click="selectPage(0)" class="mr-2" style="cursor: pointer;"
-        >1</span
-      >
+      <span class="mr-2" style="cursor: pointer" @click="selectPage(0)">1</span>
       &mdash;
     </div>
     <div
       v-for="page in pagesToDisplay"
-      @click="selectPage(page)"
       :key="page"
       :class="{ 'text-secondary': page === currentPage }"
-      style="cursor: pointer;"
+      style="cursor: pointer"
       class="ml-2 mr-2"
+      @click="selectPage(page)"
     >
       {{ page + 1 }}
     </div>
     <div v-if="totalPages > currentPage + 5" class="ml-2">
       &mdash;
       <span
-        @click="selectPage(totalPages - 1)"
         class="ml-2"
-        style="cursor: pointer;"
+        style="cursor: pointer"
+        @click="selectPage(totalPages - 1)"
         >{{ totalPages }}</span
       >
     </div>
@@ -36,26 +34,26 @@
 export default {
   props: {
     currentPage: { default: 0, type: Number },
-    totalPages: { default: 0, type: Number }
+    totalPages: { default: 0, type: Number },
   },
   computed: {
     pagesToDisplay() {
-      const start = Math.max(0, this.currentPage - 5)
-      const end = Math.min(this.currentPage + 5, this.totalPages)
+      const start = Math.max(0, this.currentPage - 5);
+      const end = Math.min(this.currentPage + 5, this.totalPages);
 
-      const pages = []
+      const pages = [];
 
       for (let i = start; i < end; i++) {
-        pages.push(i)
+        pages.push(i);
       }
 
-      return pages
-    }
+      return pages;
+    },
   },
   methods: {
     selectPage(page) {
-      this.$emit('page-select', page)
-    }
-  }
-}
+      this.$emit('page-select', page);
+    },
+  },
+};
 </script>
