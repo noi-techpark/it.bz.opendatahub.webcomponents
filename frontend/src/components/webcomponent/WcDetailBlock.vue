@@ -7,9 +7,10 @@
     >
       <div class="row">
         <div
+          style="padding-left: 0"
           class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100"
         >
-          <div style="margin-right: 20px">
+          <div style="margin-right: 35px">
             <nuxt-link
               :to="returnLink"
               class="btn-circle arrow-left filled-dark return-button"
@@ -197,6 +198,16 @@ export default {
     height: 15px;
     width: 15px;
     transform: scale(0.6);
+  }
+}
+
+@media (min-width: 576px) {
+  .detail-content-left {
+    padding-left: 105px;
+  }
+
+  .detail-content-right {
+    padding-right: 105px;
   }
 }
 
