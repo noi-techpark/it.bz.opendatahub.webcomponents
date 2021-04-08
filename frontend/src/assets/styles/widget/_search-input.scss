@@ -1,11 +1,34 @@
 #widget-tags {
+
+	border-bottom: 2px solid #000;
+
   &.active {
     color: $secondary !important;
     border-bottom: 2px solid $secondary !important;
   }
+
+	.filter-text {
+		font-size: 22px;
+		font-weight: bold;
+	}
+	@media (max-width: 576px) {
+		border-bottom: 1px solid #000;
+
+		&.active {
+			border-bottom: 1px solid $secondary !important;
+		}
+
+		.filter-text {
+			font-size: 14px;
+			font-weight: normal;
+		}
+	}
 }
 
 #widget-search {
+
+	border-bottom: 2px solid #000;
+
   &:focus-within,
   &.active {
     border-bottom: 2px solid $secondary !important;
@@ -91,4 +114,23 @@
       }
     }
   }
+
+	.search-text {
+		font-size: 22px;
+		font-weight: bold;
+	}
+
+
+	@media (max-width: 576px) {
+		border-bottom: 1px solid #000;
+
+		&:focus-within, &.active {
+			border-bottom: 1px solid $secondary !important;
+		}
+
+		.search-text {
+			font-size: 14px;
+			font-weight: normal;
+		}
+	}
 }
