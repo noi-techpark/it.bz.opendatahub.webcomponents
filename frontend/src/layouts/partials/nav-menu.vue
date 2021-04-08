@@ -146,7 +146,7 @@
           </div>
         </div>
         <div style="min-height: 200px !important; background-color: #888888">
-          <footer-info></footer-info>
+          <footer-info-menu></footer-info-menu>
         </div>
       </div>
     </div>
@@ -154,12 +154,12 @@
 </template>
 
 <script>
+import FooterInfoMenu from '@/layouts/partials/footer-info-menu'
 import Burger from '~/components/menu/burger'
 import Sidebar from '~/components/menu/sidebar'
-import FooterInfo from '~/layouts/partials/footer-info'
 export default {
   name: 'NavMenu',
-  components: { FooterInfo, Sidebar, Burger },
+  components: { FooterInfoMenu, Sidebar, Burger },
   props: {
     menuActive: {
       type: Boolean,
