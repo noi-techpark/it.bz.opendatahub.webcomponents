@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'spa',
+  ssr: false,
 
   srcDir: 'src/',
 
@@ -114,24 +114,6 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev) {
-        if (ctx.isClient) {
-          config.module.rules.push({
-            enforce: 'pre',
-            test: /\.(js|ts|vue)$/,
-            loader: 'eslint-loader',
-            exclude: /(node_modules)/,
-            options: {
-              fix: true
-            }
-          })
-          config.devtool = 'source-map'
-        } else {
-          config.devtool = 'inline-source-map'
-        }
-      }
-    }
+    extend(config, ctx) {}
   }
 }
