@@ -195,8 +195,7 @@ export default Vue.extend({
       }
       this.currentPage = await this.$api.webcomponent.findAllPaged(
         new PageRequest(pageSize, pageNumber),
-        tags,
-        term
+        { tags, searchTerm: term }
       );
 
       this.isLoaded = true;

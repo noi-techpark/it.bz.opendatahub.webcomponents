@@ -1,5 +1,9 @@
 import ARepository from '~/domain/repository/ARepository';
-import { PageRequest } from '~/domain/repository/PagingAndSorting';
+import { Page, PageRequest } from '~/domain/repository/PagingAndSorting';
+import { WebcomponentFilter } from '~/domain/filter/WebcomponentFilter';
+import { WebcomponentEntryModel } from '~/domain/model/WebcomponentEntryModel';
+import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
+import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
 
 const basePath = 'webcomponent';
 
@@ -8,7 +12,10 @@ export default class WebcomponentRepository extends ARepository {
     super(ctx, defaultErrorCallback, basePath);
   }
 
-  listAllPaged(pageRequest: PageRequest, errorHandler?: any) {
+  listAllPaged(
+    pageRequest: PageRequest,
+    errorHandler?: any
+  ): Promise<Page<WebcomponentEntryModel>> {
     return this.$get(
       `?${this.pageQuery(pageRequest)}&latest=true`,
       errorHandler
@@ -17,21 +24,24 @@ export default class WebcomponentRepository extends ARepository {
 
   findAllPaged(
     pageRequest: PageRequest,
-    tags: string,
-    term: string,
+    filter: WebcomponentFilter,
     errorHandler?: any
-  ) {
+  ): Promise<Page<WebcomponentEntryModel>> {
     return this.$get(
-      `?${this.pageQuery(pageRequest)}&tags=${tags}&searchTerm=${term}`,
+      `?${this.pageQuery(pageRequest)}&${this.filterQuery(filter)}`,
       errorHandler
     );
   }
 
-  getOneById(id: number, errorHandler?: any) {
+  getOneById(id: number, errorHandler?: any): Promise<WebcomponentModel> {
     return this.$get(`/${id}`, errorHandler);
   }
 
-  getConfigById(id: number, version, errorHandler?: any) {
+  getConfigById(
+    id: number,
+    version: string,
+    errorHandler?: any
+  ): Promise<WebcomponentConfigurationModel> {
     return this.$get(`/${id}/config/${version}`, errorHandler);
   }
 }
