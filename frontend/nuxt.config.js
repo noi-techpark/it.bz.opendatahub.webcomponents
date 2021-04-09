@@ -1,5 +1,5 @@
 module.exports = {
-  mode: 'spa',
+  ssr: false,
 
   srcDir: 'src/',
 
@@ -41,7 +41,7 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/api.js',
+    '~/plugins/api-accessor-plugin.ts',
     '~/plugins/fontawesome.js',
     '~/plugins/tooltip.js'
   ],
@@ -49,8 +49,10 @@ module.exports = {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/stylelint-module',
     // Doc: https://github.com/nuxt-community/analytics-module
     [
       '@nuxtjs/google-analytics',
@@ -89,7 +91,8 @@ module.exports = {
       useCookie: true,
       cookieKey: 'i18n_redirected'
     },
-    strategy: 'prefix_except_default'
+    strategy: 'prefix_except_default',
+    vuex: false
   },
 
   /*
@@ -114,24 +117,6 @@ module.exports = {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev) {
-        if (ctx.isClient) {
-          config.module.rules.push({
-            enforce: 'pre',
-            test: /\.(js|ts|vue)$/,
-            loader: 'eslint-loader',
-            exclude: /(node_modules)/,
-            options: {
-              fix: true
-            }
-          })
-          config.devtool = 'source-map'
-        } else {
-          config.devtool = 'inline-source-map'
-        }
-      }
-    }
+    extend(config, ctx) {}
   }
-}
+};

@@ -15,7 +15,7 @@
 
 	<properties>
 		<!-- MODELMAPPER -->
-		<modelmapper.version>2.3.5</modelmapper.version>
+		<modelmapper.version>2.4.0</modelmapper.version>
 	</properties>
 
 	<dependencies>
@@ -54,11 +54,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<!-- SWAGGER -->

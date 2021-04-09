@@ -17,9 +17,9 @@
           </div>
           <div class="d-flex flex-row">
             <div
-              @click="previousPage()"
               :class="{ disabled: isFirst }"
               class="btn-circle arrow-left outline mr-2"
+              @click="previousPage()"
             >
               <svg
                 id="Ebene_1"
@@ -31,12 +31,12 @@
                 width="48px"
                 height="45px"
                 viewBox="0 0 48 45"
-                style="enable-background:new 0 0 48 45;"
+                style="enable-background: new 0 0 48 45"
                 xml:space="preserve"
               >
                 <style type="text/css">
                   .st0 {
-                    fill: #ffffff;
+                    fill: #fff;
                   }
                 </style>
                 <polygon
@@ -46,9 +46,9 @@
               </svg>
             </div>
             <div
-              @click="nextPage()"
               :class="{ disabled: isLast }"
               class="btn-circle arrow-right outline"
+              @click="nextPage()"
             >
               <svg
                 id="Ebene_1"
@@ -60,12 +60,12 @@
                 width="48px"
                 height="45px"
                 viewBox="0 0 48 45"
-                style="enable-background:new 0 0 48 45;"
+                style="enable-background: new 0 0 48 45"
                 xml:space="preserve"
               >
                 <style type="text/css">
                   .st0 {
-                    fill: #ffffff;
+                    fill: #fff;
                   }
                 </style>
                 <polygon
@@ -77,7 +77,7 @@
           </div>
         </div>
 
-        <div id="widget-componentcards" v-if="hasContent" class="row">
+        <div v-if="hasContent" id="widget-componentcards" class="row">
           <div
             v-for="entry in currentPage.content"
             :key="entry.uuid"
@@ -95,26 +95,26 @@
 </template>
 
 <script>
-import Paginator from '~/components/paginator.vue'
-import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue'
+import Paginator from '~/components/paginator.vue';
+import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default {
   components: {
     Paginator,
-    WebcomponentEntryCard
+    WebcomponentEntryCard,
   },
   props: {
     tags: {
       default: () => {
-        return []
+        return [];
       },
-      type: Array
+      type: Array,
     },
     term: { default: '', type: String },
     returnTo: {
       default: null,
-      type: String
-    }
+      type: String,
+    },
   },
   data() {
     return {
@@ -122,86 +122,86 @@ export default {
       pageSize: 24,
       currentPageNumber: 0,
       currentPage: null,
-      timer: null
-    }
+      timer: null,
+    };
   },
+  fetch() {},
   computed: {
     hasContent() {
-      return !this.currentPage.empty
+      return !this.currentPage.empty;
     },
     isFirst() {
-      return this.currentPage.first
+      return this.currentPage.first;
     },
     isLast() {
-      return this.currentPage.last
-    }
+      return this.currentPage.last;
+    },
   },
   watch: {
     term(newVal, oldVal) {
       if (this.timer) {
-        clearTimeout(this.timer)
-        this.timer = null
+        clearTimeout(this.timer);
+        this.timer = null;
       }
 
-      this.timer = setTimeout(this.update, 350)
+      this.timer = setTimeout(this.update, 350);
     },
     tags(newVal, oldVal) {
       if (this.timer) {
-        clearTimeout(this.timer)
-        this.timer = null
+        clearTimeout(this.timer);
+        this.timer = null;
       }
 
-      this.timer = setTimeout(this.update, 350)
-    }
+      this.timer = setTimeout(this.update, 350);
+    },
   },
-  fetch() {},
   mounted() {
-    this.loadPage(this.currentPageNumber, this.pageSize)
+    this.loadPage(this.currentPageNumber, this.pageSize);
   },
   methods: {
     toPage(page) {
-      this.currentPageNumber = page
-      this.loadPage(this.currentPageNumber, this.pageSize)
+      this.currentPageNumber = page;
+      this.loadPage(this.currentPageNumber, this.pageSize);
     },
     nextPage() {
       if (this.isLast === false) {
-        this.loadPage(++this.currentPageNumber, this.pageSize)
+        this.loadPage(++this.currentPageNumber, this.pageSize);
       }
     },
     previousPage() {
       if (this.isFirst === false) {
-        this.loadPage(--this.currentPageNumber, this.pageSize)
+        this.loadPage(--this.currentPageNumber, this.pageSize);
       }
     },
     update() {
-      this.currentPageNumber = 0
-      this.loadPage(this.currentPageNumber, this.pageSize)
+      this.currentPageNumber = 0;
+      this.loadPage(this.currentPageNumber, this.pageSize);
     },
     async loadPage(pageNumber, pageSize) {
-      let term = ''
+      let term = '';
       if (this.term) {
-        term = this.term
+        term = this.term;
       }
 
-      let tags = ''
-      let filtered = []
+      let tags = '';
+      let filtered = [];
       if (Array.isArray(this.tags)) {
         filtered = this.tags.filter((elem) => {
-          return elem !== 'any'
-        })
-        tags = filtered.join(',')
+          return elem !== 'any';
+        });
+        tags = filtered.join(',');
       }
       this.currentPage = await this.$api.webcomponent.findAllPaged(
         pageNumber,
         pageSize,
         tags,
         term
-      )
+      );
 
-      this.isLoaded = true
-    }
-  }
-}
+      this.isLoaded = true;
+    },
+  },
+};
 </script>
 <style lang="scss">
 @media (max-width: 768px) {

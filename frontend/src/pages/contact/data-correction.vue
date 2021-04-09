@@ -6,8 +6,6 @@
 
 <script>
 export default {
-  name: 'DataCorrection'
-}
+  name: 'DataCorrection',
+};
 </script>
-
-<style scoped></style>

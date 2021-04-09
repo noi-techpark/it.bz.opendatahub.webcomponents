@@ -20,35 +20,35 @@
         >
           <div class="d-flex flex-row tab-buttons">
             <div
-              @click="selectTab('publishers')"
               :class="[
                 selectedTab === 'publishers'
                   ? 'tab-button'
-                  : 'tab-button-disabled'
+                  : 'tab-button-disabled',
               ]"
               class="text-uppercase"
+              @click="selectTab('publishers')"
             >
               publishers
             </div>
             <div
-              @click="selectTab('contributors')"
               :class="[
                 selectedTab === 'contributors'
                   ? 'tab-button'
-                  : 'tab-button-disabled'
+                  : 'tab-button-disabled',
               ]"
               class="text-uppercase"
+              @click="selectTab('contributors')"
             >
               contributors
             </div>
             <div
-              @click="selectTab('partners')"
               :class="[
                 selectedTab === 'partners'
                   ? 'tab-button'
-                  : 'tab-button-disabled'
+                  : 'tab-button-disabled',
               ]"
               class="text-uppercase"
+              @click="selectTab('partners')"
             >
               partners
             </div>
@@ -133,18 +133,18 @@
   </div>
 </template>
 <script>
-import ContributorItem from '@/components/contributor-item'
+import ContributorItem from '@/components/contributor-item';
 export default {
   components: { ContributorItem },
   data() {
     return {
-      selectedTab: 'publishers'
-    }
+      selectedTab: 'publishers',
+    };
   },
   methods: {
     selectTab(tabName) {
-      this.selectedTab = tabName
-    }
-  }
-}
+      this.selectedTab = tabName;
+    },
+  },
+};
 </script>

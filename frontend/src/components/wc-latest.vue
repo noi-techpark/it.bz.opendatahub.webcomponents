@@ -19,9 +19,9 @@
         <div class="text-center">
           <a
             v-if="currentPage < maxPage"
-            @click="loadMore()"
             href="javascript: void(0);"
             class="text-secondary d-flex flex-column text-decoration-none"
+            @click="loadMore()"
           >
             <span>load more components</span>
             <span class="chevron bottom bold"></span>
@@ -43,46 +43,44 @@
 </template>
 
 <script>
-import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue'
+import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default {
   components: {
-    WebcomponentEntryCard
+    WebcomponentEntryCard,
   },
   data() {
     return {
       pageSize: 8,
       currentPage: 0,
       maxPage: 0,
-      allList: []
-    }
+      allList: [],
+    };
   },
   mounted() {
-    this.loadAll()
+    this.loadAll();
   },
   methods: {
     async loadAll() {
       const page = await this.$api.webcomponent.listAllPaged(
         this.currentPage,
         this.pageSize
-      )
+      );
 
-      this.maxPage = Math.min(1, page.totalPages - 1)
+      this.maxPage = Math.min(1, page.totalPages - 1);
 
-      this.allList = page.content
+      this.allList = page.content;
     },
     async loadMore() {
-      this.currentPage++
+      this.currentPage++;
 
       const page = await this.$api.webcomponent.listAllPaged(
         ++this.currentPage,
         this.pageSize
-      )
+      );
 
-      this.allList = this.allList.concat(page.content)
-    }
-  }
-}
+      this.allList = this.allList.concat(page.content);
+    },
+  },
+};
 </script>
-
-<style></style>

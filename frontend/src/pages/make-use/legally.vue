@@ -6,8 +6,6 @@
 
 <script>
 export default {
-  name: 'Legally'
-}
+  name: 'Legally',
+};
 </script>
-
-<style scoped></style>

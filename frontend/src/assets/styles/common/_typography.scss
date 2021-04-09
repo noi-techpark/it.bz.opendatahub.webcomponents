@@ -1,47 +1,57 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
 
 .font-xx-large {
-  font-size: xx-large !important;
+	font-size: xx-large !important;
 }
 
 .font-x-large {
-  font-size: x-large !important;
+	font-size: x-large !important;
 }
 
 .font-large {
-  font-size: large !important;
+	font-size: large !important;
 }
 
 .font-larger {
-  font-size: larger !important;
+	font-size: larger !important;
 }
 
 .font-medium {
-  font-size: medium !important;
+	font-size: medium !important;
 }
 
 .font-smaller {
-  font-size: smaller !important;
+	font-size: smaller !important;
 }
 
 .font-small {
-  font-size: small !important;
+	font-size: small !important;
 }
 
 .font-x-small {
-  font-size: x-small !important;
+	font-size: x-small !important;
 }
 
 .font-xx-small {
-  font-size: xx-small !important;
+	font-size: xx-small !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: Roboto Slab, Arial, sans-serif;
-  font-weight: 500 !important;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Roboto Slab, Arial, sans-serif;
+	font-weight: 500 !important;
 }
 
-.h1, .h2, .h3, .h4, .h5, .h6 {
-	font-family: "Source Code Pro", Arial, sans-serif;
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	font-family: 'Source Code Pro', Arial, sans-serif;
 	font-weight: bold !important;
 }

@@ -1,20 +1,17 @@
 <template>
   <sidebar :is-panel-open="menuActive" @toggle-menu="toggleMenu">
-    <div
-      class="side-bar-container d-flex flex-column align-items-end h-100"
-      style=""
-    >
+    <div class="side-bar-container d-flex flex-column align-items-end h-100">
       <div class="d-flex justify-content-end">
         <burger
           v-b-toggle.sidebar-right
-          @toggle-menu="toggleMenu"
           :active="menuActive"
           class="p-4"
+          @toggle-menu="toggleMenu"
         ></burger>
       </div>
       <div
         class="d-flex justify-content-between flex-column h-100 w-100"
-        style="overflow: scroll;"
+        style="overflow: scroll"
       >
         <div class="nav-content">
           <div class="side-menu-item-closed menu-link">
@@ -23,11 +20,13 @@
             >
           </div>
           <div
-            @click="contributeActive = !contributeActive"
             :class="[
-              contributeActive ? 'side-menu-item-open' : 'side-menu-item-closed'
+              contributeActive
+                ? 'side-menu-item-open'
+                : 'side-menu-item-closed',
             ]"
             class="mobile-only side-menu-item"
+            @click="contributeActive = !contributeActive"
           >
             <div class="d-flex justify-content-between menu-link">
               Contribute
@@ -57,11 +56,11 @@
             </div>
           </b-collapse>
           <div
-            @click="makeUseActive = !makeUseActive"
             :class="[
-              makeUseActive ? 'side-menu-item-open' : 'side-menu-item-closed'
+              makeUseActive ? 'side-menu-item-open' : 'side-menu-item-closed',
             ]"
             class="mobile-only side-menu-item"
+            @click="makeUseActive = !makeUseActive"
           >
             <div class="d-flex justify-content-between menu-link">
               Make use
@@ -91,11 +90,11 @@
             </div>
           </b-collapse>
           <div
-            @click="contactActive = !contactActive"
             :class="[
-              contactActive ? 'side-menu-item-open' : 'side-menu-item-closed'
+              contactActive ? 'side-menu-item-open' : 'side-menu-item-closed',
             ]"
             class="mobile-only side-menu-item"
+            @click="contactActive = !contactActive"
           >
             <div class="d-flex justify-content-between menu-link">
               Contact
@@ -145,7 +144,7 @@
             >
           </div>
         </div>
-        <div style="min-height: 200px !important; background-color: #888888">
+        <div style="min-height: 200px !important; background-color: #888">
           <footer-info-menu></footer-info-menu>
         </div>
       </div>
@@ -154,31 +153,31 @@
 </template>
 
 <script>
-import FooterInfoMenu from '@/layouts/partials/footer-info-menu'
-import Burger from '~/components/menu/burger'
-import Sidebar from '~/components/menu/sidebar'
+import FooterInfoMenu from '@/layouts/partials/footer-info-menu';
+import Burger from '~/components/menu/burger';
+import Sidebar from '~/components/menu/sidebar';
 export default {
   name: 'NavMenu',
   components: { FooterInfoMenu, Sidebar, Burger },
   props: {
     menuActive: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       contributeActive: false,
       makeUseActive: false,
-      contactActive: false
-    }
+      contactActive: false,
+    };
   },
   methods: {
     toggleMenu() {
-      this.$emit('toggleMenu', !this.menuActive)
-    }
-  }
-}
+      this.$emit('toggleMenu', !this.menuActive);
+    },
+  },
+};
 </script>
 
 <style scoped>

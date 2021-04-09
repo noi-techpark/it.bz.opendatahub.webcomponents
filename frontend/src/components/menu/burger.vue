@@ -2,7 +2,7 @@
   <div
     id="burger"
     :class="{
-      active: active
+      active: active,
     }"
     @click="toggleActive"
   >
@@ -21,15 +21,15 @@ export default {
     active: {
       type: Boolean,
       required: true,
-      default: false
-    }
+      default: false,
+    },
   },
   methods: {
     toggleActive() {
-      this.$emit('toggle-menu')
-    }
-  }
-}
+      this.$emit('toggle-menu');
+    },
+  },
+};
 </script>
 <style>
 .hidden {
@@ -76,9 +76,6 @@ button:focus {
   -webkit-transform: translateY(-6px);
   transform: translateY(-6px) scaleX(0.7);
   transform-origin: 0 50%;
-}
-
-.burger-bar--2 {
 }
 
 .burger-button:hover .burger-bar--1 {

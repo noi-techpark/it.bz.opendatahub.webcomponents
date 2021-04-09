@@ -21,6 +21,7 @@
         <h3>#Author</h3>
         <div
           v-for="author in component.authors"
+          :key="author"
           class="d-flex flex-row align-items-center bottom-border"
         >
           <div class="circle-icon"></div>
@@ -51,14 +52,9 @@ export default {
     component: {
       type: Object,
       default: () => {
-        return {}
-      }
-    }
+        return {};
+      },
+    },
   },
-  mounted() {
-    console.log(this.component)
-  }
-}
+};
 </script>
-
-<style scoped></style>

@@ -78,12 +78,12 @@
           </div>
           <burger
             v-b-toggle.sidebar-right
-            @toggle-menu="toggleMenu"
             :active="menuActive"
             class="mr-4"
+            @toggle-menu="toggleMenu"
           ></burger>
           <nav-menu
-            :menuActive="menuActive"
+            :menu-active="menuActive"
             @toggleMenu="toggleMenu"
           ></nav-menu>
         </div>
@@ -92,8 +92,8 @@
   </header>
 </template>
 <script>
-import Burger from '~/components/menu/burger'
-import NavMenu from '~/layouts/partials/nav-menu'
+import Burger from '~/components/menu/burger';
+import NavMenu from '~/layouts/partials/nav-menu';
 export default {
   name: 'Header',
   components: { NavMenu, Burger },
@@ -102,15 +102,13 @@ export default {
       menuActive: false,
       contributeActive: false,
       makeUseActive: false,
-      contactActive: false
-    }
+      contactActive: false,
+    };
   },
   methods: {
     toggleMenu() {
-      this.menuActive = !this.menuActive
-    }
-  }
-}
+      this.menuActive = !this.menuActive;
+    },
+  },
+};
 </script>
-
-<style lang="scss"></style>

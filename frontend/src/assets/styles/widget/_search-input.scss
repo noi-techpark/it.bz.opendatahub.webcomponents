@@ -1,11 +1,10 @@
 #widget-tags {
-
 	border-bottom: 2px solid #000;
 
-  &.active {
-    color: $secondary !important;
-    border-bottom: 2px solid $secondary !important;
-  }
+	&.active {
+		color: $secondary !important;
+		border-bottom: 2px solid $secondary !important;
+	}
 
 	.filter-text {
 		font-size: 22px;
@@ -26,105 +25,106 @@
 }
 
 #widget-search {
-
 	border-bottom: 2px solid #000;
 
-  &:focus-within,
-  &.active {
-    border-bottom: 2px solid $secondary !important;
+	.search-image .a,
+	.search-image .b {
+		stroke: $body-color !important;
+	}
 
-    .search-image .a,
-    .search-image .b {
-      stroke: $secondary !important;
-    }
-  }
+	&:focus-within,
+	&.active {
+		border-bottom: 2px solid $secondary !important;
 
-  .search-image .a,
-  .search-image .b {
-    stroke: $body-color !important;
-  }
+		.search-image .a,
+		.search-image .b {
+			stroke: $secondary !important;
+		}
+	}
 
-  .search-image {
-    cursor: pointer;
-  }
+	.search-image {
+		cursor: pointer;
+	}
 
-  &.active {
-    .search-input {
-      input {
-        color: $secondary;
+	.search-input {
+		input {
+			background-color: inherit;
+			border: none;
 
-        &::placeholder {
-          /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: $secondary;
-          opacity: 1; /* Firefox */
-        }
+			&::placeholder {
+				/* Chrome, Firefox, Opera, Safari 10.1+ */
+				color: $primary;
+				opacity: 1; /* Firefox */
+			}
 
-        &:-ms-input-placeholder {
-          /* Internet Explorer 10-11 */
-          color: $secondary;
-        }
+			&::-ms-input-placeholder {
+				/* Microsoft Edge */
+				color: $primary;
+			}
 
-        &::-ms-input-placeholder {
-          /* Microsoft Edge */
-          color: $secondary;
-        }
-      }
-    }
-  }
+			&:-ms-input-placeholder {
+				/* Internet Explorer 10-11 */
+				color: $primary;
+			}
 
-  .search-input {
-    input {
-      background-color: inherit;
-      border: none;
+			&:focus {
+				color: $secondary;
 
-      &::placeholder {
-        /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: $primary;
-        opacity: 1; /* Firefox */
-      }
+				&::placeholder {
+					/* Chrome, Firefox, Opera, Safari 10.1+ */
+					color: $secondary;
+					opacity: 1; /* Firefox */
+				}
 
-      &:-ms-input-placeholder {
-        /* Internet Explorer 10-11 */
-        color: $primary;
-      }
+				&::-ms-input-placeholder {
+					/* Microsoft Edge */
+					color: $secondary;
+				}
 
-      &::-ms-input-placeholder {
-        /* Microsoft Edge */
-        color: $primary;
-      }
+				&:-ms-input-placeholder {
+					/* Internet Explorer 10-11 */
+					color: $secondary;
+				}
+			}
+		}
+	}
 
-      &:focus {
-        color: $secondary;
+	&.active {
+		.search-input {
+			/* stylelint-disable-next-line */
+			input {
+				color: $secondary;
 
-        &::placeholder {
-          /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: $secondary;
-          opacity: 1; /* Firefox */
-        }
+				&::placeholder {
+					/* Chrome, Firefox, Opera, Safari 10.1+ */
+					color: $secondary;
+					opacity: 1; /* Firefox */
+				}
 
-        &:-ms-input-placeholder {
-          /* Internet Explorer 10-11 */
-          color: $secondary;
-        }
+				/* stylelint-disable-next-line */
+				&::-ms-input-placeholder {
+					/* Microsoft Edge */
+					color: $secondary;
+				}
 
-        &::-ms-input-placeholder {
-          /* Microsoft Edge */
-          color: $secondary;
-        }
-      }
-    }
-  }
+				&:-ms-input-placeholder {
+					/* Internet Explorer 10-11 */
+					color: $secondary;
+				}
+			}
+		}
+	}
 
 	.search-text {
 		font-size: 22px;
 		font-weight: bold;
 	}
 
-
 	@media (max-width: 576px) {
 		border-bottom: 1px solid #000;
 
-		&:focus-within, &.active {
+		&:focus-within,
+		&.active {
 			border-bottom: 1px solid $secondary !important;
 		}
 

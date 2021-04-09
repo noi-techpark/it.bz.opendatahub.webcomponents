@@ -6,8 +6,6 @@
 
 <script>
 export default {
-  name: 'DataProvider'
-}
+  name: 'DataProvider',
+};
 </script>
-
-<style scoped></style>

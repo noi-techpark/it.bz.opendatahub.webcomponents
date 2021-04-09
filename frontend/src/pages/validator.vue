@@ -2,9 +2,7 @@
 <template>
   <div class="mb-5">
     <div class="container container-extended pb-4 pl-4 pr-4">
-      <h1>
-        Validator
-      </h1>
+      <h1>Validator</h1>
       <div class="row">
         <div class="col-md-8">
           <div class="text-uppercase font-weight-bold mb-2">
@@ -14,12 +12,12 @@
             <b-card-text id="twrap" class="text-center">
               <AceEditor
                 v-model="wcsManifest"
-                @input="parseJson"
-                @init="editorInit"
                 theme="github"
                 lang="json"
                 class="container-fluid text-monospace"
                 style="min-height: 500px"
+                @input="parseJson"
+                @init="editorInit"
               ></AceEditor>
             </b-card-text>
             <div slot="footer" class="d-flex flex-column flex-sm-row">
@@ -74,9 +72,7 @@
                 :config="config"
                 @snippet="updateSnippet"
               ></WcsConfigTool>
-              <span v-else>
-                No preview due to errors
-              </span>
+              <span v-else> No preview due to errors </span>
             </b-card-text>
           </b-card>
         </div>
@@ -84,19 +80,17 @@
       <div class="row mt-5">
         <div class="col-12">
           <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
-          <b-card id="widget-codesnippet" style="min-height: 250px;">
+          <b-card id="widget-codesnippet" style="min-height: 250px">
             <b-card-text>
               <textarea
-                id="code-snippet"
                 v-if="!errors"
+                id="code-snippet"
                 v-model="snipp"
                 class="full-width full-height code-snippet text-monospace"
-                style="border: 0; background-color: inherit;"
+                style="border: 0; background-color: inherit"
                 rows="10"
               ></textarea>
-              <span v-else>
-                No code snippet due to errors
-              </span>
+              <span v-else> No code snippet due to errors </span>
             </b-card-text>
           </b-card>
         </div>
@@ -106,11 +100,11 @@
 </template>
 
 <script>
-import WcsConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator'
-import Ajv from 'ajv'
-import Schema from 'static/schemas/wcs-manifest-schema.json'
-import Example from 'static/wcs-manifest-example.json'
-import AceEditor from 'vue2-ace-editor'
+import WcsConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+import Ajv from 'ajv';
+import Schema from 'static/schemas/wcs-manifest-schema.json';
+import Example from 'static/wcs-manifest-example.json';
+import AceEditor from 'vue2-ace-editor';
 
 export default {
   components: { WcsConfigTool, AceEditor },
@@ -121,50 +115,50 @@ export default {
       Example,
       snipp: '',
       config: null,
-      errors: null
-    }
+      errors: null,
+    };
   },
   mounted() {
-    this.wcsManifest = JSON.stringify(this.Example, null, 2)
-    this.parseJson()
+    this.wcsManifest = JSON.stringify(this.Example, null, 2);
+    this.parseJson();
   },
   methods: {
     editorInit() {
-      require('brace/ext/language_tools')
-      require('brace/mode/json')
-      require('brace/theme/github')
+      require('brace/ext/language_tools');
+      require('brace/mode/json');
+      require('brace/theme/github');
     },
     updateSnippet(data) {
-      this.snipp = data
+      this.snipp = data;
     },
     getLineNumber(errorMsg) {
-      let lineNumber = null
+      let lineNumber = null;
 
       /* Firefox gives us the line number */
-      let match = /line ([0-9]+)/.exec(errorMsg)
+      let match = /line ([0-9]+)/.exec(errorMsg);
       if (match) {
-        lineNumber = match.length > 1 ? match[1] : match[0]
+        lineNumber = match.length > 1 ? match[1] : match[0];
       } else {
         /* Other browsers just give a position in the JSON string */
-        match = /position ([0-9]+)/.exec(errorMsg)
+        match = /position ([0-9]+)/.exec(errorMsg);
         if (match) {
-          const position = match.length > 1 ? match[1] : match[0]
-          const tmp = this.wcsManifest.substring(0, position)
-          lineNumber = (tmp.match(/\n/g) || '').length + 1
+          const position = match.length > 1 ? match[1] : match[0];
+          const tmp = this.wcsManifest.substring(0, position);
+          lineNumber = (tmp.match(/\n/g) || '').length + 1;
         }
       }
-      return lineNumber
+      return lineNumber;
     },
     parseJson() {
-      let wcsManifestParsed = {}
-      this.errors = []
-      this.config = null
+      let wcsManifestParsed = {};
+      this.errors = [];
+      this.config = null;
       const ajv = new Ajv({
         $data: true,
         verbose: false,
         allErrors: true,
-        format: 'full'
-      })
+        format: 'full',
+      });
       ajv.addKeyword('validDefault', {
         type: ['string', 'null', 'array'],
         modifying: true,
@@ -182,15 +176,15 @@ export default {
             !!parentData.values &&
             parentData.values.includes(parentData.default)
           ) {
-            return true
+            return true;
           }
-          return false
+          return false;
         },
-        errors: true
-      })
+        errors: true,
+      });
       try {
-        const validate = ajv.compile(this.Schema)
-        wcsManifestParsed = JSON.parse(this.wcsManifest)
+        const validate = ajv.compile(this.Schema);
+        wcsManifestParsed = JSON.parse(this.wcsManifest);
         if (!validate(wcsManifestParsed)) {
           const errors = validate.errors
             .filter((error) => {
@@ -199,16 +193,16 @@ export default {
                 case 'should match "then" schema':
                 case 'should match "else" schema':
                 case 'should match some schema in anyOf':
-                  return false
+                  return false;
               }
-              return true
+              return true;
             })
             .map((error) => {
               if (
                 error.params.keyword &&
                 error.params.keyword === 'validDefault'
               ) {
-                error.params.keyword = 'Choose any item inside .values'
+                error.params.keyword = 'Choose any item inside .values';
               }
               return {
                 text: error.message,
@@ -217,30 +211,31 @@ export default {
                   Object.keys(error.params).length === 0 &&
                   error.params.constructor === Object
                     ? null
-                    : error.params
-              }
-            })
-          this.errors = [...this.errors, ...errors]
+                    : error.params,
+              };
+            });
+          this.errors = [...this.errors, ...errors];
 
-          return
+          return;
         }
       } catch (e) {
         if (e instanceof SyntaxError) {
-          const lineNumber = this.getLineNumber(e.message)
+          const lineNumber = this.getLineNumber(e.message);
           this.errors = [
             ...this.errors,
             {
-              text: 'Syntax error' + (lineNumber ? ' @ line ' + lineNumber : '')
-            }
-          ]
+              text:
+                'Syntax error' + (lineNumber ? ' @ line ' + lineNumber : ''),
+            },
+          ];
         } else {
-          this.errors = [...this.errors, { text: e.message }]
+          this.errors = [...this.errors, { text: e.message }];
         }
-        return
+        return;
       }
-      this.errors = null
-      this.config = wcsManifestParsed.configuration
-    }
-  }
-}
+      this.errors = null;
+      this.config = wcsManifestParsed.configuration;
+    },
+  },
+};
 </script>
