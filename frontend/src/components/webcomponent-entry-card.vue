@@ -79,12 +79,7 @@ export default {
   computed: {
     getLogo() {
       if (this.entry.image) {
-        return (
-          this.$axios.defaults.baseURL +
-          '/webcomponent/' +
-          this.entry.uuid +
-          '/logo'
-        );
+        return this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo';
       }
 
       return '/component_placeholder.png';
