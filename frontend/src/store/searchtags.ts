@@ -20,15 +20,8 @@ export default class SearchtagsModule extends VuexModule {
 
   @Action
   async loadSearchtags() {
-    console.log('yo');
-    /* await new Promise(() => {
-      return true
-    }) */
-    console.log('?', $api);
     const result = await $api.searchtag.listAll();
 
     this.setSearchtags(result);
-    // const users = await $axios.$get('/users')
-    // this.setUsers(users)
   }
 }
