@@ -33,12 +33,12 @@ export default class WebcomponentRepository extends ARepository {
     );
   }
 
-  getOneById(id: number, errorHandler?: any): Promise<WebcomponentModel> {
+  getOneById(id: string, errorHandler?: any): Promise<WebcomponentModel> {
     return this.$get(`/${id}`, errorHandler);
   }
 
   getConfigById(
-    id: number,
+    id: string,
     version: string,
     errorHandler?: any
   ): Promise<WebcomponentConfigurationModel> {

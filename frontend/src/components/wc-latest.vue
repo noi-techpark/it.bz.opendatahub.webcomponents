@@ -3,13 +3,13 @@
     <div class="bg-light">
       <div class="container container-extended p-4">
         <div class="float-right font-weight-bold">
-          1 &mdash; {{ allList.length }}
+          1 &mdash; {{ visibleWebcomponents.length }}
         </div>
         <h1>Newest</h1>
 
         <div id="widget-componentcards" class="row">
           <div
-            v-for="entry in allList"
+            v-for="entry in visibleWebcomponents"
             :key="entry.uuid"
             class="col-md-6 col-lg-4 col-xl-3 mb-4"
           >
@@ -18,7 +18,7 @@
         </div>
         <div class="text-center">
           <a
-            v-if="currentPage < maxPage"
+            v-if="!moreEnabled"
             href="javascript: void(0);"
             class="text-secondary d-flex flex-column text-decoration-none"
             @click="loadMore()"
@@ -45,6 +45,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { PageRequest } from '../domain/repository/PagingAndSorting';
+import { webcomponentListStore } from '../utils/store-accessor';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default Vue.extend({
@@ -53,33 +54,32 @@ export default Vue.extend({
   },
   data() {
     return {
-      pageSize: 8,
-      currentPage: 0,
-      maxPage: 0,
-      allList: [],
+      listLimit: 8,
+      moreEnabled: false,
     };
   },
-  mounted() {
-    this.loadAll();
+  computed: {
+    visibleWebcomponents() {
+      return webcomponentListStore.getLoadedPage.content.filter(
+        (item, index) => {
+          return index < this.listLimit;
+        }
+      );
+    },
+  },
+  created() {
+    webcomponentListStore.loadPage({
+      pageRequest: new PageRequest(16, 0),
+      filter: {
+        tags: null,
+        searchTerm: null,
+      },
+    });
   },
   methods: {
-    async loadAll() {
-      const page = await this.$api.webcomponent.listAllPaged(
-        new PageRequest(this.pageSize, this.currentPage)
-      );
-
-      this.maxPage = Math.min(1, page.totalPages - 1);
-
-      this.allList = page.content;
-    },
-    async loadMore() {
-      this.currentPage++;
-
-      const page = await this.$api.webcomponent.listAllPaged(
-        new PageRequest(this.pageSize, ++this.currentPage)
-      );
-
-      this.allList = this.allList.concat(page.content);
+    loadMore() {
+      this.listLimit = 16;
+      this.moreEnabled = true;
     },
   },
 });

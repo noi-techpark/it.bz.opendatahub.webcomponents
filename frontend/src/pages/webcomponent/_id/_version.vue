@@ -12,7 +12,11 @@
       >
         <div class="d-flex justify-content-end h3 row detail-content-right">
           Version
-          <b-form-select v-model="selectedVersion" style="max-width: 150px">
+          <b-form-select
+            :value="selectedVersion"
+            @change="reloadConfig"
+            style="max-width: 150px"
+          >
             <option
               v-for="version in component.versions"
               :key="version.versionTag"
@@ -98,6 +102,7 @@
             <b-card class="full-height widget-config">
               <b-card-text>
                 <WCSConfigTool
+                  v-if="config"
                   :config="config.configuration"
                   @snippet="updateSnippet"
                 ></WCSConfigTool>
@@ -234,6 +239,7 @@
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
 import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
+import { webcomponentStore } from '~/utils/store-accessor';
 
 export default {
   components: {
@@ -247,10 +253,7 @@ export default {
       snippOriginal: '',
       attribs: '',
       editmode: false,
-      component: null,
-      config: { configuration: { tagName: '' } },
       autoUpdate: true,
-      selectedVersion: null,
       previewBaseURL: '',
       showPreview: true,
       selectedView: '',
@@ -270,16 +273,21 @@ export default {
       }
       return this.selectedVersion === this.component.versions[0].versionTag;
     },
-  },
-  watch: {
-    selectedVersion(newValue, oldValue) {
-      if (oldValue !== null) {
-        this.reloadConfig();
-      }
+    component() {
+      return webcomponentStore.currentWebcomponent;
+    },
+    config() {
+      return webcomponentStore.currentConfig;
+    },
+    selectedVersion() {
+      return webcomponentStore.currentVersion;
     },
   },
-  mounted() {
-    this.loadData();
+  created() {
+    webcomponentStore.loadWebcomponent({
+      uuid: this.$route.params.id,
+      version: this.$route.params.version,
+    });
   },
   methods: {
     setShowPreview(show) {
@@ -296,37 +304,13 @@ export default {
         }
       }
     },
-    reloadConfig() {
+    reloadConfig(version) {
       this.$router.push(
         this.localePath({
           name: 'webcomponent-id-version',
-          params: { id: this.$route.params.id, version: this.selectedVersion },
+          params: { id: this.$route.params.id, version },
         })
       );
-    },
-    async loadData() {
-      this.component = await this.$api.webcomponent.getOneById(
-        this.$route.params.id
-      );
-
-      if (this.$route.params.version) {
-        this.component.versions.forEach((entry) => {
-          if (entry.versionTag === this.$route.params.version) {
-            this.selectedVersion = this.$route.params.version;
-          }
-        });
-      }
-
-      if (!this.selectedVersion) {
-        this.selectedVersion = this.component.versions[0].versionTag;
-      }
-
-      this.config = await this.$api.webcomponent.getConfigById(
-        this.$route.params.id,
-        this.selectedVersion
-      );
-
-      this.previewBaseURL = this.$api.baseUrl;
     },
     updateSnippet(data) {
       this.snipp = data + '\n' + this.getDistIncludes().join('\n');

@@ -25,7 +25,7 @@ export interface WebcomponentModel {
 
   searchTags: Array<string>;
 
-  versions: WebcomponentVersionModel;
+  versions: Array<WebcomponentVersionModel>;
 
   datePublished: string;
 

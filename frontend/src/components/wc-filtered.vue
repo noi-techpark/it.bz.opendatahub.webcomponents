@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="isLoaded" class="bg-light">
+    <div class="bg-light">
       <div class="container container-extended p-4">
         <div
           class="d-flex justify-content-between align-items-center pb-2 flex-wrap"
@@ -97,6 +97,7 @@
 <script lang="ts">
 import Vue from 'vue';
 import { PageRequest } from '../domain/repository/PagingAndSorting';
+import { webcomponentListStore } from '../utils/store-accessor';
 import Paginator from '~/components/paginator.vue';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
@@ -120,10 +121,8 @@ export default Vue.extend({
   },
   data() {
     return {
-      isLoaded: false,
       pageSize: 24,
       currentPageNumber: 0,
-      currentPage: null,
       timer: null,
     };
   },
@@ -137,6 +136,9 @@ export default Vue.extend({
     },
     isLast() {
       return this.currentPage.last;
+    },
+    currentPage() {
+      return webcomponentListStore.getLoadedPage;
     },
   },
   watch: {
@@ -157,7 +159,7 @@ export default Vue.extend({
       this.timer = setTimeout(this.update, 350);
     },
   },
-  mounted() {
+  created() {
     this.loadPage(this.currentPageNumber, this.pageSize);
   },
   methods: {
@@ -179,7 +181,7 @@ export default Vue.extend({
       this.currentPageNumber = 0;
       this.loadPage(this.currentPageNumber, this.pageSize);
     },
-    async loadPage(pageNumber, pageSize) {
+    loadPage(pageNumber, pageSize) {
       let term = '';
       if (this.term) {
         term = this.term;
@@ -193,12 +195,14 @@ export default Vue.extend({
         });
         tags = filtered.join(',');
       }
-      this.currentPage = await this.$api.webcomponent.findAllPaged(
-        new PageRequest(pageSize, pageNumber),
-        { tags, searchTerm: term }
-      );
 
-      this.isLoaded = true;
+      webcomponentListStore.loadPage({
+        pageRequest: new PageRequest(pageSize, pageNumber),
+        filter: {
+          tags,
+          searchTerm: term,
+        },
+      });
     },
   },
 });
