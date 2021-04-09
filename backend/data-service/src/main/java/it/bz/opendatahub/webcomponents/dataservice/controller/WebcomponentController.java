@@ -35,7 +35,7 @@ public class WebcomponentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<WebcomponentEntry>> find(
+    public Page<WebcomponentEntry> find(
                                                            @RequestParam(name = "tags", required = false) String[] tags,
                                                            @RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
                                                            @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer requestPageNumber,
@@ -58,27 +58,31 @@ public class WebcomponentController {
 
         Page<WebcomponentDto> resultPage = webcomponentService.listAll(pageRequest, tagList, searchTerm);
 
-        return new ResponseEntity<>(new PageImpl<>(webcomponentEntryConverter.dtoToRest(resultPage.getContent()), pageRequest, resultPage.getTotalElements()), HttpStatus.OK);
+        return new PageImpl<>(
+        	webcomponentEntryConverter.dtoToRest(resultPage.getContent()),
+			pageRequest,
+			resultPage.getTotalElements()
+		);
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<Webcomponent> getOne(@PathVariable String uuid) {
-        return new ResponseEntity<>(webcomponentConverter.dtoToRest(webcomponentService.findOne(uuid)), HttpStatus.OK);
+    public Webcomponent getOne(@PathVariable String uuid) {
+        return webcomponentConverter.dtoToRest(webcomponentService.findOne(uuid));
     }
 
     @GetMapping("/{uuid}/config")
-    public ResponseEntity<WebcomponentConfiguration> getConfiguration(@PathVariable String uuid) {
-        return new ResponseEntity<>(webcomponentService.getConfiguration(uuid), HttpStatus.OK);
+    public WebcomponentConfiguration getConfiguration(@PathVariable String uuid) {
+        return webcomponentService.getConfiguration(uuid);
     }
 
     @GetMapping("/{uuid}/config/{versionTag}")
-    public ResponseEntity<WebcomponentConfiguration> getConfigurationForVersion(@PathVariable String uuid, @PathVariable String versionTag) {
-        return new ResponseEntity<>(webcomponentService.getConfiguration(uuid, versionTag), HttpStatus.OK);
+    public WebcomponentConfiguration getConfigurationForVersion(@PathVariable String uuid, @PathVariable String versionTag) {
+        return webcomponentService.getConfiguration(uuid, versionTag);
     }
 
     @GetMapping(value = "/{uuid}/logo", produces = "image/png")
-    public ResponseEntity<byte[]> getLogoImage(@PathVariable String uuid) {
-        return new ResponseEntity<>(webcomponentService.getLogoImage(uuid), HttpStatus.OK);
+    public byte[] getLogoImage(@PathVariable String uuid) {
+        return webcomponentService.getLogoImage(uuid);
 	}
 
 }
