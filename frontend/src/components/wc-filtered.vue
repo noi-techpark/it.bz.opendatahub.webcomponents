@@ -94,11 +94,13 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import { PageRequest } from '../domain/repository/PagingAndSorting';
 import Paginator from '~/components/paginator.vue';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
-export default {
+export default Vue.extend({
   components: {
     Paginator,
     WebcomponentEntryCard,
@@ -192,8 +194,7 @@ export default {
         tags = filtered.join(',');
       }
       this.currentPage = await this.$api.webcomponent.findAllPaged(
-        pageNumber,
-        pageSize,
+        new PageRequest(pageSize, pageNumber),
         tags,
         term
       );
@@ -201,8 +202,9 @@ export default {
       this.isLoaded = true;
     },
   },
-};
+});
 </script>
+
 <style lang="scss">
 @media (max-width: 768px) {
   .components-title {

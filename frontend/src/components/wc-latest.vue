@@ -42,10 +42,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import { PageRequest } from '../domain/repository/PagingAndSorting';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
-export default {
+export default Vue.extend({
   components: {
     WebcomponentEntryCard,
   },
@@ -63,8 +65,7 @@ export default {
   methods: {
     async loadAll() {
       const page = await this.$api.webcomponent.listAllPaged(
-        this.currentPage,
-        this.pageSize
+        new PageRequest(this.pageSize, this.currentPage)
       );
 
       this.maxPage = Math.min(1, page.totalPages - 1);
@@ -75,12 +76,11 @@ export default {
       this.currentPage++;
 
       const page = await this.$api.webcomponent.listAllPaged(
-        ++this.currentPage,
-        this.pageSize
+        new PageRequest(this.pageSize, ++this.currentPage)
       );
 
       this.allList = this.allList.concat(page.content);
     },
   },
-};
+});
 </script>
