@@ -67,7 +67,7 @@
         </div>
       </div>
     </div>
-    <footer-info show-scroll-button="true"></footer-info>
+    <footer-info :show-scroll-button="true"></footer-info>
   </footer>
 </template>
 
