@@ -1,18 +1,17 @@
 <template>
-  <div>
+  <div class="display: flex; flex-direction: column">
     <b-carousel
       id="carousel-1"
       v-model="slide"
       :interval="6000"
       controls
       indicators
-      background="#ababab"
       img-width="1024"
       img-height="300"
-      style="text-shadow: 1px 1px 2px #333"
       @sliding-start="onSlideStart"
       @sliding-end="onSlideEnd"
     >
+      <div class="carousel-background"></div>
       <!-- Text slides with image -->
       <b-carousel-slide
         caption="First slide"
@@ -21,8 +20,19 @@
       ></b-carousel-slide>
 
       <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://picsum.photos/1024/480/?image=54">
-        <h1>Hello world!</h1>
+      <b-carousel-slide
+        img-src="https://picsum.photos/1024/480/?image=54"
+        caption="Image"
+        img-alt="image"
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
+          pellentesque ut lacus vel interdum.
+        </p>
+        <nuxt-link :to="localePath('/contact')" class="text-secondary"
+          >learn more</nuxt-link
+        >
       </b-carousel-slide>
 
       <!-- Slides with image only -->
@@ -30,9 +40,7 @@
         img-src="https://picsum.photos/1024/480/?image=58"
       ></b-carousel-slide>
 
-      <!-- Slides with img slot -->
-      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-      <b-carousel-slide>
+      <b-carousel-slide caption="Image" img-blank img-alt="image">
         <template #img>
           <img
             class="d-block img-fluid w-100"
@@ -42,6 +50,14 @@
             alt="image slot"
           />
         </template>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
+          pellentesque ut lacus vel interdum.
+        </p>
+        <nuxt-link :to="localePath('/contact')" class="text-secondary"
+          >learn more</nuxt-link
+        >
       </b-carousel-slide>
 
       <!-- Slide with blank fluid image to maintain slide aspect ratio -->
@@ -51,6 +67,9 @@
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
           pellentesque ut lacus vel interdum.
         </p>
+        <nuxt-link :to="localePath('/contact')" class="text-secondary"
+          >learn more</nuxt-link
+        >
       </b-carousel-slide>
     </b-carousel>
   </div>
@@ -79,6 +98,8 @@ export default {
 <style>
 .carousel-indicators {
   top: 10px !important;
+  z-index: 21;
+  height: 50px;
 }
 
 #carousel-1 {
@@ -88,5 +109,19 @@ export default {
 
 .carousel-caption {
   top: 50px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  display: none;
+}
+
+.carousel-background {
+  height: 300px;
+  width: 100%;
+  background-color: #2e3131;
+  position: absolute;
+  opacity: 0.6;
+  z-index: 1;
 }
 </style>
