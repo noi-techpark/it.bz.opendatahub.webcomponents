@@ -7,8 +7,7 @@
     >
       <div class="row">
         <div
-          style="padding-left: 0"
-          class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100"
+          class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-md-0"
         >
           <div style="margin-right: 35px">
             <nuxt-link
@@ -199,7 +198,7 @@ export default {
   }
 }
 
-@media (min-width: 576px) {
+@media (min-width: 768px) {
   .detail-content-left {
     padding-left: 105px;
   }

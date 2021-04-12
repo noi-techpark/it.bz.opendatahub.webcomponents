@@ -8,22 +8,27 @@
     ></WcDetailBlock>
     <div v-if="showPreview">
       <div
-        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-sm-2"
+        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3"
       >
-        <div class="d-flex justify-content-end h3 row detail-content-right">
-          Version
-          <b-form-select
-            :value="selectedVersion"
-            @change="reloadConfig"
-            style="max-width: 150px"
+        <div class="row d-flex justify-content-end">
+          <div
+            class="h3 detail-content-right col-md-8 d-flex justify-content-end"
           >
-            <option
-              v-for="version in component.versions"
-              :key="version.versionTag"
+            Version
+            <b-form-select
+              :value="selectedVersion"
+              @change="reloadConfig"
+              style="max-width: 150px"
+              class="version-select"
             >
-              {{ version.versionTag }}
-            </option>
-          </b-form-select>
+              <option
+                v-for="version in component.versions"
+                :key="version.versionTag"
+              >
+                {{ version.versionTag }}
+              </option>
+            </b-form-select>
+          </div>
         </div>
 
         <b-alert
@@ -502,5 +507,9 @@ export default {
 .d-table {
   border-collapse: separate;
   border-spacing: 0 0.5rem;
+}
+
+.version-select {
+  padding-right: 8px !important;
 }
 </style>
