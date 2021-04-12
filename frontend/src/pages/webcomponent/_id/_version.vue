@@ -19,7 +19,7 @@
               :value="selectedVersion"
               @change="reloadConfig"
               style="max-width: 150px"
-              class="version-select"
+              class="version-select ml-2"
             >
               <option
                 v-for="version in component.versions"
