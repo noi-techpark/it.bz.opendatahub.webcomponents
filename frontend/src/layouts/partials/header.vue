@@ -15,7 +15,9 @@
         <div class="d-flex flex-row align-items-center">
           <div class="mt-lg-0 nav-bar">
             <b-nav class="text-uppercase">
-              <b-nav-item :to="localePath('index')">home</b-nav-item>
+              <b-nav-item :to="localePath('index')" class="home-menu-item"
+                >home</b-nav-item
+              >
               <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
               <b-nav-item-dropdown
                 id="my-nav-dropdown"

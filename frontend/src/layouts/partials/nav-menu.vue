@@ -83,7 +83,7 @@
             </div>
             <div class="pl-4 side-menu-item menu-sub-link">
               <nuxt-link
-                :to="localePath('/make-use/technically')"
+                :to="localePath('/make-use/legally')"
                 @click.native="toggleMenu"
                 >...legally</nuxt-link
               >
