@@ -1,6 +1,8 @@
 <template>
   <div class="d-flex flex-column align-items-center">
-    <div class="circle-icon"></div>
+    <div class="circle-icon">
+      <img :src="imageSrc" width="70" height="70" />
+    </div>
     <div class="text-uppercase font-weight-bold quote-title">
       {{ title }}
     </div>
@@ -16,6 +18,7 @@ export default {
   props: {
     title: { default: '', type: String },
     quote: { default: '', type: String },
+    imageSrc: { default: null, type: String },
   },
 };
 </script>

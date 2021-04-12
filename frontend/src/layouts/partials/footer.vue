@@ -10,6 +10,7 @@
         <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
           <quote-item
             title="Contributing"
+            image-src="/icons/publishers/publisher4.png"
             quote="Often the best way to get them is to put our hands into starting new
             projects or contributing to existing ones."
           ></quote-item>
@@ -17,18 +18,21 @@
         <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
           <quote-item
             title="Sharing"
+            image-src="/icons/publishers/publisher2.png"
             quote="There are several reasons you might want to contribute to open source software."
           ></quote-item>
         </b-col>
         <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
           <quote-item
             title="Knowledge"
+            image-src="/icons/publishers/publisher3.png"
             quote="It's useful regardless of whether or not you're a student."
           ></quote-item>
         </b-col>
         <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
           <quote-item
             title="Networking"
+            image-src="/icons/publishers/publisher1.png"
             quote="The fulfilling feeling of giving back and contributing to society is unparalleled."
           ></quote-item>
         </b-col>
