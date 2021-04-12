@@ -1,6 +1,5 @@
 <template>
-  <div class="container pt-3">
-    <h1>Make use legally</h1>
+  <div class="container pt-3 pl-0 pr-0">
     <vue-markdown :source="content"></vue-markdown>
   </div>
 </template>
