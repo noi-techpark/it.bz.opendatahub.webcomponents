@@ -1,6 +1,9 @@
 <template>
   <footer>
-    <div class="p-5 text-center font-larger container">
+    <div
+      v-if="$route.path === '/'"
+      class="p-5 text-center font-larger container"
+    >
       <h1 class="text-uppercase">#Publishers #Contributors #Partners</h1>
       <hr style="width: 50px; background-color: white" />
       <b-row class="quote-row">
