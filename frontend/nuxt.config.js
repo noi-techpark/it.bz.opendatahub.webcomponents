@@ -14,10 +14,10 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'ODH Webcomponents'
-      }
+        content: 'ODH Webcomponents',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
    ** Customize the progress-bar color
@@ -29,12 +29,12 @@ module.exports = {
   css: [
     '@/assets/styles/styles.scss',
     'vue-loading-overlay/dist/vue-loading.css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
+    '@fortawesome/fontawesome-svg-core/styles.css',
   ],
 
   bootstrapVue: {
     bootstrapCSS: false,
-    bootstrapVueCSS: false
+    bootstrapVueCSS: false,
   },
 
   /*
@@ -43,7 +43,7 @@ module.exports = {
   plugins: [
     '~/plugins/api-accessor-plugin.ts',
     '~/plugins/fontawesome.js',
-    '~/plugins/tooltip.js'
+    '~/plugins/tooltip.js',
   ],
   /*
    ** Nuxt.js dev-modules
@@ -60,10 +60,10 @@ module.exports = {
         id: process.env.GOOGLE_ANALYTICS_ID,
         debug: {
           enabled: process.env.GOOGLE_ANALYTICS_DEBUG || false,
-          sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false
-        }
-      }
-    ]
+          sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false,
+        },
+      },
+    ],
   ],
   /*
    ** Nuxt.js modules
@@ -74,32 +74,33 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'nuxt-i18n',
-    ['vue-scrollto/nuxt', { duration: 500 }]
+    ['vue-scrollto/nuxt', { duration: 500 }],
   ],
 
   i18n: {
     locales: [
       {
         code: 'en',
-        file: 'en-US.js'
-      }
+        file: 'en-US.js',
+      },
     ],
     defaultLocale: 'en',
     lazy: true,
     langDir: 'assets/locales/',
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: 'i18n_redirected'
+      cookieKey: 'i18n_redirected',
     },
     strategy: 'prefix_except_default',
-    vuex: false
+    vuex: false,
   },
 
   /*
    * Needed to access it inside templates to generate static links
    */
   env: {
-    API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030'
+    API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030',
+    RECAPTCHA_KEY: process.env.RECAPTCHA_KEY,
   },
 
   /*
@@ -107,7 +108,7 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API_BASE_URL || 'http://localhost:9030'
+    baseURL: process.env.API_BASE_URL || 'http://localhost:9030',
   },
 
   /*
@@ -122,8 +123,8 @@ module.exports = {
         enforce: 'pre',
         test: /\.md$/,
         loader: 'raw-loader',
-        exclude: /(node_modules)/
+        exclude: /(node_modules)/,
       });
-    }
-  }
+    },
+  },
 };

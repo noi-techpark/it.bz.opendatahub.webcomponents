@@ -115,7 +115,7 @@
           <div class="col-lg-5">
             <vue-recaptcha
               ref="recaptcha"
-              sitekey=""
+              :sitekey="recaptchaKey"
               :load-recaptcha-script="true"
               @verify="onVerify"
               @expired="onTokenExpired"
@@ -205,9 +205,13 @@ export default {
       recaptchaChecked: false,
     };
   },
+  computed: {
+    recaptchaKey() {
+      return process.env.RECAPTCHA_KEY;
+    },
+  },
   methods: {
     onVerify(recaptchaToken) {
-      console.log(recaptchaToken);
       if (recaptchaToken !== null) {
         this.recaptchaChecked = true;
       }
@@ -218,7 +222,6 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault();
-      console.log(this.recaptchaChecked);
     },
   },
 };
