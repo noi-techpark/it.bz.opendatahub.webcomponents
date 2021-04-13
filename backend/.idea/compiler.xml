@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="crawlerservice" />
+        <module name="deliveryservice" />
         <module name="dataservice" />
         <module name="common" />
       </profile>
