@@ -288,3 +288,11 @@ header {
 main {
 	margin-top: 82px
 }
+
+.text-underline {
+	text-decoration: underline;
+}
+
+.text-underline:hover {
+	text-decoration: underline !important;
+}

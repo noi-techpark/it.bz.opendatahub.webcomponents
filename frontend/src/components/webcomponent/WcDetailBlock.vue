@@ -37,10 +37,8 @@
           <div class="d-table w-100 mr-2 ml-2 m-sm-0">
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
-              <div class="d-table-cell">
-                <div v-for="author in component.authors" :key="author.name">
-                  {{ author.name }}
-                </div>
+              <div class="d-table-cell font-weight-bold">
+                {{ component.authors.map((e) => e.name).join(', ') }}
               </div>
             </div>
             <div
@@ -51,7 +49,7 @@
               class="d-table-row"
             >
               <div class="d-table-cell pr-2">Copyright holder:</div>
-              <div class="d-table-cell">
+              <div class="d-table-cell font-weight-bold">
                 <div
                   v-for="author in component.copyrightHolders"
                   :key="author.name"
@@ -62,7 +60,7 @@
             </div>
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Category:</div>
-              <div class="d-table-cell">
+              <div class="d-table-cell font-weight-bold">
                 <div
                   v-for="tag in component.searchTags"
                   :key="tag"
@@ -74,7 +72,7 @@
             </div>
             <div class="d-table-row">
               <div class="d-table-cell pr-2">License:</div>
-              <div class="d-table-cell">
+              <div class="d-table-cell font-weight-bold">
                 <a
                   v-if="component.license && component.license.seeAlso"
                   :href="component.license.seeAlso[0]"
@@ -82,34 +80,41 @@
                   target="_blank"
                   >{{ component.license.licenseId }}</a
                 >
-                <div v-else-if="component.license">
+                <div v-else-if="component.license" class="font-weight-bold">
                   {{ component.license.licenseId }}
                 </div>
-                <div v-else>{{ component.licenseString }}</div>
+                <div v-else class="font-weight-bold">
+                  {{ component.licenseString }}
+                </div>
               </div>
             </div>
             <div class="d-table-row">
               <div class="d-table-cell pr-2">First Published:</div>
-              <div class="d-table-cell">
+              <div class="d-table-cell font-weight-bold">
                 {{ $d(new Date(component.datePublished)) }}
               </div>
             </div>
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Current Version:</div>
-              <div class="d-table-cell">
+              <div class="d-table-cell font-weight-bold">
                 {{ component.versions[0].versionTag }}
               </div>
             </div>
             <div class="d-table-row">
               <div class="d-table-cell pr-2 text-nowrap">Last Update:</div>
-              <div class="d-table-cell">
+              <div class="d-table-cell font-weight-bold">
                 {{ $d(new Date(component.dateUpdated)) }}
               </div>
             </div>
             <div v-if="component.repositoryUrl" class="d-table-row">
               <div class="d-table-cell pr-2 text-nowrap">Repository:</div>
               <div class="d-table-cell">
-                <a :href="component.repositoryUrl" target="_blank">open</a>
+                <a
+                  :href="component.repositoryUrl"
+                  target="_blank"
+                  class="font-weight-bold text-underline"
+                  >{{ component.repositoryUrl }}</a
+                >
               </div>
             </div>
           </div>
@@ -176,6 +181,11 @@ export default {
     return {
       isHeaderExpanded: false,
     };
+  },
+  computed: {
+    authors(authors) {
+      return this.component.authors.map((e) => e.name).join(', ');
+    },
   },
   methods: {
     toggleHeaderHeight() {
