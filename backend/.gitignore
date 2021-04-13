@@ -106,6 +106,7 @@ buildNumber.properties
 /logs/
 workspace/
 application.properties
+application-local.properties
 
 # Eclipse files
 .settings
