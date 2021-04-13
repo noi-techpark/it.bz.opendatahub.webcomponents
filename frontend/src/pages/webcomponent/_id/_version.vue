@@ -17,9 +17,9 @@
             Version
             <b-form-select
               :value="selectedVersion"
-              @change="reloadConfig"
               style="max-width: 150px"
               class="version-select ml-2"
+              @change="reloadConfig"
             >
               <option
                 v-for="version in component.versions"
@@ -146,18 +146,14 @@
               style="min-height: 250px"
             >
               <b-card-text>
-                <textarea
-                  id="code-snippet"
+                <prism-editor
                   v-model="snipp"
+                  class="my-editor"
                   :readonly="!editmode"
-                  class="full-width full-height code-snippet"
-                  style="
-                    border: 0;
-                    background-color: inherit;
-                    font-family: 'Courier New', Courier, monospace;
-                  "
-                  rows="10"
-                ></textarea>
+                  :highlight="highlighter"
+                  line-numbers
+                  style="border: 0; background-color: inherit"
+                />
               </b-card-text>
 
               <div slot="footer" class="text-right text-uppercase">
@@ -242,15 +238,24 @@
 
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+import { PrismEditor } from 'vue-prism-editor';
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
 import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
 import { webcomponentStore } from '~/utils/store-accessor';
+import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
+
+// eslint-disable-next-line import/order
+import { highlight, languages } from 'prismjs/components/prism-core';
+import 'prismjs/components/prism-clike';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/themes/prism.css'; // import syntax highlighting styles
 
 export default {
   components: {
     ComponentReadMe,
     WcDetailBlock,
     WCSConfigTool,
+    PrismEditor,
   },
   data() {
     return {
@@ -295,6 +300,9 @@ export default {
     });
   },
   methods: {
+    highlighter(code) {
+      return highlight(code, languages.js); // returns html
+    },
     setShowPreview(show) {
       this.showPreview = show;
     },
@@ -511,5 +519,22 @@ export default {
 
 .version-select {
   padding-right: 8px !important;
+}
+
+.my-editor {
+  /* we dont use `language-` classes anymore so thats why we need to add background and text color manually */
+  background: #2d2d2d;
+  color: #ccc;
+
+  /* you must provide font-family font-size line-height. Example: */
+  font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 5px;
+}
+
+/* optional class for removing the outline */
+.prism-editor__textarea:focus {
+  outline: none;
 }
 </style>
