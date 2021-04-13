@@ -220,13 +220,11 @@ export default Vue.extend({
   },
   computed: {
     captchaSiteKey(): string {
-      console.log(this);
       return this.$env.RECAPTCHA_PUBLIC_KEY;
     },
   },
   methods: {
     onVerify(recaptchaToken: string): void {
-      console.log(recaptchaToken);
       if (recaptchaToken !== null) {
         this.recaptchaChecked = true;
       }
@@ -237,7 +235,7 @@ export default Vue.extend({
     },
     onSubmit(): void {
       this.error = false;
-      console.log(this.recaptchaChecked);
+
       if (this.recaptchaChecked) {
         this._sendForm();
       }
