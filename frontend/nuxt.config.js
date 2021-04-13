@@ -1,3 +1,4 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
   ssr: false,
 
@@ -44,6 +45,7 @@ module.exports = {
     '~/plugins/api-accessor-plugin.ts',
     '~/plugins/fontawesome.js',
     '~/plugins/tooltip.js',
+    '~/plugins/env.ts',
   ],
   /*
    ** Nuxt.js dev-modules
@@ -100,7 +102,7 @@ module.exports = {
    */
   env: {
     API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030',
-    RECAPTCHA_KEY: process.env.RECAPTCHA_KEY,
+    RECAPTCHA_PUBLIC_KEY: process.env.RECAPTCHA_PUBLIC_KEY || '',
   },
 
   /*
