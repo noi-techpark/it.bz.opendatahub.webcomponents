@@ -1,5 +1,5 @@
 <template>
-  <header class="border-bottom border-light">
+  <header class="border-bottom border-light fixed-top">
     <div class="container-fluid container-extended pt-4 pb-2 pl-4 pr-4">
       <div class="d-flex justify-content-between flex-row">
         <div>
