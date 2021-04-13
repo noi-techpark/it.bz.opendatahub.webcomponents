@@ -56,3 +56,7 @@ a:hover {
 .nav-content {
 	width: 100%;
 }
+
+.dropdown-toggle::after {
+	display: none;
+}
