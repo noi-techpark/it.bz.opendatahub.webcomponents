@@ -25,7 +25,7 @@
                 text="contribute"
                 toggle-class="nav-link-custom nav-dropdown"
                 right
-                no-caret="true"
+                :no-caret="true"
               >
                 <b-nav-item
                   :to="localePath('/contribute/developer')"
