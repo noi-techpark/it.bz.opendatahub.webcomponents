@@ -21,10 +21,10 @@
         </p>
       </div>
     </div>
-    <b-form @submit="onSubmit">
+    <b-form class="pt-3 pb-3" @submit="onSubmit">
       <div class="container p-4 contact">
-        <div class="row d-flex justify-content-between" style="height: 250px">
-          <div class="col-md-5">
+        <div class="row d-flex justify-content-between">
+          <div class="col-lg-5">
             <b-form-group
               id="input-group-category"
               label="Select category"
@@ -95,7 +95,7 @@
               </b-form-group>
             </div>
           </div>
-          <div class="col-md-7">
+          <div class="col-lg-7">
             <b-form-group
               id="input-group-textarea"
               label="Message"
@@ -112,7 +112,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-lg-5">
             <vue-recaptcha
               ref="recaptcha"
               sitekey=""
@@ -121,7 +121,9 @@
               @expired="onTokenExpired"
             ></vue-recaptcha>
           </div>
-          <div class="col-md-7 d-flex justify-content-end align-items-center">
+          <div
+            class="col-lg-7 d-flex justify-content-end align-items-center pt-3 pt-lg-0"
+          >
             <b-button
               type="reset"
               variant="outline-primary"
@@ -141,11 +143,11 @@
     </b-form>
     <div class="bg-light">
       <div class="container contact p-4 pb-5">
-        <h2>NOI Techpark</h2>
-        <h3>Tech Transfer - Unit Digital</h3>
-        <table class="entity">
+        <span class="noi-name font-weight-bold">NOI Techpark</span>
+        <span class="noi-name">Tech Transfer - Unit Digital</span>
+        <table class="entity mt-2">
           <tr>
-            <td>Phone</td>
+            <td class="align-baseline">Phone</td>
             <td>+39 0471 066 600</td>
           </tr>
           <tr>
@@ -236,5 +238,9 @@ export default {
 
 .form-button {
   width: 280px;
+}
+
+.noi-name {
+  font-size: 18px;
 }
 </style>
