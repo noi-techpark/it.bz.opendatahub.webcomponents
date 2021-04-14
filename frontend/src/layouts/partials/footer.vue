@@ -43,7 +43,11 @@
     </div>
     <div class="get-in-touch">
       <div class="p-5 text-center font-larger">
-        <h1 class="pt-5 text-uppercase footer-text">get in touch</h1>
+        <nuxt-link :to="localePath('/contact')"
+          ><h1 class="pt-5 text-uppercase footer-text">
+            get in touch
+          </h1></nuxt-link
+        >
         <hr style="width: 50px; background-color: white" />
         <h1 class="footer-text pb-5">
           If you would like to become a member of the Open Data Hub Community as

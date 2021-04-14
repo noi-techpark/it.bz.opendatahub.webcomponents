@@ -1,8 +1,6 @@
 <template>
   <div class="container">
-    <vue-markdown>
-      #Contact a new web component (idea) i am a ~~tast~~ **test**.
-    </vue-markdown>
+    <h1>Contact a new webcomponent (idea)</h1>
   </div>
 </template>
 
