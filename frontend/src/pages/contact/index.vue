@@ -22,7 +22,7 @@
       </div>
     </div>
     <b-form ref="theForm" class="pt-3 pb-3" @submit.prevent="onSubmit">
-      <b-overlay :show="showOverlay" @click="showOverlay = false">
+      <b-overlay :show="showOverlay" @click="clickOverlay">
         <div class="container p-4 contact">
           <div class="row d-flex justify-content-between">
             <div class="col-lg-5">
@@ -142,7 +142,7 @@
             </div>
           </div>
         </div>
-        <template #overlay>
+        <template v-if="!loading" #overlay>
           <img v-if="!error" src="/icons/sending_ok.svg" />
           <b-alert variant="danger" :show="error" class="d-block">
             An error has occurred. Please try again!
@@ -216,6 +216,7 @@ export default Vue.extend({
       recaptchaChecked: false,
       showOverlay: false,
       error: false,
+      loading: false,
     };
   },
   computed: {
@@ -240,7 +241,14 @@ export default Vue.extend({
         this._sendForm();
       }
     },
+    clickOverlay() {
+      if (!this.loading) {
+        this.showOverlay = false;
+      }
+    },
     async _sendForm() {
+      this.loading = true;
+
       const request: ContactFormRequest = {
         category: this.category,
         email: this.email,
@@ -260,6 +268,7 @@ export default Vue.extend({
       }
 
       this.showOverlay = true;
+      this.loading = false;
     },
   },
 });
