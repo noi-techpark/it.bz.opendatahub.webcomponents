@@ -212,10 +212,6 @@ export default {
   .detail-content-left {
     padding-left: 105px;
   }
-
-  .detail-content-right {
-    padding-right: 105px;
-  }
 }
 
 .detail-block {

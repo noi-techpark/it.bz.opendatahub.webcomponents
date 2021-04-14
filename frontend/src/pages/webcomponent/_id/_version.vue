@@ -7,9 +7,7 @@
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
     <div v-if="showPreview">
-      <div
-        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3"
-      >
+      <div class="container-fluid extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3">
         <div class="row d-flex justify-content-end">
           <div
             class="h3 detail-content-right col-md-8 d-flex justify-content-end"
@@ -39,9 +37,7 @@
           webcomponent.</b-alert
         >
       </div>
-      <div
-        class="container-fluid container-extended pb-4 p-2 pr-sm-5 pl-sm-5 pt-sm-2"
-      >
+      <div class="container-fluid extended pb-4 p-2 pr-sm-5 pl-sm-5 pt-sm-2">
         <div class="row">
           <div class="col-md-8 detail-content-left">
             <div class="text-uppercase font-weight-bold mb-2">preview</div>
@@ -59,13 +55,6 @@
                 slot="footer"
                 class="text-right text-uppercase d-flex flex-column flex-sm-row"
               >
-                <span v-if="!editmode">
-                  <b-checkbox
-                    v-model="autoUpdate"
-                    class="d-inline-block"
-                  ></b-checkbox
-                  >auto update
-                </span>
                 <span
                   class="mt-2 mt-sm-0 link_with_icon"
                   style="cursor: pointer"
@@ -96,89 +85,101 @@
               </div>
             </b-card>
           </div>
-
-          <div
-            v-show="!editmode"
-            class="col-md-4 mt-5 mt-md-0 detail-content-right"
+          <b-tabs
+            pills
+            class="config-tabs col-md-4 mt-5 mt-md-0 detail-content-right"
           >
-            <div class="text-uppercase font-weight-bold mb-2">
-              configuration
-            </div>
-            <b-card class="full-height widget-config">
-              <b-card-text>
-                <WCSConfigTool
-                  v-if="config"
-                  :config="config.configuration"
-                  @snippet="updateSnippet"
-                ></WCSConfigTool>
-              </b-card-text>
+            <b-tab title="EASY CONFIGURATION" class="first-tab" active>
+              <div v-show="!editmode">
+                <b-card class="full-height widget-config">
+                  <span v-if="!editmode">
+                    <b-checkbox
+                      v-model="autoUpdate"
+                      class="d-inline-block"
+                    ></b-checkbox
+                    >auto update
+                  </span>
+                  <b-card-text>
+                    <WCSConfigTool
+                      v-if="config"
+                      :config="config.configuration"
+                      @snippet="updateSnippet"
+                    ></WCSConfigTool>
+                  </b-card-text>
 
-              <!--<div slot="footer" class="text-right text-uppercase">
-                <font-awesome-icon :icon="['fas', 'check']" /> apply
-              </div>-->
-            </b-card>
-          </div>
-          <div v-show="editmode" class="col-md-4 mt-5 mt-md-0">
-            <div class="text-uppercase font-weight-bold mb-2">
-              configuration
-            </div>
-            <b-card
-              class="full-height widget-config"
-              style="background-color: #fafafa"
-            >
-              <b-card-text
-                >Configurator disabled. Manual configuration
-                active.</b-card-text
-              >
-
-              <!--<div slot="footer" class="text-right text-uppercase">
-                <font-awesome-icon :icon="['fas', 'check']" /> apply
-              </div>-->
-            </b-card>
-          </div>
-        </div>
-        <div class="row mt-5">
-          <div class="col-12">
-            <div class="text-uppercase font-weight-bold mb-2">code snippet</div>
-            <b-card
-              id="widget-codesnippet"
-              :class="{ white: editmode }"
-              style="min-height: 250px"
-            >
-              <b-card-text>
-                <prism-editor
-                  v-model="snipp"
-                  class="my-editor"
-                  :readonly="!editmode"
-                  :highlight="highlighter"
-                  line-numbers
-                  style="border: 0; background-color: inherit"
-                />
-              </b-card-text>
-
-              <div slot="footer" class="text-right text-uppercase">
-                <span
-                  v-if="editmode"
-                  style="cursor: pointer"
-                  class="mr-4"
-                  @click="toggleEditMode()"
-                >
-                  <font-awesome-icon :icon="['fas', 'times']" />RESET
-                </span>
-                <span
-                  v-else
-                  style="cursor: pointer"
-                  class="mr-4"
-                  @click="toggleEditMode()"
-                >
-                  <font-awesome-icon :icon="['far', 'edit']" />EDIT
-                </span>
-                <span style="cursor: pointer" @click="copySnippetToClipboard()">
-                  <font-awesome-icon :icon="['far', 'copy']" />COPY
-                </span>
+                  <!--<div slot="footer" class="text-right text-uppercase">
+                  <font-awesome-icon :icon="['fas', 'check']" /> apply
+                </div>-->
+                </b-card>
               </div>
-            </b-card>
-          </div>
+              <div v-show="editmode">
+                <div class="text-uppercase font-weight-bold mb-2">
+                  configuration
+                </div>
+                <b-card
+                  class="full-height widget-config"
+                  style="background-color: #fafafa"
+                >
+                  <b-card-text
+                    >Configurator disabled. Manual configuration
+                    active.</b-card-text
+                  >
+
+                  <!--<div slot="footer" class="text-right text-uppercase">
+                    <font-awesome-icon :icon="['fas', 'check']" /> apply
+                  </div>-->
+                </b-card>
+              </div></b-tab
+            >
+            <b-tab title="EDIT CODE" class="second-tab"
+              ><div>
+                <div class="text-uppercase font-weight-bold mb-2">
+                  code snippet
+                </div>
+                <b-card
+                  id="widget-codesnippet"
+                  :class="{ white: editmode }"
+                  style="min-height: 250px"
+                >
+                  <b-card-text>
+                    <prism-editor
+                      v-model="snipp"
+                      class="my-editor"
+                      :readonly="!editmode"
+                      :highlight="highlighter"
+                      line-numbers
+                      style="border: 0; background-color: inherit"
+                    />
+                  </b-card-text>
+
+                  <div slot="footer" class="text-right text-uppercase">
+                    <span
+                      v-if="editmode"
+                      style="cursor: pointer"
+                      class="mr-4"
+                      @click="toggleEditMode()"
+                    >
+                      <font-awesome-icon :icon="['fas', 'times']" />RESET
+                    </span>
+                    <span
+                      v-else
+                      style="cursor: pointer"
+                      class="mr-4"
+                      @click="toggleEditMode()"
+                    >
+                      <font-awesome-icon :icon="['far', 'edit']" />EDIT
+                    </span>
+                    <span
+                      style="cursor: pointer"
+                      @click="copySnippetToClipboard()"
+                    >
+                      <font-awesome-icon :icon="['far', 'copy']" />COPY
+                    </span>
+                  </div>
+                </b-card>
+              </div></b-tab
+            >
+          </b-tabs>
         </div>
       </div>
       <div class="bottom-bar">
@@ -223,6 +224,7 @@
           </div>
           <div
             class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            @click="updatePreview"
           >
             <img :src="require('static/icons/ic_update.svg')" />
             <div class="bottom-bar-button-text p-1">update preview</div>

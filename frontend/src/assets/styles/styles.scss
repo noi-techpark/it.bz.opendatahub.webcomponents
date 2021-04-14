@@ -23,6 +23,7 @@
 @import 'widget/bottom-bar';
 @import 'widget/tab-button';
 @import 'widget/contributor-item';
+@import 'widget/config-tabs';
 
 .detail-border {
 	@include media-breakpoint-down(sm) {
