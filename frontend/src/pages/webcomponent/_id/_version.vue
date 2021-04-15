@@ -87,7 +87,7 @@
           </div>
           <b-tabs
             pills
-            class="config-tabs col-md-4 mt-5 mt-md-0 detail-content-right"
+            class="config-tabs col-md-4 mt-md-0 detail-content-right"
           >
             <b-tab title="EASY CONFIGURATION" class="first-tab" active>
               <div v-show="!editmode">
