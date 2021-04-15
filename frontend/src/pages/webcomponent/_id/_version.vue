@@ -34,16 +34,6 @@
                 slot="footer"
                 class="text-right text-uppercase d-flex flex-column flex-sm-row"
               >
-                <span
-                  class="mt-2 mt-sm-0 link_with_icon"
-                  style="cursor: pointer"
-                  @click="updatePreview"
-                >
-                  <font-awesome-icon
-                    :icon="['fas', 'redo']"
-                    class="ml-4 mr-1"
-                  />update preview
-                </span>
                 <a
                   :href="
                     previewBaseURL +
