@@ -8,27 +8,6 @@
     ></WcDetailBlock>
     <div v-if="showPreview">
       <div class="container-fluid extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3">
-        <div class="row d-flex justify-content-end">
-          <div
-            class="h3 detail-content-right col-md-8 d-flex justify-content-end"
-          >
-            Version
-            <b-form-select
-              :value="selectedVersion"
-              style="max-width: 150px"
-              class="version-select ml-2"
-              @change="reloadConfig"
-            >
-              <option
-                v-for="version in component.versions"
-                :key="version.versionTag"
-              >
-                {{ version.versionTag }}
-              </option>
-            </b-form-select>
-          </div>
-        </div>
-
         <b-alert
           :show="!isLatestVersionActive"
           variant="danger"
@@ -91,7 +70,7 @@
           >
             <b-tab title="EASY CONFIGURATION" class="first-tab" active>
               <div v-show="!editmode">
-                <b-card class="full-height widget-config">
+                <div class="full-height widget-config">
                   <span v-if="!editmode">
                     <b-checkbox
                       v-model="autoUpdate"
@@ -110,7 +89,7 @@
                   <!--<div slot="footer" class="text-right text-uppercase">
                   <font-awesome-icon :icon="['fas', 'check']" /> apply
                 </div>-->
-                </b-card>
+                </div>
               </div>
               <div v-show="editmode">
                 <div class="text-uppercase font-weight-bold mb-2">
@@ -179,6 +158,23 @@
                 </b-card>
               </div></b-tab
             >
+            <template #tabs-end>
+              <div class="version-select-container">
+                <b-form-select
+                  :value="selectedVersion"
+                  style="max-width: 150px"
+                  class="version-select ml-2"
+                  @change="reloadConfig"
+                >
+                  <option
+                    v-for="version in component.versions"
+                    :key="version.versionTag"
+                  >
+                    {{ version.versionTag }}
+                  </option>
+                </b-form-select>
+              </div>
+            </template>
           </b-tabs>
         </div>
       </div>
@@ -521,6 +517,13 @@ export default {
 
 .version-select {
   padding-right: 8px !important;
+}
+
+.version-select-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .my-editor {
