@@ -46,6 +46,7 @@ module.exports = {
     '~/plugins/fontawesome.js',
     '~/plugins/tooltip.js',
     '~/plugins/env.ts',
+    { src: '~/plugins/vue-plyr', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
