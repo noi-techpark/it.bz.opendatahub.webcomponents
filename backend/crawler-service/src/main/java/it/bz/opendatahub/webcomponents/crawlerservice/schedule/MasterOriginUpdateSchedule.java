@@ -18,17 +18,22 @@ public class MasterOriginUpdateSchedule {
 
     @Scheduled(fixedDelayString = "${application.schedule.origin}")
     public void updateOrigins() {
-        log.info("looking for changes in master");
+    	try {
+			log.info("looking for changes in master");
 
-        if(!masterOriginService.isUpToDate()) {
-            log.info("updating master");
+			if(!masterOriginService.isUpToDate()) {
+				log.info("updating master");
 
-            masterOriginService.update();
+				masterOriginService.update();
 
-            log.info("master updated");
-        }
-        else {
-            log.info("master already up to date");
-        }
+				log.info("master updated");
+			}
+			else {
+				log.info("master already up to date");
+			}
+    	}
+        catch(Exception e) {
+        	log.error(e.getMessage());
+		}
     }
 }
