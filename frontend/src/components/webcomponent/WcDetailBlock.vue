@@ -212,8 +212,6 @@ export default {
       return this.component.authors.map((e) => e.name).join(', ');
     },
     pageSpeedInsightUrl() {
-      console.log(process.env.BASE_URL);
-      console.log(this.externalPreviewUrl);
       return (
         'https://developers.google.com/speed/pagespeed/insights/?url=' +
         this.externalPreviewUrl
