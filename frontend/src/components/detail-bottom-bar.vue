@@ -16,7 +16,9 @@
       <div
         v-else
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="$router.push($route.params.id + '/fullscreen')"
+        @click="
+          $router.push('/webcomponent/' + $route.params.id + '/fullscreen')
+        "
       >
         <img :src="require('static/icons/ic_max_preview.svg')" />
         <div class="bottom-bar-button-text p-1">fullscreen preview</div>
@@ -24,7 +26,11 @@
       <div
         v-if="selectedView === 'editing'"
         class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
-        @click="$emit('setSelectedView', '')"
+        @click="
+          $router.push({
+            path: '/webcomponent/' + $route.params.id,
+          })
+        "
       >
         <img :src="require('static/icons/ic_min_editing.svg')" />
         <div class="bottom-bar-button-text p-1">minimize editing</div>
@@ -32,7 +38,11 @@
       <div
         v-else
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="$emit('setSelectedView', 'editing')"
+        @click="
+          $router.push(
+            '/webcomponent/' + $route.params.id + '/fullscreen-editing'
+          )
+        "
       >
         <img :src="require('static/icons/ic_max_editing.svg')" />
         <div class="bottom-bar-button-text p-1">fullscreen editing</div>
