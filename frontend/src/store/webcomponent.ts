@@ -14,6 +14,7 @@ export default class WebcomponentModule extends VuexModule {
   currentWebcomponent: WebcomponentModel = null;
   currentConfig: WebcomponentConfigurationModel = null;
   currentVersion: string = null;
+  currentSnipp: string = null;
 
   @Mutation
   setWebcomponent(webcomponent: WebcomponentModel) {
@@ -28,6 +29,11 @@ export default class WebcomponentModule extends VuexModule {
   @Mutation
   setVersion(version: string) {
     this.currentVersion = version;
+  }
+
+  @Mutation
+  setSnipp(snipp: string) {
+    this.currentSnipp = snipp;
   }
 
   @Action
@@ -52,5 +58,10 @@ export default class WebcomponentModule extends VuexModule {
 
     const config = await $api.webcomponent.getConfigById(uuid, selectedVersion);
     this.setConfig(config);
+  }
+
+  @Action
+  updateSnipp({ snipp }) {
+    this.setSnipp(snipp);
   }
 }

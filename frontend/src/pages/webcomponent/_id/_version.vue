@@ -200,7 +200,6 @@ export default {
   },
   data() {
     return {
-      snipp: '',
       snippOriginal: '',
       attribs: '',
       editmode: false,
@@ -243,6 +242,9 @@ export default {
     selectedVersion() {
       return webcomponentStore.currentVersion;
     },
+    snipp() {
+      return webcomponentStore.currentSnipp;
+    },
   },
   created() {
     webcomponentStore.loadWebcomponent({
@@ -262,7 +264,7 @@ export default {
       if (this.editmode) {
         this.snippOriginal = this.snipp;
       } else {
-        this.snipp = this.snippOriginal;
+        webcomponentStore.updateSnipp({ snipp: this.snippOriginal });
         if (this.autoUpdate) {
           this.updatePreview();
         }
@@ -277,7 +279,9 @@ export default {
       );
     },
     updateSnippet(data) {
-      this.snipp = data + '\n' + this.getDistIncludes().join('\n');
+      webcomponentStore.updateSnipp({
+        snipp: data + '\n' + this.getDistIncludes().join('\n'),
+      });
 
       if (this.autoUpdate) {
         this.updatePreview();
@@ -294,7 +298,6 @@ export default {
       this.selectedView = newSelectedView;
     },
     updatePreview() {
-      console.log('update preview');
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);
