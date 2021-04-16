@@ -168,55 +168,12 @@
           </b-tabs>
         </div>
       </div>
-      <div class="bottom-bar">
-        <div class="d-flex justify-content-center">
-          <div
-            v-if="selectedView === 'preview'"
-            class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
-            @click="selectedView = ''"
-          >
-            <img :src="require('static/icons/ic_min_preview.svg')" />
-            <div class="bottom-bar-button-text p-1">minimize preview</div>
-          </div>
-          <div
-            v-else
-            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-            @click="selectedView = 'preview'"
-          >
-            <img :src="require('static/icons/ic_max_preview.svg')" />
-            <div class="bottom-bar-button-text p-1">fullscreen preview</div>
-          </div>
-          <div
-            v-if="selectedView === 'editing'"
-            class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
-            @click="selectedView = ''"
-          >
-            <img :src="require('static/icons/ic_min_editing.svg')" />
-            <div class="bottom-bar-button-text p-1">minimize editing</div>
-          </div>
-          <div
-            v-else
-            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-            @click="selectedView = 'editing'"
-          >
-            <img :src="require('static/icons/ic_max_editing.svg')" />
-            <div class="bottom-bar-button-text p-1">fullscreen editing</div>
-          </div>
-          <div
-            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-          >
-            <img :src="require('static/icons/ic_copy.svg')" />
-            <div class="bottom-bar-button-text p-1">copy code</div>
-          </div>
-          <div
-            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-            @click="updatePreview"
-          >
-            <img :src="require('static/icons/ic_update.svg')" />
-            <div class="bottom-bar-button-text p-1">update preview</div>
-          </div>
-        </div>
-      </div>
+      <detail-bottom-bar
+        :selected-view="selectedView"
+        @updatePreview="updatePreview"
+        @setSelectedView="setSelectedView"
+      >
+      </detail-bottom-bar>
     </div>
     <div v-else>
       <component-read-me :component="component"></component-read-me>
@@ -236,10 +193,12 @@ import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhe
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism.css'; // import syntax highlighting styles
+import 'prismjs/themes/prism.css';
+import DetailBottomBar from '~/components/detail-bottom-bar'; // import syntax highlighting styles
 
 export default {
   components: {
+    DetailBottomBar,
     ComponentReadMe,
     WcDetailBlock,
     WCSConfigTool,
@@ -327,7 +286,11 @@ export default {
 
       document.execCommand('copy');
     },
+    setSelectedView(newSelectedView) {
+      this.selectedView = newSelectedView;
+    },
     updatePreview() {
+      console.log('update preview');
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);
