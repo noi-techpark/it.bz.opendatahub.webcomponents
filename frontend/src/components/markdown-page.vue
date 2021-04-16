@@ -1,5 +1,5 @@
 <template>
-  <div class="container pt-3 pl-0 pr-0">
+  <div class="container pt-3 pl-2 pr-2">
     <vue-markdown :source="content"></vue-markdown>
   </div>
 </template>
