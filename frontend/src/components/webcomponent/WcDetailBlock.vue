@@ -134,7 +134,7 @@
                   :href="pageSpeedInsightUrl"
                   target="_blank"
                   class="font-weight-bold text-underline"
-                  >Open external</a
+                  >Open</a
                 >
               </div>
             </div>

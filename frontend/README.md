@@ -31,7 +31,7 @@ cd odh-web-components-store/frontend/
 * yarn
 * ODH Web Component Configurator: https://github.com/noi-techpark/webcomp-configtool.git
   > NB: If you update `webcomp-configtool`, you need to tag that master branch and update
-  > the `package.json` of this repository accordingly. 
+  > the `package.json` of this repository accordingly.
   > See "odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v0.9"
   > and put the latest version tag to the end
 
@@ -139,3 +139,39 @@ $ yarn start
 ```
 
 You will probably need a reverse proxy to add https and proxy the application from port 3000 to port 443 on your domain.
+
+### Create new static content pages
+
+1. Create a .vue file under the path where you want to create a new page. The directory structure corresponds to the structure of the url.
+2. Create a .md file with the same name in the same directory
+3. Import the md file in your vue file
+```js
+import legally from './legally.md';
+```
+4. Create a computed property with the content of the md file
+```js
+  computed: {
+    md()
+	{
+      return legally;
+    };
+  };
+```
+5. Import the markdown page component
+```js
+import MarkdownPage from '~/components/markdown-page';
+```
+6. Include the markdown page component inside the html code and pass the computed property
+```html
+<markdown-page :content="md"></markdown-page>
+```
+
+### Embed a video in a static content page
+
+Include the following code and replace copy the url of your video inside the url parameter
+
+```html
+    <video-player
+      url=""
+    ></video-player>
+```
