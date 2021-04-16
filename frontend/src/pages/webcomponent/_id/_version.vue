@@ -4,6 +4,7 @@
       :component="component"
       :return-link="returnLink"
       :show-preview="showPreview"
+      :external-preview-url="externalPreviewUrl"
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
     <div v-if="showPreview">
@@ -35,14 +36,7 @@
                 class="text-right text-uppercase d-flex flex-column flex-sm-row"
               >
                 <a
-                  :href="
-                    previewBaseURL +
-                    '/preview/' +
-                    component.uuid +
-                    '/' +
-                    selectedVersion +
-                    attribs
-                  "
+                  :href="externalPreviewUrl"
                   target="_blank"
                   class="mt-2 mt-sm-0 link_with_icon"
                 >
@@ -211,12 +205,22 @@ export default {
       attribs: '',
       editmode: false,
       autoUpdate: true,
-      previewBaseURL: '',
+      previewBaseURL: this.$api.baseUrl,
       showPreview: true,
       selectedView: '',
     };
   },
   computed: {
+    externalPreviewUrl() {
+      return (
+        this.previewBaseURL +
+        '/preview/' +
+        this.component.uuid +
+        '/' +
+        this.selectedVersion +
+        this.attribs
+      );
+    },
     returnLink() {
       if (this.$route.query.from) {
         return this.$route.query.from;

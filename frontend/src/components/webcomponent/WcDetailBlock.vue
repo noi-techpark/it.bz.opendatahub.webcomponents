@@ -117,6 +117,27 @@
                 >
               </div>
             </div>
+            <div class="d-table-row">
+              <div class="d-table-cell pr-2 text-nowrap">Component size:</div>
+              <div class="d-table-cell font-weight-bold">#todo</div>
+            </div>
+            <div class="d-table-row">
+              <div class="d-table-cell pr-2 text-nowrap">Performance:</div>
+              <div class="d-table-cell font-weight-bold">#todo</div>
+            </div>
+            <div class="d-table-row">
+              <div class="d-table-cell pr-2 text-nowrap">
+                PageSpeed Insights:
+              </div>
+              <div class="d-table-cell font-weight-bold">
+                <a
+                  :href="pageSpeedInsightUrl"
+                  target="_blank"
+                  class="font-weight-bold text-underline"
+                  >Open external</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -176,6 +197,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    externalPreviewUrl: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -185,6 +210,14 @@ export default {
   computed: {
     authors(authors) {
       return this.component.authors.map((e) => e.name).join(', ');
+    },
+    pageSpeedInsightUrl() {
+      console.log(process.env.BASE_URL);
+      console.log(this.externalPreviewUrl);
+      return (
+        'https://developers.google.com/speed/pagespeed/insights/?url=' +
+        this.externalPreviewUrl
+      );
     },
   },
   methods: {
