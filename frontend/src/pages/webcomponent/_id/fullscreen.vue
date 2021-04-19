@@ -67,7 +67,7 @@ export default {
       const newElement = document.createElement('iframe');
       newElement.setAttribute('id', 'tframe');
       newElement.setAttribute('class', 'full-height full-width');
-      newElement.setAttribute('style', 'min-height: 800px;');
+      newElement.setAttribute('style', 'min-height: 100vh;');
       newElement.setAttribute('frameborder', '0');
 
       document.getElementById('twrap').appendChild(newElement);
