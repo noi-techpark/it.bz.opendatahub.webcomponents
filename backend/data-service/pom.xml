@@ -14,8 +14,6 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<!-- MODELMAPPER -->
-		<modelmapper.version>2.4.0</modelmapper.version>
 	</properties>
 
 	<dependencies>
@@ -65,13 +63,6 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.5.7</version>
-		</dependency>
-
-		<!-- MODELMAPPER -->
-		<dependency>
-			<groupId>org.modelmapper</groupId>
-			<artifactId>modelmapper</artifactId>
-			<version>${modelmapper.version}</version>
 		</dependency>
 
 		<!-- For the preview template -->
