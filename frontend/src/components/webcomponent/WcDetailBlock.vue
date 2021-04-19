@@ -7,7 +7,7 @@
     >
       <div class="row">
         <div
-          class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-md-0"
+          class="col-lg-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-md-0"
         >
           <div style="margin-right: 35px">
             <nuxt-link
@@ -33,7 +33,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 detail-border pl-md-5">
+        <div class="col-lg-4 detail-border pl-lg-5">
           <div class="d-table w-100 mr-2 ml-2 m-sm-0">
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
@@ -139,6 +139,44 @@
               </div>
             </div>
           </div>
+          <div class="d-flex flex-row pt-3">
+            <div class="performance-col">
+              <circular-chart :circle-value="20"></circular-chart>
+              Component size
+            </div>
+            <div class="performance-col">
+              <circular-chart :circle-value="60">
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="width: 36px; height: 36px"
+                >
+                  60
+                </div>
+              </circular-chart>
+              Performance
+            </div>
+            <div class="performance-col">
+              <a
+                :href="pageSpeedInsightUrl"
+                target="_blank"
+                class="text-underline d-flex flex-column justify-content-center align-items-center"
+              >
+                <circular-chart :circle-value="0">
+                  <div
+                    style="
+                      width: 36px;
+                      height: 36px;
+                      padding-top: 9px;
+                      padding-left: 9px;
+                    "
+                  >
+                    <img src="/icons/feather-link.svg" style="height: 17px" />
+                  </div>
+                </circular-chart>
+                <div style="text-align: center">PageSpeed Insights</div>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -181,7 +219,9 @@
 </template>
 
 <script>
+import CircularChart from '~/components/circular-chart';
 export default {
+  components: { CircularChart },
   props: {
     component: {
       type: Object,
@@ -261,5 +301,18 @@ export default {
 
 .expanding-button {
   cursor: pointer;
+}
+
+.performance-col {
+  display: flex;
+  flex-direction: column;
+  width: 33%;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #cfcfcf;
+}
+
+.performance-col:first-child {
+  border-left: 1px solid #cfcfcf;
 }
 </style>

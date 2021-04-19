@@ -26,14 +26,14 @@
 @import 'widget/config-tabs';
 
 .detail-border {
-	@include media-breakpoint-down(sm) {
+	@include media-breakpoint-down(md) {
 		border-top: 1px solid #d9d9d9;
 		padding-bottom: 0 !important;
 		padding-top: 1rem;
 		margin-top: 1rem;
 	}
 
-	@include media-breakpoint-up(md) {
+	@include media-breakpoint-up(lg) {
 		border-left: 1px solid #d9d9d9;
 	}
 }
