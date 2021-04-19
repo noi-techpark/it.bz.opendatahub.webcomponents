@@ -7,12 +7,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-public interface CreateWebcomponentUseCase {
-	Webcomponent createWebcomponent(WebcomponentCreateRequest request);
+public interface UpdateWebcomponentUseCase {
+	Webcomponent updateWebcomponent(String webcomponentUuid, WebcomponentUpdateRequest request);
 
 	@Getter
 	@Setter
-	class WebcomponentCreateRequest {
+	class WebcomponentUpdateRequest {
 		private String title;
 
 		private String description;

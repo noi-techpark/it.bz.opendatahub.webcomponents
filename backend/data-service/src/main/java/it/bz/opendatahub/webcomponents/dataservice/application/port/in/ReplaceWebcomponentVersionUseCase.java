@@ -10,12 +10,12 @@ import lombok.Setter;
 import java.util.Date;
 import java.util.List;
 
-public interface CreateWebcomponentVersionUseCase {
-	WebcomponentVersion createWebcomponentVersion(String webcomponentUuid, WebcomponentVersionCreateRequest request);
+public interface ReplaceWebcomponentVersionUseCase {
+	WebcomponentVersion replaceWebcomponentVersion(String webcomponentUuid, String versionTag, WebcomponentVersionReplaceRequest request);
 
 	@Getter
 	@Setter
-	class WebcomponentVersionCreateRequest {
+	class WebcomponentVersionReplaceRequest {
 		private String versionTag;
 
 		private Date releaseTimestamp;
