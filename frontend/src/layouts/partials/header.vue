@@ -27,6 +27,7 @@
                 right
                 :no-caret="true"
               >
+                <div class="triangle"></div>
                 <b-nav-item
                   :to="localePath('/contribute/developer')"
                   @click="$refs.dropdown1.hide()"
@@ -46,6 +47,7 @@
                 toggle-class="nav-link-custom"
                 right
               >
+                <div class="triangle"></div>
                 <b-nav-item
                   :to="localePath('/make-use/technically')"
                   @click="$refs.dropdown2.hide()"
@@ -65,6 +67,7 @@
                 toggle-class="nav-link-custom"
                 right
               >
+                <div class="triangle"></div>
                 <b-nav-item
                   :to="localePath('/contact/idea')"
                   @click="$refs.dropdown3.hide()"

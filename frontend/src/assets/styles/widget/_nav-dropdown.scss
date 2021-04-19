@@ -2,6 +2,7 @@
 	.dropdown-menu {
 		background-color: #9bc320 !important;
 		width: 290px !important;
+		margin-top: 10px;
 
 		hr {
 			background-color: white !important;
@@ -19,6 +20,17 @@
 		.submenu-item:hover {
 			background-color: green !important;
 			color: green !important;
+		}
+
+		.triangle {
+			margin-top: -25px;
+			right: 20px;
+			position: absolute;
+			width: 0;
+			height: 0;
+			border-left: 25px solid transparent;
+			border-right: 25px solid transparent;
+			border-bottom: 20px solid #9bc320;
 		}
 	}
 
