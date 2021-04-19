@@ -12,72 +12,51 @@
       @sliding-end="onSlideEnd"
     >
       <div class="carousel-background"></div>
-      <!-- Text slides with image -->
-      <b-carousel-slide
-        caption="First slide"
-        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-        img-src="https://picsum.photos/1024/480/?image=52"
-      ></b-carousel-slide>
-
-      <!-- Slides with custom text -->
-      <b-carousel-slide
-        img-src="https://picsum.photos/1024/480/?image=54"
-        caption="Image"
-        img-alt="image"
-      >
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+      <banner-slide
+        img-url="https://picsum.photos/1024/480/?image=52"
+        title="Image"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
-          pellentesque ut lacus vel interdum.
-        </p>
-        <nuxt-link :to="localePath('/contact')" class="text-secondary"
-          >learn more</nuxt-link
-        >
-      </b-carousel-slide>
+          pellentesque ut lacus vel interdum."
+        link-text="learn more"
+        path="/contact"
+      ></banner-slide>
 
-      <!-- Slides with image only -->
-      <b-carousel-slide
-        img-src="https://picsum.photos/1024/480/?image=58"
-      ></b-carousel-slide>
-
-      <b-carousel-slide caption="Image" img-blank img-alt="image">
-        <template #img>
-          <img
-            class="d-block img-fluid w-100"
-            width="1024"
-            height="480"
-            src="https://picsum.photos/1024/480/?image=55"
-            alt="image slot"
-          />
-        </template>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+      <banner-slide
+        img-url="https://picsum.photos/1024/480/?image=54"
+        title="Image"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
-          pellentesque ut lacus vel interdum.
-        </p>
-        <nuxt-link :to="localePath('/contact')" class="text-secondary"
-          >learn more</nuxt-link
-        >
-      </b-carousel-slide>
+          pellentesque ut lacus vel interdum."
+        link-text="learn more"
+        path="/contact"
+      ></banner-slide>
 
-      <!-- Slide with blank fluid image to maintain slide aspect ratio -->
-      <b-carousel-slide caption="Blank Image" img-blank img-alt="Blank image">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+      <banner-slide
+        img-url="https://picsum.photos/1024/480/?image=58"
+        title="Image"
+        subtitle=""
+        path="/contact"
+      ></banner-slide>
+
+      <banner-slide
+        link-text="learn more"
+        img-url="https://picsum.photos/1024/480/?image=55"
+        title="Image"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit.Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
-          pellentesque ut lacus vel interdum.
-        </p>
-        <nuxt-link :to="localePath('/contact')" class="text-secondary"
-          >learn more</nuxt-link
-        >
-      </b-carousel-slide>
+          pellentesque ut lacus vel interdum."
+        path="/contact"
+      ></banner-slide>
     </b-carousel>
   </div>
 </template>
 
 <script>
+import BannerSlide from '~/components/banner-slide';
 export default {
   name: 'Banner',
+  components: { BannerSlide },
   data() {
     return {
       slide: 0,
