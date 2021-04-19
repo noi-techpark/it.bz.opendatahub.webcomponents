@@ -18,7 +18,7 @@
             </nuxt-link>
           </div>
 
-          <div>
+          <div style="flex-grow: 1">
             <h1>#{{ component.title }}</h1>
 
             <div class="d-flex">
