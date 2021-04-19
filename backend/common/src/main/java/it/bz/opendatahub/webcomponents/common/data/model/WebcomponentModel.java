@@ -1,6 +1,5 @@
 package it.bz.opendatahub.webcomponents.common.data.model;
 
-import it.bz.opendatahub.webcomponents.common.data.Model;
 import it.bz.opendatahub.webcomponents.common.data.struct.Author;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListAuthorUserType;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListStringUserType;
@@ -21,7 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "webcomponent")
-public class WebcomponentModel implements Model {
+public class WebcomponentModel {
     @Id
     private String uuid;
 

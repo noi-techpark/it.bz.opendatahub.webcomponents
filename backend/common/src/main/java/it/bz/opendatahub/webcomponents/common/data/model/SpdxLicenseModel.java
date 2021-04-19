@@ -1,6 +1,5 @@
 package it.bz.opendatahub.webcomponents.common.data.model;
 
-import it.bz.opendatahub.webcomponents.common.data.Model;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ListStringUserType;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +17,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "spdx")
-public class SpdxLicenseModel implements Model {
+public class SpdxLicenseModel {
     private String reference;
 
     private Boolean isDeprecatedLicenseId;
