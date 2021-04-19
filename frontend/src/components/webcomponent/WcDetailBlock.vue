@@ -293,7 +293,7 @@ export default {
 .header-gradient {
   height: 70px;
   width: 100%;
-  margin-top: 130px;
+  margin-top: 131px;
   position: absolute;
   background: linear-gradient(0deg, #e8ecf1, transparent);
   z-index: 1;
