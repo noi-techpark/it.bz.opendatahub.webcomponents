@@ -140,7 +140,7 @@ $ yarn start
 
 You will probably need a reverse proxy to add https and proxy the application from port 3000 to port 443 on your domain.
 
-### Create new static content pages
+## Create new static content pages
 
 1. Create a .vue file under the path where you want to create a new page. The directory structure corresponds to the structure of the url.
 2. Create a .md file with the same name in the same directory
@@ -166,12 +166,38 @@ import MarkdownPage from '~/components/markdown-page';
 <markdown-page :content="md"></markdown-page>
 ```
 
-### Embed a video in a static content page
+## Embed a video in a static content page
 
-Include the following code and replace copy the url of your video inside the url parameter
+Include the following code and replace the url of your video inside the url parameter
 
 ```html
     <video-player
       url=""
     ></video-player>
+```
+
+## Create a new banner
+
+1. Open src/components/banner.vue
+2. Add a new banner slide tag
+```html
+<banner-slide><banner-slide>
+```
+3. Customize the banner with tag parameters
+- "title": Title of the banner
+- "subtitle": Subtitle below the title
+- "imgUrl": Url of the background image
+- "path": Path to the page inside the a tag
+- "linkText": Text of the link
+4. Example
+```html
+      <banner-slide
+        img-url="https://picsum.photos/1024/480/?image=52"
+        title="Image"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
+          pellentesque ut lacus vel interdum."
+        link-text="learn more"
+        path="/contact"
+      ></banner-slide>
 ```
