@@ -49,6 +49,7 @@
       </div>
       <div
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+        @click="$emit('copyCode')"
       >
         <img :src="require('static/icons/ic_copy.svg')" />
         <div class="bottom-bar-button-text p-1">copy code</div>

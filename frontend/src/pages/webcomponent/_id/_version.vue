@@ -166,6 +166,7 @@
         :selected-view="selectedView"
         @updatePreview="updatePreview"
         @setSelectedView="setSelectedView"
+        @copyCode="copySnippetToClipboard"
       >
       </detail-bottom-bar>
     </div>
