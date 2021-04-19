@@ -1,4 +1,4 @@
-package it.bz.opendatahub.webcomponents.dataservice.controller;
+package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.ContactFormController;

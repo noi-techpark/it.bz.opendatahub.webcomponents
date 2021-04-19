@@ -1,4 +1,4 @@
-package it.bz.opendatahub.webcomponents.dataservice.service.impl;
+package it.bz.opendatahub.webcomponents.dataservice.application.service;
 
 import it.bz.opendatahub.webcomponents.dataservice.application.service.EmailService;
 import it.bz.opendatahub.webcomponents.dataservice.config.MailerConfig;
