@@ -12,6 +12,7 @@ import javax.activation.MimeType;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,7 +49,12 @@ public class DistServiceImpl implements DistService {
 		try {
 			String result = Files.probeContentType(path);
 			if(result == null) {
-				return "text/javascript";
+				String result2 = URLConnection.guessContentTypeFromName(filename);
+				if(result2 == null) {
+					return "text/javascript";
+				}
+
+				return result2;
 			}
 			return result;
 		} catch (IOException e) {
