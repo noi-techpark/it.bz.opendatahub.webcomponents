@@ -117,32 +117,11 @@
                 >
               </div>
             </div>
-            <div class="d-table-row">
-              <div class="d-table-cell pr-2 text-nowrap">Component size:</div>
-              <div class="d-table-cell font-weight-bold">#todo</div>
-            </div>
-            <div class="d-table-row">
-              <div class="d-table-cell pr-2 text-nowrap">Performance:</div>
-              <div class="d-table-cell font-weight-bold">#todo</div>
-            </div>
-            <div class="d-table-row">
-              <div class="d-table-cell pr-2 text-nowrap">
-                PageSpeed Insights:
-              </div>
-              <div class="d-table-cell font-weight-bold">
-                <a
-                  :href="pageSpeedInsightUrl"
-                  target="_blank"
-                  class="font-weight-bold text-underline"
-                  >Open</a
-                >
-              </div>
-            </div>
           </div>
           <div class="d-flex flex-row pt-3">
             <div class="performance-col">
               <circular-chart :circle-value="20"></circular-chart>
-              Component size
+              <div>Size <span class="font-weight-bold">111</span> (kB)</div>
             </div>
             <div class="performance-col">
               <circular-chart :circle-value="60">
