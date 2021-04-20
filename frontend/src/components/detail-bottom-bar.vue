@@ -48,12 +48,21 @@
         <div class="bottom-bar-button-text p-1">fullscreen editing</div>
       </div>
       <div
+        id="copy-code"
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="$emit('copyCode')"
+        @click="copyCode"
       >
         <img :src="require('static/icons/ic_copy.svg')" />
         <div class="bottom-bar-button-text p-1">copy code</div>
       </div>
+      <b-popover
+        target="copy-code"
+        :show.sync="showPopover"
+        triggers="click"
+        placement="top"
+      >
+        Copied to clipboard
+      </b-popover>
       <div
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
         @click="$emit('updatePreview')"
@@ -72,6 +81,25 @@ export default {
     selectedView: {
       type: String,
       default: '',
+    },
+  },
+  data() {
+    return {
+      showPopover: false,
+      intervalId: 0,
+    };
+  },
+  methods: {
+    copyCode() {
+      clearInterval(this.intervalId);
+      this.showPopover = true;
+      this.intervalId = setInterval(
+        function () {
+          this.showPopover = false;
+        }.bind(this),
+        3000
+      );
+      this.$emit('copyCode');
     },
   },
 };
