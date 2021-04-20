@@ -12,5 +12,5 @@ public class TagEntry {
 
     private String revisionHash;
 
-    private Date revisionDate;
+    private GitRemote remote;
 }
