@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
 import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.ConfigurationUserType;
 import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.DistUserType;
+import it.bz.opendatahub.webcomponents.common.hibernate.usertype.impl.StringUserType;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
@@ -19,6 +20,7 @@ import java.util.Date;
 
 @TypeDef(name = ConfigurationUserType.NAME, typeClass = ConfigurationUserType.class)
 @TypeDef(name = DistUserType.NAME, typeClass = DistUserType.class)
+@TypeDef(name = StringUserType.NAME, typeClass = StringUserType.class)
 
 @Getter
 @Setter
@@ -42,19 +44,21 @@ public class WebcomponentVersionModel {
 
     private Boolean deleted;
 
-    private Integer distSizeTotalKb;
+    private Integer distSizeTotalKb = 0;
 
+	@Type(type = StringUserType.NAME)
 	private String lighthouseMetricsMobileData;
 
 	private LocalDateTime lighthouseMetricsMobileDatetime;
 
-	private Integer lighthouseMobilePerformanceRating;
+	private Integer lighthouseMobilePerformanceRating = 0;
 
+	@Type(type = StringUserType.NAME)
 	private String lighthouseMetricsDesktopData;
 
 	private LocalDateTime lighthouseMetricsDesktopDatetime;
 
-	private Integer lighthouseDesktopPerformanceRating;
+	private Integer lighthouseDesktopPerformanceRating = 0;
 
-	private Boolean lighthouseUpdateRequired;
+	private Boolean lighthouseUpdateRequired = true;
 }
