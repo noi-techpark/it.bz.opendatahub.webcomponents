@@ -52,7 +52,7 @@
             pills
             class="config-tabs col-md-4 mt-md-0 detail-content-right"
           >
-            <b-tab title="EASY CONFIGURATION" class="first-tab" active>
+            <b-tab id="first-tab" title="EASY CONFIGURATION" active>
               <div v-show="!editmode">
                 <div class="full-height widget-config">
                   <span v-if="!editmode">
@@ -104,8 +104,7 @@
                   :class="{ white: editmode }"
                   style="min-height: 250px"
                 >
-                  <b-card-text
-                    >x
+                  <b-card-text>
                     <prism-editor
                       v-model="code"
                       class="my-editor"
