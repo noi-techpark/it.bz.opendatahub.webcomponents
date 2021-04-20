@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -21,4 +22,20 @@ public class WebcomponentVersion {
 	private Configuration configuration;
 
 	private Boolean deleted;
+
+	private Integer distSizeTotalKb;
+
+	private String lighthouseMetricsMobileData;
+
+	private LocalDateTime lighthouseMetricsMobileDatetime;
+
+	private Integer lighthouseMobilePerformanceRating;
+
+	private String lighthouseMetricsDesktopData;
+
+	private LocalDateTime lighthouseMetricsDesktopDatetime;
+
+	private Integer lighthouseDesktopPerformanceRating;
+
+	private Boolean lighthouseUpdateRequired;
 }

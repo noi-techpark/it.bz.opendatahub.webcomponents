@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @TypeDef(name = ConfigurationUserType.NAME, typeClass = ConfigurationUserType.class)
@@ -40,4 +41,20 @@ public class WebcomponentVersionModel {
     private Configuration configuration;
 
     private Boolean deleted;
+
+    private Integer distSizeTotalKb;
+
+	private String lighthouseMetricsMobileData;
+
+	private LocalDateTime lighthouseMetricsMobileDatetime;
+
+	private Integer lighthouseMobilePerformanceRating;
+
+	private String lighthouseMetricsDesktopData;
+
+	private LocalDateTime lighthouseMetricsDesktopDatetime;
+
+	private Integer lighthouseDesktopPerformanceRating;
+
+	private Boolean lighthouseUpdateRequired;
 }

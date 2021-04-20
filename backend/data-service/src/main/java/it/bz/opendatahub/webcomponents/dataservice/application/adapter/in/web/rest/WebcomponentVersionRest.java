@@ -3,6 +3,7 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.r
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -11,4 +12,10 @@ public class WebcomponentVersionRest {
     private String versionTag;
 
     private Date releaseTimestamp;
+
+	private Integer distSizeTotalKb;
+
+	private Integer lighthouseMobilePerformanceRating;
+
+	private Integer lighthouseDesktopPerformanceRating;
 }

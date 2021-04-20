@@ -7,6 +7,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcompone
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentVersionUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ScheduleWebcomponentVersionMetricsUpdateUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWebcomponentVersionPort;
@@ -22,7 +23,7 @@ import java.util.Base64;
 import java.util.List;
 
 @Service // TODO: logo image? and manifest?
-public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase {
+public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase {
 	private final ReadWebcomponentPort readWebcomponentPort;
 	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 	private final WriteWebcomponentVersionPort writeWebcomponentVersionPort;
@@ -40,10 +41,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 	public WebcomponentVersion createWebcomponentVersion(String webcomponentUuid, WebcomponentVersionCreateRequest request) {
 		readWebcomponentPort.getWebcomponentById(webcomponentUuid); // just to throw an exception if it does not exist
 
-		val webcomponentVersion = new WebcomponentVersion();
-		webcomponentVersion.setWebcomponentUuid(webcomponentUuid);
-		webcomponentVersion.setDeleted(false);
-		webcomponentVersion.setDist(createDistFromFiles(request.getDistFiles()));
+		val webcomponentVersion = createDomainObject(webcomponentUuid, request.getDistFiles());
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
 
@@ -57,10 +55,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 	@Override
 	@Transactional
 	public WebcomponentVersion replaceWebcomponentVersion(String webcomponentUuid, String versionTag, WebcomponentVersionReplaceRequest request) {
-		val webcomponentVersion = new WebcomponentVersion();
-		webcomponentVersion.setWebcomponentUuid(webcomponentUuid);
-		webcomponentVersion.setDeleted(false);
-		webcomponentVersion.setDist(createDistFromFiles(request.getDistFiles()));
+		val webcomponentVersion = createDomainObject(webcomponentUuid, request.getDistFiles());
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
 
@@ -83,6 +78,25 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 			writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 		}
 		catch (NotFoundException ignored) {}
+	}
+
+	@Override
+	@Transactional
+	public WebcomponentVersion scheduleMetricsUpdate(String webcomponentUuid, String versionTag) {
+		val webcomponentVersion = readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
+
+		webcomponentVersion.setLighthouseUpdateRequired(true);
+
+		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
+	}
+
+	private WebcomponentVersion createDomainObject(String webcomponentUuid, List<DistFile> distFiles) {
+		val webcomponentVersion = new WebcomponentVersion();
+		webcomponentVersion.setWebcomponentUuid(webcomponentUuid);
+		webcomponentVersion.setDeleted(false);
+		webcomponentVersion.setDist(createDistFromFiles(distFiles));
+		webcomponentVersion.setLighthouseUpdateRequired(true);
+		return webcomponentVersion;
 	}
 
 	private void checkForDuplicates(String webcomponentUuid, WebcomponentVersion webcomponentVersion) {
