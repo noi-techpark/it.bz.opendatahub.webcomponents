@@ -1,6 +1,7 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.service;
 
 import it.bz.opendatahub.webcomponents.common.converter.ConverterUtils;
+import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.common.data.struct.DistFile;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
@@ -42,6 +43,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 		val webcomponentVersion = new WebcomponentVersion();
 		webcomponentVersion.setWebcomponentUuid(webcomponentUuid);
 		webcomponentVersion.setDeleted(false);
+		webcomponentVersion.setDist(createDistFromFiles(request.getDistFiles()));
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
 
@@ -58,6 +60,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 		val webcomponentVersion = new WebcomponentVersion();
 		webcomponentVersion.setWebcomponentUuid(webcomponentUuid);
 		webcomponentVersion.setDeleted(false);
+		webcomponentVersion.setDist(createDistFromFiles(request.getDistFiles()));
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
 
@@ -98,9 +101,19 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 			val payload = Base64.getDecoder().decode(file.getFileDataBase64());
 
 			writeWorkspacePort.writeFile(
-				Paths.get(webcomponentUuid, versionTag, "dist"),
+				Paths.get(webcomponentUuid, versionTag, "dist", file.getFileName()),
 				payload
 			);
 		}
+	}
+
+	private Dist createDistFromFiles(List<DistFile> distFiles) {
+		val dist = new Dist();
+		dist.setBasePath("dist");
+		for(val file : distFiles) {
+			dist.getFiles().add(file.getFileName());
+		}
+
+		return dist;
 	}
 }

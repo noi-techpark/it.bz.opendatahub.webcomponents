@@ -5,9 +5,11 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.co
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.rest.WebcomponentRest;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentLogoUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.UpdateWebcomponentUseCase;
 import lombok.val;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,12 +27,14 @@ public class WebcomponentAdminController {
 	private final DeleteWebcomponentUseCase deleteWebcomponentUseCase;
 	private final CreateWebcomponentUseCase createWebcomponentUseCase;
 	private final WebcomponentWebConverter webcomponentWebConverter;
+	private final ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase;
 
-	public WebcomponentAdminController(UpdateWebcomponentUseCase updateWebcomponentUseCase, DeleteWebcomponentUseCase deleteWebcomponentUseCase, CreateWebcomponentUseCase createWebcomponentUseCase, WebcomponentWebConverter webcomponentWebConverter) {
+	public WebcomponentAdminController(UpdateWebcomponentUseCase updateWebcomponentUseCase, DeleteWebcomponentUseCase deleteWebcomponentUseCase, CreateWebcomponentUseCase createWebcomponentUseCase, WebcomponentWebConverter webcomponentWebConverter, ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase) {
 		this.updateWebcomponentUseCase = updateWebcomponentUseCase;
 		this.deleteWebcomponentUseCase = deleteWebcomponentUseCase;
 		this.createWebcomponentUseCase = createWebcomponentUseCase;
 		this.webcomponentWebConverter = webcomponentWebConverter;
+		this.replaceWebcomponentLogoUseCase = replaceWebcomponentLogoUseCase;
 	}
 
 	@PostMapping
@@ -43,6 +47,13 @@ public class WebcomponentAdminController {
 	@PutMapping("/{uuid}")
 	public WebcomponentRest updateWebcomponent(@PathVariable String uuid, @RequestBody @Valid UpdateWebcomponentUseCase.WebcomponentUpdateRequest request) {
 		val result = updateWebcomponentUseCase.updateWebcomponent(uuid, request);
+
+		return webcomponentWebConverter.convert(result);
+	}
+
+	@PatchMapping("/{uuid}/logo")
+	public WebcomponentRest updateWebcomponent(@PathVariable String uuid, @RequestBody @Valid ReplaceWebcomponentLogoUseCase.WebcomponentLogoReplaceRequest request) {
+		val result = replaceWebcomponentLogoUseCase.replaceLogo(uuid, request);
 
 		return webcomponentWebConverter.convert(result);
 	}

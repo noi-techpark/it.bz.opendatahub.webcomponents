@@ -20,8 +20,6 @@ public interface CreateWebcomponentVersionUseCase {
 
 		private Date releaseTimestamp;
 
-		private Dist dist;
-
 		private List<DistFile> distFiles;
 
 		private Configuration configuration;
