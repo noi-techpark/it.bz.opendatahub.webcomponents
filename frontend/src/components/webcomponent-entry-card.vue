@@ -3,7 +3,11 @@
     <b-card no-body class="full-height">
       <div class="aspect-box">
         <div
-          :style="'background-image: url(' + getLogo + ')'"
+          :style="
+            'background-image: url(' +
+            getLogo +
+            '); background-position: center;'
+          "
           class="aspect-container"
         ></div>
       </div>
