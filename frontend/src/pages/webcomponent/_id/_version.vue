@@ -101,42 +101,30 @@
                 </div>
                 <b-card
                   id="widget-codesnippet"
-                  :class="{ white: editmode }"
+                  class="white"
                   style="min-height: 250px"
                 >
                   <b-card-text>
                     <prism-editor
                       v-model="code"
                       class="my-editor"
-                      :readonly="!editmode"
                       :highlight="highlighter"
                       line-numbers
                       style="border: 0; background-color: inherit"
                     />
                   </b-card-text>
 
-                  <div slot="footer" class="text-right text-uppercase">
+                  <div
+                    v-if="code !== snipp"
+                    slot="footer"
+                    class="text-right text-uppercase"
+                  >
                     <span
-                      v-if="editmode"
                       style="cursor: pointer"
                       class="mr-4"
                       @click="toggleEditMode()"
                     >
                       <font-awesome-icon :icon="['fas', 'times']" />RESET
-                    </span>
-                    <span
-                      v-else
-                      style="cursor: pointer"
-                      class="mr-4"
-                      @click="toggleEditMode()"
-                    >
-                      <font-awesome-icon :icon="['far', 'edit']" />EDIT
-                    </span>
-                    <span
-                      style="cursor: pointer"
-                      @click="copySnippetToClipboard()"
-                    >
-                      <font-awesome-icon :icon="['far', 'copy']" />COPY
                     </span>
                   </div>
                 </b-card>
@@ -254,6 +242,7 @@ export default {
       version: this.$route.params.version,
     });
     this.code = this.snipp;
+    this.snippOriginal = this.snipp;
   },
   methods: {
     highlighter(code) {
@@ -263,14 +252,9 @@ export default {
       this.showPreview = show;
     },
     toggleEditMode() {
-      this.editmode = !this.editmode;
-      if (this.editmode) {
-        this.snippOriginal = this.snipp;
-      } else {
-        webcomponentStore.updateSnipp({ snipp: this.snippOriginal });
-        if (this.autoUpdate) {
-          this.updatePreview();
-        }
+      this.code = this.snippOriginal;
+      if (this.autoUpdate) {
+        this.updatePreview();
       }
     },
     reloadConfig(version) {
