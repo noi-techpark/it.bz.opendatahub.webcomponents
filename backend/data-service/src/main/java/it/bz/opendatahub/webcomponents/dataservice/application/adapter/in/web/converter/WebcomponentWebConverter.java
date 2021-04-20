@@ -42,8 +42,10 @@ public class WebcomponentWebConverter extends BeanConverter<Webcomponent, Webcom
 
 		entry.getVersions().sort(Comparator.comparing(WebcomponentVersionRest::getReleaseTimestamp).reversed());
 
-		entry.setDateUpdated(entry.getVersions().get(0).getReleaseTimestamp());
-		entry.setDatePublished(entry.getVersions().get(entry.getVersions().size()-1).getReleaseTimestamp());
+		if(!entry.getVersions().isEmpty()) {
+			entry.setDateUpdated(entry.getVersions().get(0).getReleaseTimestamp());
+			entry.setDatePublished(entry.getVersions().get(entry.getVersions().size() - 1).getReleaseTimestamp());
+		}
 
 		return entry;
 	}

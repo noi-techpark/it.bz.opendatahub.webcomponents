@@ -27,13 +27,18 @@ public class WebcomponentEntryWebConverter extends BeanConverter<Webcomponent, W
 	public WebcomponentEntryRest convert(Webcomponent dto) {
 		WebcomponentEntryRest entry = super.convert(dto);
 
-		entry.setCurrentVersion(webcomponentVersionConverter.convert(getWebcomponentVersionUseCase.getLatestVersionOfWebcomponent(dto.getUuid())));
+		try {
+			entry.setCurrentVersion(webcomponentVersionConverter.convert(getWebcomponentVersionUseCase.getLatestVersionOfWebcomponent(dto.getUuid())));
+		}
+		catch (NotFoundException ignored) {
+			// nothing to do
+		}
 
 		entry.setLicenseString(dto.getLicense());
 		try {
 			entry.setLicense(spdxLicenseConverter.convert(getSpdxLicenseUseCase.getById(dto.getLicense())));
 		}
-		catch (NotFoundException e) {
+		catch (NotFoundException ignored) {
 			// nothing to do
 		}
 

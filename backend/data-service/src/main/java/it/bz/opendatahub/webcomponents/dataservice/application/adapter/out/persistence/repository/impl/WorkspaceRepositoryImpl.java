@@ -3,6 +3,7 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.pers
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.persistence.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.dataservice.config.WorkspaceConfiguration;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.val;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,14 +22,23 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
     }
 
     @Override
-    public byte[] readFile(Path path) {
-        Path localPath = Paths.get(workspaceConfiguration.getPath(), path.toString());
+    public byte[] readFile(Path path) throws IOException {
+        val localPath = Paths.get(workspaceConfiguration.getPath(), path.toString());
 
-        try {
-            return FileUtils.readFileToByteArray(localPath.toFile());
-        }
-        catch (IOException e) {
-            throw new NotFoundException("requested file is unavailable");
-        }
+        return FileUtils.readFileToByteArray(localPath.toFile());
     }
+
+	@Override
+	public void writeFile(Path path, byte[] data) throws IOException {
+		val localPath = Paths.get(workspaceConfiguration.getPath(), path.toString());
+
+		FileUtils.writeByteArrayToFile(localPath.toFile(), data);
+	}
+
+	@Override
+	public void deletePath(Path path) {
+		val localPath = Paths.get(workspaceConfiguration.getPath(), path.toString());
+
+		FileUtils.deleteQuietly(localPath.toFile());
+	}
 }
