@@ -63,7 +63,13 @@ public class OriginServiceImpl implements OriginService {
         updateOriginTags(origin);
 
         updateMainEntry(origin);
+
+        updateMainLogoImage(origin);
     }
+
+    private void updateMainLogoImage(OriginModel origin) {
+		webcomponentService.updateWebcomponentLogo(origin.getUuid());
+	}
 
     private void updateMainEntry(OriginModel origin) {
         webcomponentService.updateWebcomponent(origin.getUuid(), origin.getUrl());

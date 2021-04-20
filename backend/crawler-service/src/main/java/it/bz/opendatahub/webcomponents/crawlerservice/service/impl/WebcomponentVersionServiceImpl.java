@@ -140,7 +140,7 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
         try {
             ByteArrayOutputStream imageData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), manifest.getImage());
             if (imageData.size() > 0) {
-                workspaceRepository.writeFile(imageData, Paths.get(versionBasePath.toString(), "wcs-logo.png"));
+                workspaceRepository.writeFile(imageData, Paths.get(versionBasePath.toString(), manifest.getImage()));
             }
         }
         catch (NotFoundException e) {

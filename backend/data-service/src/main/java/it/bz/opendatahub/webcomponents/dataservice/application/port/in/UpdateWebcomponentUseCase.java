@@ -25,8 +25,6 @@ public interface UpdateWebcomponentUseCase {
 
 		private List<Author> copyrightHolders;
 
-		private String image;
-
 		private List<Author> authors;
 
 		private List<String> searchTags;

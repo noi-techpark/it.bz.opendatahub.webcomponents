@@ -13,6 +13,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWor
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
 import lombok.val;
+import lombok.var;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,32 +23,41 @@ import java.util.UUID;
 
 @Service
 public class WebcomponentAdminService implements CreateWebcomponentUseCase, UpdateWebcomponentUseCase, DeleteWebcomponentUseCase, ReplaceWebcomponentLogoUseCase {
+	public static final String WCS_LOGO_PNG = "wcs-logo.png";
 	private final ReadWebcomponentPort readWebcomponentPort;
 	private final WriteWebcomponentPort writeWebcomponentPort;
 
-	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 	private final WriteWorkspacePort writeWorkspacePort;
 
-	public WebcomponentAdminService(ReadWebcomponentPort readWebcomponentPort, WriteWebcomponentPort writeWebcomponentPort, ReadWebcomponentVersionPort readWebcomponentVersionPort, WriteWorkspacePort writeWorkspacePort) {
+	public WebcomponentAdminService(ReadWebcomponentPort readWebcomponentPort, WriteWebcomponentPort writeWebcomponentPort, WriteWorkspacePort writeWorkspacePort) {
 		this.readWebcomponentPort = readWebcomponentPort;
 		this.writeWebcomponentPort = writeWebcomponentPort;
-		this.readWebcomponentVersionPort = readWebcomponentVersionPort;
 		this.writeWorkspacePort = writeWorkspacePort;
 	}
 
 	@Override
 	@Transactional
 	public Webcomponent createWebcomponent(@NonNull final WebcomponentCreateRequest request) {
-		val webcomponent = new Webcomponent();
+		var webcomponent = new Webcomponent();
 
 		webcomponent.setUuid(
 			UUID.randomUUID().toString()
 		);
+		webcomponent.setImage(WCS_LOGO_PNG);
 		webcomponent.setDeleted(false);
 
 		ConverterUtils.copyProperties(request, webcomponent);
 
-		return writeWebcomponentPort.saveWebcomponent(webcomponent);
+		webcomponent = writeWebcomponentPort.saveWebcomponent(webcomponent);
+
+		replaceLogo(
+			webcomponent.getUuid(),
+			new WebcomponentLogoReplaceRequest(
+				request.getImagePngBase64()
+			)
+		);
+
+		return webcomponent;
 	}
 
 	@Override
@@ -72,9 +82,9 @@ public class WebcomponentAdminService implements CreateWebcomponentUseCase, Upda
 	@Override
 	@Transactional
 	public Webcomponent replaceLogo(String webcomponentUuid, WebcomponentLogoReplaceRequest request) {
-		val latestVersion = readWebcomponentVersionPort.getLatestVersionOfWebcomponent(webcomponentUuid);
+		readWebcomponentPort.getWebcomponentById(webcomponentUuid); // just to raise a not found exception
 
-		val logoPath = Paths.get(webcomponentUuid, latestVersion.getVersionTag(), "wcs-logo.png");
+		val logoPath = Paths.get(webcomponentUuid, WCS_LOGO_PNG);
 
 		writeWorkspacePort.wipe(logoPath);
 

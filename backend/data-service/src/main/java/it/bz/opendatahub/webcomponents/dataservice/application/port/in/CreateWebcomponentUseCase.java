@@ -25,7 +25,7 @@ public interface CreateWebcomponentUseCase {
 
 		private List<Author> copyrightHolders;
 
-		private String image;
+		private String imagePngBase64;
 
 		private List<Author> authors;
 

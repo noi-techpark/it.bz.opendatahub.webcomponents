@@ -7,6 +7,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ListWebco
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
+import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,13 +19,13 @@ import java.util.List;
 @Service
 public class WebcomponentService implements GetWebcomponentUseCase, ListWebcomponentUseCase, GetWebcomponentLogoUseCase {
 	private final ReadWebcomponentPort readWebcomponentPort;
-	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 	private final ReadWorkspacePort readWorkspacePort;
+	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 
-	public WebcomponentService(ReadWebcomponentPort readWebcomponentPort, ReadWebcomponentVersionPort readWebcomponentVersionPort, ReadWorkspacePort readWorkspacePort) {
+	public WebcomponentService(ReadWebcomponentPort readWebcomponentPort, ReadWorkspacePort readWorkspacePort, ReadWebcomponentVersionPort readWebcomponentVersionPort) {
 		this.readWebcomponentPort = readWebcomponentPort;
-		this.readWebcomponentVersionPort = readWebcomponentVersionPort;
 		this.readWorkspacePort = readWorkspacePort;
+		this.readWebcomponentVersionPort = readWebcomponentVersionPort;
 	}
 
 	@Override
@@ -44,8 +45,15 @@ public class WebcomponentService implements GetWebcomponentUseCase, ListWebcompo
 
 	@Override
 	public byte[] getLogoImage(String uuid) {
-		val latestVersion = readWebcomponentVersionPort.getLatestVersionOfWebcomponent(uuid);
+		val webcomponent = readWebcomponentPort.getWebcomponentById(uuid);
 
-		return readWorkspacePort.readFile(Paths.get(uuid, latestVersion.getVersionTag(), "wcs-logo.png"));
+		try {
+			return readWorkspacePort.readFile(Paths.get(uuid, webcomponent.getImage()));
+		}
+		catch (NotFoundException e) {
+			val latestVersion = readWebcomponentVersionPort.getLatestVersionOfWebcomponent(uuid);
+
+			return readWorkspacePort.readFile(Paths.get(uuid, latestVersion.getVersionTag(), webcomponent.getImage()));
+		}
 	}
 }

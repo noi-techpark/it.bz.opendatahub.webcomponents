@@ -24,10 +24,15 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
 
     @Override
     public void writeFile(ByteArrayOutputStream data, Path file) {
+		writeFile(data.toByteArray(), file);
+	}
+
+	@Override
+	public void writeFile(byte[] data, Path file) {
         Path localPath = Paths.get(workspaceConfiguration.getPath(), file.toString());
 
         try {
-            FileUtils.writeByteArrayToFile(localPath.toFile(), data.toByteArray());
+            FileUtils.writeByteArrayToFile(localPath.toFile(), data);
         }
         catch (IOException e) {
             throw new CrawlerException(e);
