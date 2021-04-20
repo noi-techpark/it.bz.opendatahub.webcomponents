@@ -7,7 +7,7 @@
       :external-preview-url="externalPreviewUrl"
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
-    <div v-if="showPreview">
+    <div v-if="showPreview && hasAnyVersion">
       <div class="container-fluid extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3">
         <b-alert
           :show="!isLatestVersionActive"
@@ -200,6 +200,9 @@ export default {
     };
   },
   computed: {
+    hasAnyVersion() {
+      return !!webcomponentStore.currentVersion;
+    },
     externalPreviewUrl() {
       return (
         this.previewBaseURL +

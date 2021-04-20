@@ -45,9 +45,10 @@
         <div class="col-6">
           <div>
             Version:
-            <span class="font-weight-bold">{{
+            <span v-if="entry.currentVersion" class="font-weight-bold">{{
               entry.currentVersion.versionTag
             }}</span>
+            <span v-else class="font-weight-bold">n/a</span>
           </div>
           <div>
             License:

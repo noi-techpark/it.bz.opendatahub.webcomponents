@@ -97,7 +97,10 @@
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Current Version:</div>
               <div class="d-table-cell font-weight-bold">
-                {{ component.versions[0].versionTag }}
+                <template v-if="component.versions.length > 0">
+                  {{ component.versions[0].versionTag }}
+                </template>
+                <template v-else> n/a </template>
               </div>
             </div>
             <div class="d-table-row">
