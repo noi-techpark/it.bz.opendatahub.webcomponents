@@ -3,13 +3,14 @@
     <iframe
       id="tframe"
       class="full-height full-width"
-      style="min-height: 800px"
+      style="min-height: 100vh"
       title="iframe-preview"
     ></iframe>
     <detail-bottom-bar
       :selected-view="selectedView"
       @updatePreview="updatePreview"
       @setSelectedView="setSelectedView"
+      @copyCode="copySnippetToClipboard"
     >
     </detail-bottom-bar>
     <WCSConfigTool
@@ -128,11 +129,12 @@ export default {
       }
     },
     copySnippetToClipboard() {
-      const copyText = document.getElementById('code-snippet');
-
-      copyText.select();
-
+      const dummy = document.createElement('textarea');
+      document.body.appendChild(dummy);
+      dummy.value = this.snipp;
+      dummy.select();
       document.execCommand('copy');
+      document.body.removeChild(dummy);
     },
   },
 };

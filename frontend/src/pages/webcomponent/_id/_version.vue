@@ -104,9 +104,10 @@
                   :class="{ white: editmode }"
                   style="min-height: 250px"
                 >
-                  <b-card-text>
+                  <b-card-text
+                    >x
                     <prism-editor
-                      v-model="snipp"
+                      v-model="code"
                       class="my-editor"
                       :readonly="!editmode"
                       :highlight="highlighter"
@@ -187,7 +188,7 @@ import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhe
 // eslint-disable-next-line import/order
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-markup.min';
 import 'prismjs/themes/prism.css';
 import DetailBottomBar from '~/components/detail-bottom-bar'; // import syntax highlighting styles
 
@@ -208,6 +209,7 @@ export default {
       previewBaseURL: this.$api.baseUrl,
       showPreview: true,
       selectedView: '',
+      code: '',
     };
   },
   computed: {
@@ -252,10 +254,11 @@ export default {
       uuid: this.$route.params.id,
       version: this.$route.params.version,
     });
+    this.code = this.snipp;
   },
   methods: {
     highlighter(code) {
-      return highlight(code, languages.js); // returns html
+      return highlight(code, languages.markup, 'markup'); // returns html
     },
     setShowPreview(show) {
       this.showPreview = show;
@@ -283,17 +286,20 @@ export default {
       webcomponentStore.updateSnipp({
         snipp: data + '\n' + this.getDistIncludes().join('\n'),
       });
+      this.code = this.snipp;
 
       if (this.autoUpdate) {
         this.updatePreview();
       }
     },
     copySnippetToClipboard() {
-      const copyText = document.getElementById('code-snippet');
-
-      copyText.select();
-
       document.execCommand('copy');
+      const dummy = document.createElement('textarea');
+      document.body.appendChild(dummy);
+      dummy.value = this.code;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
     },
     setSelectedView(newSelectedView) {
       this.selectedView = newSelectedView;
@@ -311,7 +317,7 @@ export default {
 
       document.getElementById('twrap').appendChild(newElement);
 
-      newElement.contentDocument.write(this.snipp);
+      newElement.contentDocument.write(this.code);
       newElement.contentDocument.close();
 
       this.attribs = this.parseSnippetAttributes();
