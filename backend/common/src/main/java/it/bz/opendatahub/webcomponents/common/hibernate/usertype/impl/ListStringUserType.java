@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 public final class ListStringUserType extends ListUserType {
-    public static final String NAME = "ListLongUserType";
+    public static final String NAME = "ListStringUserType";
 
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
