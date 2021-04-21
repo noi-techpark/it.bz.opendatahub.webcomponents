@@ -121,42 +121,55 @@
               </div>
             </div>
           </div>
+          <div class="d-flex flex-row pt-3">Performance:</div>
           <div class="d-flex flex-row pt-3">
             <div class="performance-col">
-              <circular-chart :circle-value="20"></circular-chart>
-              <div>Size <span class="font-weight-bold">111</span> (kB)</div>
+              <circular-chart
+                :circle-value="versionSizeChartPercent"
+                :color="versionSizeChartColor"
+              ></circular-chart>
+              <div>
+                Size
+                <span class="font-weight-bold">{{ versionSizeKb }}</span> (kB)
+              </div>
             </div>
             <div class="performance-col">
-              <circular-chart :circle-value="60">
+              <circular-chart
+                :circle-value="mobileRating"
+                :color="mobileRatingChartColor"
+              >
                 <div
                   class="d-flex justify-content-center align-items-center"
                   style="width: 36px; height: 36px"
                 >
-                  60
+                  {{ mobileRating }}
                 </div>
               </circular-chart>
-              Performance
-            </div>
-            <div class="performance-col">
               <a
                 :href="pageSpeedInsightUrl"
                 target="_blank"
-                class="text-underline d-flex flex-column justify-content-center align-items-center"
+                class="text-underline"
+                >Mobile</a
               >
-                <circular-chart :circle-value="0">
-                  <div
-                    style="
-                      width: 36px;
-                      height: 36px;
-                      padding-top: 9px;
-                      padding-left: 9px;
-                    "
-                  >
-                    <img src="/icons/feather-link.svg" style="height: 17px" />
-                  </div>
-                </circular-chart>
-                <div style="text-align: center">PageSpeed Insights</div>
-              </a>
+            </div>
+            <div class="performance-col">
+              <circular-chart
+                :circle-value="desktopRating"
+                :color="desktopRatingChartColor"
+              >
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="width: 36px; height: 36px"
+                >
+                  {{ desktopRating }}
+                </div>
+              </circular-chart>
+              <a
+                :href="pageSpeedInsightUrl"
+                target="_blank"
+                class="text-underline"
+                >Desktop</a
+              >
             </div>
           </div>
         </div>
@@ -200,17 +213,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
+import { webcomponentStore } from '../../utils/store-accessor';
+import { WebcomponentModel } from '../../domain/model/WebcomponentModel';
 import CircularChart from '~/components/circular-chart';
-export default {
+
+export default Vue.extend({
   components: { CircularChart },
   props: {
-    component: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
     returnLink: {
       type: String,
       default: '',
@@ -230,6 +241,51 @@ export default {
     };
   },
   computed: {
+    component(): WebcomponentModel {
+      return webcomponentStore.currentWebcomponent;
+    },
+    mobileRatingChartColor() {
+      if (this.mobileRating < 80) {
+        return 'red';
+      }
+
+      return 'green';
+    },
+    desktopRatingChartColor() {
+      if (this.desktopRating < 80) {
+        return 'red';
+      }
+
+      return 'green';
+    },
+    versionSizeChartColor() {
+      if (this.versionSizeChartPercent > 80) {
+        return 'red';
+      }
+
+      return 'green';
+    },
+    versionSizeChartPercent() {
+      return Math.ceil((100 * Math.min(500, this.versionSizeKb)) / 500);
+    },
+    mobileRating() {
+      if (!this.component.versions || this.component.versions.size === 0) {
+        return 0;
+      }
+      return this.component.versions[0].lighthouseMobilePerformanceRating;
+    },
+    desktopRating() {
+      if (!this.component.versions || this.component.versions.size === 0) {
+        return 0;
+      }
+      return this.component.versions[0].lighthouseDesktopPerformanceRating;
+    },
+    versionSizeKb() {
+      if (!this.component.versions || this.component.versions.size === 0) {
+        return 0;
+      }
+      return this.component.versions[0].distSizeTotalKb;
+    },
     authors(authors) {
       return this.component.authors.map((e) => e.name).join(', ');
     },
@@ -245,7 +301,7 @@ export default {
       this.isHeaderExpanded = !this.isHeaderExpanded;
     },
   },
-};
+});
 </script>
 <style lang="scss">
 @media (max-width: 576px) {

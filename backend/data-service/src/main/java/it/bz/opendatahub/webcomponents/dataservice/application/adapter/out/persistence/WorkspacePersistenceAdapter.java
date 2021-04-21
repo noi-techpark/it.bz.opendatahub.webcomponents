@@ -39,4 +39,9 @@ public class WorkspacePersistenceAdapter implements ReadWorkspacePort, WriteWork
 	public void wipe(Path path) {
 		workspaceRepository.deletePath(path);
 	}
+
+	@Override
+	public long getDirectorySizeInBytes(Path path) {
+		return workspaceRepository.getDirectorySizeInBytes(path);
+	}
 }

@@ -17,6 +17,9 @@ public interface WebcomponentVersionRepository extends JpaRepository<Webcomponen
     @Query("SELECT v FROM WebcomponentVersionModel v WHERE v.webcomponentUuid=?1 AND v.deleted=false ORDER BY v.versionTag DESC")
     List<WebcomponentVersionModel> findAllVersionsForWebcomponent(String webcomponentId);
 
+    @Query("SELECT v FROM WebcomponentVersionModel v WHERE v.lighthouseUpdateRequired=true")
+    List<WebcomponentVersionModel> getAllWithScheduledLighthouseUpdate();
+
     @Query(value = "SELECT * FROM webcomponent_version AS v WHERE v.webcomponent_uuid=?1 AND v.version_tag=?2 AND v.deleted=false", nativeQuery = true)
     Optional<WebcomponentVersionModel> findSpecificVersionOfWebcomponent(String webcomponentId, String versionTag);
 }

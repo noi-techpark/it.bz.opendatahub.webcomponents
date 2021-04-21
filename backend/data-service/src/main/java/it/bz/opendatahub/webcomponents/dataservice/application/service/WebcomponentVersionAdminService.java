@@ -6,10 +6,12 @@ import it.bz.opendatahub.webcomponents.common.data.struct.DistFile;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentVersionUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ScheduleWebcomponentVersionMetricsUpdateUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.ConflictException;
@@ -22,18 +24,20 @@ import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
 
-@Service // TODO: logo image? and manifest?
-public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase {
+@Service
+public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase, RecalculateAllDistSizesUseCase {
 	private final ReadWebcomponentPort readWebcomponentPort;
 	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 	private final WriteWebcomponentVersionPort writeWebcomponentVersionPort;
 	private final WriteWorkspacePort writeWorkspacePort;
+	private final ReadWorkspacePort readWorkspacePort;
 
-	public WebcomponentVersionAdminService(ReadWebcomponentPort readWebcomponentPort, ReadWebcomponentVersionPort readWebcomponentVersionPort, WriteWebcomponentVersionPort writeWebcomponentVersionPort, WriteWorkspacePort writeWorkspacePort) {
+	public WebcomponentVersionAdminService(ReadWebcomponentPort readWebcomponentPort, ReadWebcomponentVersionPort readWebcomponentVersionPort, WriteWebcomponentVersionPort writeWebcomponentVersionPort, WriteWorkspacePort writeWorkspacePort, ReadWorkspacePort readWorkspacePort) {
 		this.readWebcomponentPort = readWebcomponentPort;
 		this.readWebcomponentVersionPort = readWebcomponentVersionPort;
 		this.writeWebcomponentVersionPort = writeWebcomponentVersionPort;
 		this.writeWorkspacePort = writeWorkspacePort;
+		this.readWorkspacePort = readWorkspacePort;
 	}
 
 	@Override
@@ -49,6 +53,12 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 
 		storeDistFiles(webcomponentUuid, webcomponentVersion.getVersionTag(), request.getDistFiles());
 
+		webcomponentVersion.setDistSizeTotalKb(
+			(int) (readWorkspacePort.getDirectorySizeInBytes(
+							Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), "dist")
+						) / 1024)
+		);
+
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 	}
 
@@ -63,6 +73,12 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 
 		wipeDistFiles(webcomponentUuid, webcomponentVersion.getVersionTag());
 		storeDistFiles(webcomponentUuid, webcomponentVersion.getVersionTag(), request.getDistFiles());
+
+		webcomponentVersion.setDistSizeTotalKb(
+			(int) (readWorkspacePort.getDirectorySizeInBytes(
+				Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), "dist")
+			) / 1024)
+		);
 
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 	}
@@ -88,6 +104,26 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 		webcomponentVersion.setLighthouseUpdateRequired(true);
 
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
+	}
+
+	@Override
+	@Transactional
+	public void recalculateAllDistSizes() {
+		val allWebcomponents = readWebcomponentPort.listAll();
+
+		for(val webcomponent : allWebcomponents) {
+			val allVersions = readWebcomponentVersionPort.listAllVersionsOfWebcomponent(webcomponent.getUuid());
+
+			for (val webcomponentVersion : allVersions) {
+				webcomponentVersion.setDistSizeTotalKb(
+					(int) (readWorkspacePort.getDirectorySizeInBytes(
+						Paths.get(webcomponentVersion.getWebcomponentUuid(), webcomponentVersion.getVersionTag(), "dist")
+					) / 1024)
+				);
+
+				writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
+			}
+		}
 	}
 
 	private WebcomponentVersion createDomainObject(String webcomponentUuid, List<DistFile> distFiles) {

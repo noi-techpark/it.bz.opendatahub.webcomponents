@@ -31,7 +31,12 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
         return webcomponentVersionConverter.convert(webcomponentVersionRepository.findAllVersionsForWebcomponent(webcomponentUuid));
     }
 
-    @Override
+	@Override
+	public List<WebcomponentVersion> getAllWithScheduledLighthouseUpdate() {
+		return webcomponentVersionConverter.convert(webcomponentVersionRepository.getAllWithScheduledLighthouseUpdate());
+	}
+
+	@Override
     public WebcomponentVersion getLatestVersionOfWebcomponent(String webcomponentUuid) {
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findLatestVersionForWebcomponent(webcomponentUuid);
 

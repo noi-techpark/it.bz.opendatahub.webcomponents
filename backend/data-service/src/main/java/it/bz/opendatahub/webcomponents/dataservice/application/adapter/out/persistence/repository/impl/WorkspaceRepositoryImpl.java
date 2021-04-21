@@ -41,4 +41,15 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
 
 		FileUtils.deleteQuietly(localPath.toFile());
 	}
+
+	@Override
+	public long getDirectorySizeInBytes(Path path) {
+		val localPath = Paths.get(workspaceConfiguration.getPath(), path.toString());
+
+		try {
+			return FileUtils.sizeOfDirectory(localPath.toFile());
+		} catch (IllegalArgumentException e) {
+			return 0L;
+		}
+	}
 }

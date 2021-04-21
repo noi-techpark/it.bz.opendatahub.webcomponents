@@ -10,4 +10,6 @@ public interface WorkspaceRepository {
     void removeDirectory(Path path);
 
     byte[] readFile(Path path);
+
+	long getDirectorySizeInBytes(Path path);
 }

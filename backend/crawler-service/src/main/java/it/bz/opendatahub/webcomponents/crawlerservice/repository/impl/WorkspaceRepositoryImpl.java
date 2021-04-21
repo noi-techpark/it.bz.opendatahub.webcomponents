@@ -4,6 +4,7 @@ import it.bz.opendatahub.webcomponents.crawlerservice.config.WorkspaceConfigurat
 import it.bz.opendatahub.webcomponents.crawlerservice.exception.CrawlerException;
 import it.bz.opendatahub.webcomponents.crawlerservice.exception.NotFoundException;
 import it.bz.opendatahub.webcomponents.crawlerservice.repository.WorkspaceRepository;
+import lombok.val;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -60,4 +61,11 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
             throw new NotFoundException("requested file is unavailable");
         }
     }
+
+	@Override
+	public long getDirectorySizeInBytes(Path path) {
+		val localPath = Paths.get(workspaceConfiguration.getPath(), path.toString());
+
+		return FileUtils.sizeOfDirectory(localPath.toFile());
+	}
 }

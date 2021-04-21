@@ -10,4 +10,6 @@ public interface ReadWebcomponentVersionPort {
 	WebcomponentVersion getSpecificVersionOfWebcomponent(String webcomponentUuid, String versionTag);
 
 	List<WebcomponentVersion> listAllVersionsOfWebcomponent(String webcomponentUuid);
+
+	List<WebcomponentVersion> getAllWithScheduledLighthouseUpdate();
 }

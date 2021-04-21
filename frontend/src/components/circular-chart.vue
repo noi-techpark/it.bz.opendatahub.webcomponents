@@ -1,5 +1,5 @@
 <template>
-  <svg viewBox="0 0 36 36" class="circular-chart green">
+  <svg viewBox="0 0 36 36" :class="'circular-chart ' + color">
     <path
       class="circle-bg"
       d="M18 2.0845
@@ -31,6 +31,10 @@ export default {
       type: Number,
       default: 0,
     },
+    color: {
+      type: String,
+      default: 'green',
+    },
   },
   computed: {
     strokeDasharray() {
@@ -59,6 +63,10 @@ export default {
   stroke-width: 2.8;
   animation: progress 1s ease-out forwards;
   stroke: #9bc320;
+}
+
+.red .circle {
+  stroke: crimson;
 }
 
 @keyframes progress {

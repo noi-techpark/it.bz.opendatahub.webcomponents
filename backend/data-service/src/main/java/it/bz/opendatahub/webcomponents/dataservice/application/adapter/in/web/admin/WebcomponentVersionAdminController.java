@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.ad
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.admin.rest.WebcomponentVersionAdminRest;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentVersionUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ScheduleWebcomponentVersionMetricsUpdateUseCase;
 import lombok.val;

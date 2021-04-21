@@ -36,18 +36,14 @@
 
 <script>
 import MarkdownPage from '~/components/markdown-page';
+import { webcomponentStore } from '~/utils/store-accessor';
 export default {
   name: 'ComponentReadMe',
   components: { MarkdownPage },
-  props: {
-    component: {
-      type: Object,
-      default: () => {
-        return {};
-      },
-    },
-  },
   computed: {
+    component() {
+      return webcomponentStore.currentWebcomponent;
+    },
     readme() {
       return 'This is a web component that can be integrated in other software (for example websites) to show the activities and point of interests of South Tyrol. They are shown on a map and they can be filtered based on the category or a search term. Each point of interest/activity has a corresponding marker on the map and its details are displayed when it is clicked on it.';
     },

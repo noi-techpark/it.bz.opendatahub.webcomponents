@@ -1,7 +1,6 @@
 <template>
   <div v-if="component" class="mb-5">
     <WcDetailBlock
-      :component="component"
       :return-link="returnLink"
       :show-preview="showPreview"
       :external-preview-url="externalPreviewUrl"
@@ -239,6 +238,7 @@ export default {
     },
   },
   created() {
+    // webcomponentStore.
     webcomponentStore.loadWebcomponent({
       uuid: this.$route.params.id,
       version: this.$route.params.version,

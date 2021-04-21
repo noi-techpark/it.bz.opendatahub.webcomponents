@@ -14,7 +14,7 @@ alter table webcomponent_version
     add lighthouse_metrics_desktop_data jsonb;
 
 alter table webcomponent_version
-    add lighthouse_metrics_desktop_datetime int;
+    add lighthouse_metrics_desktop_datetime timestamp;
 
 alter table webcomponent_version
     add lighthouse_desktop_performance_rating int default 0 not null;

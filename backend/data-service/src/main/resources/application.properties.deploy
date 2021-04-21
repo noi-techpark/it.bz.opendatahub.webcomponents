@@ -26,6 +26,8 @@ logging.level.liquibase.executor = INFO
 application.deliveryBaseUrl = http://localhost:8080/dist
 application.workspace.path = workspace
 
+application.google.lighthouse.api-key =
+
 application.mailer.to = info@webcomponents.opendatahub.bz.it
 application.mailer.from = contact@webcomponents.opendatahub.bz.it
 application.mailer.subject = WCS contact-form

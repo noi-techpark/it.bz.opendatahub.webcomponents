@@ -9,4 +9,6 @@ public interface WorkspaceRepository {
     void writeFile(Path path, byte[] data) throws IOException;
 
     void deletePath(Path path);
+
+    long getDirectorySizeInBytes(Path path);
 }

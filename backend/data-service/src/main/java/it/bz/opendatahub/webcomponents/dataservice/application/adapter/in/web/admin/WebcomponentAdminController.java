@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.co
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.rest.WebcomponentRest;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentLogoUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.UpdateWebcomponentUseCase;
 import lombok.val;
@@ -27,13 +28,15 @@ public class WebcomponentAdminController {
 	private final DeleteWebcomponentUseCase deleteWebcomponentUseCase;
 	private final CreateWebcomponentUseCase createWebcomponentUseCase;
 	private final WebcomponentWebConverter webcomponentWebConverter;
+	private final RecalculateAllDistSizesUseCase recalculateAllDistSizesUseCase;
 	private final ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase;
 
-	public WebcomponentAdminController(UpdateWebcomponentUseCase updateWebcomponentUseCase, DeleteWebcomponentUseCase deleteWebcomponentUseCase, CreateWebcomponentUseCase createWebcomponentUseCase, WebcomponentWebConverter webcomponentWebConverter, ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase) {
+	public WebcomponentAdminController(UpdateWebcomponentUseCase updateWebcomponentUseCase, DeleteWebcomponentUseCase deleteWebcomponentUseCase, CreateWebcomponentUseCase createWebcomponentUseCase, WebcomponentWebConverter webcomponentWebConverter, RecalculateAllDistSizesUseCase recalculateAllDistSizesUseCase, ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase) {
 		this.updateWebcomponentUseCase = updateWebcomponentUseCase;
 		this.deleteWebcomponentUseCase = deleteWebcomponentUseCase;
 		this.createWebcomponentUseCase = createWebcomponentUseCase;
 		this.webcomponentWebConverter = webcomponentWebConverter;
+		this.recalculateAllDistSizesUseCase = recalculateAllDistSizesUseCase;
 		this.replaceWebcomponentLogoUseCase = replaceWebcomponentLogoUseCase;
 	}
 
@@ -42,6 +45,11 @@ public class WebcomponentAdminController {
 		val result = createWebcomponentUseCase.createWebcomponent(request);
 
 		return webcomponentWebConverter.convert(result);
+	}
+
+	@PatchMapping("/recalculate-size")
+	public void recalculateAllDistSizes() {
+		recalculateAllDistSizesUseCase.recalculateAllDistSizes();
 	}
 
 	@PutMapping("/{uuid}")

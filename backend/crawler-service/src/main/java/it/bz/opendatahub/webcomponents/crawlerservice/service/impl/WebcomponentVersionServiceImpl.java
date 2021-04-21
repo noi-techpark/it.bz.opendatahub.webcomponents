@@ -113,6 +113,12 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
 
             newEntry.setReleaseTimestamp(commit.getDate());
 
+			newEntry.setDistSizeTotalKb(
+				(int) (workspaceRepository.getDirectorySizeInBytes(
+					Paths.get(newEntry.getWebcomponentUuid(), newEntry.getVersionTag(), "dist")
+				) / 1024)
+			);
+
             webcomponentVersionRepository.save(newEntry);
         }
         else {
@@ -124,6 +130,12 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
             entry.setConfiguration(manifest.getConfiguration());
             entry.setDeleted(false);
             entry.setDist(manifest.getDist());
+
+			entry.setDistSizeTotalKb(
+				(int) (workspaceRepository.getDirectorySizeInBytes(
+					Paths.get(entry.getWebcomponentUuid(), entry.getVersionTag(), "dist")
+				) / 1024)
+			);
 
             webcomponentVersionRepository.save(entry);
         }
