@@ -271,6 +271,7 @@ export default Vue.extend({
         this.$refs.recaptcha.reset();
       }
 
+      this.recaptchaChecked = false;
       this.showOverlay = true;
       this.loading = false;
     },
