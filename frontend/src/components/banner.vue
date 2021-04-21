@@ -104,6 +104,10 @@ export default {
       -webkit-line-clamp: 3; /* number of lines to show */
       -webkit-box-orient: vertical;
     }
+
+    h3 {
+      font-size: 26px !important;
+    }
   }
 }
 

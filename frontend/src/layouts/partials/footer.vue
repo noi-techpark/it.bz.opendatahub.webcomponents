@@ -42,7 +42,7 @@
       >
     </div>
     <div class="get-in-touch">
-      <div class="p-5 text-center font-larger">
+      <div class="p-1 p-md-5 text-center font-larger">
         <nuxt-link :to="localePath('/contact')"
           ><h1 class="pt-5 text-uppercase footer-text">
             get in touch

@@ -5,7 +5,7 @@
         class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100 readme"
       >
         <div>
-          <h3>#README</h3>
+          <h2>#README</h2>
 
           <div class="d-flex">
             <markdown-page :content="readme"></markdown-page>
@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="col-md-4 detail-border pl-md-5">
-        <h3>#Author</h3>
+        <h2>#Author</h2>
         <div
           v-for="author in component.authors"
           :key="author"
@@ -25,7 +25,7 @@
             <div class="font-weight-bold">{{ author.organization }}</div>
           </div>
         </div>
-        <h3 class="pt-4">#Licenceagreeements</h3>
+        <h2 class="pt-4">#Licenceagreeements</h2>
         <div class="d-flex">
           <markdown-page :content="licenceAgreement"></markdown-page>
         </div>

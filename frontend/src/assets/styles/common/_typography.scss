@@ -44,6 +44,8 @@ h5,
 h6 {
 	font-family: Roboto Slab, Arial, sans-serif;
 	font-weight: 500 !important;
+	overflow: hidden;
+	word-break: break-word;
 }
 
 .h1,
@@ -54,4 +56,26 @@ h6 {
 .h6 {
 	font-family: 'Source Code Pro', Arial, sans-serif;
 	font-weight: bold !important;
+}
+
+@media (max-width: 576px) {
+	h1, .h1 {
+		font-size: 26px !important;
+	}
+
+	h2, .h2 {
+		font-size: 24px !important;
+	}
+
+	h3, .h3 {
+		font-size: 22px !important;
+	}
+
+	h4, .h4 {
+		font-size: 18px !important;
+	}
+
+	h5, .h5 {
+		font-size: 16px !important;
+	}
 }

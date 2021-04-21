@@ -18,7 +18,7 @@
         <div
           class="row d-flex justify-content-start flex-column flex-md-row pt-5"
         >
-          <div class="d-flex flex-row tab-buttons">
+          <div class="d-flex flex-row tab-buttons" style="overflow: scroll">
             <div
               :class="[
                 selectedTab === 'publishers'
