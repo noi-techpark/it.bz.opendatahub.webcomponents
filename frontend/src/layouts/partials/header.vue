@@ -60,9 +60,7 @@
                   >... legally</b-nav-item
                 >
               </b-nav-item-dropdown>
-              <b-nav-item :to="localePath('contact')" class="home-menu-item"
-                >contact</b-nav-item
-              >
+              <b-nav-item :to="localePath('contact')">contact</b-nav-item>
             </b-nav>
           </div>
           <burger
