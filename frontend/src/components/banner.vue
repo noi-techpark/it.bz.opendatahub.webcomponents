@@ -74,11 +74,11 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .carousel-indicators {
   top: 10px !important;
   z-index: 21;
-  height: 50px;
+  height: 20px;
 }
 
 #carousel-1 {
@@ -87,7 +87,24 @@ export default {
 }
 
 .carousel-caption {
-  top: 50px;
+  top: 40px;
+}
+
+@media (max-width: 576px) {
+  .carousel-caption {
+    top: 10px;
+    right: 5%;
+    left: 5%;
+
+    p {
+      margin-bottom: 0.2rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3; /* number of lines to show */
+      -webkit-box-orient: vertical;
+    }
+  }
 }
 
 .carousel-control-prev,
