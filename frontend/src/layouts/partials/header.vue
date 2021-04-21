@@ -60,26 +60,9 @@
                   >... legally</b-nav-item
                 >
               </b-nav-item-dropdown>
-              <b-nav-item-dropdown
-                id="my-nav-dropdown"
-                ref="dropdown3"
-                text="contact"
-                toggle-class="nav-link-custom"
-                right
+              <b-nav-item :to="localePath('contact')" class="home-menu-item"
+                >contact</b-nav-item
               >
-                <div class="triangle"></div>
-                <b-nav-item
-                  :to="localePath('/contact/idea')"
-                  @click="$refs.dropdown3.hide()"
-                  >... a new web component (idea)</b-nav-item
-                >
-                <hr />
-                <b-nav-item
-                  :to="localePath('/contact/data-correction')"
-                  @click="$refs.dropdown3.hide()"
-                  >... a correction of data</b-nav-item
-                >
-              </b-nav-item-dropdown>
             </b-nav>
           </div>
           <burger

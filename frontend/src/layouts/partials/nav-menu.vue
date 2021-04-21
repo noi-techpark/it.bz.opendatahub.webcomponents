@@ -89,40 +89,11 @@
               >
             </div>
           </b-collapse>
-          <div
-            :class="[
-              contactActive ? 'side-menu-item-open' : 'side-menu-item-closed',
-            ]"
-            class="mobile-only side-menu-item"
-            @click="contactActive = !contactActive"
-          >
-            <div class="d-flex justify-content-between menu-link">
-              Contact
-              <span
-                :class="[contactActive ? 'chevron top' : 'chevron bottom']"
-              ></span>
-            </div>
+          <div class="side-menu-item side-menu-item-closed menu-link">
+            <nuxt-link :to="localePath('contact')" @click.native="toggleMenu"
+              >Contact</nuxt-link
+            >
           </div>
-          <b-collapse
-            id="collapse-3"
-            v-model="contactActive"
-            class="pb-3 mobile-only"
-          >
-            <div class="pl-4 side-menu-item menu-sub-link">
-              <nuxt-link
-                :to="localePath('/contact/idea')"
-                @click.native="toggleMenu"
-                >...a new web component (idea)</nuxt-link
-              >
-            </div>
-            <div class="pl-4 side-menu-item menu-sub-link">
-              <nuxt-link
-                :to="localePath('/contact/data-correction')"
-                @click.native="toggleMenu"
-                >...a correction of data</nuxt-link
-              >
-            </div>
-          </b-collapse>
           <div class="side-menu-item side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('community')" @click.native="toggleMenu"
               >Community</nuxt-link
@@ -169,7 +140,6 @@ export default {
     return {
       contributeActive: false,
       makeUseActive: false,
-      contactActive: false,
     };
   },
   methods: {

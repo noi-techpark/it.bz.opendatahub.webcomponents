@@ -212,7 +212,11 @@ export default Vue.extend({
       telephone: '',
       message: '',
       category: '#becomeamember',
-      categories: ['#becomeamember'],
+      categories: [
+        '#becomeamember',
+        'new webcomponent (idea)',
+        'correction of data',
+      ],
       recaptchaChecked: false,
       showOverlay: false,
       error: false,
