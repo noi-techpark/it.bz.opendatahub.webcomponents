@@ -38,6 +38,9 @@ export default class WebcomponentModule extends VuexModule {
 
   @Action
   async loadWebcomponent({ uuid, version }) {
+    this.setWebcomponent(null);
+    this.setConfig(null);
+
     this.setVersion(version);
 
     const webcomponent = await $api.webcomponent.getOneById(uuid);
