@@ -131,11 +131,10 @@
               </div></b-tab
             >
             <template #tabs-end>
-              <div class="version-select-container">
+              <div class="version-select-container ml-md-5">
                 <b-form-select
                   :value="selectedVersion"
-                  style="max-width: 150px"
-                  class="version-select ml-2"
+                  class="version-select ml-md-2"
                   @change="reloadConfig"
                 >
                   <option
@@ -470,6 +469,7 @@ export default {
 
 .version-select {
   padding-right: 8px !important;
+  max-width: 150px;
 }
 
 .version-select-container {
@@ -477,6 +477,7 @@ export default {
   flex-direction: row;
   flex-grow: 1;
   justify-content: flex-end;
+  padding-left: 15px;
 }
 
 .my-editor {
@@ -494,5 +495,18 @@ export default {
 /* optional class for removing the outline */
 .prism-editor__textarea:focus {
   outline: none;
+}
+
+@media (max-width: 576px) {
+  .version-select {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .version-select-container {
+    padding-left: 0;
+    width: 100%;
+    min-width: 100%;
+  }
 }
 </style>
