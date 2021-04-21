@@ -19,7 +19,7 @@
       </div>
       <div class="container-fluid extended pb-4 p-2 pr-sm-5 pl-sm-5 pt-sm-2">
         <div class="row">
-          <div class="col-md-8 detail-content-left">
+          <div class="col-lg-8 detail-content-left">
             <div class="text-uppercase font-weight-bold mb-2">preview</div>
             <b-card id="widget-preview" class="full-height">
               <b-card-text id="twrap" class="text-center">
@@ -50,7 +50,7 @@
           </div>
           <b-tabs
             pills
-            class="config-tabs col-md-4 mt-md-0 detail-content-right"
+            class="config-tabs col-lg-4 pt-5 pt-lg-0 detail-content-right"
           >
             <b-tab id="first-tab" title="EASY CONFIGURATION" active>
               <div v-show="!editmode">

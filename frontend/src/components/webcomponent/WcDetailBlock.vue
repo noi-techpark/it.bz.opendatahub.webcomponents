@@ -261,7 +261,7 @@ export default {
   }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 992px) {
   .detail-content-left {
     padding-left: 105px;
   }

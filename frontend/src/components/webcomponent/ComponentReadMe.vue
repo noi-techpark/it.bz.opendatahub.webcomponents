@@ -49,25 +49,10 @@ export default {
   },
   computed: {
     readme() {
-      return (
-        'This is a web component that can be integrated in other software\n' +
-        '            (for example websites) to show the activities and point of interests\n' +
-        '            of South Tyrol. They are shown on a map and they can be filtered\n' +
-        '            based on the category or a search term. Each point of\n' +
-        '            interest/activity has a corresponding marker on the map and its\n' +
-        '            details are displayed when it is clicked on it.'
-      );
+      return 'This is a web component that can be integrated in other software (for example websites) to show the activities and point of interests of South Tyrol. They are shown on a map and they can be filtered based on the category or a search term. Each point of interest/activity has a corresponding marker on the map and its details are displayed when it is clicked on it.';
     },
     licenceAgreement() {
-      return (
-        'Permissions of this strongest copyleft license are conditioned on\n' +
-        '         making available complete source code of licensed works and\n' +
-        '          modifications, which include larger works using a licensed work, under\n' +
-        '          the same license. Copyright and license notices must be preserved.\n' +
-        '          Contributors provide an express grant of patent rights. When a\n' +
-        '          modified version is used to provide a service over a network, the\n' +
-        '          complete source code of the modified version must be made available.'
-      );
+      return 'Permissions of this strongest copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights. When a modified version is used to provide a service over a network, the complete source code of the modified version must be made available.';
     },
   },
 };
