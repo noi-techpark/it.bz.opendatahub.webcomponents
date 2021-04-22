@@ -10,14 +10,12 @@ export interface API {
 }
 
 export default function (ctx): API {
-  const api = {
+  return {
     contact: new ContactRepository(ctx, errorHandler),
     webcomponent: new WebcomponentRepository(ctx, errorHandler),
     searchtag: new SearchtagRepository(ctx, errorHandler),
     baseUrl: process.env.API_LOCATION,
   };
-
-  return api;
 }
 
 function errorHandler(ctx, error, localHandler) {
