@@ -34,6 +34,57 @@
           </div>
         </div>
         <div class="col-lg-4 detail-border pl-lg-5">
+          <div class="d-flex flex-row pb-3">Performance:</div>
+          <div class="d-flex flex-row pb-3">
+            <div class="performance-col">
+              <circular-chart
+                :circle-value="versionSizeChartPercent"
+                :color="versionSizeChartColor"
+              ></circular-chart>
+              <div>
+                Size
+                <span class="font-weight-bold">{{ versionSizeKb }}</span> (kB)
+              </div>
+            </div>
+            <div class="performance-col">
+              <circular-chart
+                :circle-value="mobileRating"
+                :color="mobileRatingChartColor"
+              >
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="width: 36px; height: 36px"
+                >
+                  {{ mobileRating }}
+                </div>
+              </circular-chart>
+              <a
+                :href="pageSpeedInsightUrl"
+                target="_blank"
+                class="text-underline"
+                >Mobile</a
+              >
+            </div>
+            <div class="performance-col">
+              <circular-chart
+                :circle-value="desktopRating"
+                :color="desktopRatingChartColor"
+              >
+                <div
+                  class="d-flex justify-content-center align-items-center"
+                  style="width: 36px; height: 36px"
+                >
+                  {{ desktopRating }}
+                </div>
+              </circular-chart>
+              <a
+                :href="pageSpeedInsightUrl"
+                target="_blank"
+                class="text-underline"
+                >Desktop</a
+              >
+            </div>
+          </div>
           <div class="d-table w-100 mr-2 ml-2 m-sm-0">
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
@@ -119,57 +170,6 @@
                   >{{ component.repositoryUrl }}</a
                 >
               </div>
-            </div>
-          </div>
-          <div class="d-flex flex-row pt-3">Performance:</div>
-          <div class="d-flex flex-row pt-3">
-            <div class="performance-col">
-              <circular-chart
-                :circle-value="versionSizeChartPercent"
-                :color="versionSizeChartColor"
-              ></circular-chart>
-              <div>
-                Size
-                <span class="font-weight-bold">{{ versionSizeKb }}</span> (kB)
-              </div>
-            </div>
-            <div class="performance-col">
-              <circular-chart
-                :circle-value="mobileRating"
-                :color="mobileRatingChartColor"
-              >
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  style="width: 36px; height: 36px"
-                >
-                  {{ mobileRating }}
-                </div>
-              </circular-chart>
-              <a
-                :href="pageSpeedInsightUrl"
-                target="_blank"
-                class="text-underline"
-                >Mobile</a
-              >
-            </div>
-            <div class="performance-col">
-              <circular-chart
-                :circle-value="desktopRating"
-                :color="desktopRatingChartColor"
-              >
-                <div
-                  class="d-flex justify-content-center align-items-center"
-                  style="width: 36px; height: 36px"
-                >
-                  {{ desktopRating }}
-                </div>
-              </circular-chart>
-              <a
-                :href="pageSpeedInsightUrl"
-                target="_blank"
-                class="text-underline"
-                >Desktop</a
-              >
             </div>
           </div>
         </div>
