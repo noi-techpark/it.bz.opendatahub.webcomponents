@@ -12,11 +12,16 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWeb
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.val;
 import lombok.var;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.UUID;
@@ -48,14 +53,9 @@ public class WebcomponentAdminService implements CreateWebcomponentUseCase, Upda
 
 		ConverterUtils.copyProperties(request, webcomponent);
 
-		webcomponent = writeWebcomponentPort.saveWebcomponent(webcomponent);
+		updateLogo(webcomponent, request.getImagePngBase64());
 
-		replaceLogo(
-			webcomponent.getUuid(),
-			new WebcomponentLogoReplaceRequest(
-				request.getImagePngBase64()
-			)
-		);
+		webcomponent = writeWebcomponentPort.saveWebcomponent(webcomponent);
 
 		return webcomponent;
 	}
@@ -64,6 +64,8 @@ public class WebcomponentAdminService implements CreateWebcomponentUseCase, Upda
 	@Transactional
 	public Webcomponent updateWebcomponent(@NonNull final String webcomponentUuid, @NonNull final WebcomponentUpdateRequest request) {
 		val webcomponent = readWebcomponentPort.getWebcomponentById(webcomponentUuid);
+
+		ConverterUtils.copyProperties(request, webcomponent);
 
 		return writeWebcomponentPort.saveWebcomponent(webcomponent);
 	}
@@ -82,14 +84,44 @@ public class WebcomponentAdminService implements CreateWebcomponentUseCase, Upda
 	@Override
 	@Transactional
 	public Webcomponent replaceLogo(String webcomponentUuid, WebcomponentLogoReplaceRequest request) {
-		readWebcomponentPort.getWebcomponentById(webcomponentUuid); // just to raise a not found exception
+		var webcomponent = readWebcomponentPort.getWebcomponentById(webcomponentUuid);
 
-		val logoPath = Paths.get(webcomponentUuid, WCS_LOGO_PNG);
+		updateLogo(webcomponent, request.getLogoPngBase64());
 
-		writeWorkspacePort.wipe(logoPath);
+		return writeWebcomponentPort.saveWebcomponent(webcomponent);
+	}
 
-		writeWorkspacePort.writeFile(logoPath, Base64.getDecoder().decode(request.getLogoPngBase64()));
+	protected void updateLogo(Webcomponent webcomponent, String logoPngBase64) {
+		val oldLogoPath = Paths.get(webcomponent.getUuid(), webcomponent.getImage());
+		val newLogoPath = Paths.get(webcomponent.getUuid(), WCS_LOGO_PNG);
 
-		return readWebcomponentPort.getWebcomponentById(webcomponentUuid);
+		writeWorkspacePort.wipe(oldLogoPath);
+		writeWorkspacePort.wipe(newLogoPath);
+
+		val decodedFile = Base64.getDecoder().decode(logoPngBase64);
+
+		try {
+			ImageIO.read(new ByteArrayInputStream(decodedFile));
+		}
+		catch (IOException e) {
+			throw new IllegalArgumentException("not an image");
+		}
+
+		if(!isPng(decodedFile)) {
+			throw new IllegalArgumentException("not a png");
+		}
+
+		writeWorkspacePort.writeFile(newLogoPath, decodedFile);
+
+		webcomponent.setImage(WCS_LOGO_PNG);
+	}
+
+	private static boolean isPng(byte[] data) {
+		try (ByteArrayInputStream is = new ByteArrayInputStream(data)) {
+			return is.read() == 137;
+		}
+		catch (IOException e) {
+			return false;
+		}
 	}
 }
