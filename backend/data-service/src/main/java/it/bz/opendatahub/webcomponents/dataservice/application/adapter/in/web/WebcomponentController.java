@@ -8,21 +8,43 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.re
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.rest.WebcomponentEntryRest;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.rest.WebcomponentRest;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentConfiguration;
-import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentConfigurationUseCase;
-import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentLogoUseCase;
-import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentUseCase;
-import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ListWebcomponentUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
+import org.apache.http.HttpEntity;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustStrategy;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.HtmlUtils;
+import sun.net.www.http.HttpClient;
 
+import javax.net.ssl.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -37,14 +59,16 @@ public class WebcomponentController {
     private final GetWebcomponentLogoUseCase getWebcomponentLogoUseCase;
     private final WebcomponentWebConverter webcomponentWebConverter;
     private final WebcomponentEntryWebConverter webcomponentEntryWebConverter;
+    private final CreateCodingSandboxUseCase createCodingSandboxUseCase;
 
-	public WebcomponentController(GetWebcomponentUseCase getWebcomponentUseCase, ListWebcomponentUseCase listWebcomponentUseCase, GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase, GetWebcomponentLogoUseCase getWebcomponentLogoUseCase, WebcomponentWebConverter webcomponentWebConverter, WebcomponentEntryWebConverter webcomponentEntryWebConverter) {
+	public WebcomponentController(GetWebcomponentUseCase getWebcomponentUseCase, ListWebcomponentUseCase listWebcomponentUseCase, GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase, GetWebcomponentLogoUseCase getWebcomponentLogoUseCase, WebcomponentWebConverter webcomponentWebConverter, WebcomponentEntryWebConverter webcomponentEntryWebConverter, CreateCodingSandboxUseCase createCodingSandboxUseCase) {
 		this.getWebcomponentUseCase = getWebcomponentUseCase;
 		this.listWebcomponentUseCase = listWebcomponentUseCase;
 		this.getWebcomponentConfigurationUseCase = getWebcomponentConfigurationUseCase;
 		this.getWebcomponentLogoUseCase = getWebcomponentLogoUseCase;
 		this.webcomponentWebConverter = webcomponentWebConverter;
 		this.webcomponentEntryWebConverter = webcomponentEntryWebConverter;
+		this.createCodingSandboxUseCase = createCodingSandboxUseCase;
 	}
 
 	@GetMapping
@@ -109,5 +133,10 @@ public class WebcomponentController {
 		rest.setScriptSources(domain.getScriptSources()); //TODO: check if that is even needed
 
 		return rest;
+	}
+
+	@PostMapping(value = "/createCodeSandbox")
+	public String createCodeSandbox(@RequestBody @Valid CreateCodingSandboxUseCase.CodeSandboxRequest request) throws JSONException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException, CertificateException {
+		return createCodingSandboxUseCase.createCodeSandbox(request);
 	}
 }
