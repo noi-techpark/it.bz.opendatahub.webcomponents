@@ -44,6 +44,17 @@
                     class="ml-4 mr-1"
                   />external window
                 </a>
+                <a
+                  target="_blank"
+                  class="ml-2 mt-2 mt-sm-0 link_with_icon"
+                  @click="createCodeSandbox"
+                >
+                  <font-awesome-icon
+                    :icon="['fas', 'rocket']"
+                    class="ml-4 mr-1"
+                  />
+                  Open codesandbox
+                </a>
               </div>
             </b-card>
           </div>
@@ -247,6 +258,13 @@ export default {
     this.snippOriginal = this.snipp;
   },
   methods: {
+    createCodeSandbox() {
+      console.log('create code sandbox');
+      this.$api.webcomponent.createCodeSandbox(this.code).then((result) => {
+        const url = 'https://codesandbox.io/s/' + result;
+        window.open(url, '_blank').focus();
+      });
+    },
     highlighter(code) {
       return highlight(code, languages.markup, 'markup'); // returns html
     },

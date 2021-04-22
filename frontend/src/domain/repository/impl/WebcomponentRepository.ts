@@ -4,6 +4,7 @@ import { WebcomponentFilter } from '~/domain/filter/WebcomponentFilter';
 import { WebcomponentEntryModel } from '~/domain/model/WebcomponentEntryModel';
 import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
+import { CodeSandboxRequest } from '~/domain/request/CodeSandboxRequest';
 
 const basePath = 'webcomponent';
 
@@ -43,5 +44,12 @@ export default class WebcomponentRepository extends ARepository {
     errorHandler?: any
   ): Promise<WebcomponentConfigurationModel> {
     return this.$get(`/${id}/config/${version}`, errorHandler);
+  }
+
+  createCodeSandbox(snippet: string, errorHandler?: any): Promise<string> {
+    const request: CodeSandboxRequest = {
+      codeSnippet: snippet,
+    };
+    return this.$post('/createCodeSandbox', request, errorHandler);
   }
 }
