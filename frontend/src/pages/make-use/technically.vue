@@ -1,11 +1,20 @@
 <template>
-  <div class="container">
-    <h1>Make use technically</h1>
+  <div>
+    <markdown-page :content="md"></markdown-page>
   </div>
 </template>
 
 <script>
+import technically from './technically.md';
+import MarkdownPage from '~/components/markdown-page';
+
 export default {
   name: 'Technically',
+  components: { MarkdownPage },
+  computed: {
+    md() {
+      return technically;
+    },
+  },
 };
 </script>

@@ -1,11 +1,19 @@
 <template>
-  <div class="container">
-    <h1>Contribute as web component developer</h1>
+  <div>
+    <markdown-page :content="md"></markdown-page>
   </div>
 </template>
 
 <script>
+import developer from './developer.md';
+import MarkdownPage from '~/components/markdown-page';
 export default {
   name: 'Developer',
+  components: { MarkdownPage },
+  computed: {
+    md() {
+      return developer;
+    },
+  },
 };
 </script>
