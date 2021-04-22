@@ -3,6 +3,7 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.sand
 import it.bz.opendatahub.webcomponents.common.stereotype.Adapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateCodingSandboxUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.CodingSandboxPort;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -45,7 +46,8 @@ public class CodeSandboxCodingSandboxAdapter implements CodingSandboxPort {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			org.springframework.http.HttpEntity<String> entity = new org.springframework.http.HttpEntity<String>(jsonString.toString(),headers);
 			ResponseEntity<String> result = template.postForEntity(uri, entity, String.class);
-			return result.getBody();
+			JSONObject jsonObject = new JSONObject(result.getBody());
+			return jsonObject.getString("sandbox_id");
 		} catch (Exception e) {
 			return "";
 		}
