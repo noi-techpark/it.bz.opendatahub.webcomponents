@@ -3,10 +3,17 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.ligh
 import it.bz.opendatahub.webcomponents.common.stereotype.Adapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.GoogleLighthouseMetrics;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.GoogleLighthousePort;
+import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsErrorException;
+import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsInvalidRequestException;
+import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsUnavailableException;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
@@ -26,18 +33,34 @@ public class GoogleLighthouseAdapter implements GoogleLighthousePort {
 	}
 
 	@Override
-	public GoogleLighthouseMetrics getMetricsForUrl(String url) {
-		val lighthouseUrl = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url="+ url+"&key="+apiKey;
+	public GoogleLighthouseMetrics getMetricsForUrl(@NonNull String url) throws MetricsInvalidRequestException, MetricsUnavailableException, MetricsErrorException {
+		if(url.trim().isEmpty()) {
+			throw new IllegalArgumentException();
+		}
+
+		val lighthouseUrl = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=" + url + "&key=" + apiKey;
 
 		log.debug(lighthouseUrl);
 
-		val desktop = restTemplate.getForObject(lighthouseUrl+"&strategy=desktop", String.class);
-		val mobile = restTemplate.getForObject(lighthouseUrl+"&strategy=mobile", String.class);
+		val desktop = fetchMetricsFromApi(lighthouseUrl + "&strategy=desktop");
+		val mobile = fetchMetricsFromApi(lighthouseUrl + "&strategy=mobile");
 
-		val metrics = new GoogleLighthouseMetrics();
-		metrics.setResultDesktop(desktop);
-		metrics.setResultMobile(mobile);
+		return new GoogleLighthouseMetrics(desktop, mobile);
+	}
 
-		return metrics;
+	private String fetchMetricsFromApi(@NonNull String url) throws MetricsInvalidRequestException, MetricsUnavailableException, MetricsErrorException {
+		try {
+			return restTemplate.getForObject(url, String.class);
+		}
+		catch (HttpClientErrorException clientErrorException) {
+			throw new MetricsInvalidRequestException(clientErrorException);
+		}
+		catch (HttpServerErrorException httpServerErrorException) {
+			if(httpServerErrorException.getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
+				throw new MetricsErrorException(httpServerErrorException);
+			}
+
+			throw new MetricsUnavailableException(httpServerErrorException);
+		}
 	}
 }
