@@ -2,6 +2,7 @@ package it.bz.opendatahub.webcomponents.crawlerservice.interceptor;
 
 import it.bz.opendatahub.webcomponents.crawlerservice.config.GithubConfiguration;
 import it.bz.opendatahub.webcomponents.crawlerservice.util.AutowireHelper;
+import lombok.NonNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -14,7 +15,7 @@ public class GithubHeaderRequestInterceptor implements ClientHttpRequestIntercep
     private GithubConfiguration githubConfiguration;
 
     @Override
-    public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
+    public @NonNull ClientHttpResponse intercept(@NonNull HttpRequest request, byte @NonNull [] body, @NonNull ClientHttpRequestExecution execution) throws IOException {
         assureConfigurationIsWired();
 
         if(tokenAvailableAndRequestToGithub(request)) {

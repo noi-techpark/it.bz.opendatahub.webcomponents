@@ -65,6 +65,10 @@ public abstract class BeanConverter<S, T> {
 	}
 
 	public T convert(S source) {
+		if(source == null) {
+			return null;
+		}
+
 		val targetObject = createTargetObject(targetConstructor);
 
 		ConverterUtils.copyProperties(source, targetObject);
@@ -75,11 +79,11 @@ public abstract class BeanConverter<S, T> {
 	}
 
 	public List<T> convert(List<S> sources) {
-		val resList = new ArrayList<T>();
-
 		if(sources == null) {
-			return resList;
+			return null;
 		}
+
+		val resList = new ArrayList<T>();
 
 		for(S source : sources) {
 			resList.add(convert(source));
@@ -89,11 +93,11 @@ public abstract class BeanConverter<S, T> {
 	}
 
 	public Set<T> convert(Set<S> sources) {
-		val resSet = new HashSet<T>();
-
 		if(sources == null) {
-			return resSet;
+			return null;
 		}
+
+		val resSet = new HashSet<T>();
 
 		for(S source : sources) {
 			resSet.add(convert(source));
@@ -103,11 +107,11 @@ public abstract class BeanConverter<S, T> {
 	}
 
 	public Page<T> convert(Page<S> sources) {
-		val resList = new ArrayList<T>();
-
 		if(sources == null) {
-			return new PageImpl<>(resList);
+			return null;
 		}
+
+		val resList = new ArrayList<T>();
 
 		for(S source : sources) {
 			resList.add(convert(source));
@@ -120,9 +124,9 @@ public abstract class BeanConverter<S, T> {
 		);
 	}
 
-	public Map<?, T> restToDto(Map<?, S> sources) {
-		if (sources == null || sources.isEmpty()) {
-			return new HashMap<>();
+	public Map<?, T> convert(Map<?, S> sources) {
+		if (sources == null) {
+			return null;
 		}
 
 		val targetMap = new HashMap<Object, T>();

@@ -10,6 +10,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWeb
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsErrorException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsInvalidRequestException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsUnavailableException;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -39,7 +40,7 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 	}
 
 	@Override
-	public WebcomponentVersion updateMetricsForWebcomponentVersion(WebcomponentVersion webcomponentVersion) {
+	public WebcomponentVersion updateMetricsForWebcomponentVersion(@NonNull WebcomponentVersion webcomponentVersion) {
 		log.debug(
 			"updating metrics for: {}/{}",
 			webcomponentVersion.getWebcomponentUuid(),

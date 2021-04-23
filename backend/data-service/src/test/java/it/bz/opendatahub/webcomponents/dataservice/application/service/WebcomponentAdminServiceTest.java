@@ -122,7 +122,7 @@ class WebcomponentAdminServiceTest {
 		when(writeWebcomponentPort.saveWebcomponent(WEBCOMPONENT_A)).thenReturn(WEBCOMPONENT_A);
 
 		val request = new UpdateWebcomponentUseCase.WebcomponentUpdateRequest();
-		request.setTitle("a1");
+		request.setTitle("");
 		request.setDescription("a2");
 		request.setDescriptionAbstract("a3");
 		request.setLicense("a4");
@@ -132,6 +132,8 @@ class WebcomponentAdminServiceTest {
 		request.setSearchTags(new ArrayList<>());
 
 		val result = webcomponentAdminService.updateWebcomponent(WEBCOMPONENT_A.getUuid(), request);
+
+		assertThat(result.getTitle()).isEqualTo(request.getTitle());
 
 		BeanAssert.assertThat(result).hasCopiedAllProperties(request);
 	}

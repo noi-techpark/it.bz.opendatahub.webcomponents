@@ -1,5 +1,7 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.port.in;
 
+import lombok.NonNull;
+
 public interface GetWebcomponentLogoUseCase {
-	byte[] getLogoImage(String uuid);
+	byte[] getLogoImage(@NonNull String uuid);
 }

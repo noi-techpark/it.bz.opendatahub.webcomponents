@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.common.logging;
 
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
@@ -20,7 +21,7 @@ public class CustomRequestLoggingFilter extends AbstractRequestLoggingFilter {
 	Logger logger = LoggerFactory.getLogger(CustomRequestLoggingFilter.class);
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		try {
 			filterChain.doFilter((ServletRequest) request, response);
 		} finally {
@@ -42,10 +43,10 @@ public class CustomRequestLoggingFilter extends AbstractRequestLoggingFilter {
 	}
 
 	@Override
-	protected void beforeRequest(HttpServletRequest httpServletRequest, String s) {
+	protected void beforeRequest(@NonNull HttpServletRequest httpServletRequest, @NonNull String s) {
 	}
 
 	@Override
-	protected void afterRequest(HttpServletRequest httpServletRequest, String s) {
+	protected void afterRequest(@NonNull HttpServletRequest httpServletRequest, @NonNull String s) {
 	}
 }

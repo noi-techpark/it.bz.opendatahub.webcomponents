@@ -1,6 +1,7 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.port.in;
 
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import org.aspectj.apache.bcel.classfile.Code;
 
@@ -8,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 public interface CreateCodingSandboxUseCase {
 
-	String createCodeSandbox(CodeSandboxRequest codeSandboxRequest);
+	String createCodeSandbox(@NonNull CodeSandboxRequest codeSandboxRequest);
 
 	@Getter
 	@Setter

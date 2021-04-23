@@ -11,6 +11,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebc
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.NonNull;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -35,12 +36,12 @@ public class WebcomponentService implements GetWebcomponentUseCase, ListWebcompo
 	}
 
 	@Override
-	public String createCodeSandbox(CreateCodingSandboxUseCase.CodeSandboxRequest codeSandboxRequest) {
+	public String createCodeSandbox(CreateCodingSandboxUseCase.@NonNull CodeSandboxRequest codeSandboxRequest) {
 		return codingSandboxPort.createCodeSandbox(codeSandboxRequest);
 	}
 
 	@Override
-	public Webcomponent getWebcomponentById(String uuid) {
+	public Webcomponent getWebcomponentById(@NonNull String uuid) {
 		return readWebcomponentPort.getWebcomponentById(uuid);
 	}
 
@@ -50,12 +51,12 @@ public class WebcomponentService implements GetWebcomponentUseCase, ListWebcompo
 	}
 
 	@Override
-	public Page<Webcomponent> listPagedAndFiltered(Pageable pageRequest, WebcomponentFilter filter) {
+	public Page<Webcomponent> listPagedAndFiltered(@NonNull Pageable pageRequest, @NonNull WebcomponentFilter filter) {
 		return readWebcomponentPort.listPagedAndFiltered(pageRequest, filter);
 	}
 
 	@Override
-	public byte[] getLogoImage(String uuid) {
+	public byte[] getLogoImage(@NonNull String uuid) {
 		val webcomponent = readWebcomponentPort.getWebcomponentById(uuid);
 
 		try {

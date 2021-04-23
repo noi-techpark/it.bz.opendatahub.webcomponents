@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
+import javax.validation.Valid;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,7 +84,7 @@ public class WebcomponentAdminService implements CreateWebcomponentUseCase, Upda
 
 	@Override
 	@Transactional
-	public Webcomponent replaceLogo(String webcomponentUuid, WebcomponentLogoReplaceRequest request) {
+	public Webcomponent replaceLogo(@NonNull String webcomponentUuid, @NonNull WebcomponentLogoReplaceRequest request) {
 		var webcomponent = readWebcomponentPort.getWebcomponentById(webcomponentUuid);
 
 		updateLogo(webcomponent, request.getLogoPngBase64());

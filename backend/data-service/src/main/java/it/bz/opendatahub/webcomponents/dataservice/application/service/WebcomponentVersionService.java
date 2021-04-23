@@ -4,6 +4,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcompone
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ListWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,17 +18,17 @@ public class WebcomponentVersionService implements GetWebcomponentVersionUseCase
 	}
 
 	@Override
-    public List<WebcomponentVersion> listAllVersionsOfWebcomponent(String webcomponentUuid) {
+    public List<WebcomponentVersion> listAllVersionsOfWebcomponent(@NonNull String webcomponentUuid) {
         return readWebcomponentVersionPort.listAllVersionsOfWebcomponent(webcomponentUuid);
     }
 
     @Override
-    public WebcomponentVersion getLatestVersionOfWebcomponent(String webcomponentUuid) {
+    public WebcomponentVersion getLatestVersionOfWebcomponent(@NonNull String webcomponentUuid) {
         return readWebcomponentVersionPort.getLatestVersionOfWebcomponent(webcomponentUuid);
     }
 
     @Override
-    public WebcomponentVersion getSpecificVersionOfWebcomponent(String webcomponentUuid, String versionTag) {
+    public WebcomponentVersion getSpecificVersionOfWebcomponent(@NonNull String webcomponentUuid, @NonNull String versionTag) {
         return readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
     }
 }

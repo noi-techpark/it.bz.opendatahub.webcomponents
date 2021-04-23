@@ -16,6 +16,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWeb
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.ConflictException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.NonNull;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 
 	@Override
 	@Transactional
-	public WebcomponentVersion createWebcomponentVersion(String webcomponentUuid, WebcomponentVersionCreateRequest request) {
+	public WebcomponentVersion createWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull WebcomponentVersionCreateRequest request) {
 		readWebcomponentPort.getWebcomponentById(webcomponentUuid); // just to throw an exception if it does not exist
 
 		val webcomponentVersion = createDomainObject(webcomponentUuid, request.getDistFiles());
@@ -71,7 +72,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 
 	@Override
 	@Transactional
-	public WebcomponentVersion replaceWebcomponentVersion(String webcomponentUuid, String versionTag, WebcomponentVersionReplaceRequest request) {
+	public WebcomponentVersion replaceWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull String versionTag, @NonNull WebcomponentVersionReplaceRequest request) {
 		val webcomponentVersion = createDomainObject(webcomponentUuid, request.getDistFiles());
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
@@ -96,7 +97,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 
 	@Override
 	@Transactional
-	public void deleteWebcomponentVersionById(String webcomponentUuid, String versionTag) {
+	public void deleteWebcomponentVersionById(@NonNull String webcomponentUuid, @NonNull String versionTag) {
 		try {
 			val webcomponentVersion = readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
 
@@ -109,7 +110,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 
 	@Override
 	@Transactional
-	public WebcomponentVersion scheduleMetricsUpdate(String webcomponentUuid, String versionTag) {
+	public WebcomponentVersion scheduleMetricsUpdate(@NonNull String webcomponentUuid, @NonNull String versionTag) {
 		val webcomponentVersion = readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
 
 		webcomponentVersion.setLighthouseUpdateRequired(true);

@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcompone
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentConfigurationUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
+import lombok.NonNull;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class WebcomponentConfigurationService implements GetWebcomponentConfigur
 	}
 
 	@Override
-	public WebcomponentConfiguration getConfiguration(String uuid) {
+	public WebcomponentConfiguration getConfiguration(@NonNull String uuid) {
 		val webcomponent = readWebcomponentPort.getWebcomponentById(uuid);
 
 		val latestVersion = readWebcomponentVersionPort.getLatestVersionOfWebcomponent(uuid);
@@ -39,7 +40,7 @@ public class WebcomponentConfigurationService implements GetWebcomponentConfigur
 	}
 
 	@Override
-	public WebcomponentConfiguration getConfiguration(String uuid, String versionTag) {
+	public WebcomponentConfiguration getConfiguration(@NonNull String uuid, @NonNull String versionTag) {
 		val webcomponent = readWebcomponentPort.getWebcomponentById(uuid);
 
 		val version = readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(uuid, versionTag);
