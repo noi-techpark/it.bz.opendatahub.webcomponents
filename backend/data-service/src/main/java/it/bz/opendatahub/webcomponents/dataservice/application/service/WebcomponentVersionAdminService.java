@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 	private final WriteWebcomponentVersionPort writeWebcomponentVersionPort;
 	private final WriteWorkspacePort writeWorkspacePort;
 	private final ReadWorkspacePort readWorkspacePort;
+
+	private static final String READ_ME_FILE_NAME = "README.md";
+	private static final String LICENSE_FILE_NAME = "LICENSE.md";
 
 	public WebcomponentVersionAdminService(ReadWebcomponentPort readWebcomponentPort, ReadWebcomponentVersionPort readWebcomponentVersionPort, WriteWebcomponentVersionPort writeWebcomponentVersionPort, WriteWorkspacePort writeWorkspacePort, ReadWorkspacePort readWorkspacePort) {
 		this.readWebcomponentPort = readWebcomponentPort;
@@ -59,6 +63,9 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 						) / 1024)
 		);
 
+		webcomponentVersion.setReadMe(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), READ_ME_FILE_NAME))));
+		webcomponentVersion.setLicenseAgreement(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), LICENSE_FILE_NAME))));
+
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 	}
 
@@ -79,6 +86,10 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 				Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), "dist")
 			) / 1024)
 		);
+
+		webcomponentVersion.setReadMe(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), READ_ME_FILE_NAME))));
+		webcomponentVersion.setLicenseAgreement(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), LICENSE_FILE_NAME))));
+
 
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 	}

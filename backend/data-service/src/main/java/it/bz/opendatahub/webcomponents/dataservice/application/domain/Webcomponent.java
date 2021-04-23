@@ -30,4 +30,5 @@ public class Webcomponent {
 	private List<String> searchTags;
 
 	private Boolean deleted;
+
 }

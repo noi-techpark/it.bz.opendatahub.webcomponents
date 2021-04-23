@@ -61,4 +61,8 @@ public class WebcomponentVersionModel {
 	private Integer lighthouseDesktopPerformanceRating = 0;
 
 	private Boolean lighthouseUpdateRequired = true;
+
+	private String readMe;
+
+	private String licenseAgreement;
 }

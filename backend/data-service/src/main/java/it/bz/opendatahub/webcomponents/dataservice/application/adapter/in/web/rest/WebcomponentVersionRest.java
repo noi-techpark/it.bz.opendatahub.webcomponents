@@ -18,4 +18,8 @@ public class WebcomponentVersionRest {
 	private Integer lighthouseMobilePerformanceRating;
 
 	private Integer lighthouseDesktopPerformanceRating;
+
+	private String readMe;
+
+	private String licenseAgreement;
 }

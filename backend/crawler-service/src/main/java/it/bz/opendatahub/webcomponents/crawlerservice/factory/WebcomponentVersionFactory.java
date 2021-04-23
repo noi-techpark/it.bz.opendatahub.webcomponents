@@ -15,13 +15,15 @@ public class WebcomponentVersionFactory {
 		this.vcsApiRepository = vcsApiRepository;
 	}
 
-	public WebcomponentVersionModel createFromTagEntry(String componentUuid, TagEntry tagEntry, Manifest manifest) {
+	public WebcomponentVersionModel createFromTagEntry(String componentUuid, TagEntry tagEntry, Manifest manifest, String readMe, String license) {
         WebcomponentVersionModel newEntry = new WebcomponentVersionModel();
         newEntry.setWebcomponentUuid(componentUuid);
         newEntry.setVersionTag(tagEntry.getName());
         newEntry.setReleaseTimestamp(vcsApiRepository.getMetadataForCommit(tagEntry.getRemote(), tagEntry.getRevisionHash()).getDate());
         newEntry.setDist(manifest.getDist());
         newEntry.setConfiguration(manifest.getConfiguration());
+        newEntry.setReadMe(readMe);
+        newEntry.setLicenseAgreement(license);
 
         newEntry.setDeleted(false);
 

@@ -38,4 +38,8 @@ public class WebcomponentVersion {
 	private Integer lighthouseDesktopPerformanceRating;
 
 	private Boolean lighthouseUpdateRequired;
+
+	private String readMe;
+
+	private String licenseAgreement;
 }
