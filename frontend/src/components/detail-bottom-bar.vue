@@ -10,7 +10,7 @@
           })
         "
       >
-        <img :src="require('static/icons/ic_min_preview.svg')" />
+        <img :src="require('static/icons/ic_min_preview.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">minimize preview</div>
       </div>
       <div
@@ -20,7 +20,7 @@
           $router.push('/webcomponent/' + $route.params.id + '/fullscreen')
         "
       >
-        <img :src="require('static/icons/ic_max_preview.svg')" />
+        <img :src="require('static/icons/ic_max_preview.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">fullscreen preview</div>
       </div>
       <div
@@ -32,7 +32,7 @@
           })
         "
       >
-        <img :src="require('static/icons/ic_min_editing.svg')" />
+        <img :src="require('static/icons/ic_min_editing.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">minimize editing</div>
       </div>
       <div
@@ -44,15 +44,22 @@
           )
         "
       >
-        <img :src="require('static/icons/ic_max_editing.svg')" />
+        <img :src="require('static/icons/ic_max_editing.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">fullscreen editing</div>
+      </div>
+      <div
+        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+        @click="createCodeSandbox"
+      >
+        <img :src="require('static/icons/ic_min_editing.svg')" class="p-1" />
+        <div class="bottom-bar-button-text p-1">open codesandbox</div>
       </div>
       <div
         id="copy-code"
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
         @click="copyCode"
       >
-        <img :src="require('static/icons/ic_copy.svg')" />
+        <img :src="require('static/icons/ic_copy.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">copy code</div>
       </div>
       <b-popover
@@ -67,7 +74,7 @@
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
         @click="$emit('updatePreview')"
       >
-        <img :src="require('static/icons/ic_update.svg')" />
+        <img :src="require('static/icons/ic_update.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">update preview</div>
       </div>
     </div>
@@ -75,6 +82,8 @@
 </template>
 
 <script>
+import { webcomponentStore } from '~/utils/store-accessor';
+
 export default {
   name: 'DetailBottomBar',
   props: {
@@ -89,6 +98,11 @@ export default {
       intervalId: 0,
     };
   },
+  computed: {
+    snipp() {
+      return webcomponentStore.currentSnipp;
+    },
+  },
   methods: {
     copyCode() {
       clearInterval(this.intervalId);
@@ -100,6 +114,12 @@ export default {
         3000
       );
       this.$emit('copyCode');
+    },
+    createCodeSandbox() {
+      this.$api.webcomponent.createCodeSandbox(this.snipp).then((result) => {
+        const url = 'https://codesandbox.io/s/' + result;
+        window.open(url, '_blank').focus();
+      });
     },
   },
 };
