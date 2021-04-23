@@ -8,4 +8,8 @@ export interface WebcomponentVersionModel {
   lighthouseMobilePerformanceRating: number;
 
   lighthouseDesktopPerformanceRating: number;
+
+  readMe: string;
+
+  licenseAgreement: string;
 }

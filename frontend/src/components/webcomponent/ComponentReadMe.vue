@@ -1,16 +1,9 @@
 <template>
   <div class="container-fluid extended p-2 pb-0 p-sm-5">
     <div class="row">
-      <div
-        class="col-md-8 d-flex justify-content-between flex-column flex-sm-row w-100 readme"
-      >
-        <div>
-          <h2>#README</h2>
-
-          <div class="d-flex">
-            <markdown-page :content="readme"></markdown-page>
-          </div>
-        </div>
+      <div class="col-md-8 readme">
+        <h2>#README</h2>
+        <vue-markdown class="w-100" :source="readMe"></vue-markdown>
       </div>
       <div class="col-md-4 detail-border pl-md-5">
         <h2>#Author</h2>
@@ -26,29 +19,27 @@
           </div>
         </div>
         <h2 class="pt-4">#Licenceagreeements</h2>
-        <div class="d-flex">
-          <markdown-page :content="licenceAgreement"></markdown-page>
-        </div>
+        <vue-markdown class="w-100" :source="licenseAgreement"></vue-markdown>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import MarkdownPage from '~/components/markdown-page';
+import VueMarkdown from 'vue-markdown';
 import { webcomponentStore } from '~/utils/store-accessor';
 export default {
   name: 'ComponentReadMe',
-  components: { MarkdownPage },
+  components: { VueMarkdown },
   computed: {
     component() {
       return webcomponentStore.currentWebcomponent;
     },
-    readme() {
-      return 'This is a web component that can be integrated in other software (for example websites) to show the activities and point of interests of South Tyrol. They are shown on a map and they can be filtered based on the category or a search term. Each point of interest/activity has a corresponding marker on the map and its details are displayed when it is clicked on it.';
+    readMe() {
+      return this.component.versions[0].readMe;
     },
-    licenceAgreement() {
-      return 'Permissions of this strongest copyleft license are conditioned on making available complete source code of licensed works and modifications, which include larger works using a licensed work, under the same license. Copyright and license notices must be preserved. Contributors provide an express grant of patent rights. When a modified version is used to provide a service over a network, the complete source code of the modified version must be made available.';
+    licenseAgreement() {
+      return this.component.versions[0].licenseAgreement;
     },
   },
 };
@@ -58,7 +49,7 @@ export default {
   padding-left: 105px;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 992px) {
   .readme {
     padding-left: 15px;
   }
