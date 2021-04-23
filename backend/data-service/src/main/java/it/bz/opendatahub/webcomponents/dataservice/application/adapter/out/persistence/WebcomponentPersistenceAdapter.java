@@ -11,6 +11,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ListWebco
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.NonNull;
 import lombok.val;
 import lombok.var;
 import org.springframework.data.domain.Page;
@@ -31,7 +32,7 @@ public class WebcomponentPersistenceAdapter implements ReadWebcomponentPort, Wri
 	}
 
 	@Override
-	public Webcomponent getWebcomponentById(String uuid) {
+	public Webcomponent getWebcomponentById(@NonNull String uuid) {
 		val probe = webcomponentRepository.findById(uuid);
 
 		if(probe.isPresent()) {
@@ -49,14 +50,14 @@ public class WebcomponentPersistenceAdapter implements ReadWebcomponentPort, Wri
 	}
 
 	@Override
-	public Page<Webcomponent> listPagedAndFiltered(Pageable pageRequest, ListWebcomponentUseCase.WebcomponentFilter filter) {
+	public Page<Webcomponent> listPagedAndFiltered(@NonNull Pageable pageRequest, ListWebcomponentUseCase.@NonNull WebcomponentFilter filter) {
 		val result = webcomponentSearchRepository.findBySearchTermAndTags(filter.getSearchTerm(), filter.getTags(), pageRequest);
 
 		return webcomponentConverter.convert(result);
 	}
 
 	@Override
-	public Webcomponent saveWebcomponent(Webcomponent webcomponent) {
+	public Webcomponent saveWebcomponent(@NonNull Webcomponent webcomponent) {
 		val probe = webcomponentRepository.findById(webcomponent.getUuid());
 		WebcomponentModel model;
 		if(probe.isPresent()) {

@@ -50,7 +50,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 	public WebcomponentVersion createWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull WebcomponentVersionCreateRequest request) {
 		readWebcomponentPort.getWebcomponentById(webcomponentUuid); // just to throw an exception if it does not exist
 
-		val webcomponentVersion = createDomainObject(webcomponentUuid, request.getDistFiles());
+		val webcomponentVersion = createDomainObject(webcomponentUuid);
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
 
@@ -73,7 +73,7 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 	@Override
 	@Transactional
 	public WebcomponentVersion replaceWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull String versionTag, @NonNull WebcomponentVersionReplaceRequest request) {
-		val webcomponentVersion = createDomainObject(webcomponentUuid, request.getDistFiles());
+		val webcomponentVersion = createDomainObject(webcomponentUuid);
 
 		ConverterUtils.copyProperties(request, webcomponentVersion);
 
@@ -138,27 +138,30 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 		}
 	}
 
-	private WebcomponentVersion createDomainObject(String webcomponentUuid, List<DistFile> distFiles) {
+	private WebcomponentVersion createDomainObject(String webcomponentUuid) {
 		val webcomponentVersion = new WebcomponentVersion();
+
 		webcomponentVersion.setWebcomponentUuid(webcomponentUuid);
 		webcomponentVersion.setDeleted(false);
-		webcomponentVersion.setDist(createDistFromFiles(distFiles));
 		webcomponentVersion.setLighthouseUpdateRequired(true);
+		webcomponentVersion.setLighthouseMobilePerformanceRating(0);
+		webcomponentVersion.setLighthouseDesktopPerformanceRating(0);
+
 		return webcomponentVersion;
 	}
 
-	private void checkForDuplicates(String webcomponentUuid, WebcomponentVersion webcomponentVersion) {
+	void checkForDuplicates(String webcomponentUuid, WebcomponentVersion webcomponentVersion) {
 		try {
 			readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, webcomponentVersion.getVersionTag());
 			throw new ConflictException("specified version is already present");
 		} catch (NotFoundException ignored) {}
 	}
 
-	private void wipeDistFiles(String webcomponentUuid, String versionTag) {
+	void wipeDistFiles(String webcomponentUuid, String versionTag) {
 		writeWorkspacePort.wipe(Paths.get(webcomponentUuid, versionTag));
 	}
 
-	private void storeDistFiles(String webcomponentUuid, String versionTag, List<DistFile> distFiles) {
+	void storeDistFiles(String webcomponentUuid, String versionTag, List<DistFile> distFiles) {
 		for(val file : distFiles) {
 			val payload = Base64.getDecoder().decode(file.getFileDataBase64());
 
@@ -167,15 +170,5 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 				payload
 			);
 		}
-	}
-
-	private Dist createDistFromFiles(List<DistFile> distFiles) {
-		val dist = new Dist();
-		dist.setBasePath("dist");
-		for(val file : distFiles) {
-			dist.getFiles().add(file.getFileName());
-		}
-
-		return dist;
 	}
 }

@@ -1,7 +1,8 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.port.out;
 
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.SpdxLicense;
+import lombok.NonNull;
 
 public interface ReadSpdxLicensePort {
-	SpdxLicense getById(String id);
+	SpdxLicense getById(@NonNull String id);
 }

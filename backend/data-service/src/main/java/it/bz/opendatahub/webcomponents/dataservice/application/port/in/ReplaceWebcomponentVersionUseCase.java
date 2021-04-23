@@ -26,6 +26,9 @@ public interface ReplaceWebcomponentVersionUseCase {
 		private Date releaseTimestamp;
 
 		@NotNull
+		private Dist dist;
+
+		@NotNull
 		private List<DistFile> distFiles;
 
 		@NotNull

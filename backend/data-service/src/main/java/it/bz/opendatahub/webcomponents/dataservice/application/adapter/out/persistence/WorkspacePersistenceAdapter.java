@@ -5,6 +5,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.persi
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.NonNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -18,7 +19,7 @@ public class WorkspacePersistenceAdapter implements ReadWorkspacePort, WriteWork
 	}
 
 	@Override
-	public byte[] readFile(Path path) {
+	public byte[] readFile(@NonNull Path path) {
 		try {
 			return workspaceRepository.readFile(path);
 		} catch (IOException e) {
@@ -27,7 +28,7 @@ public class WorkspacePersistenceAdapter implements ReadWorkspacePort, WriteWork
 	}
 
 	@Override
-	public void writeFile(Path path, byte[] data) {
+	public void writeFile(@NonNull Path path, byte[] data) {
 		try {
 			workspaceRepository.writeFile(path, data);
 		} catch (IOException e) {
@@ -36,12 +37,12 @@ public class WorkspacePersistenceAdapter implements ReadWorkspacePort, WriteWork
 	}
 
 	@Override
-	public void wipe(Path path) {
+	public void wipe(@NonNull Path path) {
 		workspaceRepository.deletePath(path);
 	}
 
 	@Override
-	public long getDirectorySizeInBytes(Path path) {
+	public long getDirectorySizeInBytes(@NonNull Path path) {
 		return workspaceRepository.getDirectorySizeInBytes(path);
 	}
 }

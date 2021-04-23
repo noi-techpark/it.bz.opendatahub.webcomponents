@@ -4,7 +4,8 @@ import it.bz.opendatahub.webcomponents.dataservice.application.domain.GoogleLigh
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsErrorException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsInvalidRequestException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsUnavailableException;
+import lombok.NonNull;
 
 public interface GoogleLighthousePort {
-	GoogleLighthouseMetrics getMetricsForUrl(String url) throws MetricsErrorException, MetricsUnavailableException, MetricsInvalidRequestException;
+	GoogleLighthouseMetrics getMetricsForUrl(@NonNull String url) throws MetricsErrorException, MetricsUnavailableException, MetricsInvalidRequestException;
 }

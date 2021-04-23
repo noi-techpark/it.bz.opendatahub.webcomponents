@@ -1,18 +1,29 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.service;
+import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
+import java.time.LocalDateTime;
+
+import it.bz.opendatahub.webcomponents.common.data.struct.Configuration;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcomponent;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentVersion;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -50,7 +61,131 @@ class WebcomponentVersionAdminServiceTest {
 		readWorkspacePort = Mockito.mock(ReadWorkspacePort.class);
 		writeWorkspacePort = Mockito.mock(WriteWorkspacePort.class);
 
-		webcomponentVersionAdminService = new WebcomponentVersionAdminService(readWebcomponentPort, readWebcomponentVersionPort, writeWebcomponentVersionPort, writeWorkspacePort, readWorkspacePort);
+		webcomponentVersionAdminService = Mockito.spy(new WebcomponentVersionAdminService(readWebcomponentPort, readWebcomponentVersionPort, writeWebcomponentVersionPort, writeWorkspacePort, readWorkspacePort));
+	}
+
+	@Test
+	void createWebcomponentVersionThrowsIfUuidNull() {
+		assertThatNullPointerException().isThrownBy(
+			() -> webcomponentVersionAdminService.createWebcomponentVersion(null, new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest())
+		);
+	}
+
+	@Test
+	void createWebcomponentVersionThrowsIfRequestNull() {
+		assertThatNullPointerException().isThrownBy(
+			() -> webcomponentVersionAdminService.createWebcomponentVersion("any", null)
+		);
+	}
+
+	@Test
+	void createWebcomponentVersionThrowsIfWebcomponentDoesNotExist() {
+		when(readWebcomponentPort.getWebcomponentById(NON_EXISTING_WEBCOMPONENT_ID)).thenThrow(new NotFoundException(""));
+
+		val request = new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest();
+
+		assertThatExceptionOfType(NotFoundException.class).isThrownBy(
+			() -> webcomponentVersionAdminService.createWebcomponentVersion(NON_EXISTING_WEBCOMPONENT_ID, request)
+		);
+	}
+
+	@Test
+	void createWebcomponentVersionChecksForDuplicates() {
+		when(readWebcomponentPort.getWebcomponentById(WEBCOMPONENT_A.getUuid())).thenReturn(WEBCOMPONENT_A);
+		when(readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(WEBCOMPONENT_A.getUuid(), NON_EXISTING_TAG_ID)).thenThrow(new NotFoundException(""));
+
+		val request = new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest();
+		request.setVersionTag(NON_EXISTING_TAG_ID);
+		request.setReleaseTimestamp(new Date());
+		request.setDistFiles(new ArrayList<>());
+		request.setConfiguration(new Configuration());
+
+		webcomponentVersionAdminService.createWebcomponentVersion(WEBCOMPONENT_A.getUuid(), request);
+
+		verify(webcomponentVersionAdminService, times(1)).checkForDuplicates(any(), any());
+	}
+
+	@Test
+	void createWebcomponentVersionDoesStoreDistFiles() {
+		when(readWebcomponentPort.getWebcomponentById(WEBCOMPONENT_A.getUuid())).thenReturn(WEBCOMPONENT_A);
+		when(readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(any(), any())).thenThrow(new NotFoundException(""));
+
+		val request = new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest();
+		request.setVersionTag("TAG");
+		request.setReleaseTimestamp(new Date());
+		request.setDistFiles(new ArrayList<>());
+		request.setConfiguration(new Configuration());
+
+		webcomponentVersionAdminService.createWebcomponentVersion(WEBCOMPONENT_A.getUuid(), request);
+
+		verify(webcomponentVersionAdminService, times(1)).storeDistFiles(any(), any(), any());
+	}
+
+	@Test
+	void createWebcomponentVersionDoesReadDistSize() {
+		when(readWebcomponentPort.getWebcomponentById(WEBCOMPONENT_A.getUuid())).thenReturn(WEBCOMPONENT_A);
+		when(readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(any(), any())).thenThrow(new NotFoundException(""));
+
+		val request = new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest();
+		request.setVersionTag("TAG");
+		request.setReleaseTimestamp(new Date());
+		request.setDistFiles(new ArrayList<>());
+		request.setConfiguration(new Configuration());
+
+		webcomponentVersionAdminService.createWebcomponentVersion(WEBCOMPONENT_A.getUuid(), request);
+
+		verify(readWorkspacePort, times(1)).getDirectorySizeInBytes(any());
+	}
+
+	@Test
+	void createWebcomponentVersionDoesSaveToPort() {
+		when(readWebcomponentPort.getWebcomponentById(WEBCOMPONENT_A.getUuid())).thenReturn(WEBCOMPONENT_A);
+		when(readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(any(), any())).thenThrow(new NotFoundException(""));
+
+		val request = new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest();
+		request.setVersionTag("TAG");
+		request.setReleaseTimestamp(new Date());
+		request.setDistFiles(new ArrayList<>());
+		request.setConfiguration(new Configuration());
+
+		webcomponentVersionAdminService.createWebcomponentVersion(WEBCOMPONENT_A.getUuid(), request);
+
+		verify(writeWebcomponentVersionPort, times(1)).saveWebcomponentVersion(any());
+	}
+
+	@Test
+	void createWebcomponentVersionDoesHaveCorrectProperties() {
+		when(readWebcomponentPort.getWebcomponentById(WEBCOMPONENT_A.getUuid())).thenReturn(WEBCOMPONENT_A);
+		when(readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(any(), any())).thenThrow(new NotFoundException(""));
+		when(writeWebcomponentVersionPort.saveWebcomponentVersion(any())).thenAnswer(i -> i.getArguments()[0]);
+		when(readWorkspacePort.getDirectorySizeInBytes(any())).thenReturn(44*1024L);
+
+		val desired = new WebcomponentVersion();
+		desired.setWebcomponentUuid(WEBCOMPONENT_A.getUuid());
+		desired.setVersionTag("TAG");
+		desired.setReleaseTimestamp(new Date());
+		desired.setDist(new Dist());
+		desired.setConfiguration(new Configuration());
+		desired.setDeleted(false);
+		desired.setDistSizeTotalKb(44);
+		desired.setLighthouseMetricsMobileData(null);
+		desired.setLighthouseMetricsMobileDatetime(null);
+		desired.setLighthouseMobilePerformanceRating(0);
+		desired.setLighthouseMetricsDesktopData(null);
+		desired.setLighthouseMetricsDesktopDatetime(null);
+		desired.setLighthouseDesktopPerformanceRating(0);
+		desired.setLighthouseUpdateRequired(true);
+
+		val request = new CreateWebcomponentVersionUseCase.WebcomponentVersionCreateRequest();
+		request.setVersionTag(desired.getVersionTag());
+		request.setReleaseTimestamp(desired.getReleaseTimestamp());
+		request.setDist(desired.getDist());
+		request.setDistFiles(new ArrayList<>());
+		request.setConfiguration(desired.getConfiguration());
+
+		val result = webcomponentVersionAdminService.createWebcomponentVersion(WEBCOMPONENT_A.getUuid(), request);
+
+		assertThat(result).isEqualToIgnoringGivenFields(desired);
 	}
 
 	@Test

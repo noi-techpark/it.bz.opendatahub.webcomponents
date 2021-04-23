@@ -26,6 +26,9 @@ public interface CreateWebcomponentVersionUseCase {
 		private Date releaseTimestamp;
 
 		@NotNull
+		private Dist dist;
+
+		@NotNull
 		private List<DistFile> distFiles;
 
 		@NotNull

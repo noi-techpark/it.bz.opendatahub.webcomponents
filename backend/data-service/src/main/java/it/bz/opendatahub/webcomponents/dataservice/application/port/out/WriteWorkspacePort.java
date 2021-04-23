@@ -1,9 +1,11 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.port.out;
 
+import lombok.NonNull;
+
 import java.nio.file.Path;
 
 public interface WriteWorkspacePort {
-	void writeFile(Path path, byte[] data);
+	void writeFile(@NonNull Path path, byte[] data);
 
-	void wipe(Path path);
+	void wipe(@NonNull Path path);
 }

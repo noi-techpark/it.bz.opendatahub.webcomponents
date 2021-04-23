@@ -4,6 +4,7 @@ import it.bz.opendatahub.webcomponents.common.stereotype.Adapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateCodingSandboxUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.CodingSandboxPort;
 import org.apache.tomcat.util.json.JSONParser;
+import lombok.NonNull;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -17,7 +18,7 @@ import org.springframework.web.client.RestTemplate;
 public class CodeSandboxCodingSandboxAdapter implements CodingSandboxPort {
 
 	@Override
-	public String createCodeSandbox(CreateCodingSandboxUseCase.CodeSandboxRequest codeSandboxRequest){
+	public String createCodeSandbox(CreateCodingSandboxUseCase.@NonNull CodeSandboxRequest codeSandboxRequest){
 		try {
 			String html = "<!DOCTYPE html>\n<html lang='en'>\n\t<head>\n\t\t<meta charset='UTF-8'>\n\t\t<title>Title</title>"+
 				"\n\t</head>\n\t<body>\n\t\t"+

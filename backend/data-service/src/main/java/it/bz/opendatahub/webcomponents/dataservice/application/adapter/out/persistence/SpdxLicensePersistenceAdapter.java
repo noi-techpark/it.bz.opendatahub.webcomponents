@@ -7,6 +7,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.persi
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.SpdxLicense;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadSpdxLicensePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.NonNull;
 
 import java.util.Optional;
 
@@ -21,7 +22,7 @@ public class SpdxLicensePersistenceAdapter implements ReadSpdxLicensePort {
 	}
 
 	@Override
-	public SpdxLicense getById(String id) {
+	public SpdxLicense getById(@NonNull String id) {
 		Optional<SpdxLicenseModel> probe = spdxLicenseRepository.findById(id);
 
 		if(probe.isPresent()) {

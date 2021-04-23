@@ -1,7 +1,8 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.port.out;
 
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcomponent;
+import lombok.NonNull;
 
 public interface WriteWebcomponentPort {
-	Webcomponent saveWebcomponent(Webcomponent webcomponent);
+	Webcomponent saveWebcomponent(@NonNull Webcomponent webcomponent);
 }

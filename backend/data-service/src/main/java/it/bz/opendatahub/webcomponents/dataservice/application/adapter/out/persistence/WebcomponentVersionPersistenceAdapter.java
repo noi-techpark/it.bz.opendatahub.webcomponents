@@ -11,6 +11,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcompone
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
+import lombok.NonNull;
 import lombok.val;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
 	}
 
 	@Override
-    public List<WebcomponentVersion> listAllVersionsOfWebcomponent(String webcomponentUuid) {
+    public List<WebcomponentVersion> listAllVersionsOfWebcomponent(@NonNull String webcomponentUuid) {
         return webcomponentVersionConverter.convert(webcomponentVersionRepository.findAllVersionsForWebcomponent(webcomponentUuid));
     }
 
@@ -37,7 +38,7 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
 	}
 
 	@Override
-    public WebcomponentVersion getLatestVersionOfWebcomponent(String webcomponentUuid) {
+    public WebcomponentVersion getLatestVersionOfWebcomponent(@NonNull String webcomponentUuid) {
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findLatestVersionForWebcomponent(webcomponentUuid);
 
         if(probe.isPresent()) {
@@ -48,7 +49,7 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
     }
 
     @Override
-    public WebcomponentVersion getSpecificVersionOfWebcomponent(String webcomponentUuid, String versionTag) {
+    public WebcomponentVersion getSpecificVersionOfWebcomponent(@NonNull String webcomponentUuid, @NonNull String versionTag) {
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
 
         if(probe.isPresent()) {
@@ -59,7 +60,7 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
     }
 
 	@Override
-	public WebcomponentVersion saveWebcomponentVersion(WebcomponentVersion webcomponentVersion) {
+	public WebcomponentVersion saveWebcomponentVersion(@NonNull WebcomponentVersion webcomponentVersion) {
 		val probe = webcomponentVersionRepository.findById(
 			WebcomponentVersionId.of(
 				webcomponentVersion.getWebcomponentUuid(),
