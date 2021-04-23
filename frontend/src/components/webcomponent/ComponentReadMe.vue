@@ -18,7 +18,7 @@
             <div class="font-weight-bold">{{ author.organization }}</div>
           </div>
         </div>
-        <h2 class="pt-4">#Licenceagreeements</h2>
+        <h2 class="pt-4">#Licenseagreeements</h2>
         <vue-markdown class="w-100" :source="licenseAgreement"></vue-markdown>
       </div>
     </div>
