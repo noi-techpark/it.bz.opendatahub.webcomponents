@@ -48,13 +48,6 @@
         <div class="bottom-bar-button-text p-1">fullscreen editing</div>
       </div>
       <div
-        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="createCodeSandbox"
-      >
-        <img :src="require('static/icons/ic_min_editing.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">open codesandbox</div>
-      </div>
-      <div
         id="copy-code"
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
         @click="copyCode"
@@ -70,6 +63,13 @@
       >
         Copied to clipboard
       </b-popover>
+      <div
+        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+        @click="createCodeSandbox"
+      >
+        <img :src="require('static/icons/codesandbox.svg')" class="p-1" />
+        <div class="bottom-bar-button-text p-1">open codesandbox</div>
+      </div>
       <div
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
         @click="$emit('updatePreview')"
