@@ -54,7 +54,7 @@ public class WebcomponentVersionAdminController {
 		return webcomponentVersionWebConverter.convert(result);
 	}
 
-	@PutMapping("/{versionTag}")
+	@PatchMapping("/{versionTag}")
 	public WebcomponentVersionAdminRest updateVersion(@PathVariable String uuid, @PathVariable String versionTag, @RequestBody @Valid UpdateWebcomponentVersionUseCase.WebcomponentVersionUpdateRequest request) {
 		val result = updateWebcomponentVersionUseCase.updateWebcomponentVersion(uuid, versionTag, request);
 
