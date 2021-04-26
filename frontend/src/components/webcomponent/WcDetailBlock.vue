@@ -268,19 +268,19 @@ export default Vue.extend({
       return Math.ceil((100 * Math.min(500, this.versionSizeKb)) / 500);
     },
     mobileRating() {
-      if (!this.component.versions || this.component.versions.size === 0) {
+      if (!this.component.versions || this.component.versions.length === 0) {
         return 0;
       }
       return this.component.versions[0].lighthouseMobilePerformanceRating;
     },
     desktopRating() {
-      if (!this.component.versions || this.component.versions.size === 0) {
+      if (!this.component.versions || this.component.versions.length === 0) {
         return 0;
       }
       return this.component.versions[0].lighthouseDesktopPerformanceRating;
     },
     versionSizeKb() {
-      if (!this.component.versions || this.component.versions.size === 0) {
+      if (!this.component.versions || this.component.versions.length === 0) {
         return 0;
       }
       return this.component.versions[0].distSizeTotalKb;
