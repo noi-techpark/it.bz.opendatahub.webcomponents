@@ -56,6 +56,7 @@
         <div class="bottom-bar-button-text p-1">copy code</div>
       </div>
       <b-popover
+        id="popover"
         target="copy-code"
         :show.sync="showPopover"
         triggers="click"

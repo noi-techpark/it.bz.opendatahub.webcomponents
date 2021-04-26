@@ -15,12 +15,15 @@
         <div class="d-flex flex-row align-items-center">
           <div class="mt-lg-0 nav-bar">
             <b-nav class="text-uppercase">
-              <b-nav-item :to="localePath('index')" class="home-menu-item"
+              <b-nav-item
+                id="home-item"
+                :to="localePath('index')"
+                class="home-menu-item"
                 >home</b-nav-item
               >
               <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
               <b-nav-item-dropdown
-                id="my-nav-dropdown"
+                id="contribute-dropdown"
                 ref="dropdown1"
                 text="contribute"
                 toggle-class="nav-link-custom nav-dropdown"
@@ -41,7 +44,7 @@
                 >
               </b-nav-item-dropdown>
               <b-nav-item-dropdown
-                id="my-nav-dropdown"
+                id="make-use-dropdown"
                 ref="dropdown2"
                 text="make use"
                 toggle-class="nav-link-custom"
