@@ -1,50 +1,48 @@
-import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { GetterTree, ActionTree, MutationTree } from 'vuex';
 import { WebcomponentModel } from '../domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '../domain/model/WebcomponentConfigurationModel';
-import { WebcomponentEntryModel } from '../domain/model/WebcomponentEntryModel';
-import { Page } from '../domain/repository/PagingAndSorting';
 import { $api } from '~/utils/api-accessor';
 
-@Module({
-  name: 'webcomponent',
-  stateFactory: true,
-  namespaced: true,
-})
-export default class WebcomponentModule extends VuexModule {
-  currentWebcomponent: WebcomponentModel = null;
-  currentConfig: WebcomponentConfigurationModel = null;
-  currentVersion: string = null;
-  currentSnipp: string = null;
+export const state = () => ({
+  currentWebcomponent: null as WebcomponentModel,
+  currentConfig: null as WebcomponentConfigurationModel,
+  currentVersion: null as string,
+  currentSnipp: null as string,
+});
 
-  @Mutation
-  setWebcomponent(webcomponent: WebcomponentModel) {
-    this.currentWebcomponent = webcomponent;
-  }
+export type RootState = ReturnType<typeof state>;
 
-  @Mutation
-  setConfig(config: WebcomponentConfigurationModel) {
-    this.currentConfig = config;
-  }
+export const getters: GetterTree<RootState, RootState> = {
+  currentWebcomponent: (state) => state.currentWebcomponent,
+  currentConfig: (state) => state.currentConfig,
+  currentVersion: (state) => state.currentVersion,
+  currentSnipp: (state) => state.currentSnipp,
+};
 
-  @Mutation
-  setVersion(version: string) {
-    this.currentVersion = version;
-  }
+export const mutations: MutationTree<RootState> = {
+  SET_WEBCOMPONENT: (state, webcomponent: WebcomponentModel) => {
+    state.currentWebcomponent = webcomponent;
+  },
+  SET_CONFIG: (state, config: WebcomponentConfigurationModel) => {
+    state.currentConfig = config;
+  },
+  SET_VERSION: (state, version: string) => {
+    state.currentVersion = version;
+  },
+  SET_SNIPP: (state, snipp: string) => {
+    state.currentSnipp = snipp;
+  },
+};
 
-  @Mutation
-  setSnipp(snipp: string) {
-    this.currentSnipp = snipp;
-  }
+export const actions: ActionTree<RootState, RootState> = {
+  async loadWebcomponent({ commit }, { uuid, version }) {
+    commit('SET_WEBCOMPONENT', null);
+    commit('SET_CONFIG', null);
 
-  @Action
-  async loadWebcomponent({ uuid, version }) {
-    this.setWebcomponent(null);
-    this.setConfig(null);
-
-    this.setVersion(version);
+    commit('SET_VERSION', version);
 
     const webcomponent = await $api.webcomponent.getOneById(uuid);
-    this.setWebcomponent(webcomponent);
+    commit('SET_WEBCOMPONENT', webcomponent);
 
     let selectedVersion = null;
     webcomponent.versions.forEach((entry) => {
@@ -57,14 +55,13 @@ export default class WebcomponentModule extends VuexModule {
       selectedVersion = webcomponent.versions[0].versionTag;
     }
 
-    this.setVersion(selectedVersion);
+    commit('SET_VERSION', selectedVersion);
 
     const config = await $api.webcomponent.getConfigById(uuid, selectedVersion);
-    this.setConfig(config);
-  }
+    commit('SET_CONFIG', config);
+  },
 
-  @Action
-  updateSnipp({ snipp }) {
-    this.setSnipp(snipp);
-  }
-}
+  updateSnipp({ commit }, { snipp }) {
+    commit('SET_SNIPP', snipp);
+  },
+};

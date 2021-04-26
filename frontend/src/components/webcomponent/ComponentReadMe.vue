@@ -27,13 +27,13 @@
 
 <script>
 import VueMarkdown from 'vue-markdown';
-import { webcomponentStore } from '~/utils/store-accessor';
+
 export default {
   name: 'ComponentReadMe',
   components: { VueMarkdown },
   computed: {
     component() {
-      return webcomponentStore.currentWebcomponent;
+      return this.$store.getters['webcomponent/currentWebcomponent'];
     },
     readMe() {
       return this.component.versions[0].readMe;

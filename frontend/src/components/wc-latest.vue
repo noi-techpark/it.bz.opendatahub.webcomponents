@@ -45,7 +45,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { PageRequest } from '../domain/repository/PagingAndSorting';
-import { webcomponentListStore } from '../utils/store-accessor';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default Vue.extend({
@@ -60,15 +59,15 @@ export default Vue.extend({
   },
   computed: {
     visibleWebcomponents() {
-      return webcomponentListStore.getLoadedPage.content.filter(
-        (item, index) => {
-          return index < this.listLimit;
-        }
-      );
+      return this.$store.getters[
+        'webcomponent-list/getLoadedPage'
+      ].content.filter((item, index) => {
+        return index < this.listLimit;
+      });
     },
   },
   created() {
-    webcomponentListStore.loadPage({
+    this.$store.dispatch('webcomponent-list/loadPage', {
       pageRequest: new PageRequest(16, 0),
       filter: {
         tags: null,

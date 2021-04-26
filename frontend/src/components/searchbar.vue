@@ -113,8 +113,6 @@
 </template>
 
 <script>
-import { searchtagsStore } from '~/utils/store-accessor';
-
 export default {
   props: {
     selectedTags: {
@@ -135,7 +133,7 @@ export default {
   },
   computed: {
     availableSearchTags() {
-      return searchtagsStore.getSearchtags;
+      return this.$store.getters['searchtags/getSearchtags'];
     },
   },
   mounted() {

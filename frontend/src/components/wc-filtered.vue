@@ -97,7 +97,6 @@
 <script lang="ts">
 import Vue from 'vue';
 import { PageRequest } from '../domain/repository/PagingAndSorting';
-import { webcomponentListStore } from '../utils/store-accessor';
 import Paginator from '~/components/paginator.vue';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
@@ -138,7 +137,7 @@ export default Vue.extend({
       return this.currentPage.last;
     },
     currentPage() {
-      return webcomponentListStore.getLoadedPage;
+      return this.$store.getters['webcomponent-list/getLoadedPage'];
     },
   },
   watch: {
@@ -196,7 +195,7 @@ export default Vue.extend({
         tags = filtered.join(',');
       }
 
-      webcomponentListStore.loadPage({
+      this.$store.dispatch('webcomponent-list/loadPage', {
         pageRequest: new PageRequest(pageSize, pageNumber),
         filter: {
           tags,

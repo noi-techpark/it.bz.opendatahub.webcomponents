@@ -1,27 +1,26 @@
-import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { GetterTree, ActionTree, MutationTree } from 'vuex';
 import { $api } from '~/utils/api-accessor';
 
-@Module({
-  name: 'searchtags',
-  stateFactory: true,
-  namespaced: true,
-})
-export default class SearchtagsModule extends VuexModule {
-  searchtags: Array<string> = [];
+export const state = () => ({
+  searchtags: [] as string[],
+});
 
-  get getSearchtags(): Array<string> {
-    return this.searchtags;
-  }
+export type RootState = ReturnType<typeof state>;
 
-  @Mutation
-  setSearchtags(searchtags: Array<string>) {
-    this.searchtags = searchtags;
-  }
+export const getters: GetterTree<RootState, RootState> = {
+  getSearchtags: (state) => state.searchtags,
+};
 
-  @Action
-  async loadSearchtags() {
+export const mutations: MutationTree<RootState> = {
+  SET_SEARCHTAGS: (state, searchtags: string[]) => {
+    state.searchtags = searchtags;
+  },
+};
+
+export const actions: ActionTree<RootState, RootState> = {
+  async loadSearchtags({ commit }) {
     const result = await $api.searchtag.listAll();
 
-    this.setSearchtags(result);
-  }
-}
+    commit('SET_SEARCHTAGS', result);
+  },
+};

@@ -215,7 +215,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { webcomponentStore } from '../../utils/store-accessor';
 import { WebcomponentModel } from '../../domain/model/WebcomponentModel';
 import CircularChart from '~/components/circular-chart';
 
@@ -242,7 +241,7 @@ export default Vue.extend({
   },
   computed: {
     component(): WebcomponentModel {
-      return webcomponentStore.currentWebcomponent;
+      return this.$store.getters['webcomponent/currentWebcomponent'];
     },
     mobileRatingChartColor() {
       if (this.mobileRating < 80) {

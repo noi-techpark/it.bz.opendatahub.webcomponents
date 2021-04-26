@@ -82,8 +82,6 @@
 </template>
 
 <script>
-import { webcomponentStore } from '~/utils/store-accessor';
-
 export default {
   name: 'DetailBottomBar',
   props: {
@@ -100,7 +98,7 @@ export default {
   },
   computed: {
     snipp() {
-      return webcomponentStore.currentSnipp;
+      return this.$store.getters['webcomponent/currentSnipp'];
     },
   },
   methods: {

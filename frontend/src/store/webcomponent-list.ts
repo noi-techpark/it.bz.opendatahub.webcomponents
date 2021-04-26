@@ -1,17 +1,10 @@
-import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
-import { WebcomponentModel } from '../domain/model/WebcomponentModel';
-import { WebcomponentConfigurationModel } from '../domain/model/WebcomponentConfigurationModel';
+import { GetterTree, ActionTree, MutationTree } from 'vuex';
 import { WebcomponentEntryModel } from '../domain/model/WebcomponentEntryModel';
 import { Page, PageRequest } from '../domain/repository/PagingAndSorting';
 import { $api } from '~/utils/api-accessor';
 
-@Module({
-  name: 'webcomponent-list',
-  stateFactory: true,
-  namespaced: true,
-})
-export default class WebcomponentListModule extends VuexModule {
-  webcomponentsList: Page<WebcomponentEntryModel> = {
+export const state = () => ({
+  webcomponentsList: {
     empty: true,
     first: true,
     last: true,
@@ -21,21 +14,25 @@ export default class WebcomponentListModule extends VuexModule {
     totalElements: 0,
     totalPages: 0,
     content: [],
-  };
+  } as Page<WebcomponentEntryModel>,
+});
 
-  get getLoadedPage(): Page<WebcomponentEntryModel> {
-    return this.webcomponentsList;
-  }
+export type RootState = ReturnType<typeof state>;
 
-  @Mutation
-  setLoadedPage(webcomponentsList: Page<WebcomponentEntryModel>) {
-    this.webcomponentsList = webcomponentsList;
-  }
+export const getters: GetterTree<RootState, RootState> = {
+  getLoadedPage: (state) => state.webcomponentsList,
+};
 
-  @Action
-  async loadPage({ pageRequest, filter }) {
+export const mutations: MutationTree<RootState> = {
+  SET_LOADED_PAGE: (state, webcomponentsList: Page<WebcomponentEntryModel>) => {
+    state.webcomponentsList = webcomponentsList;
+  },
+};
+
+export const actions: ActionTree<RootState, RootState> = {
+  async loadPage({ commit }, { pageRequest, filter }) {
     const result = await $api.webcomponent.findAllPaged(pageRequest, filter);
 
-    this.setLoadedPage(result);
-  }
-}
+    commit('SET_LOADED_PAGE', result);
+  },
+};

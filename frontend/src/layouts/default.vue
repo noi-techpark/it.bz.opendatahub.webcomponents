@@ -13,7 +13,6 @@ import Vue from 'vue';
 
 import Header from './partials/header';
 import Footer from './partials/footer';
-import { searchtagsStore } from '~/store';
 
 export default Vue.extend({
   components: {
@@ -21,7 +20,7 @@ export default Vue.extend({
     Footer,
   },
   created() {
-    searchtagsStore.loadSearchtags();
+    this.$store.dispatch('searchtags/loadSearchtags');
   },
 });
 </script>

@@ -24,7 +24,6 @@
 
 <script>
 import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
-import { webcomponentStore } from '~/utils/store-accessor';
 import DetailBottomBar from '~/components/detail-bottom-bar';
 
 export default {
@@ -40,18 +39,18 @@ export default {
     };
   },
   computed: {
-    config() {
-      return webcomponentStore.currentConfig;
-    },
     component() {
-      return webcomponentStore.currentWebcomponent;
+      return this.$store.getters['webcomponent/currentWebcomponent'];
+    },
+    config() {
+      return this.$store.getters['webcomponent/currentConfig'];
     },
     snipp() {
-      return webcomponentStore.currentSnipp;
+      return this.$store.getters['webcomponent/currentSnipp'];
     },
   },
   created() {
-    webcomponentStore.loadWebcomponent({
+    this.$store.dispatch('webcomponent/loadWebcomponent', {
       uuid: this.$route.params.id,
       version: this.$route.params.version,
     });
@@ -120,7 +119,7 @@ export default {
       return scripts;
     },
     updateSnippet(data) {
-      webcomponentStore.updateSnipp({
+      this.$store.dispatch('webcomponent/updateSnipp', {
         snipp: data + '\n' + this.getDistIncludes().join('\n'),
       });
 

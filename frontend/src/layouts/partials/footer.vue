@@ -85,12 +85,12 @@
 <script>
 import QuoteItem from '~/components/quote-item';
 import FooterInfo from '~/layouts/partials/footer-info';
-import { searchtagsStore } from '~/utils/store-accessor';
+
 export default {
   components: { FooterInfo, QuoteItem },
   computed: {
     searchTags() {
-      return searchtagsStore.getSearchtags;
+      return this.$store.getters['searchtags/getSearchtags'];
     },
   },
 };

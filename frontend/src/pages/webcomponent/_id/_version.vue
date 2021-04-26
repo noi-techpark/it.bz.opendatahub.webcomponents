@@ -151,7 +151,6 @@ import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-co
 import { PrismEditor } from 'vue-prism-editor';
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
 import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
-import { webcomponentStore } from '~/utils/store-accessor';
 import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
 
 // eslint-disable-next-line import/order
@@ -183,7 +182,7 @@ export default {
   },
   computed: {
     hasAnyVersion() {
-      return !!webcomponentStore.currentVersion;
+      return !!this.$store.getters['webcomponent/currentVersion'];
     },
     externalPreviewUrl() {
       return (
@@ -209,21 +208,21 @@ export default {
       return this.selectedVersion === this.component.versions[0].versionTag;
     },
     component() {
-      return webcomponentStore.currentWebcomponent;
+      return this.$store.getters['webcomponent/currentWebcomponent'];
     },
     config() {
-      return webcomponentStore.currentConfig;
+      return this.$store.getters['webcomponent/currentConfig'];
     },
     selectedVersion() {
-      return webcomponentStore.currentVersion;
+      return this.$store.getters['webcomponent/currentVersion'];
     },
     snipp() {
-      return webcomponentStore.currentSnipp;
+      return this.$store.getters['webcomponent/currentSnipp'];
     },
   },
   created() {
     // webcomponentStore.
-    webcomponentStore.loadWebcomponent({
+    this.$store.dispatch('webcomponent/loadWebcomponent', {
       uuid: this.$route.params.id,
       version: this.$route.params.version,
     });
@@ -252,7 +251,7 @@ export default {
       );
     },
     updateSnippet(data) {
-      webcomponentStore.updateSnipp({
+      this.$store.dispatch('webcomponent/updateSnipp', {
         snipp: data + '\n' + this.getDistIncludes().join('\n'),
       });
       this.code = this.snipp;
