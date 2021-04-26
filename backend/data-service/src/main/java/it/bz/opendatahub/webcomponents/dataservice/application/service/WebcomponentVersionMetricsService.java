@@ -130,7 +130,7 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 	private int extractPerformanceRating(String json) throws MetricsParseException {
 		Number rating;
 		try {
-			rating = JsonPath.read(json, "$.lighthouseResult.categories.performance.scores");
+			rating = JsonPath.read(json, "$.lighthouseResult.categories.performance.score");
 		}
 		catch (PathNotFoundException e) {
 			throw new MetricsParseException();
