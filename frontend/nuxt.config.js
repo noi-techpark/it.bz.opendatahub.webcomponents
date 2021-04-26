@@ -46,6 +46,7 @@ module.exports = {
     '~/plugins/fontawesome.js',
     '~/plugins/tooltip.js',
     '~/plugins/env.ts',
+    '~/plugins/vue-loading-overlay.js',
     { src: '~/plugins/vue-plyr', mode: 'client' },
   ],
   /*

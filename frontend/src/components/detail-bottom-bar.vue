@@ -113,11 +113,17 @@ export default {
       );
       this.$emit('copyCode');
     },
-    createCodeSandbox() {
-      this.$api.webcomponent.createCodeSandbox(this.snipp).then((result) => {
+    async createCodeSandbox() {
+      await this.$store.dispatch('loader/startLoading');
+
+      const result = await this.$api.webcomponent.createCodeSandbox(this.snipp);
+
+      if (result) {
         const url = 'https://codesandbox.io/s/' + result;
         window.open(url, '_blank').focus();
-      });
+      }
+
+      await this.$store.dispatch('loader/finishLoading');
     },
   },
 };
