@@ -13,23 +13,14 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
-public interface CreateWebcomponentVersionUseCase {
-	WebcomponentVersion createWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull WebcomponentVersionCreateRequest request);
+public interface UpdateWebcomponentVersionUseCase {
+	WebcomponentVersion updateWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull String versionTag, @NonNull WebcomponentVersionUpdateRequest request);
 
 	@Getter
 	@Setter
-	class WebcomponentVersionCreateRequest {
-		@NotBlank
-		private String versionTag;
-
+	class WebcomponentVersionUpdateRequest {
 		@NotNull
 		private Date releaseTimestamp;
-
-		@NotNull
-		private Dist dist;
-
-		@NotNull
-		private List<DistFile> distFiles;
 
 		@NotNull
 		private Configuration configuration;

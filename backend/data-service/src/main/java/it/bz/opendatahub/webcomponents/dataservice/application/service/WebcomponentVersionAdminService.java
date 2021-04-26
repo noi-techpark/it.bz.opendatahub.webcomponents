@@ -9,6 +9,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWeb
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ScheduleWebcomponentVersionMetricsUpdateUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.UpdateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebcomponentVersionPort;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
@@ -27,15 +28,12 @@ import java.util.Base64;
 import java.util.List;
 
 @Service
-public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase, RecalculateAllDistSizesUseCase {
+public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase, RecalculateAllDistSizesUseCase, UpdateWebcomponentVersionUseCase {
 	private final ReadWebcomponentPort readWebcomponentPort;
 	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 	private final WriteWebcomponentVersionPort writeWebcomponentVersionPort;
 	private final WriteWorkspacePort writeWorkspacePort;
 	private final ReadWorkspacePort readWorkspacePort;
-
-	private static final String READ_ME_FILE_NAME = "README.md";
-	private static final String LICENSE_FILE_NAME = "LICENSE.md";
 
 	public WebcomponentVersionAdminService(ReadWebcomponentPort readWebcomponentPort, ReadWebcomponentVersionPort readWebcomponentVersionPort, WriteWebcomponentVersionPort writeWebcomponentVersionPort, WriteWorkspacePort writeWorkspacePort, ReadWorkspacePort readWorkspacePort) {
 		this.readWebcomponentPort = readWebcomponentPort;
@@ -64,9 +62,6 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 						) / 1024)
 		);
 
-		webcomponentVersion.setReadMe(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), READ_ME_FILE_NAME))));
-		webcomponentVersion.setLicenseAgreement(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), LICENSE_FILE_NAME))));
-
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 	}
 
@@ -88,9 +83,15 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 			) / 1024)
 		);
 
-		webcomponentVersion.setReadMe(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), READ_ME_FILE_NAME))));
-		webcomponentVersion.setLicenseAgreement(Arrays.toString(readWorkspacePort.readFile(Paths.get(webcomponentUuid, webcomponentVersion.getVersionTag(), LICENSE_FILE_NAME))));
+		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
+	}
 
+	@Override
+	@Transactional
+	public WebcomponentVersion updateWebcomponentVersion(@NonNull String webcomponentUuid, @NonNull String versionTag, @NonNull WebcomponentVersionUpdateRequest request) {
+		val webcomponentVersion = readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
+
+		ConverterUtils.copyProperties(request, webcomponentVersion);
 
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
 	}

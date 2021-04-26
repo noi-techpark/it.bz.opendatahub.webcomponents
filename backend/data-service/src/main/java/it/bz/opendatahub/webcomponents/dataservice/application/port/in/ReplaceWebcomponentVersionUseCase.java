@@ -33,5 +33,9 @@ public interface ReplaceWebcomponentVersionUseCase {
 
 		@NotNull
 		private Configuration configuration;
+
+		private String readMe;
+
+		private String licenseAgreement;
 	}
 }

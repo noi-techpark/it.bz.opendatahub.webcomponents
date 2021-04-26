@@ -5,9 +5,9 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.ad
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.admin.rest.WebcomponentVersionAdminRest;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentVersionUseCase;
-import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ScheduleWebcomponentVersionMetricsUpdateUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.UpdateWebcomponentVersionUseCase;
 import lombok.val;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,13 +26,15 @@ import javax.validation.Valid;
 public class WebcomponentVersionAdminController {
 	private final CreateWebcomponentVersionUseCase createWebcomponentVersionUseCase;
 	private final ReplaceWebcomponentVersionUseCase replaceWebcomponentVersionUseCase;
+	private final UpdateWebcomponentVersionUseCase updateWebcomponentVersionUseCase;
 	private final DeleteWebcomponentVersionUseCase deleteWebcomponentVersionUseCase;
 	private final ScheduleWebcomponentVersionMetricsUpdateUseCase scheduleWebcomponentVersionMetricsUpdateUseCase;
 	private final WebcomponentVersionAdminWebConverter webcomponentVersionWebConverter;
 
-	public WebcomponentVersionAdminController(CreateWebcomponentVersionUseCase createWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase replaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase deleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase scheduleWebcomponentVersionMetricsUpdateUseCase, WebcomponentVersionAdminWebConverter webcomponentVersionWebConverter) {
+	public WebcomponentVersionAdminController(CreateWebcomponentVersionUseCase createWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase replaceWebcomponentVersionUseCase, UpdateWebcomponentVersionUseCase updateWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase deleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase scheduleWebcomponentVersionMetricsUpdateUseCase, WebcomponentVersionAdminWebConverter webcomponentVersionWebConverter) {
 		this.createWebcomponentVersionUseCase = createWebcomponentVersionUseCase;
 		this.replaceWebcomponentVersionUseCase = replaceWebcomponentVersionUseCase;
+		this.updateWebcomponentVersionUseCase = updateWebcomponentVersionUseCase;
 		this.deleteWebcomponentVersionUseCase = deleteWebcomponentVersionUseCase;
 		this.scheduleWebcomponentVersionMetricsUpdateUseCase = scheduleWebcomponentVersionMetricsUpdateUseCase;
 		this.webcomponentVersionWebConverter = webcomponentVersionWebConverter;
@@ -48,6 +50,13 @@ public class WebcomponentVersionAdminController {
 	@PutMapping("/{versionTag}")
 	public WebcomponentVersionAdminRest replaceVersion(@PathVariable String uuid, @PathVariable String versionTag, @RequestBody @Valid ReplaceWebcomponentVersionUseCase.WebcomponentVersionReplaceRequest request) {
 		val result = replaceWebcomponentVersionUseCase.replaceWebcomponentVersion(uuid, versionTag, request);
+
+		return webcomponentVersionWebConverter.convert(result);
+	}
+
+	@PutMapping("/{versionTag}")
+	public WebcomponentVersionAdminRest updateVersion(@PathVariable String uuid, @PathVariable String versionTag, @RequestBody @Valid UpdateWebcomponentVersionUseCase.WebcomponentVersionUpdateRequest request) {
+		val result = updateWebcomponentVersionUseCase.updateWebcomponentVersion(uuid, versionTag, request);
 
 		return webcomponentVersionWebConverter.convert(result);
 	}
