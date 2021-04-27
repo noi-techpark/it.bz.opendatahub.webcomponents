@@ -18,7 +18,7 @@
                 @click="searchTagsVisible = !searchTagsVisible"
               >
                 <span class="filter-text">Filter by categories</span>
-                <span class="chevron bottom mr-2"></span>
+                <span class="chevron semi-bold bottom mr-2"></span>
               </div>
               <b-collapse
                 id="tag-collapse"

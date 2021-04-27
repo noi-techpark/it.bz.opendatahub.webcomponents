@@ -32,6 +32,10 @@
 		transform: rotate(-135deg);
 	}
 
+	&.semi-bold::before {
+		border-width: 0.15em 0.15em 0 0;
+	}
+
 	&.bold::before {
 		border-width: 0.25em 0.25em 0 0;
 	}
