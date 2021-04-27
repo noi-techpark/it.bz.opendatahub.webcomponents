@@ -23,7 +23,7 @@
             class="text-secondary d-flex flex-column text-decoration-none"
             @click="loadMore()"
           >
-            <span>load more components</span>
+            <span data-testid="load-more">load more components</span>
             <span class="chevron bottom bold"></span>
           </a>
           <nuxt-link
@@ -31,7 +31,7 @@
             :to="localePath({ name: 'search-tags', params: { tags: 'any' } })"
             class="text-secondary d-flex flex-column text-decoration-none"
           >
-            <span
+            <span data-testid="show-all"
               >show all components
               <span class="chevron right bold ml-2"></span>
             </span>

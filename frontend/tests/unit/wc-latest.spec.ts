@@ -22,12 +22,17 @@ const i18n = new VueI18n({
   messages: {},
 });
 
+function localePath() {}
+
 describe('WCLatest', () => {
   let getters;
   let store;
+  let actions;
   beforeEach(() => {
+    actions = {
+      loadPage: jest.fn(),
+    };
     getters = {
-      loadPage: (pageRequest, filter) => {},
       getLoadedPage: () => {
         return <Page<WebcomponentEntryModel>>{
           empty: true,
@@ -46,12 +51,12 @@ describe('WCLatest', () => {
     store = new Vuex.Store({});
 
     store.registerModule(
-      'webcomponentListStore',
-      new VuexModule({ namespaced: true, getters }),
+      'webcomponent-list',
+      new VuexModule({ namespaced: true, getters, actions }),
       {}
     );
   });
-  test('', () => {
+  test('test if load more button is present', async () => {
     const wrapper = shallowMount(WcLatest, {
       store,
       localVue,
@@ -61,10 +66,28 @@ describe('WCLatest', () => {
       },
     });
     expect(true).toBe(true);
-    /* wrapper.setData({ moreEnabled: false });
+    wrapper.setData({ moreEnabled: false });
     await wrapper.vm.$nextTick();
-    await expect(wrapper.find('text-secondary')).toContain(
-      'load more components'
-    ); */
+    await expect(
+      wrapper.find('[data-testid="load-more"]').element.textContent
+    ).toContain('load more components');
+  });
+  test('', async () => {
+    const wrapper = shallowMount(WcLatest, {
+      store,
+      localVue,
+      i18n,
+      stubs: {
+        NuxtLink: true,
+      },
+      mocks: {
+        localePath,
+      },
+    });
+    await wrapper.setData({ moreEnabled: true });
+    await wrapper.vm.$nextTick();
+    await expect(
+      wrapper.find('[data-testid="show-all"]').element.textContent
+    ).toContain('show all components');
   });
 });
