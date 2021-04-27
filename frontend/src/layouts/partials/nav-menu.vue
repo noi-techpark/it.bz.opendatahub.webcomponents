@@ -2,14 +2,20 @@
   <sidebar :is-panel-open="menuActive" @toggle-menu="toggleMenu">
     <div class="side-bar-container d-flex flex-column align-items-end h-100">
       <div
-        class="d-flex justify-content-end container-fluid container-extended pt-4 pb-2 pl-4 pr-4"
+        class="d-flex justify-content-end align-items-center container-fluid container-extended pt-4 pb-2 pl-4 pr-4"
+        style="min-height: 50px"
       >
-        <burger
-          v-b-toggle.sidebar-right
-          :active="menuActive"
-          class="p-4"
-          @toggle-menu="toggleMenu"
-        ></burger>
+        <div
+          class="d-flex justify-content-center align-items-center"
+          style="min-height: 50px"
+        >
+          <burger
+            v-b-toggle.sidebar-right
+            :active="menuActive"
+            class=""
+            @toggle-menu="toggleMenu"
+          ></burger>
+        </div>
       </div>
       <div
         class="d-flex justify-content-between flex-column h-100 w-100"
@@ -30,7 +36,7 @@
             class="mobile-only side-menu-item"
             @click="contributeActive = !contributeActive"
           >
-            <div class="d-flex justify-content-between menu-link">
+            <div class="d-flex justify-content-between menu-link pr-4">
               Contribute
               <span
                 :class="[contributeActive ? 'chevron top' : 'chevron bottom']"
@@ -64,7 +70,7 @@
             class="mobile-only side-menu-item"
             @click="makeUseActive = !makeUseActive"
           >
-            <div class="d-flex justify-content-between menu-link">
+            <div class="d-flex justify-content-between menu-link pr-4">
               Make use
               <span
                 :class="[makeUseActive ? 'chevron top' : 'chevron bottom']"
