@@ -22,7 +22,7 @@
         </b-card-text>
       </b-card-body>
 
-      <div slot="footer" class="row font-small card-short-info">
+      <div slot="footer" class="row font-smaller card-short-info">
         <div class="col-6">
           <div>
             Author:

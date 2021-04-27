@@ -276,6 +276,14 @@ a:hover {
 	.card-footer {
 		display: none;
 	}
+
+	.menu-link {
+		font-size: 20px;
+	}
+
+	.wc-detail {
+		font-size: 14px !important;
+	}
 }
 
 img {
@@ -296,4 +304,14 @@ main {
 
 .text-underline:hover {
 	text-decoration: underline !important;
+}
+
+.carousel-caption {
+	h3 {
+		font-size: 36px !important;
+	}
+}
+
+.wc-detail {
+	font-size: 18px;
 }

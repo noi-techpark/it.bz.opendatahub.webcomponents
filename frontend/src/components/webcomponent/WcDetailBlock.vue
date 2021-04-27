@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light" style="display: flex; flex-direction: column">
+  <div class="bg-light wc-detail" style="display: flex; flex-direction: column">
     <div v-if="!isHeaderExpanded" class="header-gradient"></div>
     <div
       :class="{ 'detail-block': !isHeaderExpanded }"

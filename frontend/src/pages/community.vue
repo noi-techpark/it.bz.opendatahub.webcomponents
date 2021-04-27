@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-light">
-      <div class="container pt-4 pl-4 pr-4 pb-0 mb-5 font-larger">
+      <div class="container pt-4 pl-4 pr-4 pb-0 mb-5">
         <h1>#Publishers #Contributors #Partners</h1>
         <div>
           Publishers have developed Web Components, that are published on the

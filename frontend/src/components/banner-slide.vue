@@ -1,5 +1,10 @@
 <template>
-  <b-carousel-slide :caption="title" img-alt="image" :img-src="imgUrl">
+  <b-carousel-slide
+    :caption="title"
+    img-alt="image"
+    :img-src="imgUrl"
+    class="banner-slide"
+  >
     <p>
       {{ subtitle }}
     </p>
