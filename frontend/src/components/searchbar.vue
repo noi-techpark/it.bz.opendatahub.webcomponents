@@ -28,6 +28,8 @@
                   border-left: 1px solid #e8ecf1;
                   border-bottom: 1px solid #e8ecf1;
                   border-right: 1px solid #e8ecf1;
+                  max-height: 500px;
+                  overflow: scroll;
                 "
               >
                 <div class="m-4">
