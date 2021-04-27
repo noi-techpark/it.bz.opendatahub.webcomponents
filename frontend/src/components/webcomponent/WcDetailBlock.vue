@@ -201,6 +201,7 @@
             preview
           </div>
           <div
+            v-if="component.versions[0].readMe !== null"
             :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
             class="text-uppercase"
             @click="$emit('set-show-preview', false)"
