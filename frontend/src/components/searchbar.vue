@@ -71,9 +71,9 @@
                 <svg
                   style="margin-top: 0.15rem; height: 1.5rem"
                   xmlns="http://www.w3.org/2000/svg"
-                  width="31.414"
-                  height="32.214"
-                  viewBox="0 0 31.414 32.214"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
                   class="search-image"
                   @click="termSubmitted()"
                 >
@@ -82,24 +82,34 @@
                       .a,
                       .b {
                         fill: none;
-                        stroke: #2e3131;
+                      }
+                      .b {
+                        stroke: #2f2f2f;
                         stroke-miterlimit: 10;
                         stroke-width: 2px;
                       }
-                      .b {
-                        stroke-linecap: round;
-                      }
                     </style>
                   </defs>
-                  <g transform="translate(15.5 15.9)">
-                    <g transform="translate(-14.5 -14.9)">
-                      <circle class="a" cx="11.9" cy="11.9" r="11.9" />
-                      <line
-                        class="b"
-                        x1="9"
-                        y1="9"
-                        transform="translate(20 20.8)"
-                      />
+                  <g transform="translate(13.391 13.845)">
+                    <g transform="translate(-12.5 -12.845)">
+                      <g transform="translate(-0.891 -1)">
+                        <g transform="translate(0.929 0.767)">
+                          <ellipse
+                            class="b"
+                            cx="7.535"
+                            cy="7.535"
+                            rx="7.535"
+                            ry="7.535"
+                            transform="translate(0.891 1)"
+                          />
+                          <line
+                            class="b"
+                            x1="5.699"
+                            y1="5.699"
+                            transform="translate(13.555 14.171)"
+                          />
+                        </g>
+                      </g>
                     </g>
                   </g>
                 </svg>

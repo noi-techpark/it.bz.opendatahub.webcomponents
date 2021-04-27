@@ -1,7 +1,9 @@
 <template>
   <sidebar :is-panel-open="menuActive" @toggle-menu="toggleMenu">
     <div class="side-bar-container d-flex flex-column align-items-end h-100">
-      <div class="d-flex justify-content-end">
+      <div
+        class="d-flex justify-content-end container-fluid container-extended pt-4 pb-2 pl-4 pr-4"
+      >
         <burger
           v-b-toggle.sidebar-right
           :active="menuActive"
