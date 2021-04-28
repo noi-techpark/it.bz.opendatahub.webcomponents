@@ -44,13 +44,14 @@ describe('WCDetailBloc', () => {
       },
     };
 
-    store = new Vuex.Store({});
-
-    store.registerModule(
-      'webcomponentStore',
-      { namespaced: true, getters },
-      {}
-    );
+    store = new Vuex.Store({
+      modules: {
+        webcomponent: {
+          namespaced: true,
+          getters,
+        },
+      },
+    });
   });
 
   test('check if header is closed', async () => {

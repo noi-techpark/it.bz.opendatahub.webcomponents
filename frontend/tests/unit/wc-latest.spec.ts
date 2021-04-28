@@ -47,13 +47,15 @@ describe('WCLatest', () => {
       },
     };
 
-    store = new Vuex.Store({});
-
-    store.registerModule(
-      'webcomponent-list',
-      { namespaced: true, getters, actions },
-      {}
-    );
+    store = new Vuex.Store({
+      modules: {
+        'webcomponent-list': {
+          namespaced: true,
+          getters,
+          actions,
+        },
+      },
+    });
   });
   test('test if load more button is present', async () => {
     const wrapper = shallowMount(WcLatest, {
