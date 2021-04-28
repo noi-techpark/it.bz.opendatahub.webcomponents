@@ -43,7 +43,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception
 	{
 		super.configure(http);
-		http.authorizeRequests()
+		http.csrf().disable().authorizeRequests()
 			.mvcMatchers(HttpMethod.OPTIONS).permitAll()
 			.mvcMatchers("/admin/**")
 			.authenticated()
