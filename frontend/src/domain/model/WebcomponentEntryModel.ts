@@ -1,5 +1,5 @@
-import { WebcomponentVersionModel } from './WebcomponentVersionModel';
 import { Author } from '../struct/Author';
+import { WebcomponentVersionModel } from './WebcomponentVersionModel';
 import { SpdxLicenseModel } from './SpdxLicenseModel';
 
 export interface WebcomponentEntryModel {
