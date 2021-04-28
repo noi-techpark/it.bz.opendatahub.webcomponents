@@ -8,14 +8,7 @@
         <div
           class="d-flex justify-content-center align-items-center"
           style="min-height: 50px"
-        >
-          <burger
-            v-b-toggle.sidebar-right
-            :active="menuActive"
-            class=""
-            @toggle-menu="toggleMenu"
-          ></burger>
-        </div>
+        ></div>
       </div>
       <div
         class="d-flex justify-content-between flex-column h-100 w-100"
@@ -133,12 +126,11 @@
 
 <script>
 import FooterInfoMenu from '@/layouts/partials/footer-info-menu';
-import Burger from '~/components/menu/burger';
 import Sidebar from '~/components/menu/sidebar';
 
 export default {
   name: 'NavMenu',
-  components: { FooterInfoMenu, Sidebar, Burger },
+  components: { FooterInfoMenu, Sidebar },
   props: {
     menuActive: {
       type: Boolean,

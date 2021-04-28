@@ -50,7 +50,7 @@ button:focus {
   height: 30px;
   width: 35px;
   display: block;
-  z-index: 999;
+  z-index: 9999;
   border: 0;
   border-radius: 0;
   background-color: transparent;
