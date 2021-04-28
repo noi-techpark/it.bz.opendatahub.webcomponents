@@ -30,6 +30,7 @@ To run the project, the following prerequisites must be met:
 - Java JDK 8 or higher (e.g. [OpenJDK](https://openjdk.java.net/))
 - Tomcat webserver OR local IDE (eg. [IntelliJ](https://www.jetbrains.com/))
 - PostgreSQL 9.6+
+- SMTP Server
 
 ### Source code
 
@@ -73,9 +74,14 @@ mvn clean test
 
 ## Configuration
 
-Each service application comes with three profiles that can be configured.
+Each service application comes with one or more profiles that can be configured.
 
-> src/main/resources/application[-profile].yml 
+> src/main/resources/application[-profile].properties 
+
+It is recommended to make a copy of ***application-dev.properties*** and name it ***application-local.properties*** as this file
+is already ignored by git. Run the application with profile name "**local**".
+
+**NOTE:** never change the deployment profile configuration unless you know what you are doing!
 
 You will have to configure the 'datasource' property for each application.
 
@@ -118,6 +124,26 @@ application.deliveryBaseUrl
 ```
 url where the frontend can reach the delivery service to load dist files
 
+```
+application.previewBaseUrl
+```
+url where api exposed the preview page eg: http://api.wcs/preview
+
+```
+application.google.lighthouse.api-key
+```
+api key for google lighthouse to fetch performance metrics. can be obtained here: https://developers.google.com/speed/docs/insights/v5/get-started
+
+```
+application.mailer.*
+```
+all these settings are required for the mailer to work
+
+```
+keycloak.*
+```
+all these settings are required for authentication to work
+
 ## Deployment
 
 The project requires a Tomcat server as well as a PostgreSQL 9.6+ database server.
@@ -148,6 +174,8 @@ For an initial setup deploy 'data-service' first to have the database populated 
 
 data-service will expose the main api for webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
 
+**NOTE**: admin routes require authentication with a bearer token. please contact your administrator on how to obtain these
+
 > delivery-service
 
 delivery-service will expose api for retrieving the dist files needed to embed webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
@@ -155,6 +183,10 @@ delivery-service will expose api for retrieving the dist files needed to embed w
 ## General Usage
 
 ### Adding a webcomponent
+
+Webcomponents can either be managed via the admin API or via the origins method using the crawler.
+
+**NOTE:** While it is possible to manipulate webcomponents that are actively imported by the crawler via the api, the changes will get overwritten by the crawler.
 
 Adding a new webcomponent requires an entry in the main json file. This file can be found in the repository configured as "application.repository.origin.url".
 
@@ -321,7 +353,7 @@ The configuration section of the manifest is needed for the configurator to know
 
 ## Docker environment
 
-For local development you can use docker to run a PostgreSQL server.
+For local development you can use docker to run a PostgreSQL server and a Mailhog.
 
 ### Installation
 
@@ -340,6 +372,10 @@ After finished working you can stop the Docker containers:
 ```
 docker-compose stop
 ```
+
+### Keycloak
+
+You can also run your own, local authentication server using docker. While this is not a complete guide, the following link offers a good starting point on how to do so: https://www.keycloak.org/getting-started/getting-started-docker 
 
 ## Information
 
