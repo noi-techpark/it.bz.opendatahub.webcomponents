@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.admin;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import it.bz.opendatahub.webcomponents.common.stereotype.WebAdapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.admin.converter.WebcomponentVersionAdminWebConverter;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.admin.rest.WebcomponentVersionAdminRest;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+@SecurityRequirement(name = "bearerAuth")
 @WebAdapter
 @RestController
 @RequestMapping("/admin/webcomponent/{uuid}")
