@@ -1,7 +1,6 @@
 import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
-import { VuexModule } from 'vuex-module-decorators';
 import VueI18n from 'vue-i18n';
 import { WebcomponentModel } from '../../src/domain/model/WebcomponentModel';
 import { WebcomponentEntryModel } from '../../src/domain/model/WebcomponentEntryModel';
@@ -52,7 +51,7 @@ describe('WCLatest', () => {
 
     store.registerModule(
       'webcomponent-list',
-      new VuexModule({ namespaced: true, getters, actions }),
+      { namespaced: true, getters, actions },
       {}
     );
   });

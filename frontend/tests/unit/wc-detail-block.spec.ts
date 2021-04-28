@@ -1,7 +1,6 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
-import { VuexModule } from 'vuex-module-decorators';
 import VueI18n from 'vue-i18n';
 import { WebcomponentModel } from '../../src/domain/model/WebcomponentModel';
 import WcDetailBlock from '~/components/webcomponent/WcDetailBlock.vue';
@@ -49,7 +48,7 @@ describe('WCDetailBloc', () => {
 
     store.registerModule(
       'webcomponentStore',
-      new VuexModule({ namespaced: true, getters }),
+      { namespaced: true, getters },
       {}
     );
   });
