@@ -200,6 +200,7 @@
 import Vue from 'vue';
 import VueRecaptcha from 'vue-recaptcha';
 import { ContactFormRequest } from '../../domain/request/ContactFormRequest';
+
 export default Vue.extend({
   components: {
     VueRecaptcha,

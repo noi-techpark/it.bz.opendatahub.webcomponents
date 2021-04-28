@@ -54,6 +54,7 @@
 
 <script>
 import BannerSlide from '~/components/banner-slide';
+
 export default {
   name: 'Banner',
   components: { BannerSlide },

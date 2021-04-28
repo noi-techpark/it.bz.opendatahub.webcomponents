@@ -1,6 +1,6 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex';
+import { ActionTree, GetterTree, MutationTree } from 'vuex';
 import { WebcomponentEntryModel } from '../domain/model/WebcomponentEntryModel';
-import { Page, PageRequest } from '../domain/repository/PagingAndSorting';
+import { Page } from '../domain/repository/PagingAndSorting';
 import { $api } from '~/utils/api-accessor';
 
 export const state = () => ({

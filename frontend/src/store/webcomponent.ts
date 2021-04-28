@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex';
+import { ActionTree, GetterTree, MutationTree } from 'vuex';
 import { WebcomponentModel } from '../domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '../domain/model/WebcomponentConfigurationModel';
 import { $api } from '~/utils/api-accessor';

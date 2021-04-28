@@ -84,6 +84,7 @@
 <script>
 import Burger from '~/components/menu/burger';
 import NavMenu from '~/layouts/partials/nav-menu';
+
 export default {
   name: 'Header',
   components: { NavMenu, Burger },

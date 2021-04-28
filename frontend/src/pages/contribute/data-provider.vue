@@ -7,6 +7,7 @@
 <script>
 import dataProvider from './data-provider.md';
 import MarkdownPage from '~/components/markdown-page';
+
 export default {
   name: 'DataProvider',
   components: { MarkdownPage },

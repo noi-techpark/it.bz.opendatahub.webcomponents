@@ -1,4 +1,4 @@
-import { GetterTree, ActionTree, MutationTree } from 'vuex';
+import { ActionTree, GetterTree, MutationTree } from 'vuex';
 import { $api } from '~/utils/api-accessor';
 
 export const state = () => ({

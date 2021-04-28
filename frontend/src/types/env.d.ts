@@ -1,6 +1,3 @@
-import Vue from 'vue';
-import { API } from '~/plugins/api';
-
 declare module 'vue/types/vue' {
   interface Vue {
     $env: any;

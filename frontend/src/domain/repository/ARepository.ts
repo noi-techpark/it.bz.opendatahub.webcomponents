@@ -1,5 +1,5 @@
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
-import { Sort, PageRequest } from './PagingAndSorting';
+import { PageRequest, Sort } from './PagingAndSorting';
 
 export default abstract class ARepository {
   protected basePath: string;

@@ -134,6 +134,7 @@
 </template>
 <script>
 import ContributorItem from '@/components/contributor-item';
+
 export default {
   components: { ContributorItem },
   data() {

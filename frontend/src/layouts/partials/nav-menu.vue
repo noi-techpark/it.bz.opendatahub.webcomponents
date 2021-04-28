@@ -135,6 +135,7 @@
 import FooterInfoMenu from '@/layouts/partials/footer-info-menu';
 import Burger from '~/components/menu/burger';
 import Sidebar from '~/components/menu/sidebar';
+
 export default {
   name: 'NavMenu',
   components: { FooterInfoMenu, Sidebar, Burger },

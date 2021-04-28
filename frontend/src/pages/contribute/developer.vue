@@ -7,6 +7,7 @@
 <script>
 import developer from './developer.md';
 import MarkdownPage from '~/components/markdown-page';
+
 export default {
   name: 'Developer',
   components: { MarkdownPage },
