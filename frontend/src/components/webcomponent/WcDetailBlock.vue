@@ -201,7 +201,7 @@
             preview
           </div>
           <div
-            v-if="component.versions[0].readMe !== null"
+            v-if="hasReadme"
             :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
             class="text-uppercase"
             @click="$emit('set-show-preview', false)"
@@ -243,6 +243,13 @@ export default Vue.extend({
   computed: {
     component(): WebcomponentModel {
       return this.$store.getters['webcomponent/currentWebcomponent'];
+    },
+    hasReadme() {
+      return (
+        this.component.versions &&
+        this.component.versions.length > 0 &&
+        this.component.versions[0].readMe !== null
+      );
     },
     mobileRatingChartColor() {
       if (this.mobileRating < 80) {
