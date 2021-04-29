@@ -29,13 +29,13 @@ export default {
 <style>
 .slide-enter-active,
 .slide-leave-active {
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease;
 }
 
 .slide-enter,
 .slide-leave-to {
   transform: translateX(100%);
-  transition: all 150ms ease-in 0s;
+  transition: all 200ms ease-in 0s;
 }
 
 .sidebar-backdrop {

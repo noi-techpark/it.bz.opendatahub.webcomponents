@@ -1,6 +1,6 @@
 <template>
-  <div class="bottom-bar">
-    <div class="d-flex justify-content-center">
+  <div class="bottom-bar-container d-flex justify-content-center">
+    <div class="bottom-bar d-inline-flex justify-content-center">
       <div
         v-if="selectedView === 'preview'"
         class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"

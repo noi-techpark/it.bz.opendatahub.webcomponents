@@ -3,11 +3,11 @@
     <div v-if="!isHeaderExpanded" class="header-gradient"></div>
     <div
       :class="{ 'detail-block': !isHeaderExpanded }"
-      class="container-fluid extended p-2 pb-0 p-sm-5"
+      class="container-fluid container-extended p-2 pb-0 pt-3 pt-sm-5 pl-4 pr-4"
     >
       <div class="row">
         <div
-          class="col-lg-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-md-0"
+          class="col-lg-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-0"
         >
           <div style="margin-right: 35px">
             <nuxt-link
@@ -34,7 +34,6 @@
           </div>
         </div>
         <div class="col-lg-4 detail-border pl-lg-5">
-          <div class="d-flex flex-row pb-3">Performance:</div>
           <div class="d-flex flex-row pb-3">
             <div class="performance-col">
               <circular-chart
@@ -62,7 +61,7 @@
                 :href="pageSpeedInsightUrl"
                 target="_blank"
                 class="text-underline"
-                >Mobile</a
+                >Mobile perf.</a
               >
             </div>
             <div class="performance-col">
@@ -81,7 +80,7 @@
                 :href="pageSpeedInsightUrl"
                 target="_blank"
                 class="text-underline"
-                >Desktop</a
+                >Desktop perf.</a
               >
             </div>
           </div>
@@ -111,14 +110,8 @@
             </div>
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Category:</div>
-              <div class="d-table-cell font-weight-bold">
-                <div
-                  v-for="tag in component.searchTags"
-                  :key="tag"
-                  class="text-capitalize"
-                >
-                  {{ tag }}
-                </div>
+              <div class="d-table-cell font-weight-bold text-capitalize">
+                {{ searchTags }}
               </div>
             </div>
             <div class="d-table-row">
@@ -175,7 +168,9 @@
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-center flex-row">
+    <div
+      class="container-fluid container-extended d-flex justify-content-center flex-row"
+    >
       <span
         v-if="!isHeaderExpanded"
         class="chevron bottom mr-2 expanding-button"
@@ -187,11 +182,11 @@
         @click="toggleHeaderHeight"
       ></span>
     </div>
-    <div class="container-fluid extended pl-sm-5">
+    <div class="container-fluid container-extended pl-4 pr-4">
       <div
-        class="row col-md-8 d-flex justify-content-start flex-column flex-md-row w-100"
+        class="col-md-8 d-flex justify-content-start flex-column flex-md-row w-100 p-0"
       >
-        <div style="width: 90px"></div>
+        <div style="width: 105px"></div>
         <div class="d-flex flex-row tab-buttons">
           <div
             :class="[showPreview ? 'tab-button' : 'tab-button-disabled']"
@@ -243,6 +238,9 @@ export default Vue.extend({
   computed: {
     component(): WebcomponentModel {
       return this.$store.getters['webcomponent/currentWebcomponent'];
+    },
+    searchTags() {
+      return this.component.searchTags.join(', ');
     },
     hasReadme() {
       return (
@@ -326,7 +324,7 @@ export default Vue.extend({
 
 @media (min-width: 992px) {
   .detail-content-left {
-    padding-left: 105px;
+    padding-left: 120px;
   }
 }
 
@@ -354,10 +352,6 @@ export default Vue.extend({
   width: 33%;
   justify-content: center;
   align-items: center;
-  border-right: 1px solid #cfcfcf;
-}
-
-.performance-col:first-child {
-  border-left: 1px solid #cfcfcf;
+  font-size: 14px;
 }
 </style>

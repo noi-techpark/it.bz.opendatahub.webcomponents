@@ -1,6 +1,10 @@
 <template>
   <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">
-    <b-card no-body class="full-height shadow-sm">
+    <b-card
+      no-body
+      class="full-height shadow-sm overflow-hidden"
+      style="border-radius: 6px"
+    >
       <div class="aspect-box">
         <div
           :style="

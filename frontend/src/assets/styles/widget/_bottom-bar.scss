@@ -1,8 +1,14 @@
-.bottom-bar {
+.bottom-bar-container {
 	bottom: 0;
 	position: fixed;
 	width: 100%;
 	z-index: 2;
+}
+
+.bottom-bar {
+	box-shadow: rgba(0,0,0,0.6) 0 0 5px;
+	border-radius: 6px 6px 0 0;
+	overflow: hidden;
 
 	.bottom-bar-button {
 		width: 240px;
@@ -22,13 +28,8 @@
 		background-color: #9bc320;
 	}
 
-	.bottom-bar-button:first-child {
-		border-radius: 6px 0 0 0;
-		border-left: 1px solid white;
-	}
-
 	.bottom-bar-button:last-child {
-		border-radius: 0 6px 0 0;
+		border-right: none;
 	}
 
 	@media (max-width: 650px) {

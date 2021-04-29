@@ -2,80 +2,15 @@
   <div>
     <div class="bg-light">
       <div class="container container-extended p-4">
-        <div
-          class="d-flex justify-content-between align-items-center pb-2 flex-wrap"
-        >
-          <h1 class="components-title">
-            {{ currentPage.totalElements }} components
-          </h1>
-          <div>
-            <Paginator
-              :current-page="currentPage.number"
-              :total-pages="currentPage.totalPages"
-              @page-select="toPage($event)"
-            />
-          </div>
-          <div class="d-flex flex-row">
-            <div
-              :class="{ disabled: isFirst }"
-              class="btn-circle arrow-left outline mr-2"
-              @click="previousPage()"
-            >
-              <svg
-                id="Ebene_1"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px"
-                y="0px"
-                width="48px"
-                height="45px"
-                viewBox="0 0 48 45"
-                style="enable-background: new 0 0 48 45"
-                xml:space="preserve"
-              >
-                <style type="text/css">
-                  .st0 {
-                    fill: #fff;
-                  }
-                </style>
-                <polygon
-                  class="st0"
-                  points="21.3,1.3 22.7,2.7 4.4,21 47,21 47,23 4.4,23 23.7,42.3 22.3,43.7 0.6,22 "
-                />
-              </svg>
-            </div>
-            <div
-              :class="{ disabled: isLast }"
-              class="btn-circle arrow-right outline"
-              @click="nextPage()"
-            >
-              <svg
-                id="Ebene_1"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px"
-                y="0px"
-                width="48px"
-                height="45px"
-                viewBox="0 0 48 45"
-                style="enable-background: new 0 0 48 45"
-                xml:space="preserve"
-              >
-                <style type="text/css">
-                  .st0 {
-                    fill: #fff;
-                  }
-                </style>
-                <polygon
-                  class="st0"
-                  points="21.3,1.3 22.7,2.7 4.4,21 47,21 47,23 4.4,23 23.7,42.3 22.3,43.7 0.6,22 "
-                />
-              </svg>
-            </div>
-          </div>
-        </div>
+        <paging-row
+          :current-page="currentPage"
+          :is-first="isFirst"
+          :is-last="isLast"
+          class="pb-4"
+          @toPage="toPage"
+          @previousPage="previousPage"
+          @nextPage="nextPage"
+        ></paging-row>
 
         <div v-if="hasContent" id="widget-componentcards" class="row">
           <div
@@ -86,9 +21,17 @@
             <WebcomponentEntryCard :entry="entry" :return-to="returnTo" />
           </div>
         </div>
-        <div v-else class="container text-center h1">
-          Your search came up empty.
+        <div v-else class="container text-center" style="height: 400px">
+          <h1>Your search came up empty.</h1>
         </div>
+        <paging-row
+          :current-page="currentPage"
+          :is-first="isFirst"
+          :is-last="isLast"
+          @toPage="toPage"
+          @previousPage="previousPage"
+          @nextPage="nextPage"
+        ></paging-row>
       </div>
     </div>
   </div>
@@ -97,12 +40,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import { PageRequest } from '../domain/repository/PagingAndSorting';
-import Paginator from '~/components/paginator.vue';
+import PagingRow from './paging-row.vue';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default Vue.extend({
   components: {
-    Paginator,
+    PagingRow,
     WebcomponentEntryCard,
   },
   props: {

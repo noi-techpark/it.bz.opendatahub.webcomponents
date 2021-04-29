@@ -7,7 +7,9 @@
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
     <div v-if="showPreview && hasAnyVersion">
-      <div class="container-fluid extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3">
+      <div
+        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3"
+      >
         <b-alert
           :show="!isLatestVersionActive"
           variant="danger"
@@ -16,10 +18,11 @@
           webcomponent.</b-alert
         >
       </div>
-      <div class="container-fluid extended pb-4 p-2 pr-sm-5 pl-sm-5 pt-sm-2">
+      <div
+        class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2"
+      >
         <div class="row">
           <div class="col-lg-8 detail-content-left">
-            <div class="text-uppercase font-weight-bold mb-2">preview</div>
             <b-card id="widget-preview" class="full-height">
               <b-card-text id="twrap" class="text-center">
                 <iframe
@@ -33,7 +36,7 @@
           </div>
           <b-tabs
             pills
-            class="config-tabs col-lg-4 pt-5 pt-lg-0 detail-content-right"
+            class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right"
           >
             <b-tab id="first-tab" title="EASY CONFIGURATION" active>
               <div v-show="!editmode">

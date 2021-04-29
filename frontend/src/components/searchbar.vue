@@ -34,6 +34,7 @@
                   max-height: 500px;
                   overflow: scroll;
                 "
+                class="shadow"
               >
                 <div class="m-4">
                   <b-form-checkbox-group
