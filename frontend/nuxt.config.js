@@ -30,7 +30,7 @@ module.exports = {
   css: [
     '@/assets/styles/styles.scss',
     'vue-loading-overlay/dist/vue-loading.css',
-    '@fortawesome/fontawesome-svg-core/styles.css',
+    'vue-plyr/dist/vue-plyr.css',
   ],
 
   bootstrapVue: {
@@ -43,7 +43,6 @@ module.exports = {
    */
   plugins: [
     '~/plugins/api-accessor-plugin.ts',
-    '~/plugins/fontawesome.js',
     '~/plugins/tooltip.js',
     '~/plugins/env.ts',
     '~/plugins/vue-loading-overlay.js',
