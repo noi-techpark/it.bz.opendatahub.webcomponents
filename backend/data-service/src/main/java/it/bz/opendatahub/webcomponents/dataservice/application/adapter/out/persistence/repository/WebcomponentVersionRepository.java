@@ -14,6 +14,9 @@ public interface WebcomponentVersionRepository extends JpaRepository<Webcomponen
     @Query(value = "SELECT * FROM webcomponent_version AS v WHERE v.webcomponent_uuid=?1 AND v.deleted=false ORDER BY v.release_timestamp DESC LIMIT 1", nativeQuery = true)
     Optional<WebcomponentVersionModel> findLatestVersionForWebcomponent(String webcomponentId);
 
+    @Query(value = "SELECT * FROM webcomponent_version AS v WHERE v.webcomponent_uuid IN (:webcomponentIds) AND v.version_tag IN (SELECT version_tag FROM webcomponent_version as v2 WHERE v2.webcomponent_uuid=v.webcomponent_uuid AND v2.deleted=false ORDER BY v2.release_timestamp DESC LIMIT 1) AND v.deleted=false ORDER BY v.release_timestamp DESC", nativeQuery = true)
+    List<WebcomponentVersionModel> listAllVersionsForEachWebcomponentLatestFirst(List<String> webcomponentIds);
+
     @Query("SELECT v FROM WebcomponentVersionModel v WHERE v.webcomponentUuid=?1 AND v.deleted=false ORDER BY v.versionTag DESC")
     List<WebcomponentVersionModel> findAllVersionsForWebcomponent(String webcomponentId);
 

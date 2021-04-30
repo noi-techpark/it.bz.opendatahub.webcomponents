@@ -2,6 +2,7 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web;
 
 import it.bz.opendatahub.webcomponents.common.converter.ConverterUtils;
 import it.bz.opendatahub.webcomponents.common.stereotype.WebAdapter;
+import it.bz.opendatahub.webcomponents.common.util.ThumbnailUtility;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.converter.WebcomponentEntryWebConverter;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.converter.WebcomponentWebConverter;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.rest.WebcomponentConfigurationRest;
@@ -37,6 +38,7 @@ import sun.net.www.http.HttpClient;
 import javax.net.ssl.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -47,7 +49,9 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebAdapter
 @RestController
@@ -60,6 +64,9 @@ public class WebcomponentController {
     private final WebcomponentWebConverter webcomponentWebConverter;
     private final WebcomponentEntryWebConverter webcomponentEntryWebConverter;
     private final CreateCodingSandboxUseCase createCodingSandboxUseCase;
+
+	private final Map<String, byte[]> thumbCache = new HashMap<>();
+	private final Map<String, Long> thumbCacheTimer = new HashMap<>();
 
 	public WebcomponentController(GetWebcomponentUseCase getWebcomponentUseCase, ListWebcomponentUseCase listWebcomponentUseCase, GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase, GetWebcomponentLogoUseCase getWebcomponentLogoUseCase, WebcomponentWebConverter webcomponentWebConverter, WebcomponentEntryWebConverter webcomponentEntryWebConverter, CreateCodingSandboxUseCase createCodingSandboxUseCase) {
 		this.getWebcomponentUseCase = getWebcomponentUseCase;
@@ -124,6 +131,34 @@ public class WebcomponentController {
     @GetMapping(value = "/{uuid}/logo", produces = "image/png") //TODO: actually, the mimetype is never checked. might also be gif or webp
     public byte[] getLogoImage(@PathVariable String uuid) {
         return getWebcomponentLogoUseCase.getLogoImage(uuid);
+	}
+
+	@GetMapping(value = "/{uuid}/logo/thumb", produces = "image/jpg")
+	public byte[] getLogoImageThumb(@PathVariable String uuid) throws IOException {
+		if(thumbCacheTimer.containsKey(uuid) && thumbCacheTimer.get(uuid) < System.currentTimeMillis()) {
+			thumbCacheTimer.remove(uuid);
+			thumbCache.remove(uuid);
+		}
+
+		if(thumbCache.containsKey(uuid)) {
+			return thumbCache.get(uuid);
+		}
+
+		val fullLogoData = getLogoImage(uuid);
+
+		val image = ThumbnailUtility.createThumbnailForImage(new ByteArrayInputStream(fullLogoData), 400, 250);
+
+		val data = ThumbnailUtility.toJpg(image).toByteArray();
+
+		val max = 100;
+		val min = 10;
+		val range = max - min + 1;
+		val rand = (int)(Math.random() * range) + min;
+
+		thumbCacheTimer.put(uuid, System.currentTimeMillis() + 60 * 60 * 1000L + rand * 1000L);
+		thumbCache.put(uuid, data);
+
+		return data;
 	}
 
 	private WebcomponentConfigurationRest toRest(WebcomponentConfiguration domain) {

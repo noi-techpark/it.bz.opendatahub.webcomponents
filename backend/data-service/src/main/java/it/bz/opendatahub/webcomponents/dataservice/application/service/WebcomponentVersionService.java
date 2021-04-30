@@ -8,6 +8,7 @@ import lombok.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WebcomponentVersionService implements GetWebcomponentVersionUseCase, ListWebcomponentVersionUseCase {
@@ -31,4 +32,9 @@ public class WebcomponentVersionService implements GetWebcomponentVersionUseCase
     public WebcomponentVersion getSpecificVersionOfWebcomponent(@NonNull String webcomponentUuid, @NonNull String versionTag) {
         return readWebcomponentVersionPort.getSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
     }
+
+	@Override
+	public Map<String, WebcomponentVersion> getLatestVersionOfEachWebcomponent(@NonNull List<String> webcomponentIds) {
+		return readWebcomponentVersionPort.getLatestVersionOfEachWebcomponent(webcomponentIds);
+	}
 }

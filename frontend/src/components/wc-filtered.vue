@@ -101,7 +101,7 @@ export default Vue.extend({
       this.timer = setTimeout(this.update, 350);
     },
   },
-  created() {
+  mounted() {
     this.loadPage(this.currentPageNumber, this.pageSize);
   },
   methods: {

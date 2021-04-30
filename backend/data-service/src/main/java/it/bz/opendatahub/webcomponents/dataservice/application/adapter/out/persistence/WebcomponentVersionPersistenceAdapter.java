@@ -14,7 +14,9 @@ import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundExcept
 import lombok.NonNull;
 import lombok.val;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @PersistenceAdapter
@@ -48,7 +50,27 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
         throw new NotFoundException("no version found");
     }
 
-    @Override
+	@Override
+	public Map<String, WebcomponentVersion> getLatestVersionOfEachWebcomponent(@NonNull List<String> webcomponentIds) {
+		if(webcomponentIds.isEmpty()) {
+			return new HashMap<>();
+		}
+
+		val versions = webcomponentVersionRepository.listAllVersionsForEachWebcomponentLatestFirst(webcomponentIds);
+		val result = new HashMap<String, WebcomponentVersion>();
+		for(val entry : versions) {
+			if(!result.containsKey(entry.getWebcomponentUuid())) {
+				result.put(
+					entry.getWebcomponentUuid(),
+					webcomponentVersionConverter.convert(entry)
+				);
+			}
+		}
+
+		return result;
+	}
+
+	@Override
     public WebcomponentVersion getSpecificVersionOfWebcomponent(@NonNull String webcomponentUuid, @NonNull String versionTag) {
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findSpecificVersionOfWebcomponent(webcomponentUuid, versionTag);
 

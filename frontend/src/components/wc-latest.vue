@@ -63,7 +63,14 @@ export default Vue.extend({
     };
   },
   computed: {
+    dummies() {
+      return [{}, {}, {}, {}, {}, {}, {}, {}];
+    },
     visibleWebcomponents() {
+      if (this.$store.getters['webcomponent-list/getLoadedPage'].empty) {
+        return this.dummies;
+      }
+
       return this.$store.getters[
         'webcomponent-list/getLoadedPage'
       ].content.filter((item, index) => {
@@ -71,7 +78,7 @@ export default Vue.extend({
       });
     },
   },
-  created() {
+  mounted() {
     this.$store.dispatch('webcomponent-list/loadPage', {
       pageRequest: new PageRequest(16, 0),
       filter: {

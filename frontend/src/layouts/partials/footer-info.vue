@@ -10,7 +10,7 @@
       <div class="d-flex justify-content-between mt-5">
         <div class="">
           <div class="">
-            ℗ 2021 Open Data Hub,
+            &copy; {{ currentYear }} Open Data Hub,
             <a href="mailto:info@opendatahub.bz.it">info@opendatahub.bz.it</a>
           </div>
           <a
@@ -40,6 +40,11 @@ export default {
     showScrollButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  computed: {
+    currentYear() {
+      return new Date().getFullYear();
     },
   },
 };

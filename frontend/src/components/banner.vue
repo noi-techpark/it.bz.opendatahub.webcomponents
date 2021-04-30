@@ -13,7 +13,7 @@
     >
       <div class="carousel-background"></div>
       <banner-slide
-        img-url="https://picsum.photos/1024/480/?image=52"
+        img-url="/banner/52-1024x480.jpg"
         title="Image"
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
@@ -23,7 +23,7 @@
       ></banner-slide>
 
       <banner-slide
-        img-url="https://picsum.photos/1024/480/?image=54"
+        img-url="/banner/54-1024x480.jpg"
         title="Image"
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
@@ -33,7 +33,7 @@
       ></banner-slide>
 
       <banner-slide
-        img-url="https://picsum.photos/1024/480/?image=58"
+        img-url="/banner/55-1024x480.jpg"
         title="Image"
         subtitle=""
         path="/contact"
@@ -41,7 +41,7 @@
 
       <banner-slide
         link-text="learn more"
-        img-url="https://picsum.photos/1024/480/?image=55"
+        img-url="/banner/58-1024x480.jpg"
         title="Image"
         subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit.Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut

@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.service;
 
+import it.bz.opendatahub.webcomponents.common.util.ThumbnailUtility;
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.sandbox.CodeSandboxCodingSandboxAdapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.Webcomponent;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateCodingSandboxUseCase;
@@ -12,14 +13,19 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWebc
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadWorkspacePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class WebcomponentService implements GetWebcomponentUseCase, ListWebcomponentUseCase, GetWebcomponentLogoUseCase, CreateCodingSandboxUseCase {

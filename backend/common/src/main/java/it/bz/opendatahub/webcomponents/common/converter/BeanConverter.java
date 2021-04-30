@@ -111,11 +111,7 @@ public abstract class BeanConverter<S, T> {
 			return null;
 		}
 
-		val resList = new ArrayList<T>();
-
-		for(S source : sources) {
-			resList.add(convert(source));
-		}
+		val resList = convert(sources.getContent());
 
 		return new PageImpl<>(
 			resList,

@@ -34,7 +34,7 @@ export default Vue.extend({
   computed: {
     ...mapGetters('loader', ['isLoading']),
   },
-  created() {
+  mounted() {
     this.$store.dispatch('searchtags/loadSearchtags');
   },
 });

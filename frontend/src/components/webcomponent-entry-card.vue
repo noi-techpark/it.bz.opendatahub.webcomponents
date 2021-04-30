@@ -28,7 +28,7 @@
 
       <div slot="footer" class="row font-smaller card-short-info">
         <div class="col-6">
-          <div>
+          <div v-if="entry.authors">
             Author:
             <span class="font-weight-bold">
               <span v-if="entry.authors.length > 0">{{
@@ -88,7 +88,9 @@ export default {
   computed: {
     getLogo() {
       if (this.entry.image) {
-        return this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo';
+        return (
+          this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo/thumb'
+        );
       }
 
       return '/component_placeholder.png';

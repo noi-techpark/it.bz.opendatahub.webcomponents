@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex flex-column align-items-center">
     <div class="circle-icon">
-      <img :src="imageSrc" width="70" height="70" />
+      <b-img-lazy :src="imageSrc" width="70" height="70" />
     </div>
     <div class="text-uppercase font-weight-bold quote-title font-larger">
       {{ title }}

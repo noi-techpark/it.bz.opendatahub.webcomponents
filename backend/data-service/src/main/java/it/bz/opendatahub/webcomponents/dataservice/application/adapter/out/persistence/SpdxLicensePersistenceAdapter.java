@@ -8,7 +8,11 @@ import it.bz.opendatahub.webcomponents.dataservice.application.domain.SpdxLicens
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.ReadSpdxLicensePort;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
+import lombok.val;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @PersistenceAdapter
@@ -30,5 +34,26 @@ public class SpdxLicensePersistenceAdapter implements ReadSpdxLicensePort {
 		}
 
 		throw new NotFoundException("license '"+id+"' not found");
+	}
+
+	@Override
+	public Map<String, SpdxLicense> listByIds(@NonNull List<String> licenseIds) {
+		if(licenseIds.isEmpty()) {
+			return new HashMap<>();
+		}
+
+		val licenses = spdxLicenseConverter.convert(
+			spdxLicenseRepository.listByIds(licenseIds)
+		);
+
+		val result = new HashMap<String, SpdxLicense>();
+		for(val entry : licenses) {
+			result.put(
+				entry.getLicenseId(),
+				entry
+			);
+		}
+
+		return result;
 	}
 }
