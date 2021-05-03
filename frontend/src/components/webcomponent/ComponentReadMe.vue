@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid extended p-2 pb-0 p-sm-5">
+  <div class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2">
     <div class="row">
       <div class="col-md-8 readme">
         <h2>#README</h2>
@@ -48,7 +48,7 @@ export default {
 </script>
 <style lang="scss">
 .readme {
-  padding-left: 105px;
+  padding-left: 120px;
 }
 
 @media (max-width: 992px) {
