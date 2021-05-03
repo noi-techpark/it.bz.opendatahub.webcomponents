@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="bg-light">
-      <div class="container contact p-4 font-larger">
+      <div class="container contact p-4 font-large">
         <h1>
           #ContactOPENDATAHUB #becomeamember #DataProvider #Data Consumer
           #WebComponent User #Contributer
@@ -29,6 +29,7 @@
               <b-form-group
                 id="input-group-category"
                 label="Select category"
+                class="font-smaller"
                 label-for="input-category"
               >
                 <b-form-select
@@ -41,7 +42,7 @@
                   id="input-group-firstname"
                   label="Firstname"
                   label-for="input-firstname"
-                  class="pr-1 col-6"
+                  class="pr-1 col-6 font-smaller"
                 >
                   <b-form-input
                     id="input-firstname"
@@ -55,7 +56,7 @@
                   id="input-group-lastname"
                   label="Lastname"
                   label-for="input-lastname"
-                  class="col-6"
+                  class="col-6 font-smaller"
                 >
                   <b-form-input
                     id="input-lastname"
@@ -71,7 +72,7 @@
                   id="input-group-email"
                   label="E-mail"
                   label-for="input-email"
-                  class="pr-1 col-6"
+                  class="pr-1 col-6 font-smaller"
                 >
                   <b-form-input
                     id="input-email"
@@ -85,7 +86,7 @@
                   id="input-group-telephone"
                   label="Tel"
                   label-for="input-telephone"
-                  class="col-6"
+                  class="col-6 font-smaller"
                 >
                   <b-form-input
                     id="input-telephone"
@@ -101,6 +102,7 @@
                 id="input-group-textarea"
                 label="Message"
                 label-for="textarea"
+                class="font-smaller"
                 style="height: 100%"
               >
                 <b-form-textarea
@@ -280,18 +282,6 @@ export default Vue.extend({
 });
 </script>
 <style>
-@media (min-width: 1400px) {
-  .contact {
-    max-width: 1300px;
-  }
-}
-
-@media (min-width: 1650px) {
-  .contact {
-    max-width: 1500px;
-  }
-}
-
 .form-button {
   width: 280px;
 }

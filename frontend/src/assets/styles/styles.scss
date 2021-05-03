@@ -6,6 +6,18 @@
 	}
 }
 
+@media (min-width: 1400px) {
+	.container {
+		max-width: 1300px !important;
+	}
+}
+
+@media (min-width: 1650px) {
+	.container {
+		max-width: 1500px !important;
+	}
+}
+
 .text-muted {
 	color: $gray-94 !important;
 }
