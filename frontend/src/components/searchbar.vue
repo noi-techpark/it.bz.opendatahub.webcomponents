@@ -157,9 +157,6 @@ export default {
       return this.$store.getters['searchtags/getSearchtags'];
     },
   },
-  mounted() {
-    this.focusInput();
-  },
   methods: {
     focusInput() {
       this.$refs.searchTermInput.focus();

@@ -2,15 +2,23 @@
   <div>
     <div class="bg-light">
       <div class="container container-extended p-4">
-        <div class="float-right font-weight-bold d-flex align-items-center">
-          1
-          <div
-            class="m-2"
-            style="width: 58px; height: 1px; background-color: #707070"
-          ></div>
-          {{ visibleWebcomponents.length }}
+        <div class="d-flex justify-content-between align-items-center">
+          <h1>Newest</h1>
+          <div class="font-weight-bold d-flex align-items-center">
+            1
+            <div
+              class="m-2"
+              style="width: 58px; height: 1px; background-color: #707070"
+            ></div>
+            {{ visibleWebcomponents.length }}
+            <nuxt-link
+              :to="localePath({ name: 'search-tags', params: { tags: 'any' } })"
+              class="d-flex flex-column text-decoration-none pl-3"
+            >
+              <span data-testid="show-all">show all </span>
+            </nuxt-link>
+          </div>
         </div>
-        <h1>Newest</h1>
 
         <div id="widget-componentcards" class="row">
           <div
