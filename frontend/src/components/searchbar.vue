@@ -17,7 +17,12 @@
                 class="full-height d-flex justify-content-between font-large pb-2 align-items-center"
                 @click="searchTagsVisible = !searchTagsVisible"
               >
-                <span class="filter-text">Filter by categories</span>
+                <span v-if="userSelectedTags.length === 0" class="filter-text"
+                  >Filter by categories</span
+                >
+                <span v-else class="filter-text-light text-capitalize">{{
+                  userSelectedTags.join(', ')
+                }}</span>
                 <span
                   class="chevron semi-bold mr-2"
                   :class="[searchTagsVisible ? 'top' : 'bottom']"
