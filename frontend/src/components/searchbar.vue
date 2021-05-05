@@ -37,7 +37,7 @@
                   border-bottom: 1px solid #e8ecf1;
                   border-right: 1px solid #e8ecf1;
                   max-height: 500px;
-                  overflow: scroll;
+                  overflow-y: scroll;
                 "
                 class="shadow"
               >
