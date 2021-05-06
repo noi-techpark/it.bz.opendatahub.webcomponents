@@ -61,8 +61,8 @@
 
 @media (max-width: 576px) {
 	.btn-circle {
-		height: 35px;
-		width: 35px;
+		height: 35px !important;
+		width: 35px !important;
 
 		&.arrow-right {
 			svg {
@@ -72,13 +72,34 @@
 
 		&.arrow-left {
 			svg {
-				transform: scale(0.6);
+				transform: scale(0.6) !important;
 			}
 		}
 	}
 
 	.btn-circle-footer {
+		position: fixed;
 		height: 70px;
 		width: 70px;
+		bottom: 20px;
+		right: 20px;
+		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+	}
+
+	.btn-circle-footer-detail {
+		bottom: 60px;
+	}
+
+	.return-button {
+		height: 35px;
+		width: 35px;
+	}
+
+	.return-icon {
+		transform: scale(0.6) !important;
+	}
+
+	.return-icon-up {
+		transform: scale(0.6) rotate(90deg) !important;
 	}
 }

@@ -6,26 +6,6 @@
         All companies, institutions and experts that are cooperating in this
         project.
       </p>
-      <p>
-        <a
-          v-scroll-to="{ el: '#partners', offset: -100 }"
-          href="#"
-          class="button"
-          >Partners</a
-        >
-        <a
-          v-scroll-to="{ el: '#publishers', offset: -100 }"
-          href="#"
-          class="button"
-          >Publishers</a
-        >
-        <a
-          v-scroll-to="{ el: '#contributors', offset: -100 }"
-          href="#"
-          class="button"
-          >Contributors</a
-        >
-      </p>
       <h2 id="partners">Partners</h2>
       <p>
         Partners worked together to establish the Open Data Hub Web Component

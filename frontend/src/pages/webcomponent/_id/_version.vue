@@ -494,4 +494,8 @@ export default {
     min-width: 100%;
   }
 }
+
+footer .bg-light {
+  padding-bottom: 30px;
+}
 </style>

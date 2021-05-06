@@ -3,7 +3,10 @@
     <div class="container container-extended p-5">
       <div id="widget-imprint" class="text-center text-uppercase font-smaller">
         <nuxt-link to="/imprint" class="text-muted">imprint</nuxt-link>
-        <a href="https://noi.bz.it/en/privacy-cookie-policy" class="text-muted"
+        <a
+          href="https://noi.bz.it/en/privacy-cookie-policy"
+          class="text-muted"
+          target="_blank"
           >PRIVACY & COOKIE POLICY</a
         >
       </div>
@@ -21,13 +24,14 @@
           >
         </div>
         <div>
-          <div
+          <a
             v-if="showScrollButton"
             v-scroll-to="'#__nuxt'"
-            class="btn-circle btn-circle-footer arrow-up filled"
+            class="btn-circle arrow-up filled btn-circle-footer"
+            :class="{ 'btn-circle-footer-detail': isWebcomponentRoute }"
           >
-            <img src="/icons/ic_arrow.svg" />
-          </div>
+            <img src="/icons/ic_arrow.svg" class="return-icon-up" />
+          </a>
         </div>
       </div>
     </div>
@@ -45,6 +49,9 @@ export default {
   computed: {
     currentYear() {
       return new Date().getFullYear();
+    },
+    isWebcomponentRoute() {
+      return this.$route.path.includes('webcomponent');
     },
   },
 };

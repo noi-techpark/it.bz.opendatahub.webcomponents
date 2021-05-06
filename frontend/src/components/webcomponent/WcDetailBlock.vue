@@ -9,7 +9,10 @@
         <div
           class="col-lg-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-0"
         >
-          <div style="margin-right: 35px">
+          <div
+            style="margin-right: 35px; min-width: 70px; min-height: 35px"
+            class="mb-3"
+          >
             <nuxt-link
               :to="returnLink"
               class="btn-circle arrow-left filled-dark return-button"
@@ -309,19 +312,6 @@ export default Vue.extend({
 });
 </script>
 <style lang="scss">
-@media (max-width: 576px) {
-  .return-button {
-    height: 35px;
-    width: 35px;
-  }
-
-  .return-icon {
-    height: 15px;
-    width: 15px;
-    transform: scale(0.6);
-  }
-}
-
 @media (min-width: 992px) {
   .detail-content-left {
     padding-left: 120px;

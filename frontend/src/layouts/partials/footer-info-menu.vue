@@ -3,7 +3,10 @@
     <div class="container container-extended p-5">
       <div class="d-flex flex-column text-uppercase">
         <nuxt-link to="/imprint" class="text-muted">imprint</nuxt-link>
-        <a href="https://noi.bz.it/en/privacy-cookie-policy" class="text-muted"
+        <a
+          href="https://noi.bz.it/en/privacy-cookie-policy"
+          class="text-muted"
+          target="_blank"
           >PRIVACY & COOKIE POLICY</a
         >
       </div>
