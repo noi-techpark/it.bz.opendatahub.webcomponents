@@ -1,17 +1,10 @@
 <template>
-  <div class="bg-light">
-    <div class="container p-4 mb-5 font-larger">
+  <div class="bg-light pb-5">
+    <div class="container p-4 font-larger">
       <h1>Community</h1>
       <p>
         All companies, institutions and experts that are cooperating in this
         project.
-      </p>
-      <p>
-        <a v-scroll-to="'#partners'" href="#" class="button">Partners</a>
-        <a v-scroll-to="'#publishers'" href="#" class="button">Publishers</a>
-        <a v-scroll-to="'#contributors'" href="#" class="button"
-          >Contributors</a
-        >
       </p>
       <h2 id="partners">Partners</h2>
       <p>
@@ -21,6 +14,9 @@
       <div class="logo_container">
         <a class="img_container" href="https://noi.bz.it" target="_blank">
           <img src="/NOI-logo.png" />
+        </a>
+        <a class="img_container" href="https://konverto.eu" target="_blank">
+          <img src="/KONVERTO_Logo.png" width="350" />
         </a>
         <a
           class="img_container"

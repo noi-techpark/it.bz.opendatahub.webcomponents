@@ -1,0 +1,66 @@
+@import 'src/assets/styles/bootstrap/bootstrap.scss';
+
+@media (max-width: 576px) {
+	.nav-content {
+		padding: 16px;
+	}
+
+	#logo {
+		height: 40px;
+	}
+}
+@media (max-width: 747px) {
+	.nav-bar {
+		display: none;
+	}
+}
+
+@media (min-width: 747px) {
+	.mobile-only {
+		display: none;
+	}
+}
+
+@media (max-width: 830px) {
+	.home-menu-item {
+		display: none;
+	}
+}
+
+@media (min-width: 576px) {
+	.nav-content {
+		padding: 5rem !important;
+	}
+}
+
+.nav-item {
+	font-size: 14px;
+}
+
+.side-menu-item-closed {
+	margin-bottom: 30px;
+}
+
+.side-menu-item-open {
+	margin-bottom: 10px;
+}
+
+.side-menu-item {
+	cursor: pointer;
+}
+
+.side-menu-item:hover {
+	color: black;
+}
+
+a:hover {
+	text-decoration: none !important;
+}
+
+.nav-content {
+	width: 100%;
+}
+
+.dropdown-toggle::after {
+	display: none;
+}

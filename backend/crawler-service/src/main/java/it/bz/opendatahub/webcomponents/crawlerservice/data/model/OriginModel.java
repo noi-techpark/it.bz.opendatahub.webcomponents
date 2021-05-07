@@ -1,6 +1,5 @@
 package it.bz.opendatahub.webcomponents.crawlerservice.data.model;
 
-import it.bz.opendatahub.webcomponents.common.data.Model;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +11,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @Table(name = "origin")
-public class OriginModel implements Model {
+public class OriginModel {
     @Id
     private String uuid;
 

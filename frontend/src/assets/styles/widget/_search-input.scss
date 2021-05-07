@@ -1,94 +1,149 @@
 #widget-tags {
-  &.active {
-    color: $secondary !important;
-    border-bottom: 2px solid $secondary !important;
-  }
+	border-bottom: 2px solid #000;
+
+	&.active {
+		color: $secondary !important;
+		border-bottom: 2px solid $secondary !important;
+	}
+
+	.filter-text {
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.filter-text-light {
+		font-size: 24px;
+		white-space:nowrap;
+		overflow:hidden;
+		text-overflow: ellipsis;
+	}
+	@media (max-width: 576px) {
+		border-bottom: 1px solid #000;
+
+		&.active {
+			border-bottom: 1px solid $secondary !important;
+		}
+
+		.filter-text {
+			font-size: 14px;
+			font-weight: normal;
+		}
+
+		.filter-text-light {
+			font-size: 14px;
+		}
+	}
 }
 
 #widget-search {
-  &:focus-within,
-  &.active {
-    border-bottom: 2px solid $secondary !important;
+	border-bottom: 2px solid #000;
 
-    .search-image .a,
-    .search-image .b {
-      stroke: $secondary !important;
-    }
-  }
+	.search-image .a,
+	.search-image .b {
+		stroke: $body-color !important;
+	}
 
-  .search-image .a,
-  .search-image .b {
-    stroke: $body-color !important;
-  }
+	&:focus-within,
+	&.active {
+		border-bottom: 2px solid $secondary !important;
 
-  .search-image {
-    cursor: pointer;
-  }
+		.search-image .a,
+		.search-image .b {
+			stroke: $secondary !important;
+		}
+	}
 
-  &.active {
-    .search-input {
-      input {
-        color: $secondary;
+	.search-image {
+		cursor: pointer;
+	}
 
-        &::placeholder {
-          /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: $secondary;
-          opacity: 1; /* Firefox */
-        }
+	.search-input {
+		input {
+			background-color: inherit;
+			border: none;
 
-        &:-ms-input-placeholder {
-          /* Internet Explorer 10-11 */
-          color: $secondary;
-        }
+			&::placeholder {
+				/* Chrome, Firefox, Opera, Safari 10.1+ */
+				color: $primary;
+				opacity: 1; /* Firefox */
+			}
 
-        &::-ms-input-placeholder {
-          /* Microsoft Edge */
-          color: $secondary;
-        }
-      }
-    }
-  }
+			&::-ms-input-placeholder {
+				/* Microsoft Edge */
+				color: $primary;
+			}
 
-  .search-input {
-    input {
-      background-color: inherit;
-      border: none;
+			&:-ms-input-placeholder {
+				/* Internet Explorer 10-11 */
+				color: $primary;
+			}
 
-      &::placeholder {
-        /* Chrome, Firefox, Opera, Safari 10.1+ */
-        color: $primary;
-        opacity: 1; /* Firefox */
-      }
+			&:focus {
+				color: $secondary;
 
-      &:-ms-input-placeholder {
-        /* Internet Explorer 10-11 */
-        color: $primary;
-      }
+				&::placeholder {
+					/* Chrome, Firefox, Opera, Safari 10.1+ */
+					color: $secondary;
+					opacity: 1; /* Firefox */
+				}
 
-      &::-ms-input-placeholder {
-        /* Microsoft Edge */
-        color: $primary;
-      }
+				&::-ms-input-placeholder {
+					/* Microsoft Edge */
+					color: $secondary;
+				}
 
-      &:focus {
-        color: $secondary;
+				&:-ms-input-placeholder {
+					/* Internet Explorer 10-11 */
+					color: $secondary;
+				}
+			}
+		}
+	}
 
-        &::placeholder {
-          /* Chrome, Firefox, Opera, Safari 10.1+ */
-          color: $secondary;
-          opacity: 1; /* Firefox */
-        }
+	&.active {
+		.search-input {
+			/* stylelint-disable-next-line */
+			input {
+				color: $secondary;
 
-        &:-ms-input-placeholder {
-          /* Internet Explorer 10-11 */
-          color: $secondary;
-        }
+				&::placeholder {
+					/* Chrome, Firefox, Opera, Safari 10.1+ */
+					color: $secondary;
+					opacity: 1; /* Firefox */
+				}
 
-        &::-ms-input-placeholder {
-          /* Microsoft Edge */
-          color: $secondary;
-        }
-      }
-    }
-  }
+				/* stylelint-disable-next-line */
+				&::-ms-input-placeholder {
+					/* Microsoft Edge */
+					color: $secondary;
+				}
+
+				&:-ms-input-placeholder {
+					/* Internet Explorer 10-11 */
+					color: $secondary;
+				}
+
+				font-weight: normal !important;
+			}
+		}
+	}
+
+	.search-text {
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	@media (max-width: 576px) {
+		border-bottom: 1px solid #000;
+
+		&:focus-within,
+		&.active {
+			border-bottom: 1px solid $secondary !important;
+		}
+
+		.search-text {
+			font-size: 14px;
+			font-weight: normal;
+		}
+	}
 }

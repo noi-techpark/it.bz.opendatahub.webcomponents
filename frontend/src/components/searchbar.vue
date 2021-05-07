@@ -3,35 +3,51 @@
     <div>
       <div class="container container-extended p-4 pb-0">
         <div class="row">
-          <div class="col-sm-6">
+          <div class="col-6">
             <div class="">
               <div
                 id="widget-tags"
-                v-b-toggle.tag-collapse
                 :class="{
                   active:
                     userSelectedTags &&
                     userSelectedTags.length > 0 &&
-                    userSelectedTags[0] !== 'any'
+                    userSelectedTags[0] !== 'any',
                 }"
-                style="border-bottom: 2px solid #000;cursor: pointer;"
-                class="full-height d-flex justify-content-between font-large pb-2"
+                style="cursor: pointer"
+                class="full-height d-flex justify-content-between font-large pb-2 align-items-center"
+                @click="searchTagsVisible = !searchTagsVisible"
               >
-                <span>Filter by categories</span>
-                <span class="chevron bottom mr-2"></span>
+                <span v-if="userSelectedTags.length === 0" class="filter-text"
+                  >Filter by categories</span
+                >
+                <span v-else class="filter-text-light text-capitalize">{{
+                  userSelectedTags.join(', ')
+                }}</span>
+                <span
+                  class="chevron semi-bold mr-2"
+                  :class="[searchTagsVisible ? 'top' : 'bottom']"
+                ></span>
               </div>
               <b-collapse
                 id="tag-collapse"
-                style="position: absolute;border-left: 1px solid #E8ECF1;border-bottom: 1px solid #E8ECF1;border-right: 1px solid #E8ECF1;"
+                v-model="searchTagsVisible"
+                style="
+                  position: absolute;
+                  border-left: 1px solid #e8ecf1;
+                  border-bottom: 1px solid #e8ecf1;
+                  border-right: 1px solid #e8ecf1;
+                  max-height: 500px;
+                  overflow-y: scroll;
+                "
+                class="shadow"
               >
                 <div class="m-4">
                   <b-form-checkbox-group
                     id="checkbox-group-2"
-                    @input="tagsUpdated"
-                    v-if="isLoaded"
                     v-model="userSelectedTags"
                     name="flavour-2"
                     class="text-capitalize d-flex flex-column"
+                    @input="tagsUpdated"
                   >
                     <b-form-checkbox
                       v-for="tag in availableSearchTags"
@@ -44,58 +60,67 @@
               </b-collapse>
             </div>
           </div>
-          <div class="col-sm-6 mt-4 mt-sm-0">
+          <div class="col-6 mt-0">
             <form @submit.prevent="termSubmitted()">
               <div
                 id="widget-search"
                 :class="{ active: searchTerm && searchTerm !== '' }"
-                style="border-bottom: 2px solid #000;"
                 class="full-height d-flex justify-content-between font-large pb-2"
               >
                 <div class="full-width pr-2 search-input">
                   <input
                     ref="searchTermInput"
+                    v-model="internalSearchTerm"
                     :onkeyup="termUpdated()"
-                    v-model="searchTerm"
                     type="text"
-                    placeholder="Search all web components"
-                    style="outline: none;"
-                    class="p-0 font-large full-width"
+                    placeholder="Search elements"
+                    style="outline: none"
+                    class="p-0 full-width search-text"
                   />
                 </div>
 
                 <svg
-                  @click="termSubmitted()"
-                  style="margin-top: 0.15rem; height: 1.5rem;"
+                  style="margin-top: 0.15rem; height: 1.5rem"
                   xmlns="http://www.w3.org/2000/svg"
-                  width="31.414"
-                  height="32.214"
-                  viewBox="0 0 31.414 32.214"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 22 22"
                   class="search-image"
+                  @click="termSubmitted()"
                 >
                   <defs>
                     <style>
                       .a,
                       .b {
                         fill: none;
-                        stroke: #2e3131;
+                      }
+                      .b {
+                        stroke: #2f2f2f;
                         stroke-miterlimit: 10;
                         stroke-width: 2px;
                       }
-                      .b {
-                        stroke-linecap: round;
-                      }
                     </style>
                   </defs>
-                  <g transform="translate(15.5 15.9)">
-                    <g transform="translate(-14.5 -14.9)">
-                      <circle class="a" cx="11.9" cy="11.9" r="11.9" />
-                      <line
-                        class="b"
-                        x1="9"
-                        y1="9"
-                        transform="translate(20 20.8)"
-                      />
+                  <g transform="translate(13.391 13.845)">
+                    <g transform="translate(-12.5 -12.845)">
+                      <g transform="translate(-0.891 -1)">
+                        <g transform="translate(0.929 0.767)">
+                          <ellipse
+                            class="b"
+                            cx="7.535"
+                            cy="7.535"
+                            rx="7.535"
+                            ry="7.535"
+                            transform="translate(0.891 1)"
+                          />
+                          <line
+                            class="b"
+                            x1="5.699"
+                            y1="5.699"
+                            transform="translate(13.555 14.171)"
+                          />
+                        </g>
+                      </g>
                     </g>
                   </g>
                 </svg>
@@ -113,70 +138,67 @@ export default {
   props: {
     selectedTags: {
       default: () => {
-        return []
+        return [];
       },
-      type: Array
+      type: Array,
     },
-    searchTerm: { default: '', type: String }
+    searchTerm: { default: '', type: String },
   },
   data() {
     return {
+      internalSearchTerm: this.searchTerm,
       oldSearchTerm: this.searchTerm,
-      availableSearchTags: [],
       userSelectedTags: this.selectedTags,
-      isLoaded: false
-    }
+      searchTagsVisible: false,
+    };
   },
-  mounted() {
-    this.loadSearchTags()
-
-    this.focusInput()
+  computed: {
+    availableSearchTags() {
+      return this.$store.getters['searchtags/getSearchtags'];
+    },
   },
   methods: {
     focusInput() {
-      this.$refs.searchTermInput.focus()
-    },
-    async loadSearchTags() {
-      this.availableSearchTags = await this.$api.searchtag.listAll()
-      this.isLoaded = true
+      this.$refs.searchTermInput.focus();
     },
     tagsUpdated() {
       this.$emit('tags-updated', {
         tags: this.userSelectedTags,
-        term: this.searchTerm
-      })
+        term: this.internalSearchTerm,
+      });
     },
     termUpdated() {
       if (this.isNewSearchTerm()) {
-        this.oldSearchTerm = this.searchTerm
+        this.oldSearchTerm = this.internalSearchTerm;
         this.$emit('term-updated', {
           tags: this.userSelectedTags,
-          term: this.searchTerm
-        })
+          term: this.internalSearchTerm,
+        });
       }
     },
     termSubmitted() {
-      // if (this.isNewSearchTerm()) {
-      this.oldSearchTerm = this.searchTerm
+      this.oldSearchTerm = this.internalSearchTerm;
       this.$emit('term-submitted', {
         tags: this.userSelectedTags,
-        term: this.searchTerm
-      })
-      // }
+        term: this.internalSearchTerm,
+      });
     },
     isNewSearchTerm() {
-      return this.searchTerm !== this.oldSearchTerm
-    }
-  }
-}
+      return this.internalSearchTerm !== this.oldSearchTerm;
+    },
+  },
+};
 </script>
 
 <style>
 #tag-collapse {
   background-color: white;
-  /*padding: 1.5rem;*/
   width: 100%;
   font-size: large;
   z-index: 100;
+}
+
+.custom-checkbox {
+  padding-bottom: 8px;
 }
 </style>

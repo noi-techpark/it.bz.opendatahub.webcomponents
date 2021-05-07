@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-light">
-    <div class="container p-4 mb-5">
+  <div class="bg-light pb-5">
+    <div class="container p-4">
       <h1>Imprint</h1>
 
       <div>NOI AG</div>

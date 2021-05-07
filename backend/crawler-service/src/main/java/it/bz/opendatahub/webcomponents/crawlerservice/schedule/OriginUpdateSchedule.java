@@ -22,18 +22,23 @@ public class OriginUpdateSchedule {
 
     @Scheduled(fixedDelayString = "${application.schedule.component}")
     public void updateWebcomponents() {
-        log.info("updating origins");
+		try {
+			log.info("updating origins");
 
-        List<OriginModel> originList = originService.listAllOrigins(false);
+			List<OriginModel> originList = originService.listAllOrigins(false);
 
-        for(OriginModel origin : originList) {
-            log.debug("updating: {}", origin.getUuid());
+			for(OriginModel origin : originList) {
+				log.debug("updating: {}", origin.getUuid());
 
-            originService.updateOrigin(origin);
-        }
+				originService.updateOrigin(origin);
+			}
 
-        originService.cascadeDeletedOrigins();
+			originService.cascadeDeletedOrigins();
 
-        log.info("origins updated");
+			log.info("origins updated");
+		}
+		catch(Exception e) {
+			log.error(e.getMessage());
+		}
     }
 }

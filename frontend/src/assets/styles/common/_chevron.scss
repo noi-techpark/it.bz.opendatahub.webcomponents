@@ -1,34 +1,42 @@
 .chevron {
-  &::before {
-    border-style: solid;
-    border-width: 0.1em 0.1em 0 0;
-    content: '';
-    display: inline-block;
-    height: $font-size-base;
-    left: 0.15em;
-    position: relative;
-    top: 0.15em;
-    transform: rotate(-45deg);
-    vertical-align: top;
-    width: $font-size-base;
-  }
+	&::before {
+		border-style: solid;
+		border-width: 0.1em 0.1em 0 0;
+		content: '';
+		display: inline-block;
+		height: $font-size-base;
+		left: 0.15em;
+		position: relative;
+		top: 0.35em;
+		transform: rotate(-45deg);
+		vertical-align: top;
+		width: $font-size-base;
+	}
 
-  &.right:before {
-    left: 0;
-    transform: rotate(45deg);
-  }
+	&.right::before {
+		left: 0;
+		transform: rotate(45deg);
+	}
 
-  &.bottom:before {
-    top: 0;
-    transform: rotate(135deg);
-  }
+	&.bottom::before {
+		top: 0;
+		transform: rotate(135deg);
+	}
 
-  &.left:before {
-    left: 0.25em;
-    transform: rotate(-135deg);
-  }
+	&.top::before {
+		top: 0.35em;
+	}
 
-  &.bold::before {
-    border-width: 0.25em 0.25em 0 0;
-  }
+	&.left::before {
+		left: 0.25em;
+		transform: rotate(-135deg);
+	}
+
+	&.semi-bold::before {
+		border-width: 0.15em 0.15em 0 0;
+	}
+
+	&.bold::before {
+		border-width: 0.25em 0.25em 0 0;
+	}
 }

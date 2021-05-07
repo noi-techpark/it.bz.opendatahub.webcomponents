@@ -14,6 +14,7 @@ import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentServic
 import it.bz.opendatahub.webcomponents.crawlerservice.service.WebcomponentVersionService;
 import lombok.extern.slf4j.Slf4j;
 
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,13 @@ public class OriginServiceImpl implements OriginService {
         updateOriginTags(origin);
 
         updateMainEntry(origin);
+
+        updateMainLogoImage(origin);
     }
+
+    private void updateMainLogoImage(OriginModel origin) {
+		webcomponentService.updateWebcomponentLogo(origin.getUuid());
+	}
 
     private void updateMainEntry(OriginModel origin) {
         webcomponentService.updateWebcomponent(origin.getUuid(), origin.getUrl());
@@ -87,7 +94,10 @@ public class OriginServiceImpl implements OriginService {
                 else {
                     createTaggedVersion(origin, tag);
                 }
-            } catch (NotFoundException e) {
+
+				saveOriginTag(origin, tag);
+
+			} catch (NotFoundException e) {
                 /*
                  * If we cannot find a dist-file or manifest file just ignore this entry for now.
                  * We need to provide a real error reporting method in the future, but we cannot
@@ -102,7 +112,17 @@ public class OriginServiceImpl implements OriginService {
         markAllTagsNotInListAsDeleted(origin, tagEntries);
     }
 
-    private void updateTaggedVersion(OriginModel origin, TagEntry tagEntry) {
+	private void saveOriginTag(OriginModel origin, TagEntry tag) {
+		val entry = new OriginTagModel();
+		entry.setOriginUuid(origin.getUuid());
+		entry.setTagName(tag.getName());
+		entry.setHash(tag.getRevisionHash());
+		entry.setDeleted(false);
+
+		originTagRepository.save(entry);
+	}
+
+	private void updateTaggedVersion(OriginModel origin, TagEntry tagEntry) {
         webcomponentVersionService.purgeVersionForTag(origin, tagEntry);
 
         createTaggedVersion(origin, tagEntry);

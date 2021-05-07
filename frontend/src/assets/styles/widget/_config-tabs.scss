@@ -1,0 +1,36 @@
+.config-tabs {
+
+	li {
+		margin-bottom: 10px;
+	}
+
+	.nav-pills {
+		padding-bottom: 20px;
+	}
+
+	.nav-pills .nav-link.active {
+		background-color: white;
+		border: none;
+		border-radius: 0;
+		color: #2e3131 !important;
+	}
+
+	.nav-pills .nav-link {
+		background-color: #f1f1f1;
+		border: none;
+		border-radius: 0;
+	}
+
+	.nav-pills .nav-item:first-child {
+		border: 1px solid #cfcfcf;
+		border-radius: 0.25rem 0 0 0.25rem;
+		overflow: hidden;
+	}
+
+	.nav-pills .nav-item:nth-child(2) {
+		border: 1px solid #cfcfcf;
+		border-left: none;
+		border-radius: 0 0.25rem 0.25rem 0;
+		overflow: hidden;
+	}
+}

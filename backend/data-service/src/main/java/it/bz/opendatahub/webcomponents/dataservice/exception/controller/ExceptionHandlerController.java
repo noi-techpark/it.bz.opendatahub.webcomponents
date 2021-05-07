@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -35,7 +36,14 @@ public class ExceptionHandlerController {
     ResponseEntity<ErrorMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         LOGGER.error("HttpMessageNotReadableException thrown, cause of: {}", ex.getMessage());
 
-        return createErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex);
+        return createErrorResponse(HttpStatus.BAD_REQUEST, ex);
+    }
+
+    @ExceptionHandler
+    ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        LOGGER.error("MethodArgumentNotValidException thrown, cause of: {}", ex.getMessage());
+
+        return createErrorResponse(HttpStatus.BAD_REQUEST, ex);
     }
 
     @ExceptionHandler

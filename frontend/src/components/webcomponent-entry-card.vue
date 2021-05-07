@@ -1,9 +1,17 @@
 <template>
-  <nuxt-link :to="returnPath" style="color:inherit;text-decoration: inherit;">
-    <b-card no-body class="full-height">
+  <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">
+    <b-card
+      no-body
+      class="full-height shadow-sm overflow-hidden"
+      style="border-radius: 6px"
+    >
       <div class="aspect-box">
         <div
-          :style="'background-image: url(' + getLogo + ')'"
+          :style="
+            'background-image: url(' +
+            getLogo +
+            '); background-position: center;'
+          "
           class="aspect-container"
         ></div>
       </div>
@@ -18,9 +26,9 @@
         </b-card-text>
       </b-card-body>
 
-      <div slot="footer" class="row font-small">
+      <div slot="footer" class="row font-smaller card-short-info">
         <div class="col-6">
-          <div>
+          <div v-if="entry.authors">
             Author:
             <span class="font-weight-bold">
               <span v-if="entry.authors.length > 0">{{
@@ -45,9 +53,10 @@
         <div class="col-6">
           <div>
             Version:
-            <span class="font-weight-bold">{{
+            <span v-if="entry.currentVersion" class="font-weight-bold">{{
               entry.currentVersion.versionTag
             }}</span>
+            <span v-else class="font-weight-bold">n/a</span>
           </div>
           <div>
             License:
@@ -69,42 +78,39 @@ export default {
   props: {
     entry: {
       default: null,
-      type: Object
+      type: Object,
     },
     returnTo: {
       default: null,
-      type: String
-    }
+      type: String,
+    },
   },
   computed: {
     getLogo() {
       if (this.entry.image) {
         return (
-          this.$axios.defaults.baseURL +
-          '/webcomponent/' +
-          this.entry.uuid +
-          '/logo'
-        )
+          this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo/thumb'
+        );
       }
 
-      return '/component_placeholder.png'
+      return '/component_placeholder.png';
     },
     returnPath() {
       if (this.returnTo === null) {
         return this.localePath({
           name: 'webcomponent-id',
-          params: { id: this.entry.uuid }
-        })
+          params: { id: this.entry.uuid },
+        });
       }
 
       return this.localePath({
         name: 'webcomponent-id',
         params: { id: this.entry.uuid },
-        query: { from: this.returnTo }
-      })
-    }
-  }
-}
+        query: { from: this.returnTo },
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -120,7 +126,6 @@ export default {
   left: 0;
   width: 100%;
   height: 100%;
-
   background-size: cover;
 
   /* img {

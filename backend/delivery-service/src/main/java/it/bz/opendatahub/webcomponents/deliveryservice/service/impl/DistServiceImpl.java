@@ -5,10 +5,14 @@ import it.bz.opendatahub.webcomponents.deliveryservice.repository.WebcomponentRe
 import it.bz.opendatahub.webcomponents.deliveryservice.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.deliveryservice.service.DistService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
+import javax.activation.MimeType;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,7 +47,16 @@ public class DistServiceImpl implements DistService {
 	private String detectMimetype(String filename) {
 		Path path = new File(filename).toPath();
 		try {
-			return Files.probeContentType(path);
+			String result = Files.probeContentType(path);
+			if(result == null) {
+				String result2 = URLConnection.guessContentTypeFromName(filename);
+				if(result2 == null) {
+					return "text/javascript";
+				}
+
+				return result2;
+			}
+			return result;
 		} catch (IOException e) {
 			return "text/plain";
 		}

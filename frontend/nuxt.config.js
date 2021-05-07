@@ -1,5 +1,6 @@
+// eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
-  mode: 'spa',
+  ssr: false,
 
   srcDir: 'src/',
 
@@ -14,10 +15,10 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'ODH Webcomponents'
-      }
+        content: 'ODH Webcomponents',
+      },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
   /*
    ** Customize the progress-bar color
@@ -29,28 +30,32 @@ module.exports = {
   css: [
     '@/assets/styles/styles.scss',
     'vue-loading-overlay/dist/vue-loading.css',
-    '@fortawesome/fontawesome-svg-core/styles.css'
+    'vue-plyr/dist/vue-plyr.css',
   ],
 
   bootstrapVue: {
     bootstrapCSS: false,
-    bootstrapVueCSS: false
+    bootstrapVueCSS: false,
   },
 
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    '~/plugins/api.js',
-    '~/plugins/fontawesome.js',
-    '~/plugins/tooltip.js'
+    '~/plugins/api-accessor-plugin.ts',
+    '~/plugins/tooltip.js',
+    '~/plugins/env.ts',
+    '~/plugins/vue-loading-overlay.js',
+    { src: '~/plugins/vue-plyr', mode: 'client' },
   ],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxt/typescript-build',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/stylelint-module',
     // Doc: https://github.com/nuxt-community/analytics-module
     [
       '@nuxtjs/google-analytics',
@@ -58,10 +63,10 @@ module.exports = {
         id: process.env.GOOGLE_ANALYTICS_ID,
         debug: {
           enabled: process.env.GOOGLE_ANALYTICS_DEBUG || false,
-          sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false
-        }
-      }
-    ]
+          sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false,
+        },
+      },
+    ],
   ],
   /*
    ** Nuxt.js modules
@@ -72,31 +77,33 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'nuxt-i18n',
-    ['vue-scrollto/nuxt', { duration: 500 }]
+    ['vue-scrollto/nuxt', { duration: 500 }],
   ],
 
   i18n: {
     locales: [
       {
         code: 'en',
-        file: 'en-US.js'
-      }
+        file: 'en-US.js',
+      },
     ],
     defaultLocale: 'en',
     lazy: true,
     langDir: 'assets/locales/',
     detectBrowserLanguage: {
       useCookie: true,
-      cookieKey: 'i18n_redirected'
+      cookieKey: 'i18n_redirected',
     },
-    strategy: 'prefix_except_default'
+    strategy: 'prefix_except_default',
+    vuex: false,
   },
 
   /*
    * Needed to access it inside templates to generate static links
    */
   env: {
-    API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030'
+    API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030',
+    RECAPTCHA_PUBLIC_KEY: process.env.RECAPTCHA_PUBLIC_KEY || '',
   },
 
   /*
@@ -104,7 +111,7 @@ module.exports = {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API_BASE_URL || 'http://localhost:9030'
+    baseURL: process.env.API_BASE_URL || 'http://localhost:9030',
   },
 
   /*
@@ -115,23 +122,12 @@ module.exports = {
      ** You can extend webpack config here
      */
     extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev) {
-        if (ctx.isClient) {
-          config.module.rules.push({
-            enforce: 'pre',
-            test: /\.(js|ts|vue)$/,
-            loader: 'eslint-loader',
-            exclude: /(node_modules)/,
-            options: {
-              fix: true
-            }
-          })
-          config.devtool = 'source-map'
-        } else {
-          config.devtool = 'inline-source-map'
-        }
-      }
-    }
-  }
-}
+      config.module.rules.push({
+        enforce: 'pre',
+        test: /\.md$/,
+        loader: 'raw-loader',
+        exclude: /(node_modules)/,
+      });
+    },
+  },
+};

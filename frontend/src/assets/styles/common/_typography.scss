@@ -1,40 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
 .font-xx-large {
-  font-size: xx-large !important;
+	font-size: xx-large !important;
 }
 
 .font-x-large {
-  font-size: x-large !important;
+	font-size: x-large !important;
 }
 
 .font-large {
-  font-size: large !important;
+	font-size: large !important;
 }
 
 .font-larger {
-  font-size: larger !important;
+	font-size: larger !important;
 }
 
 .font-medium {
-  font-size: medium !important;
+	font-size: medium !important;
 }
 
 .font-smaller {
-  font-size: smaller !important;
+	font-size: 14px !important;
 }
 
 .font-small {
-  font-size: small !important;
+	font-size: small !important;
 }
 
 .font-x-small {
-  font-size: x-small !important;
+	font-size: x-small !important;
 }
 
 .font-xx-small {
-  font-size: xx-small !important;
+	font-size: xx-small !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: Roboto Slab, Arial, sans-serif;
-  font-weight: bold;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: Roboto Slab, Arial, sans-serif;
+	font-weight: bold !important;
+	overflow: hidden;
+	word-break: break-word;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+	font-family: 'Source Code Pro', Arial, sans-serif;
+	font-weight: bold !important;
+}
+
+body {
+	font-size: 16px !important;
+}
+
+@media (max-width: 576px) {
+	h1, .h1 {
+		font-size: 26px !important;
+	}
+
+	h2, .h2 {
+		font-size: 24px !important;
+	}
+
+	h3, .h3 {
+		font-size: 22px !important;
+	}
+
+	h4, .h4 {
+		font-size: 18px !important;
+	}
+
+	h5, .h5 {
+		font-size: 16px !important;
+	}
+
+	.carousel-caption {
+		h3 {
+			font-size: 36px !important;
+		}
+	}
+
+	body {
+		font-size: 14px !important;
+	}
 }

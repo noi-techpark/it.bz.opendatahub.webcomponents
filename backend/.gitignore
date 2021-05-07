@@ -50,7 +50,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-out/
+/out/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -105,7 +105,9 @@ buildNumber.properties
 
 /logs/
 workspace/
+**/testdata
 application.properties
+application-local.properties
 
 # Eclipse files
 .settings

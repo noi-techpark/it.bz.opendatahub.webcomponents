@@ -10,6 +10,6 @@ export default {
   pages: {
     imprint: {},
     webcomponent: {},
-    gettingStarted: {}
-  }
-}
+    gettingStarted: {},
+  },
+};

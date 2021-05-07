@@ -35,6 +35,8 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
     private static final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     private static final String MANIFEST_FILE_NAME = "wcs-manifest.json";
+    private static final String READ_ME_FILE_NAME = "README.md";
+    private static final String LICENSE_FILE_NAME = "LICENSE.md";
 
     private final VcsApiRepository vcsApiRepository;
 
@@ -78,13 +80,16 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
             return;
         }
 
+        String readMe = readReadmeFromRemote(gitRevision);
+        String licence = readLicenseFromRemote(gitRevision);
+
         log.debug("...manifest found with title {}, image {} and dist {}", manifest.getTitle(), manifest.getImage(), manifest.getDist().getBasePath() + manifest.getDist().getFiles());
 
         Path versionBasePath = Paths.get(origin.getUuid(), tagEntry.getName());
         saveImage(gitRevision, manifest, versionBasePath);
         saveDist(gitRevision, manifest, versionBasePath);
         persistManifest(manifest, versionBasePath);
-        upsertVersion(gitRevision, origin.getUuid(), manifest);
+        upsertVersion(gitRevision, origin.getUuid(), manifest, readMe, licence);
     }
 
     @Override
@@ -103,15 +108,21 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
         return versions.get(0);
     }
 
-    private void upsertVersion(GitRevision gitRevision, String originUuid, Manifest manifest) {
+    private void upsertVersion(GitRevision gitRevision, String originUuid, Manifest manifest, String readMe, String license) {
         Optional<WebcomponentVersionModel> probe = webcomponentVersionRepository.findById(WebcomponentVersionId.of(originUuid, gitRevision.getTagEntry().getName()));
 
         if(!probe.isPresent()) {
-            WebcomponentVersionModel newEntry = webcomponentVersionFactory.createFromTagEntry(originUuid, gitRevision.getTagEntry(), manifest);
+            WebcomponentVersionModel newEntry = webcomponentVersionFactory.createFromTagEntry(originUuid, gitRevision.getTagEntry(), manifest, readMe, license);
 
             CommitEntry commit = vcsApiRepository.getMetadataForCommit(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash());
 
             newEntry.setReleaseTimestamp(commit.getDate());
+
+			newEntry.setDistSizeTotalKb(
+				(int) (workspaceRepository.getDirectorySizeInBytes(
+					Paths.get(newEntry.getWebcomponentUuid(), newEntry.getVersionTag(), "dist")
+				) / 1024)
+			);
 
             webcomponentVersionRepository.save(newEntry);
         }
@@ -124,6 +135,15 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
             entry.setConfiguration(manifest.getConfiguration());
             entry.setDeleted(false);
             entry.setDist(manifest.getDist());
+
+			entry.setDistSizeTotalKb(
+				(int) (workspaceRepository.getDirectorySizeInBytes(
+					Paths.get(entry.getWebcomponentUuid(), entry.getVersionTag(), "dist")
+				) / 1024)
+			);
+
+			entry.setReadMe(readMe);
+			entry.setLicenseAgreement(readMe);
 
             webcomponentVersionRepository.save(entry);
         }
@@ -140,13 +160,23 @@ public class WebcomponentVersionServiceImpl implements WebcomponentVersionServic
         try {
             ByteArrayOutputStream imageData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), manifest.getImage());
             if (imageData.size() > 0) {
-                workspaceRepository.writeFile(imageData, Paths.get(versionBasePath.toString(), "wcs-logo.png"));
+                workspaceRepository.writeFile(imageData, Paths.get(versionBasePath.toString(), manifest.getImage()));
             }
         }
         catch (NotFoundException e) {
             log.debug("image not found");
         }
     }
+
+    private String readLicenseFromRemote(GitRevision gitRevision) {
+		ByteArrayOutputStream originsFileData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), LICENSE_FILE_NAME);
+		return originsFileData.toString();
+	}
+
+    private String readReadmeFromRemote(GitRevision gitRevision) {
+		ByteArrayOutputStream originsFileData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), READ_ME_FILE_NAME);
+		return originsFileData.toString();
+	}
 
     private Manifest readManifestFromRemote(GitRevision gitRevision) {
         ByteArrayOutputStream originsFileData = vcsApiRepository.getFileContents(gitRevision.getGitRemote(), gitRevision.getTagEntry().getRevisionHash(), MANIFEST_FILE_NAME);

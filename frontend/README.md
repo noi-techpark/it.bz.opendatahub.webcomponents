@@ -31,7 +31,7 @@ cd odh-web-components-store/frontend/
 * yarn
 * ODH Web Component Configurator: https://github.com/noi-techpark/webcomp-configtool.git
   > NB: If you update `webcomp-configtool`, you need to tag that master branch and update
-  > the `package.json` of this repository accordingly. 
+  > the `package.json` of this repository accordingly.
   > See "odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v0.9"
   > and put the latest version tag to the end
 
@@ -51,7 +51,15 @@ Universal mode supports server-side-rendering (ssr) but requires node.js to run.
 
 Spa mode (single-page-application) only requires node.js to build the project.
 
-### API
+### Configuration
+
+This can be done through a `.env` file. Copy `.env.example` to `.env` and adjust the values as you like.
+
+#### ReCaptcha
+
+You must configure a ReCaptcha API key that is valid for the domain your frontend is exposed on. You can optain such a key here: https://www.google.com/recaptcha/admin/create
+
+#### API
 
 ```
 axios: {
@@ -60,8 +68,6 @@ axios: {
 ```
 
 Adjust the baseURL to where the API is running. The API is provided by "data-service" in the 'backend' package.
-
-This can be done through a `.env` file. Copy `.env.example` to `.env` and adjust the base URL as you like.
 
 ## Local Development with Docker
 We use [docker-compose](https://docs.docker.com/compose/) for local development.
@@ -139,3 +145,65 @@ $ yarn start
 ```
 
 You will probably need a reverse proxy to add https and proxy the application from port 3000 to port 443 on your domain.
+
+## Create new static content pages
+
+1. Create a .vue file under the path where you want to create a new page. The directory structure corresponds to the structure of the url.
+2. Create a .md file with the same name in the same directory
+3. Import the md file in your vue file
+```js
+import legally from './legally.md';
+```
+4. Create a computed property with the content of the md file
+```js
+  computed: {
+    md()
+	{
+      return legally;
+    };
+  };
+```
+5. Import the markdown page component
+```js
+import MarkdownPage from '~/components/markdown-page';
+```
+6. Include the markdown page component inside the html code and pass the computed property
+```html
+<markdown-page :content="md"></markdown-page>
+```
+
+## Embed a video in a static content page
+
+Include the following code and replace the url of your video inside the url parameter
+
+```html
+    <video-player
+      url=""
+    ></video-player>
+```
+
+## Create a new banner
+
+1. Open src/components/banner.vue
+2. Add a new banner slide tag
+```html
+<banner-slide><banner-slide>
+```
+3. Customize the banner with tag parameters
+- "title": Title of the banner
+- "subtitle": Subtitle below the title
+- "imgUrl": Url of the background image
+- "path": Path to the page inside the a tag
+- "linkText": Text of the link
+4. Example
+```html
+      <banner-slide
+        img-url="https://picsum.photos/1024/480/?image=52"
+        title="Image"
+        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
+          pellentesque ut lacus vel interdum."
+        link-text="learn more"
+        path="/contact"
+      ></banner-slide>
+```

@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class SpdxServiceImpl implements SpdxService {
     }
 
     @Override
+	@Transactional
     public void update() {
         GitRemote gitRemote = GitRemote.of("https://github.com/spdx/license-list-data.git", "github");
 
