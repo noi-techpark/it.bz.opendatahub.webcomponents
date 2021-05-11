@@ -1,2 +1,7 @@
 .env
 tmp/
+.vscode
+application-production.properties
+application-testserver.properties
+*.orig
+/logs/

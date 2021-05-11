@@ -9,6 +9,10 @@
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
     </springProfile>
 
+    <springProfile name="testserver">
+        <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    </springProfile>
+
     <springProfile name="default">
         <appender name="jsonConsoleAppender" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LogstashEncoder">
@@ -17,7 +21,7 @@
                     <logger>[ignore]</logger>
                     <thread>[ignore]</thread>
                 </fieldNames>
-                <customFields>{"application":"${LOG_APPLICATION_NAME:-ninja}","application_version":"${LOG_APPLICATION_VERSION:-0000}"}</customFields>
+                <customFields>{"application":"${LOG_APPLICATION_NAME:-webcompstoreapi}","application_version":"${LOG_APPLICATION_VERSION:-0000}"}</customFields>
             </encoder>
         </appender>
         <root level="INFO">
@@ -33,7 +37,7 @@
                     <logger>[ignore]</logger>
                     <thread>[ignore]</thread>
                 </fieldNames>
-                <customFields>{"application":"${LOG_APPLICATION_NAME:-ninja}","application_version":"${LOG_APPLICATION_VERSION:-0000}"}</customFields>
+                <customFields>{"application":"${LOG_APPLICATION_NAME:-webcompstoreapi}","application_version":"${LOG_APPLICATION_VERSION:-0000}"}</customFields>
             </encoder>
         </appender>
         <root level="INFO">
