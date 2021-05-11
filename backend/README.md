@@ -2,16 +2,34 @@
 
 Webcomponents store for OpenDataHub.
 
-## Table of contents
-
-- [Gettings started](#getting-started)
-- [Building and Testing](#building-and-testing)
-- [Configuration](#configuration)
-- [Deployment](#deployment)
-- [API & swagger](#api--swagger)
-- [General Usage](#general-usage)
-- [Docker environment](#docker-environment)
-- [Information](#information)
+- [ODH: Webcomponents](#odh-webcomponents)
+	- [Getting started](#getting-started)
+		- [Prerequisites](#prerequisites)
+		- [Source code](#source-code)
+		- [Project Structure](#project-structure)
+	- [Building and Testing](#building-and-testing)
+		- [Build](#build)
+		- [Running tests](#running-tests)
+	- [Configuration](#configuration)
+		- [crawler-service](#crawler-service)
+		- [delivery-service](#delivery-service)
+		- [data-service](#data-service)
+	- [Deployment](#deployment)
+	- [API & swagger](#api--swagger)
+		- [data-service](#data-service-1)
+		- [delivery-service](#delivery-service-1)
+	- [General Usage](#general-usage)
+		- [Adding a webcomponent](#adding-a-webcomponent)
+		- [wcs-manifest.json](#wcs-manifestjson)
+	- [Docker environment](#docker-environment)
+		- [Installation](#installation)
+		- [Start and stop the containers](#start-and-stop-the-containers)
+		- [Keycloak](#keycloak)
+	- [Information](#information)
+		- [Support](#support)
+		- [Contributing](#contributing)
+		- [Documentation](#documentation)
+		- [License](#license)
 
 ## Getting started
 
@@ -37,7 +55,7 @@ To run the project, the following prerequisites must be met:
 Get a copy of the repository:
 
 ```bash
-git clone https://github.com/noi-techpark/odh-web-components-store.git
+git clone https://github.com/noi-techpark/it.bz.opendatahub.webcomponents
 ```
 
 Change directory:
@@ -76,7 +94,7 @@ mvn clean test
 
 Each service application comes with one or more profiles that can be configured.
 
-> src/main/resources/application[-profile].properties 
+> src/main/resources/application[-profile].properties
 
 It is recommended to make a copy of ***application-dev.properties*** and name it ***application-local.properties*** as this file
 is already ignored by git. Run the application with profile name "**local**".
@@ -87,10 +105,10 @@ You will have to configure the 'datasource' property for each application.
 
 There are some specific settings in the 'application' section of the configuration that might need customization:
 
-> crawler-service 
+### crawler-service
 
 ```
-application.repoistory.github.token
+application.repository.github.token
 ```
 enter your github token to bypass the 60 calls/hour limit
 
@@ -105,14 +123,14 @@ application.workspace.path
 ```
 path to the local file system where the crawler will store the "dist" files.
 
-> delivery-service 
+### delivery-service
 
 ```
 application.workspace.path
 ```
 path to the local file system where the crawler has stored the "dist" files
 
-> data-service 
+### data-service
 
 ```
 application.workspace.path
@@ -132,7 +150,8 @@ url where api exposed the preview page eg: http://api.wcs/preview
 ```
 application.google.lighthouse.api-key
 ```
-api key for google lighthouse to fetch performance metrics. can be obtained here: https://developers.google.com/speed/docs/insights/v5/get-started
+api key for google lighthouse to fetch performance metrics. This can be obtained
+here: https://developers.google.com/speed/docs/insights/v5/get-started
 
 ```
 application.mailer.*
@@ -170,42 +189,53 @@ For an initial setup deploy 'data-service' first to have the database populated 
 
 ## API & swagger
 
-> data-service
+### data-service
 
-data-service will expose the main api for webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
+data-service will expose the main api for webcomponents. it will also expose a
+swagger-ui (/swagger-ui.html)
 
-**NOTE**: admin routes require authentication with a bearer token. please contact your administrator on how to obtain these
+**NOTE**: admin routes require authentication with a bearer token. please
+contact your administrator on how to obtain these
 
-> delivery-service
+### delivery-service
 
-delivery-service will expose api for retrieving the dist files needed to embed webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
+delivery-service will expose api for retrieving the dist files needed to embed
+webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
 
 ## General Usage
 
 ### Adding a webcomponent
 
-Webcomponents can either be managed via the admin API or via the origins method using the crawler.
+Webcomponents can either be managed via the admin API or via the origins method
+using the crawler.
 
-**NOTE:** While it is possible to manipulate webcomponents that are actively imported by the crawler via the api, the changes will get overwritten by the crawler.
+**NOTE:** While it is possible to manipulate webcomponents that are actively
+imported by the crawler via the api, the changes will get overwritten by the
+crawler.
 
-Adding a new webcomponent requires an entry in the main json file. This file can be found in the repository configured as "application.repository.origin.url".
+Adding a new webcomponent requires an entry in the main json file. This file can
+be found in the repository configured as "application.repository.origin.url".
 
 > origins.json
 
 1) Use a UUID-generator to create a new id
-2) Create a new entry in the origins file referencing the repository of the webcomponent
-3) Add at least one version-tag to the reposotory of the webcomponent. Version tags must look like this: v1.0
+2) Create a new entry in the origins file referencing the repository of the
+   webcomponent
+3) Add at least one version-tag to the reposotory of the webcomponent. Version
+   tags must look like this: v1.0
 
-The repository of the new webcomponent must have at least one version tag and contain a wcs-manifest.json file!
+The repository of the new webcomponent must have at least one version tag and
+contain a wcs-manifest.json file!
 
 ### wcs-manifest.json
 
-To register with the webcomponents hub a wcs-manifest.json file must be in your repository's root directory. A manifest file should look like this:
+To register with the webcomponents hub a wcs-manifest.json file must be in your
+repository's root directory. A manifest file should look like this:
 
 ```
 {
   "title": "Generic Map",
-  "description": "Generic Map to access the Open Data Hub Mobility API v2 (with Ninja)",
+  "description": "Generic Map to access the Open Data Hub Mobility API v2",
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
   "license": "GPL-3.0",
   "copyrightHolders": [
@@ -326,7 +356,7 @@ The configuration section of the manifest is needed for the configurator to know
         "type": "null",
         "required": false,
         "options": {
-          "label": "a field that is either present or absent, but has no value, just a key",
+          "label": "a field that is either present or absent, it has no value, just a key",
           "default": null
         }
       },
@@ -357,7 +387,8 @@ For local development you can use docker to run a PostgreSQL server and a Mailho
 
 ### Installation
 
-Install [Docker](https://docs.docker.com/install/) (with Docker Compose) locally on your machine.
+Install [Docker](https://docs.docker.com/install/) (with Docker Compose) locally
+on your machine.
 
 ### Start and stop the containers
 
@@ -375,13 +406,15 @@ docker-compose stop
 
 ### Keycloak
 
-You can also run your own, local authentication server using docker. While this is not a complete guide, the following link offers a good starting point on how to do so: https://www.keycloak.org/getting-started/getting-started-docker 
+You can also run your own, local authentication server using docker. While this
+is not a complete guide, the following link offers a good starting point on how
+to do so: https://www.keycloak.org/getting-started/getting-started-docker
 
 ## Information
 
 ### Support
 
-For support, please contact [info@opendatahub.bz.it](mailto:info@opendatahub.bz.it).
+For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
 
 ### Contributing
 
@@ -397,8 +430,10 @@ If you'd like to contribute, please follow the following instructions:
 
 ### Documentation
 
-More documentation can be found at [https://opendatahub.readthedocs.io/en/latest/index.html](https://opendatahub.readthedocs.io/en/latest/index.html).
+More documentation can be found at
+[https://docs.opendatahub.bz.it](https://docs.opendatahub.bz.it).
 
 ### License
 
-The code in this project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE Version 3 license. See the [LICENSE.md](LICENSE.md) file for more information.
+The code in this project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3 license. See the [LICENSE.md](LICENSE.md) file for more information.

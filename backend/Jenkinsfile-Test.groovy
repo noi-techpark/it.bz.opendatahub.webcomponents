@@ -22,6 +22,8 @@ pipeline {
         ORIGIN_BRANCH = "development"
         CRAWLER_FETCH_DELAY_MS = 1800000
 
+		LIGHTHOUSE_API_KEY = credentials('webcompstore-lighthouse-api-key-test')
+
         DELIVERY_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
 
         DEBUG_LEVEL = "DEBUG"
@@ -44,6 +46,7 @@ pipeline {
                     sed -i -e "s%\\(spring.flyway.baselineOnMigrate\\s*=\\).*\\$%\\1false%" backend/data-service/src/main/resources/application.properties
                     sed -i -e "s%\\(application.deliveryBaseUrl\\s*=\\).*\\$%\\1${DELIVERY_BASE_URL}%" backend/data-service/src/main/resources/application.properties
                     sed -i -e "s%\\(application.workspace.path\\s*=\\).*\\$%\\1${WORKSPACE_PATH}%" backend/data-service/src/main/resources/application.properties
+					sed -i -e "s%\\(application.google.lighthouse.api-key\\s*=\\).*\\$%\\1${LIGHTHOUSE_API_KEY}%" backend/data-service/src/main/resources/application.properties
 
                     cp backend/crawler-service/src/main/resources/application-deployment.properties backend/crawler-service/src/main/resources/application.properties
                     sed -i -e "s%\\(spring.datasource.url\\s*=\\).*\\$%\\1${POSTGRES_URL}%" backend/crawler-service/src/main/resources/application.properties

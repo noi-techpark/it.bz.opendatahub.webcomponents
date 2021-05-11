@@ -2,14 +2,18 @@
 
 > FRONTEND
 
-## Table of contents
-
-- [Source Code](#source-code)
-- [Requirements](#requirements)
-- [Configuration](#configuration)
-- [Local Development with Docker](#local-development-with-docker)
-- [Build Setup](#build-setup)
-- [Deployment](#deployment)
+- [ODH Webcomponents](#odh-webcomponents)
+	- [Source Code](#source-code)
+	- [Requirements](#requirements)
+	- [Configuration](#configuration)
+		- [Mode](#mode)
+		- [API](#api)
+	- [Local Development with Docker](#local-development-with-docker)
+	- [Build Setup](#build-setup)
+	- [Adding pages](#adding-pages)
+	- [Deployment](#deployment)
+		- [Single Page Application](#single-page-application)
+		- [Universal Mode](#universal-mode)
 
 ## Source Code
 
