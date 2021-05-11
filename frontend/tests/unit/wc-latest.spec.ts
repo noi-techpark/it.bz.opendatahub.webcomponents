@@ -14,6 +14,12 @@ localVue.use(BootstrapVue);
 localVue.use(Vuex);
 localVue.use(VueI18n);
 
+const mocks = {
+  // Always returns the input
+  $t: (i) => i,
+  localePath: (i) => i,
+};
+
 const i18n = new VueI18n({
   numberFormats: { de: { currency: { style: 'currency', currency: 'EUR' } } },
   locale: 'de',
@@ -65,6 +71,7 @@ describe('WCLatest', () => {
       stubs: {
         NuxtLink: true,
       },
+      mocks,
     });
     expect(true).toBe(true);
     wrapper.setData({ moreEnabled: false });
@@ -81,14 +88,12 @@ describe('WCLatest', () => {
       stubs: {
         NuxtLink: true,
       },
-      mocks: {
-        localePath,
-      },
+      mocks,
     });
     await wrapper.setData({ moreEnabled: true });
     await wrapper.vm.$nextTick();
     await expect(
       wrapper.find('[data-testid="show-all"]').element.textContent
-    ).toContain('show all components');
+    ).toContain('show all');
   });
 });
