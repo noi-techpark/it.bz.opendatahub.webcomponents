@@ -15,12 +15,14 @@ pipeline {
 		DB_PORT = "5432"
         DB_USER = credentials('webcompstore-test-postgres-username')
         DB_PASS = credentials('webcompstore-test-postgres-password')
-        SSH_CDN_ADDR = "172.31.37.40"
+        SSH_CDN_ADDR = "172.31.19.96"  // docker test 1
         SSH_CDN_USER = "admin"
 		GITHUB_ORGANIZATION = "noi-techpark"
 		GITHUB_ORIGINS_REPO = "odh-web-components-store-origins"
 		GITHUB_ORIGINS_BRANCH = "development"
 		GITHUB_ORIGINS_FILE = "origins.json"
+        CDN_WORKSPACE = "/var/docker/wcstore-api/shared/workspace"
+        CDN_ADMINPATH = "/home/admin/$CDN_WORKSPACE"
     }
 
     parameters {
@@ -52,6 +54,8 @@ pipeline {
 					echo 'GITHUB_ORIGINS_REPO=$GITHUB_ORIGINS_REPO' >> infrastructure/utils/.env
 					echo 'GITHUB_ORIGINS_BRANCH=$GITHUB_ORIGINS_BRANCH' >> infrastructure/utils/.env
 					echo 'GITHUB_ORIGINS_FILE=$GITHUB_ORIGINS_FILE' >> infrastructure/utils/.env
+					echo 'CDN_WORKSPACE=$CDN_WORKSPACE' >> infrastructure/utils/.env
+					echo 'CDN_ADMINPATH=$CDN_ADMINPATH' >> infrastructure/utils/.env
 
                     mkdir -p ~/.ssh
                     ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts
