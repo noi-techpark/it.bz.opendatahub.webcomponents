@@ -299,21 +299,21 @@ SQL
             # Upload to the CDN
             #
             outInfo "# Upload dist files to the CDN"
-            ssh testcdnhost "mkdir -p /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
-            scp -r "$PATH_LOCAL_WC/$MF_DIST_PATH/"* "testcdnhost:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/dist"
-            scp "$PATH_WCS_MANIFEST_JSON" "testcdnhost:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+            ssh testcdnhost "mkdir -p $CDN_ADMINPATH/$UUID/$WC_TAG/dist"
+            scp -r "$PATH_LOCAL_WC/$MF_DIST_PATH/"* "testcdnhost:$CDN_ADMINPATH/$UUID/$WC_TAG/dist"
+            scp "$PATH_WCS_MANIFEST_JSON" "testcdnhost:$CDN_ADMINPATH/$UUID/$WC_TAG"
 			if [ -n "$MF_WCS_IMAGE" ]; then
-            	scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "testcdnhost:/home/admin/var/data/webcomponents-store/$UUID/$WC_TAG"
+            	scp "$PATH_LOCAL_WC/$MF_WCS_IMAGE" "testcdnhost:$CDN_ADMINPATH/$UUID/$WC_TAG"
 			fi
             outInfo "> SUCCESS"
 
             outInfo "# Set permissions and paths of the uploaded dist files inside the CDN server"
             ssh testcdnhost bash -c "'
                 set -xeuo pipefail
-                sudo rm -rf /var/data/webcomponents-store/$UUID/$WC_TAG
-                sudo mkdir -p /var/data/webcomponents-store/$UUID/$WC_TAG
-                sudo cp -R /home/admin/var/data/webcomponents-store/$UUID/$WC_TAG/* /var/data/webcomponents-store/$UUID/$WC_TAG
-                sudo chown -R tomcat8: /var/data/webcomponents-store/$UUID
+                sudo rm -rf $CDN_WORKSPACE/$UUID/$WC_TAG
+                sudo mkdir -p $CDN_WORKSPACE/$UUID/$WC_TAG
+                sudo cp -R $CDN_ADMINPATH/$UUID/$WC_TAG/* $CDN_WORKSPACE/$UUID/$WC_TAG
+                sudo chown -R root: $CDN_WORKSPACE/$UUID
             '"
             outInfo "> SUCCESS"
 
