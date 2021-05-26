@@ -60,7 +60,7 @@ pipeline {
                     mkdir -p ~/.ssh
                     ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts
 					ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-                    echo 'Host tomcattest2' >> ~/.ssh/config
+                    echo 'Host testcdnhost' >> ~/.ssh/config
                     echo '  User $SSH_CDN_USER' >> ~/.ssh/config
                     echo '  Hostname $SSH_CDN_ADDR' >> ~/.ssh/config
 
