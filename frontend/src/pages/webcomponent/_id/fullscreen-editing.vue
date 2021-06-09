@@ -4,7 +4,7 @@
       <iframe
         id="tframe"
         class="full-height full-width"
-        style="min-height: 100vh"
+        style="min-height: 100vh; margin-bottom: 60px"
         title="iframe-preview"
       ></iframe>
       <detail-bottom-bar
@@ -86,10 +86,21 @@ export default {
 
       oldElement.parentNode.removeChild(oldElement);
 
+      const width = document.documentElement.clientWidth;
       const newElement = document.createElement('iframe');
       newElement.setAttribute('id', 'tframe');
       newElement.setAttribute('class', 'full-height full-width');
-      newElement.setAttribute('style', 'min-height: 100vh;');
+      if (width > 576) {
+        newElement.setAttribute(
+          'style',
+          'min-height: 100vh; padding-bottom: 65px;'
+        );
+      } else {
+        newElement.setAttribute(
+          'style',
+          'min-height: 100vh; padding-bottom: 45px;'
+        );
+      }
       newElement.setAttribute('frameborder', '0');
 
       document.getElementById('twrap').appendChild(newElement);
