@@ -14,25 +14,18 @@
         @copyCode="copySnippetToClipboard"
       >
       </detail-bottom-bar>
-      <WCSConfigTool
-        v-if="config"
-        :config="config.configuration"
-        style="display: none"
-        @snippet="updateSnippet"
-      ></WCSConfigTool>
     </div>
     <prism-editor
       v-model="code"
       class="my-editor pt-4"
       :highlight="highlighter"
-      :line-numbers="true"
       style="border: 0; background-color: inherit; width: 50%"
+      line-numbers
     ></prism-editor>
   </div>
 </template>
 
 <script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
 import { PrismEditor } from 'vue-prism-editor';
 import DetailBottomBar from '~/components/detail-bottom-bar';
 
@@ -45,7 +38,7 @@ import 'prismjs/themes/prism.css';
 
 export default {
   name: 'FullscreenEditing',
-  components: { DetailBottomBar, WCSConfigTool, PrismEditor },
+  components: { DetailBottomBar, PrismEditor },
   layout(context) {
     return 'fullscreen';
   },
@@ -67,12 +60,13 @@ export default {
       return this.$store.getters['webcomponent/currentSnipp'];
     },
   },
-  created() {
+  mounted() {
     this.$store.dispatch('webcomponent/loadWebcomponent', {
       uuid: this.$route.params.id,
       version: this.$route.params.version,
     });
     this.code = this.snipp;
+    this.updatePreview();
   },
   methods: {
     highlighter(code) {

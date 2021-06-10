@@ -13,22 +13,15 @@
       @copyCode="copySnippetToClipboard"
     >
     </detail-bottom-bar>
-    <WCSConfigTool
-      v-if="config"
-      :config="config.configuration"
-      style="display: none"
-      @snippet="updateSnippet"
-    ></WCSConfigTool>
   </div>
 </template>
 
 <script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
 import DetailBottomBar from '~/components/detail-bottom-bar';
 
 export default {
   name: 'Fullscreen',
-  components: { DetailBottomBar, WCSConfigTool },
+  components: { DetailBottomBar },
   layout(context) {
     return 'fullscreen';
   },
@@ -49,11 +42,12 @@ export default {
       return this.$store.getters['webcomponent/currentSnipp'];
     },
   },
-  created() {
+  mounted() {
     this.$store.dispatch('webcomponent/loadWebcomponent', {
       uuid: this.$route.params.id,
       version: this.$route.params.version,
     });
+    this.updatePreview();
   },
   methods: {
     setSelectedView(newSelectedView) {
