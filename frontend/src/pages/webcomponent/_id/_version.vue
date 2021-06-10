@@ -7,16 +7,16 @@
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
     <div v-if="showPreview && hasAnyVersion">
-      <div
-        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3"
-      >
-        <b-alert
-          :show="!isLatestVersionActive"
-          variant="danger"
-          class="mt-4 mb-4"
-          >You have not selected the latest version of this
-          webcomponent.</b-alert
-        >
+      <div class="container-fluid container-extended pb-4 p-2 pr-4 pt-sm-2">
+        <div class="detail-content-left">
+          <b-alert
+            :show="!isLatestVersionActive"
+            variant="danger"
+            class="mt-4 mb-4 detail-content-left"
+            >You have not selected the latest version of this
+            webcomponent.</b-alert
+          >
+        </div>
       </div>
       <div
         class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2"
