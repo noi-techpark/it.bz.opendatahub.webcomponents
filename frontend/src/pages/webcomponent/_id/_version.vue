@@ -95,8 +95,8 @@
                       v-model="code"
                       class="my-editor"
                       :highlight="highlighter"
-                      line-numbers
                       style="border: 0; background-color: inherit"
+                      line-numbers
                     />
                   </b-card-text>
 
@@ -110,7 +110,7 @@
                       class="mr-4"
                       @click="toggleEditMode()"
                     >
-                      <font-awesome-icon :icon="['fas', 'times']" />RESET
+                      RESET
                     </span>
                   </div>
                 </b-card>
@@ -172,7 +172,6 @@ export default {
   },
   data() {
     return {
-      snippOriginal: '',
       attribs: '',
       editmode: false,
       autoUpdate: true,
@@ -221,15 +220,21 @@ export default {
     snipp() {
       return this.$store.getters['webcomponent/currentSnipp'];
     },
+    snippOriginal() {
+      return this.$store.getters['webcomponent/snippOriginal'];
+    },
   },
   created() {
-    // webcomponentStore.
-    this.$store.dispatch('webcomponent/loadWebcomponent', {
-      uuid: this.$route.params.id,
-      version: this.$route.params.version,
-    });
-    this.code = this.snipp;
-    this.snippOriginal = this.snipp;
+    if (
+      this.component === null ||
+      this.component.uuid !== this.$route.params.id
+    ) {
+      this.$store.dispatch('webcomponent/loadWebcomponent', {
+        uuid: this.$route.params.id,
+        version: this.$route.params.version,
+      });
+      this.code = this.snipp;
+    }
   },
   methods: {
     highlighter(code) {
@@ -253,12 +258,22 @@ export default {
       );
     },
     updateSnippet(data) {
-      this.$store.dispatch('webcomponent/updateSnipp', {
-        snipp: data + '\n' + this.getDistIncludes().join('\n'),
-      });
-      this.code = this.snipp;
+      if (this.code !== '') {
+        this.$store.dispatch('webcomponent/updateSnipp', {
+          snipp: data + '\n' + this.getDistIncludes().join('\n'),
+        });
+        this.code = this.snipp;
+        if (this.snippOriginal === null) {
+          this.$store.dispatch('webcomponent/setSnippOriginal', {
+            snipp: this.snipp,
+          });
+        }
 
-      if (this.autoUpdate) {
+        if (this.autoUpdate) {
+          this.updatePreview();
+        }
+      } else {
+        this.code = this.snipp;
         this.updatePreview();
       }
     },
@@ -275,6 +290,9 @@ export default {
       this.selectedView = newSelectedView;
     },
     updatePreview() {
+      this.$store.dispatch('webcomponent/updateSnipp', {
+        snipp: this.code,
+      });
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);

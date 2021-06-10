@@ -13,15 +13,22 @@
       @copyCode="copySnippetToClipboard"
     >
     </detail-bottom-bar>
+    <WCSConfigTool
+      v-if="config && configuratorEnabled"
+      :config="config.configuration"
+      style="display: none"
+      @snippet="updateSnippet"
+    ></WCSConfigTool>
   </div>
 </template>
 
 <script>
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
 import DetailBottomBar from '~/components/detail-bottom-bar';
 
 export default {
   name: 'Fullscreen',
-  components: { DetailBottomBar },
+  components: { DetailBottomBar, WCSConfigTool },
   layout(context) {
     return 'fullscreen';
   },
@@ -29,6 +36,7 @@ export default {
     return {
       selectedView: 'preview',
       autoUpdate: true,
+      configuratorEnabled: false,
     };
   },
   computed: {
@@ -41,12 +49,22 @@ export default {
     snipp() {
       return this.$store.getters['webcomponent/currentSnipp'];
     },
+    snippOriginal() {
+      return this.$store.getters['webcomponent/snippOriginal'];
+    },
+  },
+  created() {
+    if (this.snipp === null) {
+      this.$store.dispatch('webcomponent/loadWebcomponent', {
+        uuid: this.$route.params.id,
+        version: this.$route.params.version,
+      });
+      this.code = this.snipp;
+      this.configuratorEnabled = true;
+    }
   },
   mounted() {
-    this.$store.dispatch('webcomponent/loadWebcomponent', {
-      uuid: this.$route.params.id,
-      version: this.$route.params.version,
-    });
+    this.code = this.snipp;
     this.updatePreview();
   },
   methods: {
@@ -130,6 +148,12 @@ export default {
 
       if (this.autoUpdate) {
         this.updatePreview();
+      }
+
+      if (this.snippOriginal === null) {
+        this.$store.dispatch('webcomponent/setSnippOriginal', {
+          snipp: this.snipp,
+        });
       }
     },
     copySnippetToClipboard() {
