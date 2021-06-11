@@ -25,8 +25,12 @@
       v-model="code"
       class="my-editor pt-4"
       :highlight="highlighter"
-      style="border: 0; background-color: inherit; width: 50%"
-      line-numbers
+      style="
+        border: 0;
+        background-color: inherit;
+        width: 50%;
+        padding-left: 8px;
+      "
     ></prism-editor>
   </div>
 </template>

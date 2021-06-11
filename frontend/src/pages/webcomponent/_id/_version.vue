@@ -96,7 +96,6 @@
                       class="my-editor"
                       :highlight="highlighter"
                       style="border: 0; background-color: inherit"
-                      line-numbers
                     />
                   </b-card-text>
 
