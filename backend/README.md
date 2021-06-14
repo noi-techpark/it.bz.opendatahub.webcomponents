@@ -112,6 +112,16 @@ application.workspace.path
 ```
 path to the local file system where the crawler has stored the "dist" files
 
+```
+application.swaggerBaseUrl
+```
+set the base url for the Swagger API documentation
+
+```
+errorHandling.verboseException
+```
+true or false -> will enable or disable stacktrackes in the error responses of the API
+
 > data-service 
 
 ```
@@ -140,9 +150,19 @@ application.mailer.*
 all these settings are required for the mailer to work
 
 ```
+application.swaggerBaseUrl
+```
+set the base url for the Swagger API documentation
+
+```
 keycloak.*
 ```
 all these settings are required for authentication to work
+
+```
+errorHandling.verboseException
+```
+true or false -> will enable or disable stacktrackes in the error responses of the API
 
 ## Deployment
 
