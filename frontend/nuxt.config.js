@@ -31,6 +31,8 @@ module.exports = {
     '@/assets/styles/styles.scss',
     'vue-loading-overlay/dist/vue-loading.css',
     'vue-plyr/dist/vue-plyr.css',
+    'prismjs/themes/prism.css',
+    'vue-prism-editor/dist/prismeditor.min.css',
   ],
 
   bootstrapVue: {

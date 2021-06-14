@@ -40,12 +40,10 @@ import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-co
 import { PrismEditor } from 'vue-prism-editor';
 import DetailBottomBar from '~/components/detail-bottom-bar';
 
-import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
 // eslint-disable-next-line import/order
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup';
-import 'prismjs/themes/prism.css';
 
 export default {
   name: 'FullscreenEditing',

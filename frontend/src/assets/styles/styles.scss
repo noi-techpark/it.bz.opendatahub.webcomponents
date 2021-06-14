@@ -311,7 +311,7 @@ header {
 }
 
 main {
-	margin-top: 82px
+	margin-top: 82px;
 }
 
 .text-underline {
@@ -333,4 +333,9 @@ main {
 		margin-left: 0;
 		margin-right: 0;
 	}
+}
+
+.prism-editor__textarea::selection {
+	background-color: #accef7 !important;
+	color: transparent !important;
 }
