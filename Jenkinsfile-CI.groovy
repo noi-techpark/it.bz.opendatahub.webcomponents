@@ -11,7 +11,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd backend && mvn -B -U clean test verify'
+                sh 'cd backend && mvn -B -U clean test'
             }
         }
         stage('Frontend - Test') {
@@ -23,8 +23,11 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd frontend && yarn install'
-                sh 'cd frontend && yarn run test --passWithNoTests'
+                sh '''
+                    cd frontend
+                    yarn install
+                    yarn run test --passWithNoTests
+                '''
             }
         }
     }
