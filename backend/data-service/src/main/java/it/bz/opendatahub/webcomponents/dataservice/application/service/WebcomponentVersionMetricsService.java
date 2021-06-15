@@ -58,18 +58,19 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 				webcomponentVersion
 			);
 		}
-		catch (MetricsUnavailableException e) {
+		catch (MetricsErrorException e) {
 			log.error(
-				"metrics failed for: {}/{}",
+				"metrics failed for: {}/{}; {}",
 				webcomponentVersion.getWebcomponentUuid(),
-				webcomponentVersion.getVersionTag()
+				webcomponentVersion.getVersionTag(),
+				e.getMessage()
 			);
 
 			return webcomponentVersion;
 		}
 	}
 
-	private void loadAndUpdateMetricsData(WebcomponentVersion webcomponentVersion, String previewUrl) throws MetricsUnavailableException {
+	private void loadAndUpdateMetricsData(WebcomponentVersion webcomponentVersion, String previewUrl) throws MetricsErrorException {
 		try {
 			val metrics = fetchMetrics(previewUrl);
 
@@ -83,7 +84,7 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 
 			webcomponentVersion.setLighthouseUpdateRequired(false);
 		}
-		catch (MetricsErrorException | MetricsInvalidRequestException e) {
+		catch (MetricsUnavailableException | MetricsInvalidRequestException e) {
 			webcomponentVersion.setLighthouseMetricsMobileData(null);
 			webcomponentVersion.setLighthouseMetricsDesktopData(null);
 
@@ -94,6 +95,13 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 			webcomponentVersion.setLighthouseMetricsMobileDatetime(LocalDateTime.now());
 
 			webcomponentVersion.setLighthouseUpdateRequired(false);
+
+			log.error(
+				"metrics unobtainable for: {}/{}; {}",
+				webcomponentVersion.getWebcomponentUuid(),
+				webcomponentVersion.getVersionTag(),
+				e.getMessage()
+			);
 		}
 	}
 

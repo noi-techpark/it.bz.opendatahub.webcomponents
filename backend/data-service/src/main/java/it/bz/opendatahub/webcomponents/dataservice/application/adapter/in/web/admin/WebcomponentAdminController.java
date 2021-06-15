@@ -7,6 +7,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.re
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RefetchAllLighthouseMetricsUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentLogoUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.UpdateWebcomponentUseCase;
 import lombok.val;
@@ -32,14 +33,16 @@ public class WebcomponentAdminController {
 	private final WebcomponentWebConverter webcomponentWebConverter;
 	private final RecalculateAllDistSizesUseCase recalculateAllDistSizesUseCase;
 	private final ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase;
+	private final RefetchAllLighthouseMetricsUseCase refetchAllLighthouseMetricsUseCase;
 
-	public WebcomponentAdminController(UpdateWebcomponentUseCase updateWebcomponentUseCase, DeleteWebcomponentUseCase deleteWebcomponentUseCase, CreateWebcomponentUseCase createWebcomponentUseCase, WebcomponentWebConverter webcomponentWebConverter, RecalculateAllDistSizesUseCase recalculateAllDistSizesUseCase, ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase) {
+	public WebcomponentAdminController(UpdateWebcomponentUseCase updateWebcomponentUseCase, DeleteWebcomponentUseCase deleteWebcomponentUseCase, CreateWebcomponentUseCase createWebcomponentUseCase, WebcomponentWebConverter webcomponentWebConverter, RecalculateAllDistSizesUseCase recalculateAllDistSizesUseCase, ReplaceWebcomponentLogoUseCase replaceWebcomponentLogoUseCase, RefetchAllLighthouseMetricsUseCase refetchAllLighthouseMetricsUseCase) {
 		this.updateWebcomponentUseCase = updateWebcomponentUseCase;
 		this.deleteWebcomponentUseCase = deleteWebcomponentUseCase;
 		this.createWebcomponentUseCase = createWebcomponentUseCase;
 		this.webcomponentWebConverter = webcomponentWebConverter;
 		this.recalculateAllDistSizesUseCase = recalculateAllDistSizesUseCase;
 		this.replaceWebcomponentLogoUseCase = replaceWebcomponentLogoUseCase;
+		this.refetchAllLighthouseMetricsUseCase = refetchAllLighthouseMetricsUseCase;
 	}
 
 	@PostMapping
@@ -52,6 +55,11 @@ public class WebcomponentAdminController {
 	@PatchMapping("/recalculate-size")
 	public void recalculateAllDistSizes() {
 		recalculateAllDistSizesUseCase.recalculateAllDistSizes();
+	}
+
+	@PatchMapping("/refetch-lighthouse")
+	public void refetchAllLighthouseMetrics() {
+		refetchAllLighthouseMetricsUseCase.refetchAllLighthouseMetrics();
 	}
 
 	@PutMapping("/{uuid}")

@@ -6,4 +6,6 @@ import lombok.NonNull;
 
 public interface WriteWebcomponentVersionPort {
 	WebcomponentVersion saveWebcomponentVersion(@NonNull WebcomponentVersion webcomponentVersion);
+
+	void markAllToRefetchLighthouseMetrics();
 }

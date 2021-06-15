@@ -57,10 +57,10 @@ public class GoogleLighthouseAdapter implements GoogleLighthousePort {
 		}
 		catch (HttpServerErrorException httpServerErrorException) {
 			if(httpServerErrorException.getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
-				throw new MetricsErrorException(httpServerErrorException);
+				throw new MetricsUnavailableException(httpServerErrorException);
 			}
 
-			throw new MetricsUnavailableException(httpServerErrorException);
+			throw new MetricsErrorException(httpServerErrorException);
 		}
 	}
 }
