@@ -3,9 +3,7 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.sand
 import it.bz.opendatahub.webcomponents.common.stereotype.Adapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateCodingSandboxUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.out.CodingSandboxPort;
-import org.apache.tomcat.util.json.JSONParser;
 import lombok.NonNull;
-import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpHeaders;

@@ -1,7 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.persistence;
 
 import it.bz.opendatahub.webcomponents.common.converter.ConverterUtils;
-import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.common.data.model.id.WebcomponentVersionId;
 import it.bz.opendatahub.webcomponents.common.stereotype.PersistenceAdapter;

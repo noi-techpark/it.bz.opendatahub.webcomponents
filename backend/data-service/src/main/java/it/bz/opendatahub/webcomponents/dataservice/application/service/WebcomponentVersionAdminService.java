@@ -1,7 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.service;
 
 import it.bz.opendatahub.webcomponents.common.converter.ConverterUtils;
-import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.common.data.struct.DistFile;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 

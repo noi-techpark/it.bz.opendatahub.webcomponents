@@ -24,7 +24,7 @@ RUN apt-get update \
         ca-certificates \
         openssh-client \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* 
+    && rm -rf /var/lib/apt/lists/*
 
 USER jenkins
 WORKDIR /webcompbuild
@@ -38,8 +38,10 @@ RUN rm -rf ~/.ssh \
     && ssh-keyscan -H github.com >> ~/.ssh/known_hosts \
     && echo "Host testcdnhost" >> ~/.ssh/config \
     && echo "  User $SSH_CDN_USER" >> ~/.ssh/config \
-    && echo "  Hostname $SSH_CDN_ADDR" >> ~/.ssh/config 
+    && echo "  Hostname $SSH_CDN_ADDR" >> ~/.ssh/config \
+	&& echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+# FIXME: "StrictHostKeyChecking no" must be fixed, replace everything with ansible or CDN API calls
 
 RUN git config --global user.email "info@opendatahub.bz.it" \
-    && git config --global user.name "Jenkins" 
+    && git config --global user.name "Jenkins"
 

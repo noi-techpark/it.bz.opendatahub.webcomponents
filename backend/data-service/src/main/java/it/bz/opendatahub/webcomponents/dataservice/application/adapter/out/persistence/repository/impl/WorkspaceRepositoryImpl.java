@@ -2,7 +2,6 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.pers
 
 import it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.persistence.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.dataservice.config.WorkspaceConfiguration;
-import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
 import lombok.val;
 import org.apache.commons.io.FileUtils;

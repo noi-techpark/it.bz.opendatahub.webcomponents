@@ -3,7 +3,6 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web.r
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
