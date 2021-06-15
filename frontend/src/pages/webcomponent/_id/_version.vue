@@ -7,16 +7,16 @@
       @set-show-preview="setShowPreview"
     ></WcDetailBlock>
     <div v-if="showPreview && hasAnyVersion">
-      <div
-        class="container-fluid container-extended pb-2 p-2 pr-sm-5 pl-sm-5 pt-3"
-      >
-        <b-alert
-          :show="!isLatestVersionActive"
-          variant="danger"
-          class="mt-4 mb-4"
-          >You have not selected the latest version of this
-          webcomponent.</b-alert
-        >
+      <div class="container-fluid container-extended pb-4 p-2 pr-4 pt-sm-2">
+        <div class="detail-content-left">
+          <b-alert
+            :show="!isLatestVersionActive"
+            variant="danger"
+            class="mt-4 mb-4 detail-content-left"
+            >You have not selected the latest version of this
+            webcomponent.</b-alert
+          >
+        </div>
       </div>
       <div
         class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2"
@@ -95,7 +95,6 @@
                       v-model="code"
                       class="my-editor"
                       :highlight="highlighter"
-                      line-numbers
                       style="border: 0; background-color: inherit"
                     />
                   </b-card-text>
@@ -110,7 +109,7 @@
                       class="mr-4"
                       @click="toggleEditMode()"
                     >
-                      <font-awesome-icon :icon="['fas', 'times']" />RESET
+                      RESET
                     </span>
                   </div>
                 </b-card>
@@ -154,12 +153,10 @@ import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-co
 import { PrismEditor } from 'vue-prism-editor';
 import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
 import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
-import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
 // eslint-disable-next-line import/order
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup.min';
-import 'prismjs/themes/prism.css';
 import DetailBottomBar from '~/components/detail-bottom-bar'; // import syntax highlighting styles
 
 export default {
@@ -172,7 +169,6 @@ export default {
   },
   data() {
     return {
-      snippOriginal: '',
       attribs: '',
       editmode: false,
       autoUpdate: true,
@@ -221,15 +217,21 @@ export default {
     snipp() {
       return this.$store.getters['webcomponent/currentSnipp'];
     },
+    snippOriginal() {
+      return this.$store.getters['webcomponent/snippOriginal'];
+    },
   },
   created() {
-    // webcomponentStore.
-    this.$store.dispatch('webcomponent/loadWebcomponent', {
-      uuid: this.$route.params.id,
-      version: this.$route.params.version,
-    });
-    this.code = this.snipp;
-    this.snippOriginal = this.snipp;
+    if (
+      this.component === null ||
+      this.component.uuid !== this.$route.params.id
+    ) {
+      this.$store.dispatch('webcomponent/loadWebcomponent', {
+        uuid: this.$route.params.id,
+        version: this.$route.params.version,
+      });
+      this.code = this.snipp;
+    }
   },
   methods: {
     highlighter(code) {
@@ -253,12 +255,22 @@ export default {
       );
     },
     updateSnippet(data) {
-      this.$store.dispatch('webcomponent/updateSnipp', {
-        snipp: data + '\n' + this.getDistIncludes().join('\n'),
-      });
-      this.code = this.snipp;
+      if (this.code !== '') {
+        this.$store.dispatch('webcomponent/updateSnipp', {
+          snipp: data + '\n' + this.getDistIncludes().join('\n'),
+        });
+        this.code = this.snipp;
+        if (this.snippOriginal === null) {
+          this.$store.dispatch('webcomponent/setSnippOriginal', {
+            snipp: this.snipp,
+          });
+        }
 
-      if (this.autoUpdate) {
+        if (this.autoUpdate) {
+          this.updatePreview();
+        }
+      } else {
+        this.code = this.snipp;
         this.updatePreview();
       }
     },
@@ -275,6 +287,9 @@ export default {
       this.selectedView = newSelectedView;
     },
     updatePreview() {
+      this.$store.dispatch('webcomponent/updateSnipp', {
+        snipp: this.code,
+      });
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);

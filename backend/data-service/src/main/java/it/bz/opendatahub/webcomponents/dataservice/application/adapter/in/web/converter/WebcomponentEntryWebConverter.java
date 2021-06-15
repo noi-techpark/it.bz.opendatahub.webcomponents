@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Converter
 public class WebcomponentEntryWebConverter extends BeanConverter<Webcomponent, WebcomponentEntryRest> {

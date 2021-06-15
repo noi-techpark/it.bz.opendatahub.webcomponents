@@ -7,7 +7,6 @@ import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsErrorEx
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsInvalidRequestException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsUnavailableException;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 @Adapter
 @Slf4j
@@ -57,10 +52,10 @@ public class GoogleLighthouseAdapter implements GoogleLighthousePort {
 		}
 		catch (HttpServerErrorException httpServerErrorException) {
 			if(httpServerErrorException.getStatusCode().equals(HttpStatus.INTERNAL_SERVER_ERROR)) {
-				throw new MetricsErrorException(httpServerErrorException);
+				throw new MetricsUnavailableException(httpServerErrorException);
 			}
 
-			throw new MetricsUnavailableException(httpServerErrorException);
+			throw new MetricsErrorException(httpServerErrorException);
 		}
 	}
 }

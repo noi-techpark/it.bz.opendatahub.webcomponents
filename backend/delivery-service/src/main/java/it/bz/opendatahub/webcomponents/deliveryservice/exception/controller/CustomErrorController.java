@@ -1,5 +1,6 @@
 package it.bz.opendatahub.webcomponents.deliveryservice.exception.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import it.bz.opendatahub.webcomponents.deliveryservice.exception.ErrorMessage;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
@@ -8,12 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@ApiIgnore
+@Hidden
 public class CustomErrorController extends ExceptionHandlerController implements ErrorController {
 
     private static final String PATH = "/error";

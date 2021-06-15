@@ -1,7 +1,6 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.persistence;
 
 import it.bz.opendatahub.webcomponents.common.converter.ConverterUtils;
-import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentModel;
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.common.data.model.id.WebcomponentVersionId;
 import it.bz.opendatahub.webcomponents.common.stereotype.PersistenceAdapter;
@@ -13,6 +12,7 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWeb
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
 import lombok.val;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -102,5 +102,11 @@ public class WebcomponentVersionPersistenceAdapter implements ReadWebcomponentVe
 		model = webcomponentVersionRepository.save(model);
 
 		return webcomponentVersionConverter.convert(model);
+	}
+
+	@Override
+	@Transactional
+	public void markAllToRefetchLighthouseMetrics() {
+		webcomponentVersionRepository.markAllToRefetchLighthouseMetrics();
 	}
 }

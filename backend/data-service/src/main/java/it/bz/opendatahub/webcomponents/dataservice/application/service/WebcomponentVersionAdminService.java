@@ -1,12 +1,12 @@
 package it.bz.opendatahub.webcomponents.dataservice.application.service;
 
 import it.bz.opendatahub.webcomponents.common.converter.ConverterUtils;
-import it.bz.opendatahub.webcomponents.common.data.struct.Dist;
 import it.bz.opendatahub.webcomponents.common.data.struct.DistFile;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentVersion;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.CreateWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.DeleteWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RecalculateAllDistSizesUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.RefetchAllLighthouseMetricsUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ReplaceWebcomponentVersionUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ScheduleWebcomponentVersionMetricsUpdateUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.UpdateWebcomponentVersionUseCase;
@@ -23,12 +23,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
 @Service
-public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase, RecalculateAllDistSizesUseCase, UpdateWebcomponentVersionUseCase {
+public class WebcomponentVersionAdminService implements CreateWebcomponentVersionUseCase, ReplaceWebcomponentVersionUseCase, DeleteWebcomponentVersionUseCase, ScheduleWebcomponentVersionMetricsUpdateUseCase, RecalculateAllDistSizesUseCase, UpdateWebcomponentVersionUseCase, RefetchAllLighthouseMetricsUseCase {
 	private final ReadWebcomponentPort readWebcomponentPort;
 	private final ReadWebcomponentVersionPort readWebcomponentVersionPort;
 	private final WriteWebcomponentVersionPort writeWebcomponentVersionPort;
@@ -117,6 +116,11 @@ public class WebcomponentVersionAdminService implements CreateWebcomponentVersio
 		webcomponentVersion.setLighthouseUpdateRequired(true);
 
 		return writeWebcomponentVersionPort.saveWebcomponentVersion(webcomponentVersion);
+	}
+
+	@Override
+	public void refetchAllLighthouseMetrics() {
+		writeWebcomponentVersionPort.markAllToRefetchLighthouseMetrics();
 	}
 
 	@Override

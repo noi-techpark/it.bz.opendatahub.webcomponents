@@ -13,7 +13,6 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.out.WriteWeb
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.NotFoundException;
 import lombok.NonNull;
 import lombok.val;
-import lombok.var;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -8,6 +8,7 @@ export const state = () => ({
   currentConfig: null as WebcomponentConfigurationModel,
   currentVersion: null as string,
   currentSnipp: null as string,
+  snippOriginal: null as string,
 });
 
 export type RootState = ReturnType<typeof state>;
@@ -17,6 +18,7 @@ export const getters: GetterTree<RootState, RootState> = {
   currentConfig: (state) => state.currentConfig,
   currentVersion: (state) => state.currentVersion,
   currentSnipp: (state) => state.currentSnipp,
+  snippOriginal: (state) => state.snippOriginal,
 };
 
 export const mutations: MutationTree<RootState> = {
@@ -31,6 +33,9 @@ export const mutations: MutationTree<RootState> = {
   },
   SET_SNIPP: (state, snipp: string) => {
     state.currentSnipp = snipp;
+  },
+  SET_SNIPP_ORIGINAL: (state, snipp: string) => {
+    state.snippOriginal = snipp;
   },
 };
 
@@ -63,5 +68,8 @@ export const actions: ActionTree<RootState, RootState> = {
 
   updateSnipp({ commit }, { snipp }) {
     commit('SET_SNIPP', snipp);
+  },
+  setSnippOriginal({ commit }, { snipp }) {
+    commit('SET_SNIPP_ORIGINAL', snipp);
   },
 };

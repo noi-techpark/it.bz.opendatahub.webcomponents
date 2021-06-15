@@ -5,11 +5,8 @@ import it.bz.opendatahub.webcomponents.deliveryservice.repository.WebcomponentRe
 import it.bz.opendatahub.webcomponents.deliveryservice.repository.WorkspaceRepository;
 import it.bz.opendatahub.webcomponents.deliveryservice.service.DistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
-import javax.activation.MimeType;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLConnection;

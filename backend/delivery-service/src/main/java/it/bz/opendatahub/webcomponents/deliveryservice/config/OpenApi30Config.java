@@ -1,9 +1,7 @@
-package it.bz.opendatahub.webcomponents.dataservice.config;
+package it.bz.opendatahub.webcomponents.deliveryservice.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,12 +12,6 @@ import java.util.Collections;
 
 @Configuration
 @OpenAPIDefinition(info = @Info(title = "NOI - WCS", version = "v2"))
-@SecurityScheme(
-	name = "bearerAuth",
-	type = SecuritySchemeType.HTTP,
-	bearerFormat = "JWT",
-	scheme = "bearer"
-)
 public class OpenApi30Config {
 	@Value("${application.swaggerBaseUrl:}")
 	private String swaggerBaseUrl;

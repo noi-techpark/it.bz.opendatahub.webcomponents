@@ -108,6 +108,26 @@ There are some specific settings in the 'application' section of the
 configuration that might need customization: Please refer to each file and its
 commands for further information. 
 
+```
+application.swaggerBaseUrl
+```
+set the base url for the Swagger API documentation
+
+```
+errorHandling.verboseException
+```
+true or false -> will enable or disable stacktrackes in the error responses of the API
+
+application.swaggerBaseUrl
+```
+set the base url for the Swagger API documentation
+
+```
+
+```
+errorHandling.verboseException
+```
+true or false -> will enable or disable stacktrackes in the error responses of the API
 ## Deployment
 
 The project requires a Tomcat server as well as a PostgreSQL 9.6+ database server.

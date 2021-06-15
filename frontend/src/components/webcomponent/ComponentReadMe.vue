@@ -9,7 +9,7 @@
         <h2>#Author</h2>
         <div
           v-for="author in component.authors"
-          :key="author"
+          :key="author.toString()"
           class="d-flex flex-row align-items-center bottom-border"
         >
           <div class="circle-icon"></div>

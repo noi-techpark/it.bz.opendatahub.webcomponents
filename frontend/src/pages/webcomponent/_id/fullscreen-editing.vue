@@ -4,7 +4,7 @@
       <iframe
         id="tframe"
         class="full-height full-width"
-        style="min-height: 100vh"
+        style="min-height: 100vh; margin-bottom: 60px"
         title="iframe-preview"
       ></iframe>
       <detail-bottom-bar
@@ -15,7 +15,7 @@
       >
       </detail-bottom-bar>
       <WCSConfigTool
-        v-if="config"
+        v-if="config && configuratorEnabled"
         :config="config.configuration"
         style="display: none"
         @snippet="updateSnippet"
@@ -25,8 +25,12 @@
       v-model="code"
       class="my-editor pt-4"
       :highlight="highlighter"
-      :line-numbers="true"
-      style="border: 0; background-color: inherit; width: 50%"
+      style="
+        border: 0;
+        background-color: inherit;
+        width: 50%;
+        padding-left: 8px;
+      "
     ></prism-editor>
   </div>
 </template>
@@ -36,12 +40,10 @@ import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-co
 import { PrismEditor } from 'vue-prism-editor';
 import DetailBottomBar from '~/components/detail-bottom-bar';
 
-import 'vue-prism-editor/dist/prismeditor.min.css'; // import the styles somewhere
 // eslint-disable-next-line import/order
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup';
-import 'prismjs/themes/prism.css';
 
 export default {
   name: 'FullscreenEditing',
@@ -54,6 +56,7 @@ export default {
       selectedView: 'editing',
       autoUpdate: true,
       code: '',
+      configuratorEnabled: false,
     };
   },
   computed: {
@@ -66,13 +69,23 @@ export default {
     snipp() {
       return this.$store.getters['webcomponent/currentSnipp'];
     },
+    snippOriginal() {
+      return this.$store.getters['webcomponent/snippOriginal'];
+    },
   },
   created() {
-    this.$store.dispatch('webcomponent/loadWebcomponent', {
-      uuid: this.$route.params.id,
-      version: this.$route.params.version,
-    });
+    if (this.snipp === null) {
+      this.$store.dispatch('webcomponent/loadWebcomponent', {
+        uuid: this.$route.params.id,
+        version: this.$route.params.version,
+      });
+      this.code = this.snipp;
+      this.configuratorEnabled = true;
+    }
+  },
+  mounted() {
     this.code = this.snipp;
+    this.updatePreview();
   },
   methods: {
     highlighter(code) {
@@ -82,14 +95,28 @@ export default {
       this.selectedView = newSelectedView;
     },
     updatePreview() {
+      this.$store.dispatch('webcomponent/updateSnipp', {
+        snipp: this.code,
+      });
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);
 
+      const width = document.documentElement.clientWidth;
       const newElement = document.createElement('iframe');
       newElement.setAttribute('id', 'tframe');
       newElement.setAttribute('class', 'full-height full-width');
-      newElement.setAttribute('style', 'min-height: 100vh;');
+      if (width > 576) {
+        newElement.setAttribute(
+          'style',
+          'min-height: 100vh; padding-bottom: 65px;'
+        );
+      } else {
+        newElement.setAttribute(
+          'style',
+          'min-height: 100vh; padding-bottom: 45px;'
+        );
+      }
       newElement.setAttribute('frameborder', '0');
 
       document.getElementById('twrap').appendChild(newElement);
@@ -148,6 +175,12 @@ export default {
 
       if (this.autoUpdate) {
         this.updatePreview();
+      }
+
+      if (this.snippOriginal === null) {
+        this.$store.dispatch('webcomponent/setSnippOriginal', {
+          snipp: this.snipp,
+        });
       }
     },
     copySnippetToClipboard() {

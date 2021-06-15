@@ -3,8 +3,10 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.out.pers
 import it.bz.opendatahub.webcomponents.common.data.model.WebcomponentVersionModel;
 import it.bz.opendatahub.webcomponents.common.data.model.id.WebcomponentVersionId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,4 +27,9 @@ public interface WebcomponentVersionRepository extends JpaRepository<Webcomponen
 
     @Query(value = "SELECT * FROM webcomponent_version AS v WHERE v.webcomponent_uuid=?1 AND v.version_tag=?2 AND v.deleted=false", nativeQuery = true)
     Optional<WebcomponentVersionModel> findSpecificVersionOfWebcomponent(String webcomponentId, String versionTag);
+
+    @Transactional
+	@Modifying
+	@Query("UPDATE WebcomponentVersionModel m SET m.lighthouseUpdateRequired=true")
+	void markAllToRefetchLighthouseMetrics();
 }
