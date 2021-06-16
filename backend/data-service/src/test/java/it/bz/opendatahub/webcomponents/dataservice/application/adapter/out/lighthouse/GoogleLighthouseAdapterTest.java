@@ -97,29 +97,27 @@ class GoogleLighthouseAdapterTest {
 		);
 	}
 
-	// PEMOSER Currently disable to test other features
-	// @Test
-	// void getMetricsForUrlThrowsOnHttp500() {
-	// 	val restTemplate = Mockito.mock(RestTemplate.class);
-	// 	when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
+	@Test
+	void getMetricsForUrlThrowsOnHttp500() {
+		val restTemplate = Mockito.mock(RestTemplate.class);
+		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR));
 
-	// 	val adapter = new GoogleLighthouseAdapter(restTemplate);
+		val adapter = new GoogleLighthouseAdapter(restTemplate);
 
-	// 	assertThatExceptionOfType(MetricsErrorException.class).isThrownBy(
-	// 		() -> adapter.getMetricsForUrl("any")
-	// 	);
-	// }
+		assertThatExceptionOfType(MetricsUnavailableException.class).isThrownBy(
+			() -> adapter.getMetricsForUrl("any")
+		);
+	}
+	
+	@Test
+	void getMetricsForUrlThrowsOnHttp5xx() {
+		val restTemplate = Mockito.mock(RestTemplate.class);
+		when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpServerErrorException(HttpStatus.GATEWAY_TIMEOUT));
 
-	// PEMOSER Currently disable to test other features
-	// @Test
-	// void getMetricsForUrlThrowsOnHttp5xx() {
-	// 	val restTemplate = Mockito.mock(RestTemplate.class);
-	// 	when(restTemplate.getForObject(anyString(), any())).thenThrow(new HttpServerErrorException(HttpStatus.GATEWAY_TIMEOUT));
+		val adapter = new GoogleLighthouseAdapter(restTemplate);
 
-	// 	val adapter = new GoogleLighthouseAdapter(restTemplate);
-
-	// 	assertThatExceptionOfType(MetricsUnavailableException.class).isThrownBy(
-	// 		() -> adapter.getMetricsForUrl("any")
-	// 	);
-	// }
+		assertThatExceptionOfType(MetricsErrorException.class).isThrownBy(
+			() -> adapter.getMetricsForUrl("any")
+		);
+	}
 }
