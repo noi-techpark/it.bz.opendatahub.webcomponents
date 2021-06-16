@@ -104,7 +104,7 @@ class GoogleLighthouseAdapterTest {
 
 		val adapter = new GoogleLighthouseAdapter(restTemplate);
 
-		assertThatExceptionOfType(MetricsErrorException.class).isThrownBy(
+		assertThatExceptionOfType(MetricsUnavailableException.class).isThrownBy(
 			() -> adapter.getMetricsForUrl("any")
 		);
 	}
@@ -116,7 +116,7 @@ class GoogleLighthouseAdapterTest {
 
 		val adapter = new GoogleLighthouseAdapter(restTemplate);
 
-		assertThatExceptionOfType(MetricsUnavailableException.class).isThrownBy(
+		assertThatExceptionOfType(MetricsErrorException.class).isThrownBy(
 			() -> adapter.getMetricsForUrl("any")
 		);
 	}
