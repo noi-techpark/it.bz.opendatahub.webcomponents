@@ -108,7 +108,7 @@ class GoogleLighthouseAdapterTest {
 			() -> adapter.getMetricsForUrl("any")
 		);
 	}
-
+	
 	@Test
 	void getMetricsForUrlThrowsOnHttp5xx() {
 		val restTemplate = Mockito.mock(RestTemplate.class);
