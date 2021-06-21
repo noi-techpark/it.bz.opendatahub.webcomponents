@@ -36,6 +36,7 @@
 @import 'widget/tab-button';
 @import 'widget/contributor-item';
 @import 'widget/config-tabs';
+@import 'widget/prism-editor';
 
 .detail-border {
 	@include media-breakpoint-down(md) {
@@ -333,9 +334,4 @@ main {
 		margin-left: 0;
 		margin-right: 0;
 	}
-}
-
-.prism-editor__textarea::selection {
-	background-color: #accef7 !important;
-	color: transparent !important;
 }
