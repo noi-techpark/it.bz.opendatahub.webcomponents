@@ -16,7 +16,7 @@ FROM base as build
 ARG JENKINS_GROUP_ID=1000
 ARG JENKINS_USER_ID=1000
 RUN addgroup -g $JENKINS_GROUP_ID jenkins && \
-    adduser -D -u $JENKINS_USER_ID -G jenkins jenkins
+    useradd -D -u $JENKINS_USER_ID -G jenkins jenkins
 
 COPY infrastructure/docker/java-entrypoint.sh /entrypoint.sh
 RUN /entrypoint.sh true
