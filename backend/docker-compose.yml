@@ -9,21 +9,22 @@ services:
     volumes:
       - ./:/code
       - ./.m2:/code/.m2
-    env_file: 
+      - ./workspace:/workspace
+    env_file:
       - .env
-    environment: 
+    environment:
       MAVEN_CONFIG: /code/.m2
     working_dir: /code
     user: "1000"    # id of your local development user
-    command: 
+    command:
       - |
         mvn install -Duser.home=/code
         cd data-service
         mvn spring-boot:run -B -Dspring-boot.run.profiles=dev -Duser.home=/code
-    depends_on: 
+    depends_on:
       - postgres
       - mailhog
-    ports: 
+    ports:
       - "${API_SERVER_PORT}:${API_SERVER_PORT}"
     tty: true
 
@@ -36,23 +37,23 @@ services:
     volumes:
       - ./:/code
       - ./.m2:/code/.m2
-    env_file: 
+    env_file:
       - .env
-    environment: 
+    environment:
       MAVEN_CONFIG: /code/.m2
     working_dir: /code
     user: "1000"    # id of your local development user
-    command: 
+    command:
       - |
         mvn install -Duser.home=/code
         cd delivery-service
         mvn spring-boot:run -B -Dspring-boot.run.profiles=dev -Duser.home=/code
-    depends_on: 
+    depends_on:
       - postgres
-    ports: 
+    ports:
       - "${CDN_SERVER_PORT}:${CDN_SERVER_PORT}"
     tty: true
-  
+
   postgres:
     container_name: wcstore_postgres
     image: postgres:13

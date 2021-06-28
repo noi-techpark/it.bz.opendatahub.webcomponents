@@ -1,4 +1,4 @@
-FROM maven:3-jdk-8-alpine as base
+FROM maven:3-jdk-8 as base
 
 ## Local development stage
 #
@@ -31,7 +31,7 @@ COPY delivery-service delivery-service/
 COPY data-service/src/main/resources/application-deployment.properties \
 	 data-service/src/main/resources/application.properties
 COPY delivery-service/src/main/resources/application-deployment.properties \
-	 delivery-service/src/main/resources/application.properties	 
+	 delivery-service/src/main/resources/application.properties
 RUN chown -R ${JENKINS_USER_ID}:${JENKINS_GROUP_ID} /code
 
 # fetch all dependencies (run the entrypoint.sh to force a .m2 location)
