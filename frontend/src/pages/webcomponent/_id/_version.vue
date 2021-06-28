@@ -1,149 +1,151 @@
 <template>
-  <div v-if="component" class="mb-5">
-    <WcDetailBlock
-      :return-link="returnLink"
-      :show-preview="showPreview"
-      :external-preview-url="externalPreviewUrl"
-      @set-show-preview="setShowPreview"
-    ></WcDetailBlock>
-    <div v-if="showPreview && hasAnyVersion">
-      <div class="container-fluid container-extended pb-4 p-2 pr-4 pt-sm-2">
-        <div class="detail-content-left">
-          <b-alert
-            :show="!isLatestVersionActive"
-            variant="danger"
-            class="mt-4 mb-4 detail-content-left"
-            >You have not selected the latest version of this
-            webcomponent.</b-alert
-          >
-        </div>
-      </div>
-      <div
-        class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2"
-      >
-        <div class="row">
-          <div class="col-lg-8 detail-content-left">
-            <b-card id="widget-preview" class="full-height">
-              <b-card-text id="twrap" class="text-center">
-                <iframe
-                  id="tframe"
-                  class="full-height full-width"
-                  style="min-height: 800px"
-                  title="iframe-preview"
-                ></iframe>
-              </b-card-text>
-            </b-card>
+  <div style="min-height: 1000px">
+    <div v-if="component" class="mb-5">
+      <WcDetailBlock
+        :return-link="returnLink"
+        :show-preview="showPreview"
+        :external-preview-url="externalPreviewUrl"
+        @set-show-preview="setShowPreview"
+      ></WcDetailBlock>
+      <div v-if="showPreview && hasAnyVersion">
+        <div class="container-fluid container-extended pb-4 p-2 pr-4 pt-sm-2">
+          <div class="detail-content-left">
+            <b-alert
+              :show="!isLatestVersionActive"
+              variant="danger"
+              class="mt-4 mb-4 detail-content-left"
+              >You have not selected the latest version of this
+              webcomponent.</b-alert
+            >
           </div>
-          <b-tabs
-            pills
-            class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right"
-          >
-            <b-tab id="first-tab" title="EASY CONFIGURATION" active>
-              <div v-show="!editmode">
-                <div class="full-height widget-config">
-                  <span v-if="!editmode">
-                    <b-checkbox
-                      v-model="autoUpdate"
-                      class="d-inline-block"
-                    ></b-checkbox
-                    >auto update
-                  </span>
-                  <b-card-text>
-                    <WCSConfigTool
-                      v-if="config"
-                      :config="config.configuration"
-                      @snippet="updateSnippet"
-                    ></WCSConfigTool>
-                  </b-card-text>
+        </div>
+        <div
+          class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2"
+        >
+          <div class="row">
+            <div class="col-lg-8 detail-content-left">
+              <b-card id="widget-preview" class="full-height">
+                <b-card-text id="twrap" class="text-center">
+                  <iframe
+                    id="tframe"
+                    class="full-height full-width"
+                    style="min-height: 800px"
+                    title="iframe-preview"
+                  ></iframe>
+                </b-card-text>
+              </b-card>
+            </div>
+            <b-tabs
+              pills
+              class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right"
+            >
+              <b-tab id="first-tab" title="EASY CONFIGURATION" active>
+                <div v-show="!editmode">
+                  <div class="full-height widget-config">
+                    <span v-if="!editmode">
+                      <b-checkbox
+                        v-model="autoUpdate"
+                        class="d-inline-block"
+                      ></b-checkbox
+                      >auto update
+                    </span>
+                    <b-card-text>
+                      <WCSConfigTool
+                        v-if="config"
+                        :config="config.configuration"
+                        @snippet="updateSnippet"
+                      ></WCSConfigTool>
+                    </b-card-text>
 
-                  <!--<div slot="footer" class="text-right text-uppercase">
+                    <!--<div slot="footer" class="text-right text-uppercase">
                   <font-awesome-icon :icon="['fas', 'check']" /> apply
                 </div>-->
+                  </div>
                 </div>
-              </div>
-              <div v-show="editmode">
-                <div class="text-uppercase font-weight-bold mb-2">
-                  configuration
-                </div>
-                <b-card
-                  class="full-height widget-config"
-                  style="background-color: #fafafa"
-                >
-                  <b-card-text
-                    >Configurator disabled. Manual configuration
-                    active.</b-card-text
+                <div v-show="editmode">
+                  <div class="text-uppercase font-weight-bold mb-2">
+                    configuration
+                  </div>
+                  <b-card
+                    class="full-height widget-config"
+                    style="background-color: #fafafa"
                   >
+                    <b-card-text
+                      >Configurator disabled. Manual configuration
+                      active.</b-card-text
+                    >
 
-                  <!--<div slot="footer" class="text-right text-uppercase">
+                    <!--<div slot="footer" class="text-right text-uppercase">
                     <font-awesome-icon :icon="['fas', 'check']" /> apply
                   </div>-->
-                </b-card>
-              </div></b-tab
-            >
-            <b-tab title="EDIT CODE" class="second-tab"
-              ><div>
-                <div class="text-uppercase font-weight-bold mb-2">
-                  code snippet
-                </div>
-                <b-card
-                  id="widget-codesnippet"
-                  class="white"
-                  style="min-height: 250px"
-                >
-                  <b-card-text>
-                    <prism-editor
-                      v-model="code"
-                      class="my-editor"
-                      :highlight="highlighter"
-                      style="border: 0; background-color: inherit"
-                    />
-                  </b-card-text>
-
-                  <div
-                    v-if="code !== snipp"
-                    slot="footer"
-                    class="text-right text-uppercase"
-                  >
-                    <span
-                      style="cursor: pointer"
-                      class="mr-4"
-                      @click="toggleEditMode()"
-                    >
-                      RESET
-                    </span>
+                  </b-card>
+                </div></b-tab
+              >
+              <b-tab title="EDIT CODE" class="second-tab"
+                ><div>
+                  <div class="text-uppercase font-weight-bold mb-2">
+                    code snippet
                   </div>
-                </b-card>
-              </div></b-tab
-            >
-            <template #tabs-end>
-              <div class="version-select-container ml-md-5">
-                <b-form-select
-                  :value="selectedVersion"
-                  class="version-select ml-md-2"
-                  @change="reloadConfig"
-                >
-                  <option
-                    v-for="version in component.versions"
-                    :key="version.versionTag"
+                  <b-card
+                    id="widget-codesnippet"
+                    class="white"
+                    style="min-height: 250px"
                   >
-                    {{ version.versionTag }}
-                  </option>
-                </b-form-select>
-              </div>
-            </template>
-          </b-tabs>
+                    <b-card-text>
+                      <prism-editor
+                        v-model="code"
+                        class="my-editor"
+                        :highlight="highlighter"
+                        style="border: 0; background-color: inherit"
+                      />
+                    </b-card-text>
+
+                    <div
+                      v-if="code !== snipp"
+                      slot="footer"
+                      class="text-right text-uppercase"
+                    >
+                      <span
+                        style="cursor: pointer"
+                        class="mr-4"
+                        @click="toggleEditMode()"
+                      >
+                        RESET
+                      </span>
+                    </div>
+                  </b-card>
+                </div></b-tab
+              >
+              <template #tabs-end>
+                <div class="version-select-container ml-md-5">
+                  <b-form-select
+                    :value="selectedVersion"
+                    class="version-select ml-md-2"
+                    @change="reloadConfig"
+                  >
+                    <option
+                      v-for="version in component.versions"
+                      :key="version.versionTag"
+                    >
+                      {{ version.versionTag }}
+                    </option>
+                  </b-form-select>
+                </div>
+              </template>
+            </b-tabs>
+          </div>
         </div>
+        <detail-bottom-bar
+          :selected-view="selectedView"
+          @updatePreview="updatePreview"
+          @setSelectedView="setSelectedView"
+          @copyCode="copySnippetToClipboard"
+        >
+        </detail-bottom-bar>
       </div>
-      <detail-bottom-bar
-        :selected-view="selectedView"
-        @updatePreview="updatePreview"
-        @setSelectedView="setSelectedView"
-        @copyCode="copySnippetToClipboard"
-      >
-      </detail-bottom-bar>
-    </div>
-    <div v-else>
-      <component-read-me :component="component"></component-read-me>
+      <div v-else>
+        <component-read-me :component="component"></component-read-me>
+      </div>
     </div>
   </div>
 </template>
@@ -157,6 +159,7 @@ import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup.min';
+
 import DetailBottomBar from '~/components/detail-bottom-bar'; // import syntax highlighting styles
 
 export default {
@@ -253,6 +256,10 @@ export default {
           params: { id: this.$route.params.id, version },
         })
       );
+      this.$store.dispatch('webcomponent/loadWebcomponent', {
+        uuid: this.$route.params.id,
+        version,
+      });
     },
     updateSnippet(data) {
       if (this.code !== '') {

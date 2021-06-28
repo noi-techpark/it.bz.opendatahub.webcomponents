@@ -96,6 +96,10 @@ export default {
       return '/component_placeholder.png';
     },
     returnPath() {
+      if (!this.entry) {
+        return this.localePath('/');
+      }
+
       if (this.returnTo === null) {
         return this.localePath({
           name: 'webcomponent-id',
