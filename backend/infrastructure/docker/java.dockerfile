@@ -46,7 +46,7 @@ ENTRYPOINT [ "/entrypoint.sh" ]
 
 ## Running stage: API
 #
-FROM openjdk:8-jre-alpine as buildapi
+FROM openjdk:8-jre as buildapi
 
 # Copy the built artifact from build image
 COPY --from=build /code/data-service/target/dataservice.jar /app.jar
@@ -60,7 +60,7 @@ CMD ["java","-jar","/app.jar"]
 
 ## Running stage: CDN
 #
-FROM openjdk:8-jre-alpine as buildcdn
+FROM openjdk:8-jre as buildcdn
 
 # Copy the built artifact from build image
 COPY --from=build /code/delivery-service/target/deliveryservice.jar /app.jar
