@@ -10,4 +10,4 @@ cat > "$MAVEN_CONFIG/.m2/settings.xml" << EOF
 </settings>
 EOF
 
-/bin/bash -c "$@" 
+/bin/bash -c "$@"
