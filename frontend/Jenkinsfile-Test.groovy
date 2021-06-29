@@ -15,6 +15,8 @@ pipeline {
         CDN_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu"
         GOOGLE_ANALYTICS_ID = credentials('webcompstore-test-google-analytics-id')
         GOOGLE_ANALYTICS_DEBUG = false
+
+		RECAPTCHA_PUBLIC_KEY = credentials('webcompstore-recaptcha-sitekey')
     }
 
     stages {
@@ -30,7 +32,11 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'cd frontend && yarn run build'
+                sh '''
+					cd frontend
+					echo 'RECAPTCHA_PUBLIC_KEY=${RECAPTCHA_PUBLIC_KEY}' > .env
+					yarn run build
+				'''
             }
         }
         stage('Upload') {
