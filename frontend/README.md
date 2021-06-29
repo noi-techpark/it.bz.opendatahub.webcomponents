@@ -74,6 +74,10 @@ https://www.google.com/recaptcha/admin/create
 See [VUE reCaptcha module](https://www.npmjs.com/package/vue-recaptcha) for more
 details.
 
+IMPORTANT: Only captcha keys of Version2 are supported.
+
+Key inside `.env` is `RECAPTCHA_PUBLIC_KEY`.
+
 #### API
 
 ```
