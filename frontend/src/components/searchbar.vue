@@ -23,10 +23,21 @@
                 <span v-else class="filter-text-light text-capitalize">{{
                   userSelectedTags.join(', ')
                 }}</span>
-                <span
-                  class="chevron semi-bold mr-2"
-                  :class="[searchTagsVisible ? 'top' : 'bottom']"
-                ></span>
+                <div style="height: 100%">
+                  <img
+                    v-if="selectedTags.length > 0"
+                    src="/icons/close_black.svg"
+                    class="clear-icon"
+                    style="margin-right: 15px"
+                    @click="clearTags"
+                  />
+                  <span style="padding-top: 15px">
+                    <span
+                      class="chevron semi-bold mr-2"
+                      :class="[searchTagsVisible ? 'top' : 'bottom']"
+                    ></span>
+                  </span>
+                </div>
               </div>
               <b-collapse
                 id="tag-collapse"
@@ -79,7 +90,14 @@
                   />
                 </div>
 
+                <img
+                  v-if="searchTerm !== ''"
+                  src="/icons/close_black.svg"
+                  class="clear-icon"
+                  @click="clearSearch"
+                />
                 <svg
+                  v-else
                   style="margin-top: 0.15rem; height: 1.5rem"
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -202,6 +220,12 @@ export default {
     isNewSearchTerm() {
       return this.internalSearchTerm !== this.oldSearchTerm;
     },
+    clearSearch() {
+      this.internalSearchTerm = '';
+    },
+    clearTags() {
+      this.userSelectedTags = [];
+    },
   },
 };
 </script>
@@ -216,5 +240,9 @@ export default {
 
 .custom-checkbox {
   padding-bottom: 8px;
+}
+
+.clear-icon {
+  margin-bottom: 5px;
 }
 </style>
