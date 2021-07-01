@@ -4,6 +4,7 @@
     <Searchbar
       :search-term="searchTerm"
       :selected-tags="getSearchTags"
+      :focus-search="true"
       @term-updated="updateSearchTerm($event)"
       @term-submitted="redirectSearchTerm($event)"
       @tags-updated="redirectSearchTerm($event)"

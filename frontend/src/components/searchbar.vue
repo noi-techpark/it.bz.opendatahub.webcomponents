@@ -143,6 +143,10 @@ export default {
       type: Array,
     },
     searchTerm: { default: '', type: String },
+    focusSearch: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -157,7 +161,18 @@ export default {
       return this.$store.getters['searchtags/getSearchtags'];
     },
   },
+  mounted() {
+    this.loadSearchTags();
+
+    if (this.focusSearch) {
+      this.focusInput();
+    }
+  },
   methods: {
+    async loadSearchTags() {
+      this.availableSearchTags = await this.$api.searchtag.listAll();
+      this.isLoaded = true;
+    },
     focusInput() {
       this.$refs.searchTermInput.focus();
     },
@@ -174,6 +189,7 @@ export default {
           tags: this.userSelectedTags,
           term: this.internalSearchTerm,
         });
+        this.$refs.searchTermInput.focus();
       }
     },
     termSubmitted() {
