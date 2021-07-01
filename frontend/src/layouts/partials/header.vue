@@ -6,7 +6,7 @@
           <nuxt-link :to="localePath('index')">
             <img
               id="logo"
-              src="/logo.svg"
+              src="/logo-open-data-hub.png"
               height="50px"
               style="max-width: 100%"
             />

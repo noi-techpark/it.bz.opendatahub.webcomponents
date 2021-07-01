@@ -62,7 +62,7 @@ export default {
   fill: none;
   stroke-width: 2.8;
   animation: progress 1s ease-out forwards;
-  stroke: #9bc320;
+  stroke: #50742f;
 }
 
 .red .circle {

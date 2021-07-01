@@ -13,7 +13,7 @@
       </p>
       <div class="logo_container">
         <a class="img_container" href="https://noi.bz.it" target="_blank">
-          <img src="/NOI-logo.png" />
+          <img src="/NOI-logo.png" height="100" />
         </a>
         <a class="img_container" href="https://konverto.eu" target="_blank">
           <img src="/KONVERTO_Logo.png" width="350" />
@@ -23,7 +23,7 @@
           href="https://idm-suedtirol.com"
           target="_blank"
         >
-          <img src="/IDM-logo.png" />
+          <img src="/IDM-logo.png" height="100" />
         </a>
       </div>
       <h2 id="publishers">Publishers</h2>

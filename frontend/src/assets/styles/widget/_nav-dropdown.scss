@@ -1,6 +1,6 @@
 .b-nav-dropdown {
 	.dropdown-menu {
-		background-color: #9bc320 !important;
+		background-color: #50742F !important;
 		width: 290px !important;
 		margin-top: 10px;
 
@@ -14,7 +14,7 @@
 		}
 
 		li {
-			background-color: #9bc320 !important;
+			background-color: #50742F !important;
 		}
 
 		.submenu-item:hover {
@@ -30,16 +30,16 @@
 			height: 0;
 			border-left: 25px solid transparent;
 			border-right: 25px solid transparent;
-			border-bottom: 20px solid #9bc320;
+			border-bottom: 20px solid #50742F;
 		}
 	}
 
 	.dropdown-menu:hover {
-		background-color: #9bc320 !important;
+		background-color: #50742F !important;
 	}
 
 	/* stylelint-disable-next-line */
 	::v-deep .dropdown-item:hover {
-		background-color: #9bc320 !important;
+		background-color: #50742F !important;
 	}
 }
