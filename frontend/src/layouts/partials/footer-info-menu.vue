@@ -23,7 +23,7 @@
         <div>
           <div
             v-if="showScrollButton"
-            v-scroll-to="'#__nuxt'"
+            v-scroll-to="'body'"
             class="btn-circle btn-circle-footer arrow-up filled"
           >
             <img src="/icons/ic_arrow.svg" />
@@ -40,6 +40,11 @@ export default {
     showScrollButton: {
       type: Boolean,
       default: false,
+    },
+  },
+  methods: {
+    scrollToTop() {
+      window.scrollTo({ top: 0 });
     },
   },
 };
