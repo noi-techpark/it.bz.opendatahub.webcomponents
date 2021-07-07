@@ -267,11 +267,10 @@ export default {
           snipp: data + '\n' + this.getDistIncludes().join('\n'),
         });
         this.code = this.snipp;
-        if (this.snippOriginal === null) {
-          this.$store.dispatch('webcomponent/setSnippOriginal', {
-            snipp: this.snipp,
-          });
-        }
+
+        this.$store.dispatch('webcomponent/setSnippOriginal', {
+          snipp: this.snipp,
+        });
 
         if (this.autoUpdate) {
           this.updatePreview();
