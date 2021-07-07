@@ -10,7 +10,7 @@
     "strict": false,
     "noEmit": true,
     "experimentalDecorators": true,
-    "baseUrl": "./src",
+    "baseUrl": "./src/",
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
@@ -24,5 +24,4 @@
     ]
   },
   "exclude": ["node_modules", ".nuxt", "dist"],
-  "include": ["./src/types"]
 }
