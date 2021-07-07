@@ -92,6 +92,7 @@ export default Vue.extend({
       filter: {
         tags: null,
         searchTerm: null,
+        latest: true,
       },
     });
   },
