@@ -32,15 +32,15 @@ export default {
       if (ev.term !== null && ev.term !== '') {
         this.$router.push(
           this.localePath({
-            name: 'search-tags-term',
-            params: { tags, term: ev.term },
+            name: 'search',
+            query: { tags, term: ev.term },
           })
         );
       } else {
         this.$router.push(
           this.localePath({
-            name: 'search-tags',
-            params: { tags },
+            name: 'search',
+            query: { tags },
           })
         );
       }

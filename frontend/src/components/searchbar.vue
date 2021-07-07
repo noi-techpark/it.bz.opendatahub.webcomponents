@@ -4,7 +4,7 @@
       <div class="container container-extended p-4 pb-0">
         <div class="row">
           <div class="col-6">
-            <div class="">
+            <div id="tags-zone">
               <div
                 id="widget-tags"
                 :class="{
@@ -93,7 +93,7 @@
                 <img
                   v-if="searchTerm !== ''"
                   src="/icons/close_black.svg"
-                  class="clear-icon"
+                  class="clear-icon cursor-pointer"
                   @click="clearSearch"
                 />
                 <svg
@@ -185,8 +185,15 @@ export default {
     if (this.focusSearch) {
       this.focusInput();
     }
+
+    window.addEventListener('click', this.tagCollapseListener);
   },
   methods: {
+    tagCollapseListener(e) {
+      if (!document.getElementById('tags-zone').contains(e.target)) {
+        this.searchTagsVisible = false;
+      }
+    },
     async loadSearchTags() {
       this.availableSearchTags = await this.$api.searchtag.listAll();
       this.isLoaded = true;
