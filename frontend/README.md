@@ -7,13 +7,18 @@
 	- [Requirements](#requirements)
 	- [Configuration](#configuration)
 		- [Mode](#mode)
-		- [API](#api)
+		- [Configuration](#configuration-1)
+			- [ReCaptcha](#recaptcha)
+			- [API](#api)
 	- [Local Development with Docker](#local-development-with-docker)
 	- [Build Setup](#build-setup)
 	- [Adding pages](#adding-pages)
 	- [Deployment](#deployment)
 		- [Single Page Application](#single-page-application)
 		- [Universal Mode](#universal-mode)
+	- [Create new static content pages](#create-new-static-content-pages)
+	- [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
+	- [Create a new banner](#create-a-new-banner)
 
 ## Source Code
 
@@ -57,11 +62,21 @@ Spa mode (single-page-application) only requires node.js to build the project.
 
 ### Configuration
 
-This can be done through a `.env` file. Copy `.env.example` to `.env` and adjust the values as you like.
+This can be done through a `.env` file. Copy `.env.example` to `.env` and adjust
+the values as you like.
 
 #### ReCaptcha
 
-You must configure a ReCaptcha API key that is valid for the domain your frontend is exposed on. You can optain such a key here: https://www.google.com/recaptcha/admin/create
+You must configure a ReCaptcha API key that is valid for the domain your
+frontend is exposed on. You can optain such a key here:
+https://www.google.com/recaptcha/admin/create
+
+See [VUE reCaptcha module](https://www.npmjs.com/package/vue-recaptcha) for more
+details.
+
+IMPORTANT: Only captcha keys of Version2 are supported.
+
+Key inside `.env` is `RECAPTCHA_PUBLIC_KEY`.
 
 #### API
 
@@ -119,7 +134,8 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
 You can easily add new pages by creating them in the /src/pages/ folder.
 [See Nuxt documentation](https://nuxtjs.org/guide/routing)
 
-See [Nuxt i18n](https://nuxt-community.github.io/nuxt-i18n/basic-usage.html) if you need translation.
+See [Nuxt i18n](https://nuxt-community.github.io/nuxt-i18n/basic-usage.html) if
+you need translation.
 
 ## Deployment
 
@@ -148,12 +164,14 @@ $ yarn build
 $ yarn start
 ```
 
-You will probably need a reverse proxy to add https and proxy the application from port 3000 to port 443 on your domain.
+You will probably need a reverse proxy to add https and proxy the application
+from port 3000 to port 443 on your domain.
 
 ## Create new static content pages
 
-1. Create a .vue file under the path where you want to create a new page. The directory structure corresponds to the structure of the url.
-2. Create a .md file with the same name in the same directory
+1. Create a `.vue` file under the path where you want to create a new page. The
+   directory structure corresponds to the structure of the url.
+2. Create a `.md` file with the same name in the same directory
 3. Import the md file in your vue file
 ```js
 import legally from './legally.md';
@@ -188,7 +206,7 @@ Include the following code and replace the url of your video inside the url para
 
 ## Create a new banner
 
-1. Open src/components/banner.vue
+1. Open `src/components/banner.vue`
 2. Add a new banner slide tag
 ```html
 <banner-slide><banner-slide>

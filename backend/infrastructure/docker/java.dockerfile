@@ -1,4 +1,4 @@
-FROM maven:3-jdk-8-alpine as base
+FROM maven:3-jdk-8 as base
 
 ## Local development stage
 #
@@ -15,8 +15,8 @@ FROM base as build
 # Jenkins related permission handling
 ARG JENKINS_GROUP_ID=1000
 ARG JENKINS_USER_ID=1000
-RUN addgroup -g $JENKINS_GROUP_ID jenkins && \
-    adduser -D -u $JENKINS_USER_ID -G jenkins jenkins
+RUN addgroup --gid $JENKINS_GROUP_ID jenkins && \
+    adduser --uid $JENKINS_USER_ID --ingroup jenkins jenkins
 
 COPY infrastructure/docker/java-entrypoint.sh /entrypoint.sh
 RUN /entrypoint.sh true
@@ -31,7 +31,7 @@ COPY delivery-service delivery-service/
 COPY data-service/src/main/resources/application-deployment.properties \
 	 data-service/src/main/resources/application.properties
 COPY delivery-service/src/main/resources/application-deployment.properties \
-	 delivery-service/src/main/resources/application.properties	 
+	 delivery-service/src/main/resources/application.properties
 RUN chown -R ${JENKINS_USER_ID}:${JENKINS_GROUP_ID} /code
 
 # fetch all dependencies (run the entrypoint.sh to force a .m2 location)
@@ -46,7 +46,7 @@ ENTRYPOINT [ "/entrypoint.sh" ]
 
 ## Running stage: API
 #
-FROM openjdk:8-jre-alpine as buildapi
+FROM openjdk:8-jre as buildapi
 
 # Copy the built artifact from build image
 COPY --from=build /code/data-service/target/dataservice.jar /app.jar
@@ -60,7 +60,7 @@ CMD ["java","-jar","/app.jar"]
 
 ## Running stage: CDN
 #
-FROM openjdk:8-jre-alpine as buildcdn
+FROM openjdk:8-jre as buildcdn
 
 # Copy the built artifact from build image
 COPY --from=build /code/delivery-service/target/deliveryservice.jar /app.jar
