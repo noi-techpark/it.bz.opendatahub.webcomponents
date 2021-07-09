@@ -151,14 +151,16 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue, { PropType } from 'vue';
+
+export default Vue.extend({
   props: {
     selectedTags: {
       default: () => {
         return [];
       },
-      type: Array,
+      type: Array as PropType<Array<string>>,
     },
     searchTerm: { default: '', type: String },
     focusSearch: {
@@ -175,7 +177,7 @@ export default {
     };
   },
   computed: {
-    availableSearchTags() {
+    availableSearchTags(): Array<string> {
       return this.$store.getters['searchtags/getSearchtags'];
     },
   },
@@ -234,7 +236,7 @@ export default {
       this.userSelectedTags = [];
     },
   },
-};
+});
 </script>
 
 <style>

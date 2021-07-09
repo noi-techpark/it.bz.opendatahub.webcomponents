@@ -12,7 +12,7 @@
             ></div>
             {{ visibleWebcomponents.length }}
             <nuxt-link
-              :to="localePath({ name: 'search-tags', params: { tags: 'any' } })"
+              :to="localePath({ name: 'search', query: { tags: 'any' } })"
               class="d-flex flex-column text-decoration-none pl-3"
             >
               <span data-testid="show-all">show all </span>
@@ -41,7 +41,7 @@
           </a>
           <nuxt-link
             v-else
-            :to="localePath({ name: 'search-tags', params: { tags: 'any' } })"
+            :to="localePath({ name: 'search', query: { tags: 'any' } })"
             class="d-flex flex-column text-decoration-none"
           >
             <span data-testid="show-all"

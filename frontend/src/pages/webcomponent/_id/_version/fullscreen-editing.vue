@@ -8,9 +8,8 @@
         title="iframe-preview"
       ></iframe>
       <detail-bottom-bar
-        :selected-view="selectedView"
+        selected-view="editing"
         @updatePreview="updatePreview"
-        @setSelectedView="setSelectedView"
         @copyCode="copySnippetToClipboard"
       >
       </detail-bottom-bar>
@@ -18,11 +17,11 @@
         v-if="config && configuratorEnabled"
         :config="config.configuration"
         style="display: none"
-        @snippet="updateSnippet"
+        @snippet="updateSnippetFromTool"
       ></WCSConfigTool>
     </div>
     <prism-editor
-      v-model="code"
+      v-model="editorCode"
       class="my-editor pt-4"
       :highlight="highlighter"
       style="
@@ -35,17 +34,22 @@
   </div>
 </template>
 
-<script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+<script lang="ts">
+import Vue from 'vue';
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator.vue';
 import { PrismEditor } from 'vue-prism-editor';
-import DetailBottomBar from '~/components/detail-bottom-bar';
+import DetailBottomBar from '~/components/detail-bottom-bar.vue';
 
 // eslint-disable-next-line import/order
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup';
+import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
+import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
+import { copyToClipboard } from '~/utils/ClipboardUtils';
+import { getDistIncludes } from '~/utils/SnippetUtils';
 
-export default {
+export default Vue.extend({
   name: 'FullscreenEditing',
   components: { DetailBottomBar, WCSConfigTool, PrismEditor },
   layout(context) {
@@ -53,51 +57,77 @@ export default {
   },
   data() {
     return {
-      selectedView: 'editing',
-      autoUpdate: true,
-      code: '',
+      editorCode: '',
       configuratorEnabled: false,
     };
   },
   computed: {
-    component() {
-      return this.$store.getters['webcomponent/currentWebcomponent'];
+    component(): WebcomponentModel {
+      return this.$store.state.webcomponent.webcomponent;
     },
-    config() {
-      return this.$store.getters['webcomponent/currentConfig'];
+    config(): WebcomponentConfigurationModel {
+      return this.$store.state.webcomponent.configuration;
     },
-    snipp() {
-      return this.$store.getters['webcomponent/currentSnipp'];
+    selectedVersion(): string {
+      return this.$store.state.webcomponent.versionTag;
     },
-    snippOriginal() {
-      return this.$store.getters['webcomponent/snippOriginal'];
+    snippetFromTool(): string {
+      return this.$store.state.webcomponent.snippetFromTool;
+    },
+    snippetFromEditor(): string {
+      return this.$store.state.webcomponent.snippetFromEditor;
     },
   },
+
   created() {
-    if (this.snipp === null) {
-      this.$store.dispatch('webcomponent/loadWebcomponent', {
+    this.initializeWebcomponentAndVersion();
+    if (!this.snippetFromEditor) {
+      this.configuratorEnabled = true;
+    } else {
+      this.editorCode = this.snippetFromEditor;
+    }
+  },
+
+  mounted() {
+    this.updatePreview();
+  },
+
+  watch: {
+    editorCode(value) {
+      this.updateSnippetFromEditor(value);
+    },
+  },
+
+  methods: {
+    async initializeWebcomponentAndVersion() {
+      await this.$store.dispatch('webcomponent/loadWebcomponent', {
         uuid: this.$route.params.id,
         version: this.$route.params.version,
       });
-      this.code = this.snipp;
-      this.configuratorEnabled = true;
-    }
-  },
-  mounted() {
-    this.code = this.snipp;
-    this.updatePreview();
-  },
-  methods: {
+    },
+
     highlighter(code) {
       return highlight(code, languages.markup); // returns html
     },
-    setSelectedView(newSelectedView) {
-      this.selectedView = newSelectedView;
+
+    updateSnippetFromTool(snippet: string) {
+      this.$store.commit(
+        'webcomponent/SET_SNIPPET_FROM_TOOL',
+        snippet + '\n' + getDistIncludes(this.config).join('\n')
+      );
+
+      this.editorCode = this.snippetFromTool;
+
+      this.updatePreview();
     },
+
+    updateSnippetFromEditor(snippet: string) {
+      this.$store.commit('webcomponent/SET_SNIPPET_FROM_EDITOR', snippet);
+    },
+
     updatePreview() {
-      this.$store.dispatch('webcomponent/updateSnipp', {
-        snipp: this.code,
-      });
+      this.updateSnippetFromEditor(this.editorCode);
+
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);
@@ -121,78 +151,14 @@ export default {
 
       document.getElementById('twrap').appendChild(newElement);
 
-      newElement.contentDocument.write(this.code);
+      newElement.contentDocument.write(this.editorCode);
       newElement.contentDocument.close();
     },
-    getDistIncludes() {
-      const scripts = [];
-
-      // Wait until the async loadData method has finished
-      // eslint-disable-next-line no-prototype-builtins
-      if (this.config.hasOwnProperty('dist')) {
-        if (
-          // eslint-disable-next-line no-prototype-builtins
-          this.config.dist.hasOwnProperty('scripts') &&
-          this.config.dist.scripts.length > 0
-        ) {
-          this.config.dist.scripts.forEach((item) => {
-            scripts.push(
-              '<script ' +
-                item.parameter +
-                ' src="' +
-                this.config.deliveryBaseUrl +
-                '/' +
-                this.config.dist.basePath +
-                '/' +
-                item.file +
-                '"></scr' +
-                'ipt>'
-            );
-          });
-        } else {
-          this.config.dist.files.forEach((item) => {
-            scripts.push(
-              '<script src="' +
-                this.config.deliveryBaseUrl +
-                '/' +
-                this.config.dist.basePath +
-                '/' +
-                item +
-                '"></scr' +
-                'ipt>'
-            );
-          });
-        }
-      }
-
-      return scripts;
-    },
-    updateSnippet(data) {
-      this.$store.dispatch('webcomponent/updateSnipp', {
-        snipp: data + '\n' + this.getDistIncludes().join('\n'),
-      });
-      this.code = this.snipp;
-
-      if (this.autoUpdate) {
-        this.updatePreview();
-      }
-
-      if (this.snippOriginal === null) {
-        this.$store.dispatch('webcomponent/setSnippOriginal', {
-          snipp: this.snipp,
-        });
-      }
-    },
     copySnippetToClipboard() {
-      const dummy = document.createElement('textarea');
-      document.body.appendChild(dummy);
-      dummy.value = this.code;
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
+      copyToClipboard(this.editorCode);
     },
   },
-};
+});
 </script>
 <style>
 .my-editor {

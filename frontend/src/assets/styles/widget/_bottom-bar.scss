@@ -6,7 +6,7 @@
 }
 
 .bottom-bar {
-	box-shadow: rgba(0,0,0,0.6) 0 0 5px;
+	box-shadow: rgba(0, 0, 0, 0.6) 0 0 5px;
 	border-radius: 6px 6px 0 0;
 	overflow: hidden;
 
@@ -14,18 +14,18 @@
 		width: 240px;
 		height: 60px;
 		background-color: #2e3131;
-		color: white;
+		color: white !important;
 		border-right: 1px solid white;
 		font-size: 14px;
 		cursor: pointer;
 	}
 
 	.selected {
-		background-color: #50742F;
+		background-color: #50742f;
 	}
 
 	.bottom-bar-button:active {
-		background-color: #50742F;
+		background-color: #50742f;
 	}
 
 	.bottom-bar-button:last-child {

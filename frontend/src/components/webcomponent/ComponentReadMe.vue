@@ -9,13 +9,53 @@
         <h2>#Author</h2>
         <div
           v-for="author in component.authors"
-          :key="author.toString()"
+          :key="'a::' + author.toString()"
           class="d-flex flex-row align-items-center bottom-border"
         >
-          <div class="circle-icon"></div>
-          <div class="pl-5">
-            <div class="font-weight-bold">{{ author.name }}</div>
-            <div class="font-weight-bold">{{ author.organization }}</div>
+          <div class="circle-icon d-none"></div>
+          <div class="pl-4">
+            <div class="font-weight-bold">
+              {{ author.name }}
+              <span v-if="author.email" class="font-weight-normal"
+                >&lt;{{ author.email }}&gt;</span
+              >
+            </div>
+            <div class="font-weight-bold">
+              {{ author.organization }}
+              <a
+                v-if="author.organizationUrl"
+                :href="author.organizationUrl"
+                target="_blank"
+                class="font-weight-normal"
+                >&lt;{{ author.organizationUrl }}&gt;</a
+              >
+            </div>
+          </div>
+        </div>
+        <h2 class="mt-2">#Copyright holder</h2>
+        <div
+          v-for="author in component.copyrightHolders"
+          :key="'c::' + author.toString()"
+          class="d-flex flex-row align-items-center bottom-border"
+        >
+          <div class="circle-icon d-none"></div>
+          <div class="pl-4">
+            <div class="font-weight-bold">
+              {{ author.name }}
+              <span v-if="author.email" class="font-weight-normal"
+                >&lt;{{ author.email }}&gt;</span
+              >
+            </div>
+            <div class="font-weight-bold">
+              {{ author.organization }}
+              <a
+                v-if="author.organizationUrl"
+                :href="author.organizationUrl"
+                target="_blank"
+                class="font-weight-normal"
+                >&lt;{{ author.organizationUrl }}&gt;</a
+              >
+            </div>
           </div>
         </div>
         <template v-if="licenseAgreement !== null">
@@ -27,24 +67,26 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue';
 import VueMarkdown from 'vue-markdown';
+import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
 
-export default {
+export default Vue.extend({
   name: 'ComponentReadMe',
   components: { VueMarkdown },
   computed: {
-    component() {
-      return this.$store.getters['webcomponent/currentWebcomponent'];
+    component(): WebcomponentModel {
+      return this.$store.state.webcomponent.webcomponent;
     },
-    readMe() {
+    readMe(): string {
       return this.component.versions[0].readMe;
     },
-    licenseAgreement() {
+    licenseAgreement(): string {
       return this.component.versions[0].licenseAgreement;
     },
   },
-};
+});
 </script>
 <style lang="scss">
 .readme {

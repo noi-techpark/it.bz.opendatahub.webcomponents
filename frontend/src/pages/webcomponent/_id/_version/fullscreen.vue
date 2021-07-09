@@ -1,5 +1,5 @@
 <template>
-  <div id="twrap">
+  <div id="twrap" style="max-height: 100vh">
     <iframe
       id="tframe"
       class="full-height full-width"
@@ -7,9 +7,8 @@
       title="iframe-preview"
     ></iframe>
     <detail-bottom-bar
-      :selected-view="selectedView"
+      selected-view="preview"
       @updatePreview="updatePreview"
-      @setSelectedView="setSelectedView"
       @copyCode="copySnippetToClipboard"
     >
     </detail-bottom-bar>
@@ -17,16 +16,21 @@
       v-if="config && configuratorEnabled"
       :config="config.configuration"
       style="display: none"
-      @snippet="updateSnippet"
+      @snippet="updateSnippetFromTool"
     ></WCSConfigTool>
   </div>
 </template>
 
-<script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
-import DetailBottomBar from '~/components/detail-bottom-bar';
+<script lang="ts">
+import Vue from 'vue';
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator.vue';
+import DetailBottomBar from '~/components/detail-bottom-bar.vue';
+import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
+import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
+import { getDistIncludes, parseSnippetAttributes } from '~/utils/SnippetUtils';
+import { copyToClipboard } from '~/utils/ClipboardUtils';
 
-export default {
+export default Vue.extend({
   name: 'Fullscreen',
   components: { DetailBottomBar, WCSConfigTool },
   layout(context) {
@@ -34,43 +38,91 @@ export default {
   },
   data() {
     return {
-      selectedView: 'preview',
-      autoUpdate: true,
       configuratorEnabled: false,
+      editorCode: '',
+      previewBaseURL: (this as any).$api.baseUrl,
+      attribs: (this as any).$route.query.attribs,
     };
   },
   computed: {
-    component() {
-      return this.$store.getters['webcomponent/currentWebcomponent'];
+    component(): WebcomponentModel {
+      return this.$store.state.webcomponent.webcomponent;
     },
-    config() {
-      return this.$store.getters['webcomponent/currentConfig'];
+    config(): WebcomponentConfigurationModel {
+      return this.$store.state.webcomponent.configuration;
     },
-    snipp() {
-      return this.$store.getters['webcomponent/currentSnipp'];
+    selectedVersion(): string {
+      return this.$store.state.webcomponent.versionTag;
     },
-    snippOriginal() {
-      return this.$store.getters['webcomponent/snippOriginal'];
+    snippetFromTool(): string {
+      return this.$store.state.webcomponent.snippetFromTool;
+    },
+    snippetFromEditor(): string {
+      return this.$store.state.webcomponent.snippetFromEditor;
+    },
+    externalPreviewUrl(): string {
+      if (!this.component) {
+        return '';
+      }
+      return (
+        this.previewBaseURL +
+        '/preview/' +
+        this.component.uuid +
+        '/' +
+        this.selectedVersion +
+        this.effectiveAttribs
+      );
+    },
+    effectiveAttribs() {
+      if (!this.component) {
+        return '';
+      }
+
+      if (this.attribs) {
+        return atob(this.attribs);
+      } else {
+        return this.$store.getters['webcomponent/attribs'];
+      }
     },
   },
+
   created() {
-    if (this.snipp === null) {
-      this.$store.dispatch('webcomponent/loadWebcomponent', {
+    this.initializeWebcomponentAndVersion();
+
+    if (!this.attribs) {
+      this.configuratorEnabled = true;
+    } else {
+      this.editorCode = this.snippetFromEditor;
+    }
+  },
+
+  watch: {
+    externalPreviewUrl(url) {
+      if (url) {
+        this.updatePreview();
+      }
+    },
+  },
+
+  methods: {
+    async initializeWebcomponentAndVersion() {
+      await this.$store.dispatch('webcomponent/loadWebcomponent', {
         uuid: this.$route.params.id,
         version: this.$route.params.version,
       });
-      this.code = this.snipp;
-      this.configuratorEnabled = true;
-    }
-  },
-  mounted() {
-    this.code = this.snipp;
-    this.updatePreview();
-  },
-  methods: {
-    setSelectedView(newSelectedView) {
-      this.selectedView = newSelectedView;
     },
+
+    updateSnippetFromTool(snippet: string) {
+      this.$store.commit(
+        'webcomponent/SET_SNIPPET_FROM_TOOL',
+        snippet + '\n' + getDistIncludes(this.config).join('\n')
+      );
+
+      this.editorCode = this.snippetFromTool;
+
+      this.updatePreview();
+    },
+
     updatePreview() {
       const oldElement = document.getElementById('tframe');
 
@@ -92,78 +144,16 @@ export default {
         );
       }
       newElement.setAttribute('frameborder', '0');
+      newElement.src = this.externalPreviewUrl;
 
       document.getElementById('twrap').appendChild(newElement);
 
-      newElement.contentDocument.write(this.snipp);
+      // newElement.contentDocument.write(this.snipp);
       newElement.contentDocument.close();
     },
-    getDistIncludes() {
-      const scripts = [];
-
-      // Wait until the async loadData method has finished
-      // eslint-disable-next-line no-prototype-builtins
-      if (this.config.hasOwnProperty('dist')) {
-        if (
-          // eslint-disable-next-line no-prototype-builtins
-          this.config.dist.hasOwnProperty('scripts') &&
-          this.config.dist.scripts.length > 0
-        ) {
-          this.config.dist.scripts.forEach((item) => {
-            scripts.push(
-              '<script ' +
-                item.parameter +
-                ' src="' +
-                this.config.deliveryBaseUrl +
-                '/' +
-                this.config.dist.basePath +
-                '/' +
-                item.file +
-                '"></scr' +
-                'ipt>'
-            );
-          });
-        } else {
-          this.config.dist.files.forEach((item) => {
-            scripts.push(
-              '<script src="' +
-                this.config.deliveryBaseUrl +
-                '/' +
-                this.config.dist.basePath +
-                '/' +
-                item +
-                '"></scr' +
-                'ipt>'
-            );
-          });
-        }
-      }
-
-      return scripts;
-    },
-    updateSnippet(data) {
-      this.$store.dispatch('webcomponent/updateSnipp', {
-        snipp: data + '\n' + this.getDistIncludes().join('\n'),
-      });
-
-      if (this.autoUpdate) {
-        this.updatePreview();
-      }
-
-      if (this.snippOriginal === null) {
-        this.$store.dispatch('webcomponent/setSnippOriginal', {
-          snipp: this.snipp,
-        });
-      }
-    },
     copySnippetToClipboard() {
-      const dummy = document.createElement('textarea');
-      document.body.appendChild(dummy);
-      dummy.value = this.snipp;
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
+      copyToClipboard(this.editorCode);
     },
   },
-};
+});
 </script>

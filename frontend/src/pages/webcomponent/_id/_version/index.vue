@@ -1,10 +1,9 @@
 <template>
   <div style="min-height: 1000px">
-    <div v-if="component" class="mb-5">
+    <div v-if="component && config" class="mb-5">
       <WcDetailBlock
         :return-link="returnLink"
         :show-preview="showPreview"
-        :external-preview-url="externalPreviewUrl"
         @set-show-preview="setShowPreview"
       ></WcDetailBlock>
       <div v-if="showPreview && hasAnyVersion">
@@ -39,10 +38,14 @@
               pills
               class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right"
             >
-              <b-tab id="first-tab" title="EASY CONFIGURATION" active>
-                <div v-show="!editmode">
+              <b-tab
+                id="first-tab"
+                title="EASY CONFIGURATION"
+                :active="initTabOne"
+              >
+                <div v-if="!editMode">
                   <div class="full-height widget-config">
-                    <span v-if="!editmode">
+                    <span>
                       <b-checkbox
                         v-model="autoUpdate"
                         class="d-inline-block"
@@ -53,16 +56,12 @@
                       <WCSConfigTool
                         v-if="config"
                         :config="config.configuration"
-                        @snippet="updateSnippet"
+                        @snippet="updateSnippetFromTool"
                       ></WCSConfigTool>
                     </b-card-text>
-
-                    <!--<div slot="footer" class="text-right text-uppercase">
-                  <font-awesome-icon :icon="['fas', 'check']" /> apply
-                </div>-->
                   </div>
                 </div>
-                <div v-show="editmode">
+                <div v-show="editMode">
                   <div class="text-uppercase font-weight-bold mb-2">
                     configuration
                   </div>
@@ -74,14 +73,10 @@
                       >Configurator disabled. Manual configuration
                       active.</b-card-text
                     >
-
-                    <!--<div slot="footer" class="text-right text-uppercase">
-                    <font-awesome-icon :icon="['fas', 'check']" /> apply
-                  </div>-->
                   </b-card>
                 </div></b-tab
               >
-              <b-tab title="EDIT CODE" class="second-tab"
+              <b-tab title="EDIT CODE" class="second-tab" :active="!initTabOne"
                 ><div>
                   <div class="text-uppercase font-weight-bold mb-2">
                     code snippet
@@ -93,7 +88,7 @@
                   >
                     <b-card-text>
                       <prism-editor
-                        v-model="code"
+                        v-model="editorCode"
                         class="my-editor"
                         :highlight="highlighter"
                         style="border: 0; background-color: inherit"
@@ -101,14 +96,14 @@
                     </b-card-text>
 
                     <div
-                      v-if="code !== snipp"
+                      v-if="editorCode !== snippetFromTool"
                       slot="footer"
                       class="text-right text-uppercase"
                     >
                       <span
                         style="cursor: pointer"
                         class="mr-4"
-                        @click="toggleEditMode()"
+                        @click="resetEditorSnippet()"
                       >
                         RESET
                       </span>
@@ -121,7 +116,7 @@
                   <b-form-select
                     :value="selectedVersion"
                     class="version-select ml-md-2"
-                    @change="reloadConfig"
+                    @change="reloadWebcomponentAtVersion"
                   >
                     <option
                       v-for="version in component.versions"
@@ -136,33 +131,37 @@
           </div>
         </div>
         <detail-bottom-bar
-          :selected-view="selectedView"
           @updatePreview="updatePreview"
-          @setSelectedView="setSelectedView"
           @copyCode="copySnippetToClipboard"
         >
         </detail-bottom-bar>
       </div>
+
       <div v-else>
-        <component-read-me :component="component"></component-read-me>
+        <component-read-me />
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
+<script lang="ts">
+import Vue from 'vue';
+import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator.vue';
 import { PrismEditor } from 'vue-prism-editor';
-import WcDetailBlock from '../../../components/webcomponent/WcDetailBlock';
-import ComponentReadMe from '~/components/webcomponent/ComponentReadMe';
+import WcDetailBlock from '../../../../components/webcomponent/WcDetailBlock.vue';
+import ComponentReadMe from '~/components/webcomponent/ComponentReadMe.vue';
 // eslint-disable-next-line import/order
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup.min';
 
-import DetailBottomBar from '~/components/detail-bottom-bar'; // import syntax highlighting styles
+import DetailBottomBar from '~/components/detail-bottom-bar.vue';
+import { getDistIncludes } from '~/utils/SnippetUtils';
+import { copyToClipboard } from '~/utils/ClipboardUtils';
+import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
+import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
 
-export default {
+export default Vue.extend({
   components: {
     DetailBottomBar,
     ComponentReadMe,
@@ -172,130 +171,127 @@ export default {
   },
   data() {
     return {
-      attribs: '',
-      editmode: false,
       autoUpdate: true,
-      previewBaseURL: this.$api.baseUrl,
       showPreview: true,
-      selectedView: '',
-      code: '',
+      editorCode: '',
+      initTabOne: false,
     };
   },
   computed: {
-    hasAnyVersion() {
-      return !!this.$store.getters['webcomponent/currentVersion'];
+    editMode() {
+      return this.editorCode && this.editorCode !== this.snippetFromTool;
     },
-    externalPreviewUrl() {
-      return (
-        this.previewBaseURL +
-        '/preview/' +
-        this.component.uuid +
-        '/' +
-        this.selectedVersion +
-        this.attribs
-      );
+    hasAnyVersion(): boolean {
+      return !!this.$store.state.webcomponent.versionTag;
     },
-    returnLink() {
+    returnLink(): string {
       if (this.$route.query.from) {
         return this.$route.query.from;
       }
 
       return this.localePath('index');
     },
-    isLatestVersionActive() {
+    isLatestVersionActive(): boolean {
       if (!this.component) {
         return false;
       }
       return this.selectedVersion === this.component.versions[0].versionTag;
     },
-    component() {
-      return this.$store.getters['webcomponent/currentWebcomponent'];
+    component(): WebcomponentModel {
+      return this.$store.state.webcomponent.webcomponent;
     },
-    config() {
-      return this.$store.getters['webcomponent/currentConfig'];
+    config(): WebcomponentConfigurationModel {
+      return this.$store.state.webcomponent.configuration;
     },
-    selectedVersion() {
-      return this.$store.getters['webcomponent/currentVersion'];
+    selectedVersion(): string {
+      return this.$store.state.webcomponent.versionTag;
     },
-    snipp() {
-      return this.$store.getters['webcomponent/currentSnipp'];
+    snippetFromTool(): string {
+      return this.$store.state.webcomponent.snippetFromTool;
     },
-    snippOriginal() {
-      return this.$store.getters['webcomponent/snippOriginal'];
+    snippetFromEditor(): string {
+      return this.$store.state.webcomponent.snippetFromEditor;
+    },
+    effectiveSnippet(): string {
+      if (this.editMode) {
+        return this.snippetFromEditor;
+      }
+      return this.snippetFromTool;
     },
   },
   created() {
-    if (
-      this.component === null ||
-      this.component.uuid !== this.$route.params.id
-    ) {
-      this.$store.dispatch('webcomponent/loadWebcomponent', {
+    this.initializeWebcomponentAndVersion();
+  },
+  mounted() {
+    this.editorCode = this.snippetFromEditor;
+    this.initTabOne = !this.editMode;
+    if (!this.initTabOne) {
+      setTimeout(this.updatePreview, 500);
+    }
+  },
+  watch: {
+    editorCode(value) {
+      this.updateSnippetFromEditor(value);
+    },
+  },
+  methods: {
+    async initializeWebcomponentAndVersion() {
+      await this.$store.dispatch('webcomponent/loadWebcomponent', {
         uuid: this.$route.params.id,
         version: this.$route.params.version,
       });
-      this.code = this.snipp;
-    }
-  },
-  methods: {
-    highlighter(code) {
-      return highlight(code, languages.markup, 'markup'); // returns html
     },
-    setShowPreview(show) {
-      this.showPreview = show;
-    },
-    toggleEditMode() {
-      this.code = this.snippOriginal;
-      if (this.autoUpdate) {
-        this.updatePreview();
-      }
-    },
-    reloadConfig(version) {
-      this.$router.push(
+
+    async reloadWebcomponentAtVersion(version: string) {
+      await this.$router.push(
         this.localePath({
           name: 'webcomponent-id-version',
           params: { id: this.$route.params.id, version },
         })
       );
-      this.$store.dispatch('webcomponent/loadWebcomponent', {
+      await this.$store.dispatch('webcomponent/loadWebcomponent', {
         uuid: this.$route.params.id,
         version,
       });
     },
-    updateSnippet(data) {
-      if (this.code !== '') {
-        this.$store.dispatch('webcomponent/updateSnipp', {
-          snipp: data + '\n' + this.getDistIncludes().join('\n'),
-        });
-        this.code = this.snipp;
 
-        this.$store.dispatch('webcomponent/setSnippOriginal', {
-          snipp: this.snipp,
-        });
+    updateSnippetFromTool(snippet: string) {
+      this.$store.commit(
+        'webcomponent/SET_SNIPPET_FROM_TOOL',
+        snippet + '\n' + getDistIncludes(this.config).join('\n')
+      );
 
-        if (this.autoUpdate) {
-          this.updatePreview();
-        }
-      } else {
-        this.code = this.snipp;
+      this.editorCode = this.snippetFromTool;
+
+      if (this.autoUpdate) {
         this.updatePreview();
       }
     },
-    copySnippetToClipboard() {
-      document.execCommand('copy');
-      const dummy = document.createElement('textarea');
-      document.body.appendChild(dummy);
-      dummy.value = this.code;
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
+
+    updateSnippetFromEditor(snippet: string) {
+      this.$store.commit('webcomponent/SET_SNIPPET_FROM_EDITOR', snippet);
     },
-    setSelectedView(newSelectedView) {
-      this.selectedView = newSelectedView;
+
+    highlighter(code: string): string {
+      return highlight(code, languages.markup, 'markup'); // returns html
     },
-    updatePreview() {
-      this.$store.dispatch('webcomponent/updateSnipp', {
-        snipp: this.code,
-      });
+    setShowPreview(show: boolean): void {
+      this.showPreview = show;
+    },
+
+    resetEditorSnippet(): void {
+      this.editorCode = this.snippetFromTool;
+    },
+
+    copySnippetToClipboard(): void {
+      copyToClipboard(this.effectiveSnippet);
+    },
+
+    updatePreview(): void {
+      /* if (this.editmode) {
+        this.updateSnippetFromEditor(this.editorCode);
+      } */
+
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);
@@ -308,137 +304,11 @@ export default {
 
       document.getElementById('twrap').appendChild(newElement);
 
-      newElement.contentDocument.write(this.code);
+      newElement.contentDocument.write(this.effectiveSnippet);
       newElement.contentDocument.close();
-
-      this.attribs = this.parseSnippetAttributes();
-    },
-    buildAttribute(rawKey, rawValue) {
-      const key = rawKey.trim();
-      const value = encodeURIComponent(rawValue.trim());
-      return key + '="' + value + '";';
-    },
-    parseSnippetAttributes() {
-      let pos = this.snipp.search(this.config.configuration.tagName);
-      let result = '';
-
-      if (pos < 0) {
-        return result;
-      }
-
-      pos += this.config.configuration.tagName.length;
-
-      let isKey = true;
-      let isValue = false;
-      let key = '';
-      let value = '';
-      let isQuoted = false;
-      for (let i = pos; i < this.snipp.length; i++) {
-        const c = this.snipp.charAt(i);
-        if (isKey) {
-          switch (c) {
-            case '=':
-              isKey = false;
-              isValue = true;
-              break;
-            case '>':
-              if (key.trim().length > 0) {
-                result += key.trim() + ';';
-              }
-              return '?attribs=' + result;
-            case ' ':
-              if (key.trim().length > 0) {
-                result += key.trim() + ';';
-              }
-              break;
-            default:
-              key += c;
-          }
-        } else if (isValue) {
-          switch (c) {
-            case '"':
-              if (isQuoted) {
-                result += this.buildAttribute(key, value);
-                isKey = true;
-                isValue = false;
-                isQuoted = false;
-                key = '';
-                value = '';
-              } else {
-                isQuoted = true;
-              }
-              break;
-            case ' ':
-              if (isQuoted) {
-                value += ' ';
-              } else {
-                result += this.buildAttribute(key, value);
-                isKey = true;
-                isValue = false;
-                key = '';
-                value = '';
-              }
-              break;
-            case '>':
-              if (isQuoted) {
-                value += '>';
-              } else {
-                result += this.buildAttribute(key, value);
-                return '?attribs=' + result;
-              }
-              break;
-            default:
-              value += c;
-          }
-        }
-      }
-      return '?attribs=' + result;
-    },
-    getDistIncludes() {
-      const scripts = [];
-
-      // Wait until the async loadData method has finished
-      // eslint-disable-next-line no-prototype-builtins
-      if (this.config.hasOwnProperty('dist')) {
-        if (
-          // eslint-disable-next-line no-prototype-builtins
-          this.config.dist.hasOwnProperty('scripts') &&
-          this.config.dist.scripts.length > 0
-        ) {
-          this.config.dist.scripts.forEach((item) => {
-            scripts.push(
-              '<script ' +
-                item.parameter +
-                ' src="' +
-                this.config.deliveryBaseUrl +
-                '/' +
-                this.config.dist.basePath +
-                '/' +
-                item.file +
-                '"></scr' +
-                'ipt>'
-            );
-          });
-        } else {
-          this.config.dist.files.forEach((item) => {
-            scripts.push(
-              '<script src="' +
-                this.config.deliveryBaseUrl +
-                '/' +
-                this.config.dist.basePath +
-                '/' +
-                item +
-                '"></scr' +
-                'ipt>'
-            );
-          });
-        }
-      }
-
-      return scripts;
     },
   },
-};
+});
 </script>
 
 <style lang="scss">
