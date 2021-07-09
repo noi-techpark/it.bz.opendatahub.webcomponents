@@ -5,3 +5,4 @@ application-production.properties
 application-testserver.properties
 *.orig
 /logs/
+docker-compose-local.yml

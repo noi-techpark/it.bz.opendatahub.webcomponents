@@ -1,7 +1,7 @@
 # User-specific stuff
 .idea
- *.iml
- *.ipr
+*.iml
+*.ipr
 
 # CMake
 cmake-build-*/
