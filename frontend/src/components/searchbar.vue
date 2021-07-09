@@ -29,7 +29,7 @@
                     src="/icons/close_black.svg"
                     class="clear-icon"
                     style="margin-right: 15px"
-                    @click="clearTags"
+                    @click.stop="clearTags"
                   />
                   <span style="padding-top: 15px">
                     <span
