@@ -65,8 +65,8 @@
             :key="tag"
             :to="
               localePath({
-                name: 'search-tags',
-                params: { tags: tag },
+                name: 'search',
+                query: { tags: tag },
               })
             "
             class="category"

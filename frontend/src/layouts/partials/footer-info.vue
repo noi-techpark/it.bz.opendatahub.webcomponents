@@ -26,7 +26,7 @@
         <div>
           <a
             v-if="showScrollButton"
-            v-scroll-to="'#__nuxt'"
+            v-scroll-to="'body'"
             class="btn-circle arrow-up filled btn-circle-footer"
             :class="{ 'btn-circle-footer-detail': isWebcomponentRoute }"
           >

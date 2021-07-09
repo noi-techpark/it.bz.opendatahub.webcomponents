@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,18 @@ public class CustomErrorController extends ExceptionHandlerController implements
     public ResponseEntity<ErrorMessage> handleGet(HttpServletRequest request) {
         return handleRequest(request);
     }
+
+	@PatchMapping(value=PATH, produces="application/json")
+	@ResponseBody
+	public ResponseEntity<ErrorMessage> handlePatch(HttpServletRequest request) {
+		return handleRequest(request);
+	}
+
+	@PutMapping(value=PATH, produces="application/json")
+	@ResponseBody
+	public ResponseEntity<ErrorMessage> handlePut(HttpServletRequest request) {
+		return handleRequest(request);
+	}
 
     @PostMapping(value=PATH, produces="application/json")
     @ResponseBody

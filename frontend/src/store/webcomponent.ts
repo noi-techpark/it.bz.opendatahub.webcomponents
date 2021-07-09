@@ -2,49 +2,76 @@ import { ActionTree, GetterTree, MutationTree } from 'vuex';
 import { WebcomponentModel } from '../domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '../domain/model/WebcomponentConfigurationModel';
 import { $api } from '~/utils/api-accessor';
+import { WebcomponentVersionModel } from '~/domain/model/WebcomponentVersionModel';
+import { parseSnippetAttributes } from '~/utils/SnippetUtils';
 
 export const state = () => ({
-  currentWebcomponent: null as WebcomponentModel,
-  currentConfig: null as WebcomponentConfigurationModel,
-  currentVersion: null as string,
-  currentSnipp: null as string,
-  snippOriginal: null as string,
+  webcomponent: null as WebcomponentModel,
+  configuration: null as WebcomponentConfigurationModel,
+  versionTag: null as string,
+  snippetFromTool: '',
+  snippetFromEditor: '',
 });
 
 export type RootState = ReturnType<typeof state>;
 
 export const getters: GetterTree<RootState, RootState> = {
-  currentWebcomponent: (state) => state.currentWebcomponent,
-  currentConfig: (state) => state.currentConfig,
-  currentVersion: (state) => state.currentVersion,
-  currentSnipp: (state) => state.currentSnipp,
-  snippOriginal: (state) => state.snippOriginal,
+  currentVersionData(state): WebcomponentVersionModel {
+    if (state.webcomponent) {
+      return state.webcomponent.versions.find((v) => {
+        return v.versionTag === state.versionTag;
+      });
+    }
+    return null;
+  },
+  externalPreviewUrl(state): string {
+    if (!state.webcomponent) {
+      return '';
+    }
+    return (
+      '/preview/' +
+      state.webcomponent.uuid +
+      '/' +
+      state.versionTag +
+      parseSnippetAttributes(state.snippetFromTool, state.configuration)
+    );
+  },
+  attribs(state): string {
+    console.log(state.snippetFromTool, state.configuration);
+    if (!state.configuration) {
+      return '';
+    }
+    return parseSnippetAttributes(
+      String(state.snippetFromTool),
+      state.configuration
+    );
+  },
 };
 
 export const mutations: MutationTree<RootState> = {
   SET_WEBCOMPONENT: (state, webcomponent: WebcomponentModel) => {
-    state.currentWebcomponent = webcomponent;
+    state.webcomponent = webcomponent;
   },
-  SET_CONFIG: (state, config: WebcomponentConfigurationModel) => {
-    state.currentConfig = config;
+  SET_CONFIGURATION: (state, config: WebcomponentConfigurationModel) => {
+    state.configuration = config;
   },
-  SET_VERSION: (state, version: string) => {
-    state.currentVersion = version;
+  SET_VERSION_TAG: (state, version: string) => {
+    state.versionTag = version;
   },
-  SET_SNIPP: (state, snipp: string) => {
-    state.currentSnipp = snipp;
+  SET_SNIPPET_FROM_TOOL: (state, snipp: string) => {
+    state.snippetFromTool = snipp;
   },
-  SET_SNIPP_ORIGINAL: (state, snipp: string) => {
-    state.snippOriginal = snipp;
+  SET_SNIPPET_FROM_EDITOR: (state, snipp: string) => {
+    state.snippetFromEditor = snipp;
   },
 };
 
 export const actions: ActionTree<RootState, RootState> = {
   async loadWebcomponent({ commit }, { uuid, version }) {
     commit('SET_WEBCOMPONENT', null);
-    commit('SET_CONFIG', null);
+    commit('SET_CONFIGURATION', null);
 
-    commit('SET_VERSION', version);
+    commit('SET_VERSION_TAG', version);
 
     const webcomponent = await $api.webcomponent.getOneById(uuid);
     commit('SET_WEBCOMPONENT', webcomponent);
@@ -60,16 +87,9 @@ export const actions: ActionTree<RootState, RootState> = {
       selectedVersion = webcomponent.versions[0].versionTag;
     }
 
-    commit('SET_VERSION', selectedVersion);
+    commit('SET_VERSION_TAG', selectedVersion);
 
     const config = await $api.webcomponent.getConfigById(uuid, selectedVersion);
-    commit('SET_CONFIG', config);
-  },
-
-  updateSnipp({ commit }, { snipp }) {
-    commit('SET_SNIPP', snipp);
-  },
-  setSnippOriginal({ commit }, { snipp }) {
-    commit('SET_SNIPP_ORIGINAL', snipp);
+    commit('SET_CONFIGURATION', config);
   },
 };

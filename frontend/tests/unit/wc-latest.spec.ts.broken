@@ -1,12 +1,10 @@
-import { mount, shallowMount, createLocalVue } from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
-import { WebcomponentModel } from '../../src/domain/model/WebcomponentModel';
-import { WebcomponentEntryModel } from '../../src/domain/model/WebcomponentEntryModel';
 import WcLatest from '~/components/wc-latest.vue';
-import WcDetailBlock from '~/components/webcomponent/WcDetailBlock.vue';
-import { Page, PageRequest } from '~/domain/repository/PagingAndSorting';
+import { WebcomponentEntryModel } from '~/domain/model/WebcomponentEntryModel';
+import { Page } from '~/domain/repository/PagingAndSorting';
 
 const localVue = createLocalVue();
 

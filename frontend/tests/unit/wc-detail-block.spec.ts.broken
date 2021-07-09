@@ -1,9 +1,9 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import BootstrapVue from 'bootstrap-vue';
 import Vuex from 'vuex';
 import VueI18n from 'vue-i18n';
+import WcDetailBlock from '@/components/webcomponent/WcDetailBlock.vue';
 import { WebcomponentModel } from '../../src/domain/model/WebcomponentModel';
-import WcDetailBlock from '~/components/webcomponent/WcDetailBlock.vue';
 
 const localVue = createLocalVue();
 
@@ -24,7 +24,7 @@ describe('WCDetailBloc', () => {
 
   beforeEach(() => {
     getters = {
-      currentWebcomponent: (): WebcomponentModel => {
+      webcomponent: (): WebcomponentModel => {
         return <WebcomponentModel>{
           authors: [],
           copyrightHolders: [],

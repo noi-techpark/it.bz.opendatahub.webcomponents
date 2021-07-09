@@ -8,7 +8,9 @@ export const state = () => ({
 export type RootState = ReturnType<typeof state>;
 
 export const getters: GetterTree<RootState, RootState> = {
-  getSearchtags: (state) => state.searchtags,
+  getSearchtags(state) {
+    return state.searchtags;
+  },
 };
 
 export const mutations: MutationTree<RootState> = {

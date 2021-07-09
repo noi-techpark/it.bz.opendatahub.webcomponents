@@ -1,7 +1,8 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Header from '@/layouts/partials/header';
 import BootstrapVue from 'bootstrap-vue';
 import VueRouter from 'vue-router';
+
 const localVue = createLocalVue();
 
 localVue.use(BootstrapVue);

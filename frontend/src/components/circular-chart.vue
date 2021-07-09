@@ -1,5 +1,5 @@
-<template>
-  <svg viewBox="0 0 36 36" :class="'circular-chart ' + color">
+<template functional>
+  <svg viewBox="0 0 36 36" :class="'circular-chart ' + props.color">
     <path
       class="circle-bg"
       d="M18 2.0845
@@ -8,7 +8,7 @@
     />
     <path
       class="circle"
-      :stroke-dasharray="strokeDasharray"
+      :stroke-dasharray="$options.strokeDasharray(props)"
       d="M18 2.0845
           a 15.9155 15.9155 0 0 1 0 31.831
           a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -19,14 +19,11 @@
   </svg>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: 'CircularChart',
+  functional: true,
   props: {
-    circleText: {
-      type: String,
-      default: '',
-    },
     circleValue: {
       type: Number,
       default: 0,
@@ -36,10 +33,8 @@ export default {
       default: 'green',
     },
   },
-  computed: {
-    strokeDasharray() {
-      return this.circleValue + ', 100';
-    },
+  strokeDasharray(props) {
+    return props.circleValue + ', 100';
   },
 };
 </script>
@@ -62,7 +57,7 @@ export default {
   fill: none;
   stroke-width: 2.8;
   animation: progress 1s ease-out forwards;
-  stroke: #9bc320;
+  stroke: #50742f;
 }
 
 .red .circle {

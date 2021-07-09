@@ -91,7 +91,14 @@
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
               <div class="d-table-cell font-weight-bold">
-                {{ component.authors.map((e) => e.name).join(', ') }}
+                {{ authors
+                }}<span
+                  v-if="showPreview"
+                  class="ml-2 font-weight-normal cursor-pointer"
+                  style="font-size: small"
+                  @click="toAuthorInfo"
+                  >[more info]</span
+                >
               </div>
             </div>
             <div
@@ -103,12 +110,14 @@
             >
               <div class="d-table-cell pr-2">Copyright holder:</div>
               <div class="d-table-cell font-weight-bold">
-                <div
-                  v-for="author in component.copyrightHolders"
-                  :key="author.name"
+                {{ copyrightHolders }}
+                <span
+                  v-if="showPreview"
+                  class="ml-2 font-weight-normal cursor-pointer"
+                  style="font-size: small"
+                  @click="toAuthorInfo"
+                  >[more info]</span
                 >
-                  {{ author.name }}
-                </div>
               </div>
             </div>
             <div class="d-table-row">
@@ -142,7 +151,7 @@
               </div>
             </div>
             <div class="d-table-row">
-              <div class="d-table-cell pr-2">Current Version:</div>
+              <div class="d-table-cell pr-2">Latest Version:</div>
               <div class="d-table-cell font-weight-bold">
                 <template v-if="component.versions.length > 0">
                   {{ component.versions[0].versionTag }}
@@ -172,18 +181,11 @@
       </div>
     </div>
     <div
-      class="container-fluid container-extended d-flex justify-content-center flex-row"
+      class="container-fluid container-extended d-flex justify-content-center flex-row cursor-pointer"
+      @click="toggleHeaderHeight"
     >
-      <span
-        v-if="!isHeaderExpanded"
-        class="chevron bottom mr-2 expanding-button"
-        @click="toggleHeaderHeight"
-      ></span>
-      <span
-        v-else
-        class="chevron top mr-2 expanding-button"
-        @click="toggleHeaderHeight"
-      ></span>
+      <span v-if="!isHeaderExpanded" class="chevron bottom mr-2"></span>
+      <span v-else class="chevron top mr-2"></span>
     </div>
     <div class="container-fluid container-extended pl-4 pr-4">
       <div
@@ -199,7 +201,6 @@
             preview
           </div>
           <div
-            v-if="hasReadme"
             :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
             class="text-uppercase"
             @click="$emit('set-show-preview', false)"
@@ -214,8 +215,9 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { WebcomponentModel } from '../../domain/model/WebcomponentModel';
-import CircularChart from '~/components/circular-chart';
+import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
+import CircularChart from '~/components/circular-chart.vue';
+import { WebcomponentVersionModel } from '~/domain/model/WebcomponentVersionModel';
 
 export default Vue.extend({
   components: { CircularChart },
@@ -228,10 +230,6 @@ export default Vue.extend({
       type: Boolean,
       default: true,
     },
-    externalPreviewUrl: {
-      type: String,
-      default: '',
-    },
   },
   data() {
     return {
@@ -240,64 +238,76 @@ export default Vue.extend({
   },
   computed: {
     component(): WebcomponentModel {
-      return this.$store.getters['webcomponent/currentWebcomponent'];
+      return this.$store.state.webcomponent.webcomponent;
     },
-    searchTags() {
+    currentVersionData(): WebcomponentVersionModel {
+      return this.$store.getters['webcomponent/currentVersionData'];
+    },
+    searchTags(): string {
       return this.component.searchTags.join(', ');
     },
-    hasReadme() {
+    hasReadme(): boolean {
       return (
         this.component.versions &&
         this.component.versions.length > 0 &&
         this.component.versions[0].readMe !== null
       );
     },
-    mobileRatingChartColor() {
+    mobileRatingChartColor(): string {
       if (this.mobileRating < 80) {
         return 'red';
       }
 
       return 'green';
     },
-    desktopRatingChartColor() {
+    desktopRatingChartColor(): string {
       if (this.desktopRating < 80) {
         return 'red';
       }
 
       return 'green';
     },
-    versionSizeChartColor() {
+    versionSizeChartColor(): string {
       if (this.versionSizeChartPercent > 80) {
         return 'red';
       }
 
       return 'green';
     },
-    versionSizeChartPercent() {
+    versionSizeChartPercent(): number {
       return Math.ceil((100 * Math.min(500, this.versionSizeKb)) / 500);
     },
-    mobileRating() {
-      if (!this.component.versions || this.component.versions.length === 0) {
+    mobileRating(): number {
+      if (!this.currentVersionData) {
         return 0;
       }
-      return this.component.versions[0].lighthouseMobilePerformanceRating;
+      return this.currentVersionData.lighthouseMobilePerformanceRating;
     },
-    desktopRating() {
-      if (!this.component.versions || this.component.versions.length === 0) {
+    desktopRating(): number {
+      if (!this.currentVersionData) {
         return 0;
       }
-      return this.component.versions[0].lighthouseDesktopPerformanceRating;
+      return this.currentVersionData.lighthouseDesktopPerformanceRating;
     },
-    versionSizeKb() {
-      if (!this.component.versions || this.component.versions.length === 0) {
+    versionSizeKb(): number {
+      if (!this.currentVersionData) {
         return 0;
       }
-      return this.component.versions[0].distSizeTotalKb;
+      return this.currentVersionData.distSizeTotalKb;
     },
-    authors(authors) {
+    authors(): string {
       return this.component.authors.map((e) => e.name).join(', ');
     },
-    pageSpeedInsightUrl() {
+    copyrightHolders(): string {
+      return this.component.copyrightHolders.map((e) => e.name).join(', ');
+    },
+    externalPreviewUrl(): string {
+      return (
+        (this as any).$api.baseUrl +
+        this.$store.getters['webcomponent/externalPreviewUrl']
+      );
+    },
+    pageSpeedInsightUrl(): string {
       return (
         'https://developers.google.com/speed/pagespeed/insights/?url=' +
         this.externalPreviewUrl
@@ -305,8 +315,12 @@ export default Vue.extend({
     },
   },
   methods: {
-    toggleHeaderHeight() {
+    toggleHeaderHeight(): void {
       this.isHeaderExpanded = !this.isHeaderExpanded;
+    },
+    toAuthorInfo(): void {
+      this.$emit('set-show-preview', false);
+      this.isHeaderExpanded = false;
     },
   },
 });
@@ -330,10 +344,6 @@ export default Vue.extend({
   position: absolute;
   background: linear-gradient(0deg, #e8ecf1, transparent);
   z-index: 1;
-}
-
-.expanding-button {
-  cursor: pointer;
 }
 
 .performance-col {

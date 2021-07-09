@@ -33,6 +33,7 @@ module.exports = {
     'vue-plyr/dist/vue-plyr.css',
     'prismjs/themes/prism.css',
     'vue-prism-editor/dist/prismeditor.min.css',
+    'vue-multiselect/dist/vue-multiselect.min.css',
   ],
 
   bootstrapVue: {

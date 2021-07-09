@@ -22,8 +22,8 @@ import { mapGetters } from 'vuex';
 
 import Loading from 'vue-loading-overlay';
 
-import Header from './partials/header';
-import Footer from './partials/footer';
+import Header from './partials/header.vue';
+import Footer from './partials/footer.vue';
 
 export default Vue.extend({
   components: {

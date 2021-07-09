@@ -4,7 +4,7 @@
       <div class="container container-extended p-4 pb-0">
         <div class="row">
           <div class="col-6">
-            <div class="">
+            <div id="tags-zone">
               <div
                 id="widget-tags"
                 :class="{
@@ -23,10 +23,21 @@
                 <span v-else class="filter-text-light text-capitalize">{{
                   userSelectedTags.join(', ')
                 }}</span>
-                <span
-                  class="chevron semi-bold mr-2"
-                  :class="[searchTagsVisible ? 'top' : 'bottom']"
-                ></span>
+                <div style="height: 100%">
+                  <img
+                    v-if="selectedTags.length > 0"
+                    src="/icons/close_black.svg"
+                    class="clear-icon"
+                    style="margin-right: 15px"
+                    @click.stop="clearTags"
+                  />
+                  <span style="padding-top: 15px">
+                    <span
+                      class="chevron semi-bold mr-2"
+                      :class="[searchTagsVisible ? 'top' : 'bottom']"
+                    ></span>
+                  </span>
+                </div>
               </div>
               <b-collapse
                 id="tag-collapse"
@@ -79,7 +90,14 @@
                   />
                 </div>
 
+                <img
+                  v-if="searchTerm !== ''"
+                  src="/icons/close_black.svg"
+                  class="clear-icon cursor-pointer"
+                  @click="clearSearch"
+                />
                 <svg
+                  v-else
                   style="margin-top: 0.15rem; height: 1.5rem"
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -133,16 +151,22 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue, { PropType } from 'vue';
+
+export default Vue.extend({
   props: {
     selectedTags: {
       default: () => {
         return [];
       },
-      type: Array,
+      type: Array as PropType<Array<string>>,
     },
     searchTerm: { default: '', type: String },
+    focusSearch: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -153,11 +177,29 @@ export default {
     };
   },
   computed: {
-    availableSearchTags() {
+    availableSearchTags(): Array<string> {
       return this.$store.getters['searchtags/getSearchtags'];
     },
   },
+  mounted() {
+    this.loadSearchTags();
+
+    if (this.focusSearch) {
+      this.focusInput();
+    }
+
+    window.addEventListener('click', this.tagCollapseListener);
+  },
   methods: {
+    tagCollapseListener(e) {
+      if (!document.getElementById('tags-zone').contains(e.target)) {
+        this.searchTagsVisible = false;
+      }
+    },
+    async loadSearchTags() {
+      this.availableSearchTags = await this.$api.searchtag.listAll();
+      this.isLoaded = true;
+    },
     focusInput() {
       this.$refs.searchTermInput.focus();
     },
@@ -174,6 +216,7 @@ export default {
           tags: this.userSelectedTags,
           term: this.internalSearchTerm,
         });
+        this.$refs.searchTermInput.focus();
       }
     },
     termSubmitted() {
@@ -186,8 +229,14 @@ export default {
     isNewSearchTerm() {
       return this.internalSearchTerm !== this.oldSearchTerm;
     },
+    clearSearch() {
+      this.internalSearchTerm = '';
+    },
+    clearTags() {
+      this.userSelectedTags = [];
+    },
   },
-};
+});
 </script>
 
 <style>
@@ -200,5 +249,9 @@ export default {
 
 .custom-checkbox {
   padding-bottom: 8px;
+}
+
+.clear-icon {
+  margin-bottom: 5px;
 }
 </style>
