@@ -76,6 +76,13 @@
             :menu-active="menuActive"
             @toggleMenu="toggleMenu"
           ></nav-menu>
+          <a
+            href="https://noi.bz.it/"
+            target="_blank"
+            class="d-none d-lg-inline-block"
+          >
+            <img src="/NOI_1_BK.svg" height="50px" class="ml-4" />
+          </a>
         </div>
       </div>
     </div>

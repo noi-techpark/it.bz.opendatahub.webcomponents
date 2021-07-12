@@ -90,20 +90,20 @@ export default {
       return this.$store.state.webcomponent.snippetFromTool;
     },
     attribs() {
-      return this.$store.getters['webcomponent/attribs'];
+      return btoa(this.$store.getters['webcomponent/attribs']);
     },
     toFullscreen() {
       if (this.version) {
         return this.localePath({
           name: 'webcomponent-id-version-fullscreen',
           params: { id: this.id, version: this.version },
-          query: { attribs: btoa(this.attribs) },
+          query: { attribs: this.attribs },
         });
       } else {
         return this.localePath({
           name: 'webcomponent-id-fullscreen',
           params: { id: this.id },
-          query: { attribs: btoa(this.attribs) },
+          query: { attribs: this.attribs },
         });
       }
     },

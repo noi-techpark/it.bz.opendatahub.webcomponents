@@ -33,7 +33,8 @@ export const getters: GetterTree<RootState, RootState> = {
       state.webcomponent.uuid +
       '/' +
       state.versionTag +
-      parseSnippetAttributes(state.snippetFromTool, state.configuration)
+      '?attribs=' +
+      btoa(parseSnippetAttributes(state.snippetFromTool, state.configuration))
     );
   },
   attribs(state): string {
