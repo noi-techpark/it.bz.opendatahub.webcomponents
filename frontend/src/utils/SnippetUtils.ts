@@ -2,7 +2,7 @@ import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfi
 
 function buildAttribute(rawKey: string, rawValue: string): string {
   const key = rawKey.trim();
-  const value = encodeURIComponent(rawValue.trim());
+  const value = rawValue.trim();
   return key + '="' + value + '";';
 }
 
@@ -41,7 +41,7 @@ export function parseSnippetAttributes(
           if (key.trim().length > 0) {
             result += key.trim() + ';';
           }
-          return '?attribs=' + result;
+          return '?attribs=' + btoa(result);
         case ' ':
           if (key.trim().length > 0) {
             result += key.trim() + ';';
@@ -80,7 +80,7 @@ export function parseSnippetAttributes(
             value += '>';
           } else {
             result += buildAttribute(key, value);
-            return '?attribs=' + result;
+            return '?attribs=' + btoa(result);
           }
           break;
         default:
@@ -88,7 +88,7 @@ export function parseSnippetAttributes(
       }
     }
   }
-  return '?attribs=' + result;
+  return '?attribs=' + btoa(result);
 }
 
 export function getDistIncludes(

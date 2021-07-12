@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @WebAdapter
 @Controller
@@ -34,7 +36,7 @@ public class PreviewController {
 			conf = getWebcomponentConfigurationUseCase.getConfiguration(uuid, versionTag);
 		}
 
-		attribs = parseAttribs(attribs);
+		attribs = parseAttribs(new String(Base64.getDecoder().decode(attribs), StandardCharsets.UTF_8));
 
 		model.addAttribute("snippetScripts", conf.getScriptSources());
 
