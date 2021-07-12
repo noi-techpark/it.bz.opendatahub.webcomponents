@@ -91,14 +91,35 @@
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
               <div class="d-table-cell font-weight-bold">
-                {{ authors
-                }}<span
-                  v-if="showPreview"
-                  class="ml-2 font-weight-normal cursor-pointer"
-                  style="font-size: small"
-                  @click="toAuthorInfo"
-                  >[more info]</span
+                <span
+                  v-if="!detailedAuthors"
+                  class="cursor-pointer text-underline"
+                  @click="detailedAuthors = true"
+                  >{{ authors }}</span
                 >
+                <div v-else>
+                  <div
+                    v-for="author in component.authors"
+                    :key="'a::' + author"
+                  >
+                    <div>
+                      {{ author.name }}
+                      <span v-if="author.email" class="font-weight-normal">{{
+                        author.email
+                      }}</span>
+                    </div>
+                    <div>
+                      {{ author.name }}
+                      <a
+                        v-if="author.organizationUrl"
+                        :href="author.organizationUrl"
+                        target="_blank"
+                        class="font-weight-normal"
+                        >{{ author.organizationUrl }}</a
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div
@@ -110,14 +131,35 @@
             >
               <div class="d-table-cell pr-2">Copyright holder:</div>
               <div class="d-table-cell font-weight-bold">
-                {{ copyrightHolders }}
                 <span
-                  v-if="showPreview"
-                  class="ml-2 font-weight-normal cursor-pointer"
-                  style="font-size: small"
-                  @click="toAuthorInfo"
-                  >[more info]</span
+                  v-if="!detailedCopyright"
+                  class="cursor-pointer text-underline"
+                  @click="detailedCopyright = true"
+                  >{{ copyrightHolders }}</span
                 >
+                <div v-else>
+                  <div
+                    v-for="author in component.copyrightHolders"
+                    :key="'c::' + author"
+                  >
+                    <div>
+                      {{ author.name }}
+                      <span v-if="author.email" class="font-weight-normal">{{
+                        author.email
+                      }}</span>
+                    </div>
+                    <div>
+                      {{ author.name }}
+                      <a
+                        v-if="author.organizationUrl"
+                        :href="author.organizationUrl"
+                        target="_blank"
+                        class="font-weight-normal"
+                        >{{ author.organizationUrl }}</a
+                      >
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="d-table-row">
@@ -234,6 +276,8 @@ export default Vue.extend({
   data() {
     return {
       isHeaderExpanded: false,
+      detailedCopyright: false,
+      detailedAuthors: false,
     };
   },
   computed: {

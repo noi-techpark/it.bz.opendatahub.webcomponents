@@ -16,9 +16,9 @@
           <div class="pl-4">
             <div class="font-weight-bold">
               {{ author.name }}
-              <span v-if="author.email" class="font-weight-normal"
-                >&lt;{{ author.email }}&gt;</span
-              >
+              <span v-if="author.email" class="font-weight-normal">{{
+                author.email
+              }}</span>
             </div>
             <div class="font-weight-bold">
               {{ author.organization }}
@@ -27,7 +27,7 @@
                 :href="author.organizationUrl"
                 target="_blank"
                 class="font-weight-normal"
-                >&lt;{{ author.organizationUrl }}&gt;</a
+                >{{ author.organizationUrl }}</a
               >
             </div>
           </div>
@@ -42,9 +42,9 @@
           <div class="pl-4">
             <div class="font-weight-bold">
               {{ author.name }}
-              <span v-if="author.email" class="font-weight-normal"
-                >&lt;{{ author.email }}&gt;</span
-              >
+              <span v-if="author.email" class="font-weight-normal">{{
+                author.email
+              }}</span>
             </div>
             <div class="font-weight-bold">
               {{ author.organization }}
