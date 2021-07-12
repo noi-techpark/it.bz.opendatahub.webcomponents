@@ -115,6 +115,11 @@
               >FAQ</nuxt-link
             >
           </div>
+          <div>
+            <a href="https://noi.bz.it/" target="_blank">
+              <img src="/NOI_1_BK.svg" height="50px" class="mt-2" />
+            </a>
+          </div>
         </div>
         <div style="min-height: 200px !important; background-color: #888">
           <footer-info-menu></footer-info-menu>
