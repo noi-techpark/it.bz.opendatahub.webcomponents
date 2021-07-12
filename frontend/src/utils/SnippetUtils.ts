@@ -41,7 +41,7 @@ export function parseSnippetAttributes(
           if (key.trim().length > 0) {
             result += key.trim() + ';';
           }
-          return '?attribs=' + btoa(result);
+          return result;
         case ' ':
           if (key.trim().length > 0) {
             result += key.trim() + ';';
@@ -80,7 +80,7 @@ export function parseSnippetAttributes(
             value += '>';
           } else {
             result += buildAttribute(key, value);
-            return '?attribs=' + btoa(result);
+            return result;
           }
           break;
         default:
@@ -88,7 +88,7 @@ export function parseSnippetAttributes(
       }
     }
   }
-  return '?attribs=' + btoa(result);
+  return result;
 }
 
 export function getDistIncludes(

@@ -70,7 +70,8 @@ export default Vue.extend({
         this.component.uuid +
         '/' +
         this.selectedVersion +
-        this.effectiveAttribs
+        '?attribs=' +
+        btoa(this.effectiveAttribs)
       );
     },
     effectiveAttribs() {
