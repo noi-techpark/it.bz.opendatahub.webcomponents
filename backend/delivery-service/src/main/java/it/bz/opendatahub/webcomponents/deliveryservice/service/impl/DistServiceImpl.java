@@ -48,6 +48,9 @@ public class DistServiceImpl implements DistService {
 			if(result == null) {
 				String result2 = URLConnection.guessContentTypeFromName(filename);
 				if(result2 == null) {
+					if (filename.endsWith(".svg")) {
+						return "image/svg+xml";
+					}
 					return "text/javascript";
 				}
 
