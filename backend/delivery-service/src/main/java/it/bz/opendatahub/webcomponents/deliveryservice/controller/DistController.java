@@ -22,7 +22,7 @@ public class DistController {
         this.distService = distService;
     }
 
-    @GetMapping(value = "/{webcomponentId}/{file}", produces = {"application/javascript", "text/css", "text/plain"})
+    @GetMapping(value = "/{webcomponentId}/{file}")
     public ResponseEntity<byte[]> getDistLatest(@PathVariable String webcomponentId,
                                                 @PathVariable String file) {
 
@@ -33,7 +33,7 @@ public class DistController {
         return new ResponseEntity<>(distFile.getPayload(), responseHeaders, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{webcomponentId}/{version}/{file}", produces = {"application/javascript", "text/css", "text/plain"})
+    @GetMapping(value = "/{webcomponentId}/{version}/{file}")
     public ResponseEntity<byte[]> getDistVersioned(@PathVariable String webcomponentId,
                                                    @PathVariable String version,
                                                    @PathVariable String file) {
