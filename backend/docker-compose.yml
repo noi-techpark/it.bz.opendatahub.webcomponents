@@ -37,6 +37,7 @@ services:
     volumes:
       - ./:/code
       - ./.m2:/code/.m2
+      - ./workspace:/workspace
     env_file:
       - .env
     environment:
