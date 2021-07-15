@@ -74,6 +74,8 @@ export const actions: ActionTree<RootState, RootState> = {
   async loadWebcomponent({ commit }, { uuid, version }) {
     commit('SET_WEBCOMPONENT', null);
     commit('SET_CONFIGURATION', null);
+    commit('SET_SNIPPET_FROM_TOOL', '');
+    commit('SET_SNIPPET_FROM_EDITOR', '');
 
     commit('SET_VERSION_TAG', version);
 
@@ -125,6 +127,10 @@ function getDistIncludes(
   config: WebcomponentConfigurationModel
 ): Array<string> {
   const scripts = [];
+
+  if (!config) {
+    return [];
+  }
 
   // Wait until the async loadData method has finished
   // eslint-disable-next-line no-prototype-builtins
