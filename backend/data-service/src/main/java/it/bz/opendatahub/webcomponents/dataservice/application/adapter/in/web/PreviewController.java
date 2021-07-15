@@ -3,6 +3,7 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web;
 import it.bz.opendatahub.webcomponents.common.stereotype.WebAdapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentConfiguration;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentConfigurationUseCase;
+import lombok.var;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -36,63 +38,21 @@ public class PreviewController {
 			conf = getWebcomponentConfigurationUseCase.getConfiguration(uuid, versionTag);
 		}
 
-		attribs = parseAttribs(new String(Base64.getDecoder().decode(attribs), StandardCharsets.UTF_8));
-
-		model.addAttribute("snippetScripts", conf.getScriptSources());
+		var snippet = new String(Base64.getDecoder().decode(attribs), StandardCharsets.UTF_8);
 
 		if (!style.isEmpty()) {
-			attribs += " style=\"" + style + "\"";
+			var firstSpaceIndex = snippet.indexOf(" ");
+			snippet = snippet.substring(0, firstSpaceIndex) +" style=\"" + style + "\"" + snippet.substring(firstSpaceIndex);
 		}
 
-		model.addAttribute("snippetCode", "<" + conf.getConfiguration().getTagName() + attribs + ">" + slot
-				+ "</" + conf.getConfiguration().getTagName() + ">");
+		if(!slot.isEmpty()) {
+			var slotIndex = snippet.lastIndexOf("></") + 1;
+			snippet = snippet.substring(0, slotIndex) + slot + snippet.substring(slotIndex);
+		}
+
+		model.addAttribute("snippetCode", snippet);
+		model.addAttribute("snippetScripts", conf.getScriptSources());
+
 		return "preview";
 	}
-
-	private static String parseAttribs(final String rawString) {
-		boolean isKey = true;
-		boolean isValue = false;
-		String key = "";
-		String value = "";
-		StringBuilder result = new StringBuilder();
-		for (int i = 0; i < rawString.length(); i++) {
-			char c = rawString.charAt(i);
-			if (isKey) {
-				switch (c) {
-					case '=':
-						isKey = false;
-						break;
-					case ';':
-					case ' ':
-						if (key.trim().length() > 0) {
-							result.append(" ");
-							result.append(key.trim());
-						}
-						break;
-					default:
-						key += c;
-				}
-			} else if (isValue) {
-				switch (c) {
-					case '"':
-						result.append(" ");
-						result.append(key.trim());
-						result.append("=\"");
-						result.append(value.trim());
-						result.append("\"");
-						isKey = true;
-						isValue = false;
-						key = "";
-						value = "";
-						break;
-					default:
-						value += c;
-				}
-			} else if (c == '"') {
-				isValue = true;
-			}
-		}
-		return result.toString();
-	}
-
 }

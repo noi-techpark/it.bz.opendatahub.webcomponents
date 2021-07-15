@@ -14,6 +14,7 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 
 @Slf4j
@@ -152,6 +154,7 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 
 	private String getUrlAttributesFromConfig(WebcomponentVersion webcomponentVersion) {
 		val options = webcomponentVersion.getConfiguration().getOptions();
+		val tagName = webcomponentVersion.getConfiguration().getTagName();
 
 		val attribs = new ArrayList<String>();
 
@@ -164,9 +167,19 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 			val innerOptions = (LinkedHashMap<String, Object>)option.getOptions();
 
 			if(optionIsRequiredOrHasDefaultValue(option, innerOptions)) {
-				attribs.add(
-					option.getKey()+"=\""+ urlencode(String.valueOf(innerOptions.get("default"))) +"\""
-				);
+				var quotes = "\"";
+				if(innerOptions.get("default") instanceof String && ((String)innerOptions.get("default")).contains(quotes)) {
+					quotes = "'";
+				}
+
+				if(option.getType().equals("null")) {
+					attribs.add(option.getKey());
+				}
+				else {
+					attribs.add(
+						option.getKey() + "=" + quotes + innerOptions.get("default") + quotes
+					);
+				}
 			}
 		}
 
@@ -174,7 +187,9 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 			return "";
 		}
 
-		return "?attribs="+String.join(";", attribs);
+		val fullResult = "<"+tagName+" " +  String.join(" ", attribs) + "></"+tagName+">";
+
+		return "?attribs="+ Base64.getEncoder().encodeToString(fullResult.getBytes(StandardCharsets.UTF_8));
 	}
 
 	@SneakyThrows(UnsupportedEncodingException.class)
