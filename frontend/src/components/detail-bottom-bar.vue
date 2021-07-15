@@ -90,7 +90,11 @@ export default {
       return this.$store.state.webcomponent.snippetFromTool;
     },
     attribs() {
-      return btoa(this.$store.getters['webcomponent/attribs']);
+      if (!this.$store.state.webcomponent.configuration) {
+        return '';
+      }
+
+      return this.$store.getters['webcomponent/transportString'];
     },
     toFullscreen() {
       if (this.version) {

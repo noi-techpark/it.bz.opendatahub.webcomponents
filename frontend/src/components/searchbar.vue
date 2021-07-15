@@ -192,6 +192,9 @@ export default Vue.extend({
   },
   methods: {
     tagCollapseListener(e) {
+      if (!document.getElementById('tags-zone')) {
+        return;
+      }
       if (!document.getElementById('tags-zone').contains(e.target)) {
         this.searchTagsVisible = false;
       }

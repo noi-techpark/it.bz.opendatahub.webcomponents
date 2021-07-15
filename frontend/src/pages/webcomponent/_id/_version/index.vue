@@ -156,7 +156,6 @@ import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-markup.min';
 
 import DetailBottomBar from '~/components/detail-bottom-bar.vue';
-import { getDistIncludes } from '~/utils/SnippetUtils';
 import { copyToClipboard } from '~/utils/ClipboardUtils';
 import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
@@ -175,6 +174,7 @@ export default Vue.extend({
       showPreview: true,
       editorCode: '',
       initTabOne: false,
+      timer: null,
     };
   },
   computed: {
@@ -219,20 +219,26 @@ export default Vue.extend({
       return this.snippetFromTool;
     },
   },
+  watch: {
+    editorCode(value) {
+      this.updateSnippetFromEditor(value);
+    },
+  },
   created() {
     this.initializeWebcomponentAndVersion();
   },
   mounted() {
     this.editorCode = this.snippetFromEditor;
     this.initTabOne = !this.editMode;
+
     if (!this.initTabOne) {
-      setTimeout(this.updatePreview, 500);
+      setTimeout(this.tryUpdatePreview, 300);
     }
   },
-  watch: {
-    editorCode(value) {
-      this.updateSnippetFromEditor(value);
-    },
+  beforeDestroy() {
+    if (this.timer) {
+      clearTimeout(this.timer);
+    }
   },
   methods: {
     async initializeWebcomponentAndVersion() {
@@ -256,10 +262,7 @@ export default Vue.extend({
     },
 
     updateSnippetFromTool(snippet: string) {
-      this.$store.commit(
-        'webcomponent/SET_SNIPPET_FROM_TOOL',
-        snippet + '\n' + getDistIncludes(this.config).join('\n')
-      );
+      this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
 
       this.editorCode = this.snippetFromTool;
 
@@ -287,11 +290,16 @@ export default Vue.extend({
       copyToClipboard(this.effectiveSnippet);
     },
 
-    updatePreview(): void {
-      /* if (this.editmode) {
-        this.updateSnippetFromEditor(this.editorCode);
-      } */
+    tryUpdatePreview() {
+      const oldElement = document.getElementById('tframe');
+      if (!oldElement) {
+        this.timer = setTimeout(this.tryUpdatePreview, 300);
+      }
 
+      this.updatePreview();
+    },
+
+    updatePreview(): void {
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);

@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public class WebcomponentRepositoryImpl implements WebcomponentRepository {
     private static final String QUERY_VERSIONS =
-            "SELECT version_tag FROM webcomponent_version WHERE webcomponent_uuid=? ORDER by version_tag DESC";
+            "SELECT version_tag FROM webcomponent_version WHERE webcomponent_uuid=? ORDER by release_timestamp DESC";
 
     private final JdbcTemplate jdbcTemplate;
 

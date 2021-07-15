@@ -3,7 +3,6 @@ import { WebcomponentModel } from '../domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '../domain/model/WebcomponentConfigurationModel';
 import { $api } from '~/utils/api-accessor';
 import { WebcomponentVersionModel } from '~/domain/model/WebcomponentVersionModel';
-import { parseSnippetAttributes } from '~/utils/SnippetUtils';
 
 export const state = () => ({
   webcomponent: null as WebcomponentModel,
@@ -24,8 +23,18 @@ export const getters: GetterTree<RootState, RootState> = {
     }
     return null;
   },
+  transportString(state): string {
+    if (!state.webcomponent || !state.configuration) {
+      return '';
+    }
+
+    return toTransport(
+      state.snippetFromEditor,
+      state.configuration.configuration.tagName
+    );
+  },
   externalPreviewUrl(state): string {
-    if (!state.webcomponent) {
+    if (!state.webcomponent || !state.configuration) {
       return '';
     }
     return (
@@ -34,17 +43,10 @@ export const getters: GetterTree<RootState, RootState> = {
       '/' +
       state.versionTag +
       '?attribs=' +
-      btoa(parseSnippetAttributes(state.snippetFromTool, state.configuration))
-    );
-  },
-  attribs(state): string {
-    console.log(state.snippetFromTool, state.configuration);
-    if (!state.configuration) {
-      return '';
-    }
-    return parseSnippetAttributes(
-      String(state.snippetFromTool),
-      state.configuration
+      toTransport(
+        state.snippetFromEditor,
+        state.configuration.configuration.tagName
+      )
     );
   },
 };
@@ -60,7 +62,8 @@ export const mutations: MutationTree<RootState> = {
     state.versionTag = version;
   },
   SET_SNIPPET_FROM_TOOL: (state, snipp: string) => {
-    state.snippetFromTool = snipp;
+    state.snippetFromTool =
+      snipp + '\n' + getDistIncludes(state.configuration).join('\n');
   },
   SET_SNIPPET_FROM_EDITOR: (state, snipp: string) => {
     state.snippetFromEditor = snipp;
@@ -71,6 +74,8 @@ export const actions: ActionTree<RootState, RootState> = {
   async loadWebcomponent({ commit }, { uuid, version }) {
     commit('SET_WEBCOMPONENT', null);
     commit('SET_CONFIGURATION', null);
+    commit('SET_SNIPPET_FROM_TOOL', '');
+    commit('SET_SNIPPET_FROM_EDITOR', '');
 
     commit('SET_VERSION_TAG', version);
 
@@ -93,4 +98,77 @@ export const actions: ActionTree<RootState, RootState> = {
     const config = await $api.webcomponent.getConfigById(uuid, selectedVersion);
     commit('SET_CONFIGURATION', config);
   },
+  fromTransport({ commit, state }, attribs: string) {
+    commit(
+      'SET_SNIPPET_FROM_EDITOR',
+      fromTransport(attribs) +
+        '\n' +
+        getDistIncludes(state.configuration).join('\n')
+    );
+  },
 };
+
+function toTransport(snippet: string, tag: string): string {
+  const regex = new RegExp('<' + tag + ' .*<\\/' + tag + '>');
+
+  const result = snippet.match(regex);
+
+  if (result) {
+    return encodeURIComponent(btoa(result[0]));
+  }
+  return '';
+}
+
+function fromTransport(transport: string) {
+  return atob(decodeURIComponent(transport));
+}
+
+function getDistIncludes(
+  config: WebcomponentConfigurationModel
+): Array<string> {
+  const scripts = [];
+
+  if (!config) {
+    return [];
+  }
+
+  // Wait until the async loadData method has finished
+  // eslint-disable-next-line no-prototype-builtins
+  if (config.hasOwnProperty('dist')) {
+    if (
+      // eslint-disable-next-line no-prototype-builtins
+      config.dist.hasOwnProperty('scripts') &&
+      config.dist.scripts.length > 0
+    ) {
+      config.dist.scripts.forEach((item) => {
+        scripts.push(
+          '<script ' +
+            item.parameter +
+            ' src="' +
+            config.deliveryBaseUrl +
+            '/' +
+            config.dist.basePath +
+            '/' +
+            item.file +
+            '"></scr' +
+            'ipt>'
+        );
+      });
+    } else {
+      config.dist.files.forEach((item) => {
+        scripts.push(
+          '<script src="' +
+            config.deliveryBaseUrl +
+            '/' +
+            config.dist.basePath +
+            '/' +
+            item +
+            '"></scr' +
+            'ipt>'
+        );
+      });
+    }
+  }
+
+  return scripts;
+}
