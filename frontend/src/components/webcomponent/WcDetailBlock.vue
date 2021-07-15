@@ -109,7 +109,7 @@
                       }}</span>
                     </div>
                     <div>
-                      {{ author.name }}
+                      {{ author.organization }}
                       <a
                         v-if="author.organizationUrl"
                         :href="author.organizationUrl"
@@ -149,7 +149,7 @@
                       }}</span>
                     </div>
                     <div>
-                      {{ author.name }}
+                      {{ author.organization }}
                       <a
                         v-if="author.organizationUrl"
                         :href="author.organizationUrl"
