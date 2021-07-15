@@ -27,7 +27,6 @@ import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-co
 import DetailBottomBar from '~/components/detail-bottom-bar.vue';
 import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
-import { getDistIncludes, parseSnippetAttributes } from '~/utils/SnippetUtils';
 import { copyToClipboard } from '~/utils/ClipboardUtils';
 
 export default Vue.extend({
@@ -39,7 +38,6 @@ export default Vue.extend({
   data() {
     return {
       configuratorEnabled: false,
-      editorCode: '',
       previewBaseURL: (this as any).$api.baseUrl,
       attribs: (this as any).$route.query.attribs,
     };
@@ -61,7 +59,7 @@ export default Vue.extend({
       return this.$store.state.webcomponent.snippetFromEditor;
     },
     externalPreviewUrl(): string {
-      if (!this.component) {
+      if (!this.component || !this.config) {
         return '';
       }
       return (
@@ -71,18 +69,27 @@ export default Vue.extend({
         '/' +
         this.selectedVersion +
         '?attribs=' +
-        btoa(this.effectiveAttribs)
+        this.$store.getters['webcomponent/transportString']
       );
     },
-    effectiveAttribs() {
-      if (!this.component) {
-        return '';
+    tagName() {
+      if (this.config) {
+        return this.config.configuration.tagName;
       }
 
-      if (this.attribs) {
-        return atob(this.attribs);
-      } else {
-        return this.$store.getters['webcomponent/attribs'];
+      return '';
+    },
+  },
+
+  watch: {
+    externalPreviewUrl(url) {
+      if (url) {
+        this.updatePreview();
+      }
+    },
+    config(c) {
+      if (c && this.attribs) {
+        this.updateSnippetFromEditor(this.attribs);
       }
     },
   },
@@ -92,17 +99,7 @@ export default Vue.extend({
 
     if (!this.attribs) {
       this.configuratorEnabled = true;
-    } else {
-      this.editorCode = this.snippetFromEditor;
     }
-  },
-
-  watch: {
-    externalPreviewUrl(url) {
-      if (url) {
-        this.updatePreview();
-      }
-    },
   },
 
   methods: {
@@ -114,14 +111,18 @@ export default Vue.extend({
     },
 
     updateSnippetFromTool(snippet: string) {
+      this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
+
       this.$store.commit(
-        'webcomponent/SET_SNIPPET_FROM_TOOL',
-        snippet + '\n' + getDistIncludes(this.config).join('\n')
+        'webcomponent/SET_SNIPPET_FROM_EDITOR',
+        this.snippetFromTool
       );
 
-      this.editorCode = this.snippetFromTool;
-
       this.updatePreview();
+    },
+
+    updateSnippetFromEditor(snippet: string) {
+      this.$store.dispatch('webcomponent/fromTransport', snippet);
     },
 
     updatePreview() {
@@ -153,7 +154,7 @@ export default Vue.extend({
       newElement.contentDocument.close();
     },
     copySnippetToClipboard() {
-      copyToClipboard(this.editorCode);
+      copyToClipboard(this.snippetFromEditor);
     },
   },
 });

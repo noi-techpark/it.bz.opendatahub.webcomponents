@@ -47,7 +47,6 @@ import 'prismjs/components/prism-markup';
 import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
 import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
 import { copyToClipboard } from '~/utils/ClipboardUtils';
-import { getDistIncludes } from '~/utils/SnippetUtils';
 
 export default Vue.extend({
   name: 'FullscreenEditing',
@@ -79,6 +78,12 @@ export default Vue.extend({
     },
   },
 
+  watch: {
+    editorCode(value) {
+      this.updateSnippetFromEditor(value);
+    },
+  },
+
   created() {
     this.initializeWebcomponentAndVersion();
     if (!this.snippetFromEditor) {
@@ -90,12 +95,6 @@ export default Vue.extend({
 
   mounted() {
     this.updatePreview();
-  },
-
-  watch: {
-    editorCode(value) {
-      this.updateSnippetFromEditor(value);
-    },
   },
 
   methods: {
@@ -111,10 +110,7 @@ export default Vue.extend({
     },
 
     updateSnippetFromTool(snippet: string) {
-      this.$store.commit(
-        'webcomponent/SET_SNIPPET_FROM_TOOL',
-        snippet + '\n' + getDistIncludes(this.config).join('\n')
-      );
+      this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
 
       this.editorCode = this.snippetFromTool;
 
