@@ -24,7 +24,8 @@ pipeline {
 		// Base URL from where we will distribute build artifacts (javascript bundles and assets)
 		CDN_DIST_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
 
-		SWAGGER_BASE_URL = "https://api.webcomponents.opendatahub.testingmachine.eu"
+		API_SWAGGER_BASE_URL = "https://api.webcomponents.opendatahub.testingmachine.eu"
+		CDN_SWAGGER_BASE_URL = "https://cdn.webcomponents.opendatahub.testingmachine.eu"
 
 		// Security for CRUD operations
 		KEYCLOAK_URL = "https://auth.opendatahub.testingmachine.eu/auth/"
@@ -62,7 +63,8 @@ pipeline {
 					echo 'DB_SCHEMA=${DB_SCHEMA}' >> .env
 					echo 'API_PREVIEW_URL=${API_PREVIEW_URL}' >> .env
 					echo 'CDN_DIST_URL=${CDN_DIST_URL}' >> .env
-					echo 'SWAGGER_BASE_URL=${SWAGGER_BASE_URL}' >> .env
+					echo 'API_SWAGGER_BASE_URL=${API_SWAGGER_BASE_URL}' >> .env
+					echo 'CDN_SWAGGER_BASE_URL=${CDN_SWAGGER_BASE_URL}' >> .env
 					echo 'KEYCLOAK_URL=${KEYCLOAK_URL}' >> .env
 					echo 'KEYCLOAK_SSL_REQUIRED=${KEYCLOAK_SSL_REQUIRED}' >> .env
 					echo 'KEYCLOAK_REALM=${KEYCLOAK_REALM}' >> .env
