@@ -20,7 +20,13 @@ const i18n = new VueI18n({
   messages: {},
 });
 
-const store = new Vuex.Store({});
+const store = new Vuex.Store({
+  modules: {
+    webcomponent: {
+      namespaced: true,
+    },
+  },
+});
 
 const mocks = {
   // Always returns the input
