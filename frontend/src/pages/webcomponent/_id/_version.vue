@@ -55,23 +55,6 @@
                   class="ml-4 mr-1"
                 />update preview
               </span>
-              <a
-                :href="
-                  previewBaseURL +
-                    '/preview/' +
-                    component.uuid +
-                    '/' +
-                    selectedVersion +
-                    attribs
-                "
-                target="_blank"
-                class="mt-2 mt-sm-0 link_with_icon"
-              >
-                <font-awesome-icon
-                  :icon="['fas', 'rocket']"
-                  class="ml-4 mr-1"
-                />external window
-              </a>
             </div>
           </b-card>
         </div>
