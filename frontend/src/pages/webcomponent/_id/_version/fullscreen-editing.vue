@@ -9,12 +9,12 @@
       ></iframe>
       <detail-bottom-bar
         selected-view="editing"
-        @updatePreview="updatePreview"
+        @updatePreview="updateSnippetFromEditor"
         @copyCode="copySnippetToClipboard"
       >
       </detail-bottom-bar>
       <WCSConfigTool
-        v-if="config && configuratorEnabled"
+        v-if="config"
         :config="config.configuration"
         style="display: none"
         @snippet="updateSnippetFromTool"
@@ -24,6 +24,7 @@
       v-model="editorCode"
       class="my-editor pt-4"
       :highlight="highlighter"
+      @blur="updateSnippetFromEditor"
       style="
         border: 0;
         background-color: inherit;
@@ -56,10 +57,24 @@ export default Vue.extend({
   },
   data() {
     return {
+      previewBaseURL: (this as any).$api.baseUrl,
       editorCode: '',
-      configuratorEnabled: false,
     };
   },
+
+  async fetch() {
+    this.$store.commit('webcomponent/SET_EDIT_MODE', true);
+
+    await this.$store.dispatch('webcomponent/loadWebcomponent', {
+      uuid: this.$route.params.id,
+      version: this.$route.params.version,
+    });
+
+    if (!this.snippet) {
+      this.$store.commit('webcomponent/SET_EDIT_MODE', false);
+    }
+  },
+
   computed: {
     component(): WebcomponentModel {
       return this.$store.state.webcomponent.webcomponent;
@@ -70,59 +85,70 @@ export default Vue.extend({
     selectedVersion(): string {
       return this.$store.state.webcomponent.versionTag;
     },
-    snippetFromTool(): string {
-      return this.$store.state.webcomponent.snippetFromTool;
+    snippet(): string {
+      return this.$store.state.webcomponent.snippet;
     },
-    snippetFromEditor(): string {
-      return this.$store.state.webcomponent.snippetFromEditor;
+    externalPreviewUrl(): string {
+      if (!this.component || !this.config) {
+        return '';
+      }
+      return (
+        this.previewBaseURL +
+        '/preview/' +
+        this.component.uuid +
+        '/' +
+        this.selectedVersion +
+        '?attribs=' +
+        this.$store.getters['webcomponent/transportString']
+      );
     },
   },
 
   watch: {
-    editorCode(value) {
-      this.updateSnippetFromEditor(value);
+    snippet(value) {
+      this.editorCode = value;
     },
-  },
-
-  created() {
-    this.initializeWebcomponentAndVersion();
-    if (!this.snippetFromEditor) {
-      this.configuratorEnabled = true;
-    } else {
-      this.editorCode = this.snippetFromEditor;
-    }
+    externalPreviewUrl(url) {
+      if (url) {
+        this.updatePreview();
+      }
+    },
   },
 
   mounted() {
-    this.updatePreview();
+    if (this.externalPreviewUrl) {
+      this.updatePreview();
+    }
+    if (!this.editorCode) {
+      this.editorCode = this.snippet;
+    }
   },
 
   methods: {
-    async initializeWebcomponentAndVersion() {
-      await this.$store.dispatch('webcomponent/loadWebcomponent', {
-        uuid: this.$route.params.id,
-        version: this.$route.params.version,
-      });
-    },
-
     highlighter(code) {
       return highlight(code, languages.markup); // returns html
     },
 
     updateSnippetFromTool(snippet: string) {
       this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
-
-      this.editorCode = this.snippetFromTool;
-
-      this.updatePreview();
     },
 
-    updateSnippetFromEditor(snippet: string) {
-      this.$store.commit('webcomponent/SET_SNIPPET_FROM_EDITOR', snippet);
+    updateSnippetFromEditor() {
+      if (this.editorCode === this.snippet) {
+        return;
+      }
+
+      this.$store.commit(
+        'webcomponent/SET_SNIPPET_FROM_EDITOR',
+        this.editorCode
+      );
     },
 
     updatePreview() {
-      this.updateSnippetFromEditor(this.editorCode);
+      const src = this.externalPreviewUrl;
+      if (!src) {
+        return; // probably not yet loaded
+      }
 
       const oldElement = document.getElementById('tframe');
 
@@ -144,10 +170,11 @@ export default Vue.extend({
         );
       }
       newElement.setAttribute('frameborder', '0');
+      newElement.src = src;
 
       document.getElementById('twrap').appendChild(newElement);
 
-      newElement.contentDocument.write(this.editorCode);
+      // newElement.contentDocument.write(this.editorCode);
       newElement.contentDocument.close();
     },
     copySnippetToClipboard() {
