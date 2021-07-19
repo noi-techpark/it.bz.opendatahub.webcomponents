@@ -2,7 +2,10 @@ package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web;
 
 import it.bz.opendatahub.webcomponents.common.stereotype.WebAdapter;
 import it.bz.opendatahub.webcomponents.dataservice.application.domain.WebcomponentConfiguration;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetDefaultPreviewSnippetUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentConfigurationUseCase;
+import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentVersionUseCase;
+
 import lombok.var;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -21,9 +23,11 @@ import java.util.Base64;
 @RequestMapping("/preview")
 public class PreviewController {
 	private final GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase;
+	private final GetDefaultPreviewSnippetUseCase getDefaultPreviewSnippetUseCase;
 
-	public PreviewController(GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase) {
+	public PreviewController(GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase, GetDefaultPreviewSnippetUseCase getDefaultPreviewSnippetUseCase) {
 		this.getWebcomponentConfigurationUseCase = getWebcomponentConfigurationUseCase;
+		this.getDefaultPreviewSnippetUseCase = getDefaultPreviewSnippetUseCase;
 	}
 
 	@GetMapping(value = "/{uuid}/{versionTag}")
@@ -38,7 +42,15 @@ public class PreviewController {
 			conf = getWebcomponentConfigurationUseCase.getConfiguration(uuid, versionTag);
 		}
 
-		var snippet = new String(Base64.getDecoder().decode(attribs), StandardCharsets.UTF_8);
+		//val decoded = URLDecoder.decode(attribs);
+
+		String snippet;
+		if(!attribs.isEmpty()) {
+			snippet = new String(Base64.getDecoder().decode(attribs), StandardCharsets.UTF_8);
+		}
+		else {
+			snippet = getDefaultPreviewSnippetUseCase.getDefaultPreviewSnippet(uuid, versionTag);
+		}
 
 		if (!style.isEmpty()) {
 			var firstSpaceIndex = snippet.indexOf(" ");
