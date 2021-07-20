@@ -133,7 +133,7 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 	}
 
 	private String getPreviewUrlForWebcomponentVersion(WebcomponentVersion webcomponentVersion) {
-		return previewBaseUrl + "/" + webcomponentVersion.getWebcomponentUuid() + "/" + webcomponentVersion.getVersionTag() + getUrlAttributesFromConfig(webcomponentVersion);
+		return previewBaseUrl + "/" + webcomponentVersion.getWebcomponentUuid() + "/" + webcomponentVersion.getVersionTag();
 	}
 
 	private int extractPerformanceRating(String json) throws MetricsParseException {
@@ -150,55 +150,6 @@ public class WebcomponentVersionMetricsService implements UpdateWebcomponentVers
 		}
 
 		return (int) (rating.doubleValue() * 100);
-	}
-
-	private String getUrlAttributesFromConfig(WebcomponentVersion webcomponentVersion) {
-		val options = webcomponentVersion.getConfiguration().getOptions();
-		val tagName = webcomponentVersion.getConfiguration().getTagName();
-
-		val attribs = new ArrayList<String>();
-
-		for(val option : options) {
-			if(!(option.getOptions() instanceof LinkedHashMap)) {
-				continue;
-			}
-
-			@SuppressWarnings("unchecked")
-			val innerOptions = (LinkedHashMap<String, Object>)option.getOptions();
-
-			if(optionIsRequiredOrHasDefaultValue(option, innerOptions)) {
-				var quotes = "\"";
-				if(innerOptions.get("default") instanceof String && ((String)innerOptions.get("default")).contains(quotes)) {
-					quotes = "'";
-				}
-
-				if(option.getType().equals("null")) {
-					attribs.add(option.getKey());
-				}
-				else {
-					attribs.add(
-						option.getKey() + "=" + quotes + innerOptions.get("default") + quotes
-					);
-				}
-			}
-		}
-
-		if(attribs.isEmpty()) {
-			return "";
-		}
-
-		val fullResult = "<"+tagName+" " +  String.join(" ", attribs) + "></"+tagName+">";
-
-		return "?attribs="+ Base64.getEncoder().encodeToString(fullResult.getBytes(StandardCharsets.UTF_8));
-	}
-
-	@SneakyThrows(UnsupportedEncodingException.class)
-	private String urlencode(String string) {
-		return URLEncoder.encode(string, StandardCharsets.UTF_8.toString());
-	}
-
-	private boolean optionIsRequiredOrHasDefaultValue(it.bz.opendatahub.webcomponents.common.data.struct.Configuration.Options option, LinkedHashMap<String, Object> innerOptions) {
-		return (option.getRequired() != null && option.getRequired()) || innerOptions.containsKey("default");
 	}
 
 	private static class MetricsParseException extends Exception {}

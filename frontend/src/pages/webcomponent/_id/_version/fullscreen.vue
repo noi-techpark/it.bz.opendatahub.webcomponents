@@ -5,6 +5,7 @@
       class="full-height full-width"
       style="margin-bottom: 60px"
       title="iframe-preview"
+      frameborder="0"
     ></iframe>
     <detail-bottom-bar
       selected-view="preview"
@@ -13,7 +14,7 @@
     >
     </detail-bottom-bar>
     <WCSConfigTool
-      v-if="config && configuratorEnabled"
+      v-if="config"
       :config="config.configuration"
       style="display: none"
       @snippet="updateSnippetFromTool"
@@ -37,11 +38,29 @@ export default Vue.extend({
   },
   data() {
     return {
-      configuratorEnabled: false,
       previewBaseURL: (this as any).$api.baseUrl,
       attribs: (this as any).$route.query.attribs,
     };
   },
+
+  async fetch() {
+    this.$store.commit('webcomponent/SET_EDIT_MODE', true);
+
+    await this.$store.dispatch('webcomponent/loadWebcomponent', {
+      uuid: this.$route.params.id,
+      version: this.$route.params.version,
+    });
+
+    if (this.$route.query.attribs) {
+      await this.$store.dispatch(
+        'webcomponent/restoreSnippet',
+        this.$route.query.attribs
+      );
+    } else {
+      this.$store.commit('webcomponent/SET_EDIT_MODE', false);
+    }
+  },
+
   computed: {
     component(): WebcomponentModel {
       return this.$store.state.webcomponent.webcomponent;
@@ -52,11 +71,8 @@ export default Vue.extend({
     selectedVersion(): string {
       return this.$store.state.webcomponent.versionTag;
     },
-    snippetFromTool(): string {
-      return this.$store.state.webcomponent.snippetFromTool;
-    },
-    snippetFromEditor(): string {
-      return this.$store.state.webcomponent.snippetFromEditor;
+    snippet(): string {
+      return this.$store.state.webcomponent.snippet;
     },
     externalPreviewUrl(): string {
       if (!this.component || !this.config) {
@@ -72,13 +88,6 @@ export default Vue.extend({
         this.$store.getters['webcomponent/transportString']
       );
     },
-    tagName() {
-      if (this.config) {
-        return this.config.configuration.tagName;
-      }
-
-      return '';
-    },
   },
 
   watch: {
@@ -87,45 +96,24 @@ export default Vue.extend({
         this.updatePreview();
       }
     },
-    config(c) {
-      if (c && this.attribs) {
-        this.updateSnippetFromEditor(this.attribs);
-      }
-    },
   },
 
-  created() {
-    this.initializeWebcomponentAndVersion();
-
-    if (!this.attribs) {
-      this.configuratorEnabled = true;
+  mounted() {
+    if (this.externalPreviewUrl) {
+      this.updatePreview();
     }
   },
 
   methods: {
-    async initializeWebcomponentAndVersion() {
-      await this.$store.dispatch('webcomponent/loadWebcomponent', {
-        uuid: this.$route.params.id,
-        version: this.$route.params.version,
-      });
-    },
-
     updateSnippetFromTool(snippet: string) {
       this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
-
-      this.$store.commit(
-        'webcomponent/SET_SNIPPET_FROM_EDITOR',
-        this.snippetFromTool
-      );
-
-      this.updatePreview();
     },
-
-    updateSnippetFromEditor(snippet: string) {
-      this.$store.dispatch('webcomponent/fromTransport', snippet);
-    },
-
     updatePreview() {
+      const src = this.externalPreviewUrl;
+      if (!src) {
+        return; // probably not yet loaded
+      }
+
       const oldElement = document.getElementById('tframe');
 
       oldElement.parentNode.removeChild(oldElement);
@@ -146,15 +134,15 @@ export default Vue.extend({
         );
       }
       newElement.setAttribute('frameborder', '0');
-      newElement.src = this.externalPreviewUrl;
+      newElement.src = src;
 
       document.getElementById('twrap').appendChild(newElement);
 
-      // newElement.contentDocument.write(this.snipp);
+      // newElement.contentDocument.write(this.snippet);
       newElement.contentDocument.close();
     },
     copySnippetToClipboard() {
-      copyToClipboard(this.snippetFromEditor);
+      copyToClipboard(this.snippet);
     },
   },
 });

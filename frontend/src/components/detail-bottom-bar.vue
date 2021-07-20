@@ -86,8 +86,8 @@ export default {
     };
   },
   computed: {
-    snippetFromTool() {
-      return this.$store.state.webcomponent.snippetFromTool;
+    snippet() {
+      return this.$store.state.webcomponent.snippet;
     },
     attribs() {
       if (!this.$store.state.webcomponent.configuration) {
@@ -154,7 +154,7 @@ export default {
       await this.$store.dispatch('loader/startLoading');
 
       const result = await this.$api.webcomponent.createCodeSandbox(
-        this.snippetFromTool
+        this.snippet
       );
 
       if (result) {

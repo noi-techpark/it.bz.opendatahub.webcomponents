@@ -37,13 +37,14 @@
             <b-tabs
               pills
               class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right"
+              v-model="tabIndex"
             >
               <b-tab
                 id="first-tab"
                 title="EASY CONFIGURATION"
                 :active="initTabOne"
               >
-                <div v-if="!editMode">
+                <div v-show="!editMode">
                   <div class="full-height widget-config">
                     <span>
                       <b-checkbox
@@ -92,6 +93,7 @@
                         class="my-editor"
                         :highlight="highlighter"
                         style="border: 0; background-color: inherit"
+                        @blur="updateSnippetFromEditor"
                       />
                     </b-card-text>
 
@@ -131,7 +133,7 @@
           </div>
         </div>
         <detail-bottom-bar
-          @updatePreview="updatePreview"
+          @updatePreview="forceUpdatePreview"
           @copyCode="copySnippetToClipboard"
         >
         </detail-bottom-bar>
@@ -170,17 +172,30 @@ export default Vue.extend({
   },
   data() {
     return {
+      previewBaseURL: (this as any).$api.baseUrl,
       autoUpdate: true,
       showPreview: true,
       editorCode: '',
       initTabOne: false,
       timer: null,
+      tabIndex: 0,
     };
   },
+
+  async fetch() {
+    this.$store.commit('webcomponent/SET_EDIT_MODE', true);
+
+    await this.$store.dispatch('webcomponent/loadWebcomponent', {
+      uuid: this.$route.params.id,
+      version: this.$route.params.version,
+    });
+
+    if (!this.snippet) {
+      this.$store.commit('webcomponent/SET_EDIT_MODE', false);
+    }
+  },
+
   computed: {
-    editMode() {
-      return this.editorCode && this.editorCode !== this.snippetFromTool;
-    },
     hasAnyVersion(): boolean {
       return !!this.$store.state.webcomponent.versionTag;
     },
@@ -209,45 +224,62 @@ export default Vue.extend({
     snippetFromTool(): string {
       return this.$store.state.webcomponent.snippetFromTool;
     },
-    snippetFromEditor(): string {
-      return this.$store.state.webcomponent.snippetFromEditor;
+    snippet(): string {
+      return this.$store.state.webcomponent.snippet;
     },
-    effectiveSnippet(): string {
-      if (this.editMode) {
-        return this.snippetFromEditor;
+    editMode() {
+      return this.editorCode && this.editorCode !== this.snippetFromTool;
+    },
+    externalPreviewUrl(): string {
+      if (!this.component || !this.config) {
+        return '';
       }
-      return this.snippetFromTool;
+      return (
+        this.previewBaseURL +
+        '/preview/' +
+        this.component.uuid +
+        '/' +
+        this.selectedVersion +
+        '?attribs=' +
+        this.$store.getters['webcomponent/transportString']
+      );
     },
   },
+
   watch: {
-    editorCode(value) {
-      this.updateSnippetFromEditor(value);
+    snippet(value) {
+      this.editorCode = value;
+    },
+    externalPreviewUrl(url) {
+      if (url) {
+        this.updatePreview();
+      }
+    },
+    tabIndex(value) {
+      if (value === 0) {
+        if (this.editorCode !== this.snippetFromTool) {
+          return;
+        }
+        this.$store.commit('webcomponent/SET_EDIT_MODE', false);
+      } else {
+        this.$store.commit('webcomponent/SET_EDIT_MODE', true);
+      }
     },
   },
-  created() {
-    this.initializeWebcomponentAndVersion();
-  },
+
   mounted() {
-    this.editorCode = this.snippetFromEditor;
+    if (this.externalPreviewUrl) {
+      this.updatePreview();
+    }
+    if (!this.editorCode) {
+      this.editorCode = this.snippet;
+    }
+
     this.initTabOne = !this.editMode;
+    this.$store.commit('webcomponent/SET_EDIT_MODE', this.editMode);
+  },
 
-    if (!this.initTabOne) {
-      setTimeout(this.tryUpdatePreview, 300);
-    }
-  },
-  beforeDestroy() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
-  },
   methods: {
-    async initializeWebcomponentAndVersion() {
-      await this.$store.dispatch('webcomponent/loadWebcomponent', {
-        uuid: this.$route.params.id,
-        version: this.$route.params.version,
-      });
-    },
-
     async reloadWebcomponentAtVersion(version: string) {
       await this.$router.push(
         this.localePath({
@@ -255,52 +287,63 @@ export default Vue.extend({
           params: { id: this.$route.params.id, version },
         })
       );
-      await this.$store.dispatch('webcomponent/loadWebcomponent', {
-        uuid: this.$route.params.id,
-        version,
-      });
+
+      setTimeout(() => {
+        location.reload();
+      }, 100);
     },
 
     updateSnippetFromTool(snippet: string) {
       this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
-
-      this.editorCode = this.snippetFromTool;
-
-      if (this.autoUpdate) {
-        this.updatePreview();
-      }
     },
 
-    updateSnippetFromEditor(snippet: string) {
-      this.$store.commit('webcomponent/SET_SNIPPET_FROM_EDITOR', snippet);
+    updateSnippetFromEditor() {
+      if (this.editorCode === this.snippet) {
+        return;
+      }
+
+      this.$store.commit(
+        'webcomponent/SET_SNIPPET_FROM_EDITOR',
+        this.editorCode
+      );
     },
 
     highlighter(code: string): string {
       return highlight(code, languages.markup, 'markup'); // returns html
     },
+
     setShowPreview(show: boolean): void {
       this.showPreview = show;
     },
 
     resetEditorSnippet(): void {
-      this.editorCode = this.snippetFromTool;
+      this.$store.dispatch('webcomponent/resetSnippet');
     },
 
     copySnippetToClipboard(): void {
-      copyToClipboard(this.effectiveSnippet);
+      copyToClipboard(this.editorCode);
     },
 
-    tryUpdatePreview() {
-      const oldElement = document.getElementById('tframe');
-      if (!oldElement) {
-        this.timer = setTimeout(this.tryUpdatePreview, 300);
+    forceUpdatePreview() {
+      this.updateSnippetFromEditor();
+      this.updatePreview(true);
+    },
+
+    updatePreview(force = false): void {
+      const src = this.externalPreviewUrl;
+      if (!src) {
+        return; // probably not yet loaded
       }
 
-      this.updatePreview();
-    },
+      if (!force && !this.autoUpdate) {
+        return;
+      }
 
-    updatePreview(): void {
       const oldElement = document.getElementById('tframe');
+
+      if (!oldElement) {
+        return;
+      }
 
       oldElement.parentNode.removeChild(oldElement);
 
@@ -311,8 +354,9 @@ export default Vue.extend({
       newElement.setAttribute('frameborder', '0');
 
       document.getElementById('twrap').appendChild(newElement);
+      newElement.src = src;
 
-      newElement.contentDocument.write(this.effectiveSnippet);
+      // newElement.contentDocument.write(this.effectiveSnippet);
       newElement.contentDocument.close();
     },
   },

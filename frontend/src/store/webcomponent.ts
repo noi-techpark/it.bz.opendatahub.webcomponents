@@ -9,7 +9,8 @@ export const state = () => ({
   configuration: null as WebcomponentConfigurationModel,
   versionTag: null as string,
   snippetFromTool: '',
-  snippetFromEditor: '',
+  snippet: '',
+  editMode: true,
 });
 
 export type RootState = ReturnType<typeof state>;
@@ -29,7 +30,7 @@ export const getters: GetterTree<RootState, RootState> = {
     }
 
     return toTransport(
-      state.snippetFromEditor,
+      state.snippet,
       state.configuration.configuration.tagName
     );
   },
@@ -43,10 +44,7 @@ export const getters: GetterTree<RootState, RootState> = {
       '/' +
       state.versionTag +
       '?attribs=' +
-      toTransport(
-        state.snippetFromEditor,
-        state.configuration.configuration.tagName
-      )
+      toTransport(state.snippet, state.configuration.configuration.tagName)
     );
   },
 };
@@ -64,47 +62,78 @@ export const mutations: MutationTree<RootState> = {
   SET_SNIPPET_FROM_TOOL: (state, snipp: string) => {
     state.snippetFromTool =
       snipp + '\n' + getDistIncludes(state.configuration).join('\n');
+
+    if (!state.editMode || !state.snippet) {
+      state.snippet = state.snippetFromTool;
+    }
   },
   SET_SNIPPET_FROM_EDITOR: (state, snipp: string) => {
-    state.snippetFromEditor = snipp;
+    state.snippet = snipp;
+  },
+  SET_EDIT_MODE: (state, editMode: boolean) => {
+    state.editMode = editMode;
+    if (!editMode || !state.snippet) {
+      state.snippet = state.snippetFromTool;
+    }
   },
 };
 
 export const actions: ActionTree<RootState, RootState> = {
-  async loadWebcomponent({ commit }, { uuid, version }) {
-    commit('SET_WEBCOMPONENT', null);
-    commit('SET_CONFIGURATION', null);
-    commit('SET_SNIPPET_FROM_TOOL', '');
-    commit('SET_SNIPPET_FROM_EDITOR', '');
+  async loadWebcomponent({ commit, state }, { uuid, version }) {
+    let fullReset = false;
 
-    commit('SET_VERSION_TAG', version);
+    if (!state.webcomponent || state.webcomponent.uuid !== uuid) {
+      commit('SET_WEBCOMPONENT', null);
+      commit('SET_CONFIGURATION', null);
 
-    const webcomponent = await $api.webcomponent.getOneById(uuid);
-    commit('SET_WEBCOMPONENT', webcomponent);
+      fullReset = true;
+
+      const webcomponent = await $api.webcomponent.getOneById(uuid);
+      commit('SET_WEBCOMPONENT', webcomponent);
+    }
 
     let selectedVersion = null;
-    webcomponent.versions.forEach((entry) => {
+    state.webcomponent.versions.forEach((entry) => {
       if (entry.versionTag === version) {
         selectedVersion = version;
       }
     });
 
     if (!selectedVersion) {
-      selectedVersion = webcomponent.versions[0].versionTag;
+      selectedVersion = state.webcomponent.versions[0].versionTag;
     }
+
+    const oldVersion = state.versionTag;
 
     commit('SET_VERSION_TAG', selectedVersion);
 
-    const config = await $api.webcomponent.getConfigById(uuid, selectedVersion);
-    commit('SET_CONFIGURATION', config);
+    if (oldVersion !== selectedVersion) {
+      fullReset = true;
+    }
+
+    if (fullReset) {
+      commit('SET_SNIPPET_FROM_TOOL', '');
+      commit('SET_SNIPPET_FROM_EDITOR', '');
+    }
+
+    if (oldVersion !== selectedVersion) {
+      const config = await $api.webcomponent.getConfigById(
+        uuid,
+        selectedVersion
+      );
+      commit('SET_CONFIGURATION', config);
+    }
   },
-  fromTransport({ commit, state }, attribs: string) {
+  restoreSnippet({ commit, state }, attribs: string) {
     commit(
       'SET_SNIPPET_FROM_EDITOR',
       fromTransport(attribs) +
         '\n' +
         getDistIncludes(state.configuration).join('\n')
     );
+  },
+  resetSnippet({ commit, state }) {
+    commit('SET_SNIPPET_FROM_EDITOR', state.snippetFromTool);
   },
 };
 
@@ -141,10 +170,14 @@ function getDistIncludes(
       config.dist.scripts.length > 0
     ) {
       config.dist.scripts.forEach((item) => {
+        let parameter = item.parameter;
+        if (parameter) {
+          parameter = parameter + ' ';
+        }
         scripts.push(
           '<script ' +
-            item.parameter +
-            ' src="' +
+            parameter +
+            'src="' +
             config.deliveryBaseUrl +
             '/' +
             config.dist.basePath +
