@@ -181,6 +181,15 @@ export default Vue.extend({
       return this.$store.getters['searchtags/getSearchtags'];
     },
   },
+  watch: {
+    searchTerm(value) {
+      this.internalSearchTerm = value;
+      this.ol = value;
+    },
+    selectedTags(value) {
+      this.userSelectedTags = value;
+    },
+  },
   mounted() {
     this.loadSearchTags();
 

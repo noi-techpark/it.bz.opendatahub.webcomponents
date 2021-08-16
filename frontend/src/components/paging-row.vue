@@ -1,7 +1,17 @@
 <template>
   <div class="d-flex justify-content-between align-items-center flex-wrap">
-    <h1 class="components-title" style="min-width: 40%">
-      {{ currentPage.totalElements }} components
+    <h1 class="components-title d-flex flex-column" style="min-width: 40%">
+      <span>{{ currentPage.totalElements }} components</span>
+      <span style="font-size: small"
+        ><nuxt-link
+          :to="
+            localePath({
+              name: 'index',
+            })
+          "
+          >&gt;show newest</nuxt-link
+        ></span
+      >
     </h1>
     <div>
       <Paginator
