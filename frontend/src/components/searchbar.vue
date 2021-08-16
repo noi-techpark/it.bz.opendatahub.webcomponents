@@ -191,7 +191,7 @@ export default Vue.extend({
     },
   },
   mounted() {
-    this.loadSearchTags();
+    //  this.loadSearchTags();
 
     if (this.focusSearch) {
       this.focusInput();
@@ -208,10 +208,10 @@ export default Vue.extend({
         this.searchTagsVisible = false;
       }
     },
-    async loadSearchTags() {
+    /* async loadSearchTags() {
       this.availableSearchTags = await this.$api.searchtag.listAll();
       this.isLoaded = true;
-    },
+    }, */
     focusInput() {
       this.$refs.searchTermInput.focus();
     },

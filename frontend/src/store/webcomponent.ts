@@ -91,6 +91,7 @@ export const actions: ActionTree<RootState, RootState> = {
     if (!state.webcomponent || state.webcomponent.uuid !== uuid) {
       commit('SET_WEBCOMPONENT', null);
       commit('SET_CONFIGURATION', null);
+      commit('SET_VERSION_TAG', null);
 
       fullReset = true;
 
@@ -113,6 +114,7 @@ export const actions: ActionTree<RootState, RootState> = {
 
     commit('SET_VERSION_TAG', selectedVersion);
 
+    console.log(oldVersion, selectedVersion);
     if (oldVersion !== selectedVersion) {
       fullReset = true;
     }
