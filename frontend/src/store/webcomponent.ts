@@ -34,6 +34,12 @@ export const getters: GetterTree<RootState, RootState> = {
       state.configuration.configuration.tagName
     );
   },
+  externalPreviewBaseUrl(state): string {
+    if (!state.webcomponent || !state.configuration) {
+      return '';
+    }
+    return '/preview/' + state.webcomponent.uuid + '/' + state.versionTag;
+  },
   externalPreviewUrl(state): string {
     if (!state.webcomponent || !state.configuration) {
       return '';
