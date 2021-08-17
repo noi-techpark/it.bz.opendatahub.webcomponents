@@ -74,7 +74,7 @@
                         configuration tool.</strong
                       ><br />
                       You can either switch over to the "EDIT CODE" tab or
-                      "DISCARD CHANGES". {{ snippetFromTool }}</b-card-text
+                      "DISCARD CHANGES".</b-card-text
                     >
 
                     <div slot="footer" class="text-right text-uppercase">
@@ -110,7 +110,7 @@
                     </b-card-text>
 
                     <div
-                      v-if="editorCode !== snippetFromTool"
+                      v-if="showDiscard"
                       slot="footer"
                       class="text-right text-uppercase"
                     >
@@ -123,10 +123,7 @@
                       </span>
                     </div>
                   </b-card>
-                  <b-alert
-                    class="mt-2"
-                    variant="info"
-                    :show="snippet !== snippetFromTool"
+                  <b-alert class="mt-2" variant="info" :show="showDiscard"
                     >This is a custom snippet and cannot be loaded into the EASY
                     CONFIGURATION.</b-alert
                   >
@@ -215,6 +212,9 @@ export default Vue.extend({
   },
 
   computed: {
+    showDiscard(): boolean {
+      return this.snippet !== this.snippetFromTool;
+    },
     hasAnyVersion(): boolean {
       return !!this.$store.state.webcomponent.versionTag;
     },
