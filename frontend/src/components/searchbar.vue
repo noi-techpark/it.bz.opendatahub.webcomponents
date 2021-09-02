@@ -181,8 +181,17 @@ export default Vue.extend({
       return this.$store.getters['searchtags/getSearchtags'];
     },
   },
+  watch: {
+    searchTerm(value) {
+      this.internalSearchTerm = value;
+      this.ol = value;
+    },
+    selectedTags(value) {
+      this.userSelectedTags = value;
+    },
+  },
   mounted() {
-    this.loadSearchTags();
+    //  this.loadSearchTags();
 
     if (this.focusSearch) {
       this.focusInput();
@@ -199,10 +208,10 @@ export default Vue.extend({
         this.searchTagsVisible = false;
       }
     },
-    async loadSearchTags() {
+    /* async loadSearchTags() {
       this.availableSearchTags = await this.$api.searchtag.listAll();
       this.isLoaded = true;
-    },
+    }, */
     focusInput() {
       this.$refs.searchTermInput.focus();
     },

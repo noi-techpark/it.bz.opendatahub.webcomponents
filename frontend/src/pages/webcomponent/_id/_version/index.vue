@@ -57,6 +57,7 @@
                       <WCSConfigTool
                         v-if="config"
                         :config="config.configuration"
+                        :restore-snippet="snippet"
                         @snippet="updateSnippetFromTool"
                       ></WCSConfigTool>
                     </b-card-text>
@@ -66,14 +67,25 @@
                   <div class="text-uppercase font-weight-bold mb-2">
                     configuration
                   </div>
-                  <b-card
-                    class="full-height widget-config"
-                    style="background-color: #fafafa"
-                  >
+                  <b-card class="full-height widget-config">
                     <b-card-text
-                      >Configurator disabled. Manual configuration
-                      active.</b-card-text
+                      ><strong
+                        >The selected configuration is not compatible with our
+                        configuration tool.</strong
+                      ><br />
+                      You can either switch over to the "EDIT CODE" tab or
+                      "DISCARD CHANGES".</b-card-text
                     >
+
+                    <div slot="footer" class="text-right text-uppercase">
+                      <span
+                        style="cursor: pointer"
+                        class="mr-4"
+                        @click="resetEditorSnippet()"
+                      >
+                        DISCARD CHANGES
+                      </span>
+                    </div>
                   </b-card>
                 </div></b-tab
               >
@@ -98,7 +110,7 @@
                     </b-card-text>
 
                     <div
-                      v-if="editorCode !== snippetFromTool"
+                      v-if="showDiscard"
                       slot="footer"
                       class="text-right text-uppercase"
                     >
@@ -107,10 +119,14 @@
                         class="mr-4"
                         @click="resetEditorSnippet()"
                       >
-                        RESET
+                        DISCARD CHANGES
                       </span>
                     </div>
                   </b-card>
+                  <b-alert class="mt-2" variant="info" :show="showDiscard"
+                    >This is a custom snippet and cannot be loaded into the EASY
+                    CONFIGURATION.</b-alert
+                  >
                 </div></b-tab
               >
               <template #tabs-end>
@@ -196,6 +212,9 @@ export default Vue.extend({
   },
 
   computed: {
+    showDiscard(): boolean {
+      return this.snippet !== this.snippetFromTool;
+    },
     hasAnyVersion(): boolean {
       return !!this.$store.state.webcomponent.versionTag;
     },
@@ -318,6 +337,7 @@ export default Vue.extend({
 
     resetEditorSnippet(): void {
       this.$store.dispatch('webcomponent/resetSnippet');
+      this.tabIndex = 0;
     },
 
     copySnippetToClipboard(): void {

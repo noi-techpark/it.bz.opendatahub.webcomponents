@@ -68,6 +68,7 @@ module.exports = {
           enabled: process.env.GOOGLE_ANALYTICS_DEBUG || false,
           sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false,
         },
+        set: [{ field: 'anonymizeIp', value: true }],
       },
     ],
   ],

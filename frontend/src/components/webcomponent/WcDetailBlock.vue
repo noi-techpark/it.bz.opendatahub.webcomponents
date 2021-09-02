@@ -345,16 +345,16 @@ export default Vue.extend({
     copyrightHolders(): string {
       return this.component.copyrightHolders.map((e) => e.name).join(', ');
     },
-    externalPreviewUrl(): string {
+    externalPreviewBaseUrl(): string {
       return (
         (this as any).$api.baseUrl +
-        this.$store.getters['webcomponent/externalPreviewUrl']
+        this.$store.getters['webcomponent/externalPreviewBaseUrl']
       );
     },
     pageSpeedInsightUrl(): string {
       return (
         'https://developers.google.com/speed/pagespeed/insights/?url=' +
-        this.externalPreviewUrl
+        this.externalPreviewBaseUrl
       );
     },
   },
