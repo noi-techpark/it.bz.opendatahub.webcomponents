@@ -11121,9 +11121,9 @@ obuf@^1.0.0, obuf@^1.1.2:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
-"odh-web-components-configurator@https://github.com/noi-techpark/webcomp-configtool.git#v1.0.0":
+"odh-web-components-configurator@https://github.com/noi-techpark/webcomp-configtool.git#v1.1.0":
   version "0.1.0"
-  resolved "https://github.com/noi-techpark/webcomp-configtool.git#2e6b12d7ee8000eab8c6ed333fa40020b69fcc84"
+  resolved "https://github.com/noi-techpark/webcomp-configtool.git#a7fd573dc15d9b5c92bc6df620011a285112ff3a"
   dependencies:
     bootstrap "^4.3.1"
     bootstrap-vue "^2.0.0-rc.28"

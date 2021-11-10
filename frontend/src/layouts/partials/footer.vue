@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div v-if="$route.path === '/'" class="p-5 text-center container">
+    <!--<div v-if="$route.path === '/'" class="p-5 text-center container">
       <h1 class="text-uppercase">#Publishers #Contributors #Partners</h1>
       <hr style="width: 50px; background-color: white" />
       <b-row class="quote-row">
@@ -37,7 +37,7 @@
       <nuxt-link :to="localePath('community')" class="text-secondary"
         >learn more about our community</nuxt-link
       >
-    </div>
+    </div>-->
     <div class="get-in-touch">
       <div class="p-1 p-md-5 text-center font-larger">
         <nuxt-link :to="localePath('/contact')"
@@ -80,11 +80,10 @@
 </template>
 
 <script>
-import QuoteItem from '~/components/quote-item';
 import FooterInfo from '~/layouts/partials/footer-info';
 
 export default {
-  components: { FooterInfo, QuoteItem },
+  components: { FooterInfo },
   computed: {
     searchTags() {
       return this.$store.getters['searchtags/getSearchtags'];

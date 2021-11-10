@@ -20,7 +20,7 @@
               >Home</nuxt-link
             >
           </div>
-          <div
+          <!--<div
             :class="[
               contributeActive
                 ? 'side-menu-item-open'
@@ -89,23 +89,23 @@
                 >...legally</nuxt-link
               >
             </div>
-          </b-collapse>
+          </b-collapse>-->
           <div class="side-menu-item side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('contact')" @click.native="toggleMenu"
               >Contact</nuxt-link
             >
           </div>
-          <div class="side-menu-item side-menu-item-closed menu-link">
+          <!--<div class="side-menu-item side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('community')" @click.native="toggleMenu"
               >Community</nuxt-link
             >
-          </div>
+          </div>-->
           <div class="side-menu-item side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('validator')" @click.native="toggleMenu"
               >Tools</nuxt-link
             >
           </div>
-          <div class="side-menu-item-closed menu-link">
+          <!--<div class="side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('about')" @click.native="toggleMenu"
               >About</nuxt-link
             >
@@ -114,7 +114,7 @@
             <nuxt-link :to="localePath('faq')" @click.native="toggleMenu"
               >FAQ</nuxt-link
             >
-          </div>
+          </div>-->
           <div>
             <a href="https://noi.bz.it/" target="_blank">
               <img src="/NOI_1_BK.svg" height="50px" class="mt-2" />
