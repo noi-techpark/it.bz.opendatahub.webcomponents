@@ -1,6 +1,6 @@
 <template>
   <div>
-    <banner></banner>
+    <!--    <banner></banner>-->
     <Searchbar
       :search-term="searchTerm"
       :selected-tags="getSearchTags"
@@ -32,12 +32,10 @@
 <script>
 import Searchbar from '~/components/searchbar.vue';
 import WcLatest from '~/components/wc-latest.vue';
-import Banner from '~/components/banner';
 import WcFiltered from '~/components/wc-filtered';
 
 export default {
   components: {
-    Banner,
     Searchbar,
     WcLatest,
     WcFiltered,
