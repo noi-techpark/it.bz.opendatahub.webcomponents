@@ -1,6 +1,7 @@
 .env
 tmp/
 .vscode
+.idea
 application-production.properties
 application-testserver.properties
 *.orig

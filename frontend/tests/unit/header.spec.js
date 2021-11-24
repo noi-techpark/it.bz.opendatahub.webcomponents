@@ -26,32 +26,4 @@ describe('Header', () => {
     await wrapper.vm.$nextTick();
     await expect(wrapper.find('#home-item').isVisible()).toBe(true);
   });
-  test('check contribute dropdown item is visible', async () => {
-    const wrapper = shallowMount(Header, {
-      localVue,
-      router,
-      mocks: {
-        localePath,
-      },
-      stubs: {
-        NuxtLink: true,
-      },
-    });
-    await wrapper.vm.$nextTick();
-    await expect(wrapper.find('#contribute-dropdown').isVisible()).toBe(true);
-  });
-  test('check contribute make use item is visible', async () => {
-    const wrapper = shallowMount(Header, {
-      localVue,
-      router,
-      mocks: {
-        localePath,
-      },
-      stubs: {
-        NuxtLink: true,
-      },
-    });
-    await wrapper.vm.$nextTick();
-    await expect(wrapper.find('#contribute-dropdown').isVisible()).toBe(true);
-  });
 });
