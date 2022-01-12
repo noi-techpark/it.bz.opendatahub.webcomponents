@@ -32,7 +32,7 @@
             image-src="/icons/publishers/publisher1.png"
             quote="The fulfilling feeling of giving back and contributing to society is unparalleled."
           ></quote-item>
-        </b-col
+        </b-col>
       </b-row>
       <nuxt-link :to="localePath('community')" class="text-secondary"
         >learn more about our community</nuxt-link

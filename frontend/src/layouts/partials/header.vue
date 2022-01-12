@@ -21,8 +21,8 @@
                 class="home-menu-item"
                 >home</b-nav-item
               >
-              <!-- b-nav-item :to="localePath('about')">about</b-nav-item -->
-              <!--              <b-nav-item-dropdown
+              <b-nav-item :to="localePath('about')">about</b-nav-item>
+              <b-nav-item-dropdown
                 id="contribute-dropdown"
                 ref="dropdown1"
                 text="contribute"
@@ -42,7 +42,7 @@
                   @click="$refs.dropdown1.hide()"
                   >... as data provider</b-nav-item
                 >
-              </b-nav-item-dropdown>-->
+              </b-nav-item-dropdown>
               <!--<b-nav-item-dropdown
                 id="make-use-dropdown"
                 ref="dropdown2"

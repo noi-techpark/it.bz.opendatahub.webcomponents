@@ -20,7 +20,7 @@
               >Home</nuxt-link
             >
           </div>
-          <!--<div
+          <div
             :class="[
               contributeActive
                 ? 'side-menu-item-open'
@@ -56,6 +56,7 @@
               >
             </div>
           </b-collapse>
+          <!--
           <div
             :class="[
               makeUseActive ? 'side-menu-item-open' : 'side-menu-item-closed',
@@ -144,7 +145,7 @@ export default {
   },
   data() {
     return {
-      contributeActive: false,
+      contributeActive: true,
       makeUseActive: false,
     };
   },
