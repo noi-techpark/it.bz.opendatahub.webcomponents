@@ -169,10 +169,10 @@ from port 3000 to port 443 on your domain.
 
 ## Create new static content pages
 
-1. Create a `.vue` file under the path where you want to create a new page. The
-   directory structure corresponds to the structure of the url.
+1. Create a `.vue` file under the path inside `pages` where you want to create a
+   new page. The directory structure corresponds to the structure of the url.
 2. Create a `.md` file with the same name in the same directory
-3. Import the md file in your vue file
+3. Import the md file in your vue file, for example:
 ```js
 import legally from './legally.md';
 ```
@@ -193,6 +193,15 @@ import MarkdownPage from '~/components/markdown-page';
 ```html
 <markdown-page :content="md"></markdown-page>
 ```
+7. Update the menues
+   - Go to `frontend/src/layouts/partials/header.vue` and see the code there for
+     how to do it, if you want to have it inside the main menue, which is only
+     visible for desktop web page layouts
+   - Go to `frontend/src/layouts/partials/nav-menu.vue` and see the code there.
+     Some menue items are only visible for mobile devices, if the class
+     `mobile-only` is present.
+   - In general make sure that items are not presented twice in the header and
+     nav-menu aka burger.
 
 ## Embed a video in a static content page
 
