@@ -1,3 +1,5 @@
 # Contribute as web component developer
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+To contribute as a Webcomponent developer, you can use all the data available in the Open Data to create new Web components.
+Since the data we provide is open, it is freely accessible and can be used for your own projects.
+For closer cooperation, do not hesitate to contact us at [contact](mailto:help@opendatahub.bz.it).
