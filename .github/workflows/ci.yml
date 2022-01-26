@@ -1,0 +1,45 @@
+# version 1.0
+# ci-mvn-generic + ci-yarn 
+name: CI
+
+on: push
+
+jobs:
+  test_backend:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Test with Maven
+        run: mvn -B -U clean test
+
+
+  test_frontend:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: frontend
+    
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          cache: 'yarn'
+
+      - name: install
+        run: yarn install
+
+      - name: build
+        run: yarn run test --passWithNoTests
+
