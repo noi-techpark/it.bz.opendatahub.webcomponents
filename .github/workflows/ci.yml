@@ -36,10 +36,11 @@ jobs:
         with:
           node-version: '16.x'
           cache: 'yarn'
+          cache-dependency-path: frontend/yarn.lock
 
       - name: install
         run: yarn install
 
-      - name: build
+      - name: test
         run: yarn run test --passWithNoTests
 
