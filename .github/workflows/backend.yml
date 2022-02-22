@@ -88,7 +88,8 @@ jobs:
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
-          docker-compose-file: docker/docker-compose.buildapi.yml
+          working-directory: ./backend/infrastructure/docker/
+          docker-compose-file: docker-compose.buildapi.yml
 
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
