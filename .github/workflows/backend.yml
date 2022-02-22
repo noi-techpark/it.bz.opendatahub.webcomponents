@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'backend/**'
+      - '.github/workflows/backend.yml'
   pull_request:
     paths:
       - 'backend/**'
+      - '.github/workflows/backend.yml'
 
 env:
   PROJECT_NAME: webcompstore
@@ -35,7 +37,7 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
-        
+
       - name: Create .env file
         uses: noi-techpark/github-actions/env-file@v2
         env:
