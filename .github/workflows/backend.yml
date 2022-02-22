@@ -38,47 +38,47 @@ jobs:
       - name: Create .env file
         uses: noi-techpark/github-actions/env-file@v2
         env:
-		      X_COMPOSE_PROJECT_NAME: "webcompstore"
+          X_COMPOSE_PROJECT_NAME: "webcompstore"
           X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
           X_API_SERVER_PORT: "1200"
-		      X_CDN_SERVER_PORT: "1201"
-		      X_ANSIBLE_LIMIT: "test"
+          X_CDN_SERVER_PORT: "1201"
+          X_ANSIBLE_LIMIT: "test"
 
-		      X_LIGHTHOUSE_API_KEY: ${{ secrets.LIGHTHOUSE_API_KEY_TEST }}
+          X_LIGHTHOUSE_API_KEY: ${{ secrets.LIGHTHOUSE_API_KEY_TEST }}
           X_DEBUG_LEVEL: "INFO"
-		      X_WORKSPACE_PATH: "/workspace"
+          X_WORKSPACE_PATH: "/workspace"
 
-		      X_DB_URL: "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
-		      X_DB_USR: ${{ secrets.DB_USR }}
-		      X_DB_PWD: ${{ secrets.DB_PWD }}
-		      X_DB_SCHEMA: "public"
+          X_DB_URL: "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+          X_DB_USR: ${{ secrets.DB_USR }}
+          X_DB_PWD: ${{ secrets.DB_PWD }}
+          X_DB_SCHEMA: "public"
 
-		      # Endpoint from where we create a standalone preview inside a simple HTML skeleton
-		      X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.testingmachine.eu/preview"
+          # Endpoint from where we create a standalone preview inside a simple HTML skeleton
+          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.testingmachine.eu/preview"
 
-		      # Base URL from where we will distribute build artifacts (javascript bundles and assets)
-		      X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
+          # Base URL from where we will distribute build artifacts (javascript bundles and assets)
+          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
 
-		      X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.testingmachine.eu"
-		      X_CDN_SWAGGER_BASE_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu"
+          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.testingmachine.eu"
+          X_CDN_SWAGGER_BASE_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu"
 
-		      # Security for CRUD operations
-		      X_KEYCLOAK_URL: "https://auth.opendatahub.testingmachine.eu/auth/"
-		      X_KEYCLOAK_SSL_REQUIRED: "none"
-		      X_KEYCLOAK_REALM: "noi"
-		      X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
-		      X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
+          # Security for CRUD operations
+          X_KEYCLOAK_URL: "https://auth.opendatahub.testingmachine.eu/auth/"
+          X_KEYCLOAK_SSL_REQUIRED: "none"
+          X_KEYCLOAK_REALM: "noi"
+          X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
+          X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
 
-		      # SMTP configuration
-		      X_SMTP_PWD: ${{ secrets.SMTP_PWD }}
-		      X_SMTP_USR: "no-reply@testingmachine.eu"
-		      X_SMTP_TO: "help@opendatahub.bz.it"
-		      X_SMTP_FROM: "no-reply@testingmachine.eu"
-		      X_SMTP_SUBJECT: "Web Component Store: Contact form (TEST PLEASE IGNORE)"
-		      X_SMTP_HOST: "smtp.eu.mailgun.org"
-		      X_SMTP_PORT: "587"
-		      X_SMTP_DEBUG: "true"
+          # SMTP configuration
+          X_SMTP_PWD: ${{ secrets.SMTP_PWD }}
+          X_SMTP_USR: "no-reply@testingmachine.eu"
+          X_SMTP_TO: "help@opendatahub.bz.it"
+          X_SMTP_FROM: "no-reply@testingmachine.eu"
+          X_SMTP_SUBJECT: "Web Component Store: Contact form (TEST PLEASE IGNORE)"
+          X_SMTP_HOST: "smtp.eu.mailgun.org"
+          X_SMTP_PORT: "587"
+          X_SMTP_DEBUG: "true"
 
       - name: Build and push images of API
         uses: noi-techpark/github-actions/docker-build-and-push@v2
