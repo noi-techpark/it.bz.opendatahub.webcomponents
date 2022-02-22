@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Test frontend
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '14.x'
           cache: 'yarn'
@@ -54,7 +54,9 @@ jobs:
           node-version: '14.x'
           cache: 'yarn'
           cache-dependency-path: frontend/yarn.lock
-      - run: |
+
+      - name: Build 
+        run: |
           yarn install
           yarn run build
         working-directory: frontend
