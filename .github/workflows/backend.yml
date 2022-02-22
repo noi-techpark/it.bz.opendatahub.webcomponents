@@ -82,14 +82,15 @@ jobs:
           X_SMTP_HOST: "smtp.eu.mailgun.org"
           X_SMTP_PORT: "587"
           X_SMTP_DEBUG: "true"
+        working-directory: ./backend/infrastructure/docker/
 
       - name: Build and push images of API
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./
-          docker-compose-file: backend/infrastructure/docker/docker-compose.buildapi.yml
+          working-directory: ./backend/infrastructure/docker/
+          docker-compose-file: docker-compose.buildapi.yml
 
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
