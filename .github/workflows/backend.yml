@@ -40,6 +40,7 @@ jobs:
 
       - name: Create .env file
         uses: noi-techpark/github-actions/env-file@v2
+        working-directory: ./backend/infrastructure/docker/
         env:
           X_COMPOSE_PROJECT_NAME: "webcompstore"
           X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
@@ -82,7 +83,6 @@ jobs:
           X_SMTP_HOST: "smtp.eu.mailgun.org"
           X_SMTP_PORT: "587"
           X_SMTP_DEBUG: "true"
-        working-directory: ./backend/infrastructure/docker/
 
       - name: Build and push images of API
         uses: noi-techpark/github-actions/docker-build-and-push@v2
