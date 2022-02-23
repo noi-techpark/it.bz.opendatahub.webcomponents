@@ -10,7 +10,7 @@
       ansible.builtin.include_role:
         name: ansible-docker-deployment
       vars:
-        docker_deployment_project_name: wcstore-api
+        docker_deployment_project_name: '{{ project_name }}'
         docker_deployment_release_name: '{{ release_name }}'
         docker_deployment_release_files:
           - local: ../docker/docker-compose.run.yml
