@@ -82,6 +82,8 @@ jobs:
           X_SMTP_HOST: "smtp.eu.mailgun.org"
           X_SMTP_PORT: "587"
           X_SMTP_DEBUG: "true"
+          X_DOCKER_CLIENT_TIMEOUT: 180
+          X_COMPOSE_HTTP_TIMEOUT: 180
         # with:
         #   destination-file: ./backend/infrastructure/docker/.env
 
