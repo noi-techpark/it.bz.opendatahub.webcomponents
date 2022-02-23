@@ -2,13 +2,13 @@ name: CI/CD backend
 
 on: 
   push:
-    paths:
-      - 'backend/**'
-      - '.github/workflows/backend.yml'
+    paths-ignore:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
   pull_request:
-    paths:
-      - 'backend/**'
-      - '.github/workflows/backend.yml'
+    paths-ignore:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
 
 env:
   PROJECT_NAME: webcompstore

@@ -2,13 +2,14 @@ name: CI/CD frontend
 
 on: 
   push:
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+    paths-ignore:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
   pull_request:
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+    paths-ignore:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
+
 
 
 jobs:
