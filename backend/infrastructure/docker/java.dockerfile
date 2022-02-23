@@ -12,11 +12,6 @@ ENTRYPOINT [ "/entrypoint.sh" ]
 #
 FROM base as build
 
-# Jenkins related permission handling
-ARG JENKINS_GROUP_ID=1000
-ARG JENKINS_USER_ID=1000
-RUN addgroup --gid $JENKINS_GROUP_ID jenkins && \
-    adduser --uid $JENKINS_USER_ID --ingroup jenkins jenkins
 
 COPY infrastructure/docker/java-entrypoint.sh /entrypoint.sh
 RUN /entrypoint.sh true
@@ -32,13 +27,11 @@ COPY data-service/src/main/resources/application-deployment.properties \
 	 data-service/src/main/resources/application.properties
 COPY delivery-service/src/main/resources/application-deployment.properties \
 	 delivery-service/src/main/resources/application.properties
-RUN chown -R ${JENKINS_USER_ID}:${JENKINS_GROUP_ID} /code
 
 # fetch all dependencies (run the entrypoint.sh to force a .m2 location)
 #RUN /entrypoint.sh true
 # && mvn dependency:go-offline -B
 
-USER ${JENKINS_USER_ID}:${JENKINS_GROUP_ID}
 RUN mvn -B -Duser.home=/code install
 RUN mvn -B -Duser.home=/code package --also-make
 ENTRYPOINT [ "/entrypoint.sh" ]

@@ -1,17 +1,7 @@
 FROM node:15
 
-ARG JENKINS_GROUP_ID=2000
-ARG JENKINS_USER_ID=2000
 ARG SSH_CDN_ADDR
 ARG SSH_CDN_USER
-
-ENV PATH="$PATH:/home/jenkins/.local/bin"
-
-RUN groupadd --gid $JENKINS_GROUP_ID jenkins && \
-    useradd --uid $JENKINS_USER_ID --gid $JENKINS_GROUP_ID --create-home jenkins && \
-    mkdir -p /home/jenkins/.local/bin && \
-    chown -R jenkins: /home/jenkins && \
-    echo "export PATH=$PATH" >> /home/jenkins/.bashrc
 
 RUN apt-get update \
     && apt-get -y upgrade \
@@ -26,7 +16,6 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-USER jenkins
 WORKDIR /webcompbuild
 
 COPY infrastructure/utils/wcstorecli.sh /webcompbuild/wcstorecli.sh
@@ -43,5 +32,5 @@ RUN rm -rf ~/.ssh \
 # FIXME: "StrictHostKeyChecking no" must be fixed, replace everything with ansible or CDN API calls
 
 RUN git config --global user.email "info@opendatahub.bz.it" \
-    && git config --global user.name "Jenkins"
+    && git config --global user.name "Github Actons"
 
