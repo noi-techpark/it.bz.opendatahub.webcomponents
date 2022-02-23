@@ -86,8 +86,7 @@ jobs:
         #   destination-file: ./backend/infrastructure/docker/.env
 
       - name: Build images
-        run: docker-compose --ansi never -f docker-compose.build.yml build --pull
-        working-directory: ./backend/infrastructure/docker/
+        run: docker-compose --ansi never -f ./backend/infrastructure/docker/docker-compose.build.yml build --pull
 
       - name: Build and push images of API
         uses: noi-techpark/github-actions/docker-build-and-push@v2
