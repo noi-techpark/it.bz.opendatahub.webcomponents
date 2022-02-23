@@ -83,7 +83,7 @@ jobs:
           X_SMTP_PORT: "587"
           X_SMTP_DEBUG: "true"
         with:
-          working-directory: ./backend/infrastructure/docker/
+          destination-file: ./backend/infrastructure/docker/.env
 
       - name: Build and push images of API
         uses: noi-techpark/github-actions/docker-build-and-push@v2
