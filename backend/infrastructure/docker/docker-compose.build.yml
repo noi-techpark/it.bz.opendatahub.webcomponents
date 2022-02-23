@@ -8,6 +8,6 @@ services:
       dockerfile: infrastructure/docker/java.dockerfile
       target: build
     env_file: 
-      - .env
+      - ../../../.env
     volumes:
       - ../../.m2:/code/.m2
