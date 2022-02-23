@@ -84,8 +84,7 @@ jobs:
           X_SMTP_DEBUG: "true"
           X_DOCKER_CLIENT_TIMEOUT: 180
           X_COMPOSE_HTTP_TIMEOUT: 180
-        # with:
-        #   destination-file: ./backend/infrastructure/docker/.env
+
 
       - name: Build images
         run: docker-compose --ansi never -f ./backend/infrastructure/docker/docker-compose.build.yml build --pull
