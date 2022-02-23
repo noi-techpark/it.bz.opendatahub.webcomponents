@@ -82,8 +82,12 @@ jobs:
           X_SMTP_HOST: "smtp.eu.mailgun.org"
           X_SMTP_PORT: "587"
           X_SMTP_DEBUG: "true"
-        with:
-          destination-file: ./backend/infrastructure/docker/.env
+        # with:
+        #   destination-file: ./backend/infrastructure/docker/.env
+
+      - name: Build images
+        run: docker-compose --ansi never -f docker-compose.build.yml build --pull
+        working-directory: ./backend/infrastructure/docker/
 
       - name: Build and push images of API
         uses: noi-techpark/github-actions/docker-build-and-push@v2
