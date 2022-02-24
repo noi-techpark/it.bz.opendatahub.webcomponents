@@ -8,5 +8,3 @@ services:
       dockerfile: infrastructure/docker/java.dockerfile
     env_file: 
       - ../../../.env
-    # volumes:
-      # - ../../.m2:/code/.m2
