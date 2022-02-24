@@ -29,11 +29,11 @@ jobs:
           working-directory: backend
 
 
-  deploy-test:
+  deploy-test-delivery-service:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
     needs: test
-    concurrency: deploy-test-${{ github.ref }}
+    concurrency: deploy-test-delivery-service
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2

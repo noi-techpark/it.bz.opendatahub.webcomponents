@@ -29,11 +29,11 @@ jobs:
         working-directory: frontend
 
 
-  deploy-test:
+  deploy-test-frontend:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
     needs: test
-    concurrency: deploy-test-${{ github.ref }}
+    concurrency: deploy-test-frontend
     env:
       AWS_S3_BUCKET_NAME : 'webcompstore-test'
       AWS_REGION : "eu-west-1"
