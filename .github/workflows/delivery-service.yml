@@ -64,14 +64,12 @@ jobs:
           build-command: 'mvn -B -DskipTests -DfinalName=ROOT --projects delivery-service --also-make package'
           working-directory: backend
 
-
-      - name: Build and push images of CDN
+      - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ./backend/delivery-service/infrastructure/docker/
-          docker-compose-file: docker-compose.build.yml
 
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
