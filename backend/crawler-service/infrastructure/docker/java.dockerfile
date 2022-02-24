@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk8:alpine-jre as buildapi
+FROM adoptopenjdk/openjdk8:alpine-jre
 COPY data-service/target/dataservice.jar /app.jar
 CMD ["java","-jar","/app.jar"]
 

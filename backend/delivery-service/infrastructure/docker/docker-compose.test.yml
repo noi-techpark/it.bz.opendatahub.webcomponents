@@ -1,0 +1,13 @@
+version: "3.4"
+services:
+  api:
+    container_name: delivery-service
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile
+      target: build
+    env_file: 
+      - .env
+    volumes:
+      - ../../.m2:/code/.m2
+        
