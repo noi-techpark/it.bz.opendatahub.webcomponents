@@ -11,7 +11,7 @@ on:
       - '.github/workflows/frontend.yml'
 
 env:
-  PROJECT_NAME: odh-webcompstore-api
+  PROJECT_NAME: odh-webcompstore-cdn
   DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-app
   DOCKER_TAG: ${{ github.sha }}
   JAVA_VERSION: '8'
