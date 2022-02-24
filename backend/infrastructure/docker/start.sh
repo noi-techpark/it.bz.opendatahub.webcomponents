@@ -1,4 +1,4 @@
 #!/bin/bash
 
 java -jar dataservice.jar
-# java -jar delivery-service.jar
+# java -jar deliveryservice.jar
