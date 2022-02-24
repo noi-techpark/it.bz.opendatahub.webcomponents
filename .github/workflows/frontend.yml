@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
     needs: test
-    concurrency: deploy-test
+    concurrency: deploy-test-${{ github.ref }}
     env:
       AWS_S3_BUCKET_NAME : 'webcompstore-test'
       AWS_REGION : "eu-west-1"
