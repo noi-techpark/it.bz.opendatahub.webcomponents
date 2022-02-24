@@ -1,13 +1,13 @@
 version: "3.4"
 
 services:
-  cdn:
-    image: ${DOCKER_IMAGE}:${DOCKER_TAG}-api
+  app:
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}-cdn
     restart: unless-stopped
     env_file: 
       - .env
     environment:
-      API_SERVER_PORT: ${API_SERVER_PORT}
+      CDN_SERVER_PORT: ${CDN_SERVER_PORT}
     volumes: 
       - ../shared/workspace:/workspace
     # healthcheck:
@@ -17,5 +17,5 @@ services:
     #   retries: 5
     #   start_period: 30s
     ports:
-      - "${API_SERVER_PORT}:${API_SERVER_PORT}"
+      - "${CDN_SERVER_PORT}:${CDN_SERVER_PORT}"
       
