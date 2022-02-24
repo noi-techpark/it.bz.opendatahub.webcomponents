@@ -2,13 +2,15 @@ name: CI/CD frontend
 
 on: 
   push:
-    paths-ignore:
-      - 'backend/**'
-      - '.github/workflows/backend.yml'
+    paths:
+      - 'frontend/**'
+      - '!backend/**'
+      - '.github/workflows/frontend.yml'
   pull_request:
-    paths-ignore:
-      - 'backend/**'
-      - '.github/workflows/backend.yml'
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/frontend.yml'
+      - '!backend/**'
 
 
 
