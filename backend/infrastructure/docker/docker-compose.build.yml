@@ -4,10 +4,9 @@ services:
   app:
     image: ${DOCKER_IMAGE}:${DOCKER_TAG}
     build:
-      context: ../..
+      context: ../
       dockerfile: infrastructure/docker/java.dockerfile
-      target: build
     env_file: 
       - ../../../.env
-    volumes:
-      - ../../.m2:/code/.m2
+    # volumes:
+      # - ../../.m2:/code/.m2
