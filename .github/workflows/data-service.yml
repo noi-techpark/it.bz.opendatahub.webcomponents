@@ -2,13 +2,15 @@ name: CI/CD data-service (api)
 
 on: 
   push:
-    paths-ignore:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+    paths:
+      - 'backend/data-service/**'
+      - 'backend/common/**'
+      - '.github/workflows/data-service.yml'
   pull_request:
-    paths-ignore:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+    paths:
+      - 'backend/data-service/**'
+      - 'backend/common/**'
+      - '.github/workflows/data-service.yml'
 
 env:
   PROJECT_NAME: odh-webcompstore-api

@@ -2,13 +2,15 @@ name: CI/CD delivery-service (cdn)
 
 on: 
   push:
-    paths-ignore:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+    paths:
+      - 'backend/delivery-service/**'
+      - 'backend/common/**'
+      - '.github/workflows/delivery-service.yml'
   pull_request:
-    paths-ignore:
-      - 'frontend/**'
-      - '.github/workflows/frontend.yml'
+    paths:
+      - 'backend/delivery-service/**'
+      - 'backend/common/**'
+      - '.github/workflows/delivery-service.yml'
 
 env:
   PROJECT_NAME: odh-webcompstore-cdn
