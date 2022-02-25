@@ -32,5 +32,5 @@ RUN rm -rf ~/.ssh \
 # FIXME: "StrictHostKeyChecking no" must be fixed, replace everything with ansible or CDN API calls
 
 RUN git config --global user.email "info@opendatahub.bz.it" \
-    && git config --global user.name "Github Actons"
+    && git config --global user.name "noi-techpark-bot"
 

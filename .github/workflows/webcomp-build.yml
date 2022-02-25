@@ -1,0 +1,53 @@
+name: CI/CD webcomp-build
+
+on: 
+  push:
+    paths:
+      - 'infrastructure/**'
+      - '.github/workflows/webcomp-build.yml'
+  pull_request:
+    paths:
+      - 'infrastructure/**'
+      - '.github/workflows/webcomp-build.yml'
+
+env:
+  PROJECT_NAME: odh-webcompstore-webcomp-build
+  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-app
+  DOCKER_TAG: ${{ github.sha }}
+
+jobs:
+  deploy-test-webcomp-build:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    concurrency: deploy-test-webcomp-build
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+
+          X_DB_HOST: "test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com"
+          X_DB_PORT: 5432
+          X_DB_USER: ${{ secrets.DB_USR }}
+          X_DB_PASS: ${{ secrets.DB_PWD }}
+
+          X_SSH_CDN_ADDR: 172.31.19.96
+          X_SSH_CDN_USER: "admin"
+          X_GITHUB_ORGANIZATION: "noi-techpark"
+          X_GITHUB_ORIGINS_REPO: "odh-web-components-store-origins"
+          X_GITHUB_ORIGINS_BRANCH: "development" # replace with main soon...
+          X_GITHUB_ORIGINS_FILE: "origins.json"
+          X_CDN_WORKSPACE: "/var/docker/odh-webcompstore-cdn/shared/workspace"
+          X_CDN_ADMINPATH: "/home/admin//var/docker/odh-webcompstore-cdn/shared/workspace"
+
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
