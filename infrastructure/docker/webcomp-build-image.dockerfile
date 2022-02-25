@@ -3,6 +3,10 @@ FROM node:15
 ARG SSH_CDN_ADDR
 ARG SSH_CDN_USER
 
+RUN echo $SSH_CDN_ADDR
+RUN echo $SSH_CDN_USER
+
+
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get -y install --no-install-recommends \
