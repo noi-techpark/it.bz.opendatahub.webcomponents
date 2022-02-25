@@ -12,7 +12,7 @@ on:
 
 env:
   PROJECT_NAME: odh-webcompstore-webcomp-build
-  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-app
+  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-webcomp-build
   DOCKER_TAG: ${{ github.sha }}
 
 jobs:

@@ -14,7 +14,7 @@ on:
 
 env:
   PROJECT_NAME: odh-webcompstore-cdn
-  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-app
+  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-cdn
   DOCKER_TAG: ${{ github.sha }}
   JAVA_VERSION: '8'
 
