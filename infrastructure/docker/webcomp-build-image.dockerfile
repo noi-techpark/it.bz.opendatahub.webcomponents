@@ -1,10 +1,7 @@
 FROM node:15
 
-ARG SSH_CDN_ADDR
-ARG SSH_CDN_USER
-
-RUN echo $SSH_CDN_ADDR
-RUN echo $SSH_CDN_USER
+ARG SSH_CDN_ADDR="172.31.19.96"
+ARG SSH_CDN_USER="admin"
 
 
 RUN apt-get update \
