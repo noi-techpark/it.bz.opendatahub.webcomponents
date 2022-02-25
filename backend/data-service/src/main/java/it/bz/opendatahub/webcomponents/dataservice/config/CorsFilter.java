@@ -24,8 +24,8 @@ public class CorsFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(CorsFilter.class);
     private static final String OPTIONS = "OPTIONS";
 
-    @Value("${frontend.url-allowed}")
-    private String allowedFrontendUrl;
+    // @Value("${frontend.url-allowed}")
+    private String allowedFrontendUrl = "*";
 
     @Override
     public void init(FilterConfig filterConfig) {
