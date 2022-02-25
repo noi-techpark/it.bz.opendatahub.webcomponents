@@ -43,7 +43,7 @@ jobs:
           X_GITHUB_ORIGINS_BRANCH: "development" # replace with main soon...
           X_GITHUB_ORIGINS_FILE: "origins.json"
           X_CDN_WORKSPACE: "/var/docker/odh-webcompstore-cdn/shared/workspace"
-          X_CDN_ADMINPATH: "/home/admin//var/docker/odh-webcompstore-cdn/shared/workspace"
+          X_CDN_ADMINPATH: "/home/admin/var/docker/odh-webcompstore-cdn/shared/workspace"
 
       - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
