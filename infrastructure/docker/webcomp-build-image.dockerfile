@@ -24,11 +24,11 @@ COPY .env /webcompbuild/.env
 
 RUN rm -rf ~/.ssh \
     && mkdir -p ~/.ssh  \
-    && ssh-keyscan -H $SSH_CDN_ADDR >> ~/.ssh/known_hosts \
+    && ssh-keyscan -H "172.31.19.96" >> ~/.ssh/known_hosts \
     && ssh-keyscan -H github.com >> ~/.ssh/known_hosts \
     && echo "Host testcdnhost" >> ~/.ssh/config \
-    && echo "  User $SSH_CDN_USER" >> ~/.ssh/config \
-    && echo "  Hostname $SSH_CDN_ADDR" >> ~/.ssh/config \
+    && echo "  User admin" >> ~/.ssh/config \
+    && echo "  Hostname 172.31.19.96" >> ~/.ssh/config \
 	&& echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 # FIXME: "StrictHostKeyChecking no" must be fixed, replace everything with ansible or CDN API calls
 
