@@ -36,7 +36,7 @@ jobs:
           X_DB_USER: ${{ secrets.DB_USR }}
           X_DB_PASS: ${{ secrets.DB_PWD }}
 
-          X_SSH_CDN_ADDR: 172.31.19.96
+          X_SSH_CDN_ADDR: "172.31.19.96"
           X_SSH_CDN_USER: "admin"
           X_GITHUB_ORGANIZATION: "noi-techpark"
           X_GITHUB_ORIGINS_REPO: "odh-web-components-store-origins"
