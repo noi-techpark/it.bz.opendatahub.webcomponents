@@ -16,10 +16,10 @@ env:
   DOCKER_TAG: ${{ github.sha }}
 
 jobs:
-  deploy-test-webcomp-build:
+  build-test-webcomp-build:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
-    concurrency: deploy-test-webcomp-build
+    concurrency: build-test-webcomp-build
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -50,3 +50,4 @@ jobs:
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./infrastructure/docker/
