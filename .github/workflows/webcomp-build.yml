@@ -19,7 +19,6 @@ jobs:
   deploy-test-webcomp-build:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
-    needs: test
     concurrency: deploy-test-webcomp-build
     steps:
       - name: Checkout source code
