@@ -45,8 +45,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Create .env file
         uses: noi-techpark/github-actions/env-file@v2
-        with:
-          working-directory: "frontend"
         env:
           X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
 
@@ -55,11 +53,8 @@ jobs:
           X_GOOGLE_ANALYTICS_ID: ${{ secrets.WEBCOMPSTORE_TEST_GOOGLE_ANALYTICS_ID }}
           X_GOOGLE_ANALYTICS_DEBUG: false
 
-      - name: run ls to check .env location in .
-        run: ls -la
-
-      - name: run ls to check .env location in frontend
-        run: ls -la frontend
+      - name: Hotfix .env location
+        run: mv .env frontend
 
       - name: Setup node and yarn
         uses: actions/setup-node@v2
