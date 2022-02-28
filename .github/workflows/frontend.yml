@@ -55,7 +55,12 @@ jobs:
         with:
           destination-file: "frontend/.env"
 
-      - name: Build
+      - name: run ls to check .env location
+        run: |
+          ls
+          ls frontend
+
+      - name: Setup node and yarn
         uses: actions/setup-node@v2
         with:
           node-version: '14.x'
