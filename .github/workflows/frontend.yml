@@ -52,6 +52,8 @@ jobs:
           X_CDN_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu"
           X_GOOGLE_ANALYTICS_ID: ${{ secrets.WEBCOMPSTORE_TEST_GOOGLE_ANALYTICS_ID }}
           X_GOOGLE_ANALYTICS_DEBUG: false
+        with:
+          destination-file: "frontend/.env"
 
       - name: Build
         uses: actions/setup-node@v2
