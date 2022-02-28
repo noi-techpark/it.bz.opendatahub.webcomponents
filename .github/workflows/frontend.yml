@@ -57,7 +57,6 @@ jobs:
 
       - name: run ls to check .env location in .
         run: ls -la
-          ls frontend
 
       - name: run ls to check .env location in frontend
         run: ls -la frontend
