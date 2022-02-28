@@ -55,10 +55,12 @@ jobs:
         with:
           destination-file: "frontend/.env"
 
-      - name: run ls to check .env location
-        run: |
-          ls
+      - name: run ls to check .env location in .
+        run: ls -la
           ls frontend
+
+      - name: run ls to check .env location in frontend
+        run: ls -la frontend
 
       - name: Setup node and yarn
         uses: actions/setup-node@v2
