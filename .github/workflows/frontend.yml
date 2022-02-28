@@ -53,6 +53,7 @@ jobs:
           X_GOOGLE_ANALYTICS_ID: ${{ secrets.WEBCOMPSTORE_TEST_GOOGLE_ANALYTICS_ID }}
           X_GOOGLE_ANALYTICS_DEBUG: false
 
+      # can be removed if destination-file works for github-actions/env-file@v2
       - name: Hotfix .env location
         run: mv .env frontend
 
