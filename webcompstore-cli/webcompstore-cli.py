@@ -1,13 +1,31 @@
 import argparse
 import requests
 import json
+from keycloak import KeycloakOpenID
+from dotenv import dotenv_values
 
 
-VERSION = 0.1
-API_URL_DEV = "https://api.webcomponents.opendatahub.testingmachine.eu/"
-API_URL_PROD = "https://api.webcomponents.opendatahub.bz.it/" # TODO replace with .com when migration is done
+env = dotenv_values(".env") 
+
+VERSION = env["VERSION"]
+API_URL_DEV = env["API_URL_DEV"]
+API_URL_PROD = env["API_URL_PROD"]
+
+KEYCLOAK_URL = env["KEYCLOAK_URL"]
+KEYCLOAK_REALM = env["KEYCLOAK_REALM"]
+KEYCLOAK_CLIENT_ID = env["KEYCLOAK_CLIENT_ID"]
+KEYCLOAK_CLIENT_SECRET = env["KEYCLOAK_CLIENT_SECRET"]
 
 api_url = API_URL_DEV
+
+
+
+# Configure client
+keycloak_openid = KeycloakOpenID(server_url=KEYCLOAK_URL,
+                    client_id=KEYCLOAK_CLIENT_ID,
+                    realm_name=KEYCLOAK_REALM,
+                    client_secret_key=KEYCLOAK_CLIENT_SECRET)
+
 
 if __name__=='__main__':
      
@@ -19,7 +37,6 @@ if __name__=='__main__':
                         '--version',
                         help="Prints the version and exits the program.",action="store_true")
 
-        #Adding optional parameters
     parser.add_argument('-s',
                         '--secret',
                         help="The Keycloak client secret.")
@@ -28,9 +45,16 @@ if __name__=='__main__':
                         '--list',
                         help="Get a list of all webcomponents.",action="store_true")
 
+
     parser.add_argument('-p',
-                        '--production',
+                        '--post',
+                        help="Post a webcomponent to the store.",action="store_true")
+
+    parser.add_argument('--production',
                         help="Use production URL for API: api.webcomponents.opendatahub.bz.it",action="store_true")
+
+
+
 
    #Parsing the argument
     args=parser.parse_args()

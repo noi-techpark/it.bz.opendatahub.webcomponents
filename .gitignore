@@ -7,3 +7,4 @@ application-testserver.properties
 *.orig
 /logs/
 docker-compose-local.yml
+webcompstore-cli/py-env
