@@ -54,16 +54,6 @@ jobs:
         with:
           working-directory: frontend
 
-      - name: run ls to check .env location in .
-        run: ls -la
-
-      - name: run ls to check .env location in frontend
-        run: ls -la frontend
-
-      # can be removed if destination-file works for github-actions/env-file@v2
-      # - name: Hotfix .env location
-      #   run: mv .env frontend
-
       - name: Setup node and yarn
         uses: actions/setup-node@v2
         with:
