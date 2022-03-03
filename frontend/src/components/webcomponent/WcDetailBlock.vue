@@ -242,13 +242,13 @@
           >
             preview
           </div>
-          <div
+          <!-- <div
             :class="[showPreview ? 'tab-button-disabled' : 'tab-button']"
             class="text-uppercase"
             @click="$emit('set-show-preview', false)"
           >
             readme
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

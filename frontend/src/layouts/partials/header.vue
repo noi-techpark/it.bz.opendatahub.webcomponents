@@ -21,7 +21,7 @@
                 class="home-menu-item"
                 >home</b-nav-item
               >
-              <b-nav-item :to="localePath('about')">about</b-nav-item>
+              <!-- <b-nav-item :to="localePath('about')">about</b-nav-item> -->
               <b-nav-item-dropdown
                 id="contribute-dropdown"
                 ref="dropdown1"
