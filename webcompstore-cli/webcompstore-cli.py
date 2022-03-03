@@ -239,16 +239,18 @@ if __name__ == '__main__':
 
         token = get_token()
 
+        version_tag = str(args.push)[0:8]
+
 
         if webcomp == None:
             # post for first time
             uuid = post_webcomponent(token, copy.deepcopy(wcs_manifest), image)
             post_webcomponent_version(token, uuid, copy.deepcopy(
-                wcs_manifest), dist_file, args.push)
+                wcs_manifest), dist_file, version_tag)
         else:
             # update webcomp
             put_webcomponent_version(
-                token, webcomp["uuid"], wcs_manifest, dist_file, args.push)
+                token, webcomp["uuid"], wcs_manifest, dist_file, version_tag)
 
         lighthouse()
         size()
