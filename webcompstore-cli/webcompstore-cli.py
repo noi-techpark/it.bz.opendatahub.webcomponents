@@ -93,7 +93,7 @@ def post_webcomponent(token, wcs_manifest, image):
     return data["uuid"]
 
 
-def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, branch_name):
+def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag):
     # prepare wcs_manifest data for pos
 
     del wcs_manifest["title"]
@@ -109,8 +109,7 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, branch_name)
     # wcs_manifest["licenseAgreement"] = None
 
     timestamp = datetime.now()
-    wcs_manifest["versionTag"] = branch_name + \
-        "-1-" + timestamp.strftime("%Y%m%dT%H%M")
+    wcs_manifest["versionTag"] = version_tag
     wcs_manifest["releaseTimestamp"] = "2022-03-02T10:05:37.943Z"
     wcs_manifest["distFiles"] = [
         {
@@ -132,13 +131,8 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, branch_name)
     # print("JSON Response ", response.json())
 
 
-def put_webcomponent_version(token, uuid, wcs_manifest, dist_file, current_version_tag, branch_name):
+def put_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag):
     timestamp = datetime.now()
-
-    version_tag_parts = current_version_tag.split("-")
-    version_tag = branch_name + "-" + \
-        str(int(version_tag_parts[1]) + 1) + \
-        "-" + timestamp.strftime("%Y%m%dT%H%M")
 
     url = api_url + "admin/webcomponent/" + uuid + "/" + version_tag
 
@@ -204,8 +198,8 @@ if __name__ == '__main__':
         '-l', '--list', help="Prints list of all webcomponents.", action="store_true")
     parser.add_argument(
         '-y', '--yes', help="Don't ask for confirmation on critical actions like deleting.", action="store_true")
-    parser.add_argument('--push', metavar='GIT_BRANCH_NAME',
-                        help="Push a webcomponent to the store (branch-name is only for versiontag creation).")
+    parser.add_argument('--push', metavar='VERSION_TAG',
+                        help="Push a webcomponent to the store with the given version-tag (usually the git commit sha).")
     parser.add_argument('--delete', metavar='UUID',
                         help="Deletes a webcomponent with the give uuid.")
     parser.add_argument(
@@ -254,7 +248,7 @@ if __name__ == '__main__':
         else:
             # update webcomp
             put_webcomponent_version(
-                token, webcomp["uuid"], wcs_manifest, dist_file, webcomp["currentVersion"]["versionTag"], args.push)
+                token, webcomp["uuid"], wcs_manifest, dist_file, args.push)
 
         lighthouse()
         size()

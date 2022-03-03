@@ -26,19 +26,18 @@ pip3 install -r requirements.txt
 You can get the following help message running `python3 webcompstore-cli.py --help`
 
 ```
-usage: webcompstore-cli.py [-h] [-l] [-y] [--push GIT_BRANCH_NAME] [--delete UUID] [--production] [--lighthouse] [--size] [--version]
+usage: webcompstore-cli.py [-h] [-l] [-y] [--push VERSION_TAG] [--delete UUID] [--production] [--lighthouse] [--size] [--version]
 
 Webcomponent-Store cli program to interact with the API.
 
 optional arguments:
-  -h, --help            show this help message and exit
-  -l, --list            Prints list of all webcomponents.
-  -y, --yes             Don't ask for confirmation on critical actions like deleting.
-  --push GIT_BRANCH_NAME
-                        Push a webcomponent to the store (branch-name is only for versiontag creation).
-  --delete UUID         Deletes a webcomponent with the give uuid.
-  --production          Use production URL for API: api.webcomponents.opendatahub.bz.it
-  --lighthouse          Refetches the lighthouse stats for every webcomponent.
-  --size                Recalculates the size for every webcomponent.
-  --version             Output version information and exits.
+  -h, --help          show this help message and exit
+  -l, --list          Prints list of all webcomponents.
+  -y, --yes           Don't ask for confirmation on critical actions like deleting.
+  --push VERSION_TAG  Push a webcomponent to the store with the given version-tag (usually the git commit sha).
+  --delete UUID       Deletes a webcomponent with the give uuid.
+  --production        Use production URL for API: api.webcomponents.opendatahub.bz.it
+  --lighthouse        Refetches the lighthouse stats for every webcomponent.
+  --size              Recalculates the size for every webcomponent.
+  --version           Output version information and exits.
 ```
