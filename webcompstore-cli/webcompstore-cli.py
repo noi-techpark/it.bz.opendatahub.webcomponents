@@ -1,4 +1,5 @@
 import argparse
+import dis
 import requests
 import json
 import base64
@@ -22,7 +23,7 @@ KEYCLOAK_CLIENT_ID_PROD = os.getenv("KEYCLOAK_CLIENT_ID_PROD")
 
 KEYCLOAK_CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET")
 
-# use --production or set env variable PRODUCTION to true, to push to production store 
+# use --production or set env variable PRODUCTION to true, to push to production store
 PRODUCTION = os.getenv("PRODUCTION")
 
 keycloak_url = KEYCLOAK_URL_TEST
@@ -52,6 +53,7 @@ def get_file_as_json(file_path):
         data = file.read()
     return json.loads(data)
 
+
 def lighthouse():
     token = get_token()
     url = api_url + "admin/webcomponent/refetch-lighthouse"
@@ -60,6 +62,7 @@ def lighthouse():
     }
     response = requests.patch(url, headers=headers)
     print("Status Code", response.status_code)
+
 
 def size():
     token = get_token()
@@ -93,7 +96,7 @@ def post_webcomponent(token, wcs_manifest, image):
     return data["uuid"]
 
 
-def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag):
+def post_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag):
     # prepare wcs_manifest data for pos
 
     del wcs_manifest["title"]
@@ -108,15 +111,10 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag)
     # wcs_manifest["readMe"] = None
     # wcs_manifest["licenseAgreement"] = None
 
-    timestamp = datetime.now()
     wcs_manifest["versionTag"] = version_tag
-    wcs_manifest["releaseTimestamp"] = "2022-03-02T10:05:37.943Z"
-    wcs_manifest["distFiles"] = [
-        {
-            "fileName": wcs_manifest["dist"]["files"][0],
-            "fileDataBase64": dist_file
-        }
-    ]
+    wcs_manifest["releaseTimestamp"] = datetime.now().strftime(
+        "%Y-%m-%dT%H:%M:%SZ")
+    wcs_manifest["distFiles"] = dist_files
 
     url = api_url + "admin/webcomponent/" + uuid
 
@@ -131,8 +129,7 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag)
     # print("JSON Response ", response.json())
 
 
-def put_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag):
-    timestamp = datetime.now()
+def put_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag):
 
     url = api_url + "admin/webcomponent/" + uuid + "/" + version_tag
 
@@ -154,14 +151,10 @@ def put_webcomponent_version(token, uuid, wcs_manifest, dist_file, version_tag):
     # wcs_manifest["readMe"] = None
     # wcs_manifest["licenseAgreement"] = None
     wcs_manifest["versionTag"] = version_tag
-    wcs_manifest["releaseTimestamp"] = timestamp.strftime("%Y-%m-%dT%H:%M:%SZ")
+    wcs_manifest["releaseTimestamp"] = datetime.now().strftime(
+        "%Y-%m-%dT%H:%M:%SZ")
 
-    wcs_manifest["distFiles"] = [
-        {
-            "fileName": wcs_manifest["dist"]["files"][0],
-            "fileDataBase64": dist_file
-        }
-    ]
+    wcs_manifest["distFiles"] = dist_files
 
     response = requests.put(url, headers=headers, json=wcs_manifest)
     print("PUT " + url)
@@ -231,9 +224,17 @@ if __name__ == '__main__':
 
         wcs_manifest = get_file_as_json("wcs-manifest.json")
         image = get_file_as_base64("wcs-logo.png")
-        dist_file_path = wcs_manifest["dist"]["basePath"] + \
-            "/" + wcs_manifest["dist"]["files"][0]
-        dist_file = get_file_as_base64(dist_file_path)
+
+        # iterate over files and create array of files with dist filenames and base64 encoded files
+        dist_files = []
+        for file_name in wcs_manifest["dist"]["files"]:
+            dist_file_path = wcs_manifest["dist"]["basePath"] + \
+                "/" + file_name
+            dist_file = get_file_as_base64(dist_file_path)
+            dist_files.append({
+                "fileName": file_name,
+                "fileDataBase64": dist_file
+            })
 
         webcomp = find_webcomp(wcs_manifest["repositoryUrl"])
 
@@ -241,23 +242,21 @@ if __name__ == '__main__':
 
         version_tag = str(args.push)[0:8]
 
-
         if webcomp == None:
             # post for first time
             uuid = post_webcomponent(token, copy.deepcopy(wcs_manifest), image)
             post_webcomponent_version(token, uuid, copy.deepcopy(
-                wcs_manifest), dist_file, version_tag)
+                wcs_manifest), dist_files, version_tag)
         else:
             # update webcomp
             put_webcomponent_version(
-                token, webcomp["uuid"], wcs_manifest, dist_file, version_tag)
+                token, webcomp["uuid"], wcs_manifest, dist_files, version_tag)
 
         lighthouse()
         size()
 
     if(args.lighthouse):
         lighthouse()
-
 
     if(args.size):
         size()
