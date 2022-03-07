@@ -59,8 +59,8 @@ jobs:
           X_DB_PWD: ${{ secrets.DB_PWD_TEST }}
           X_DB_SCHEMA: "public"
 
-          X_DOCKER_CLIENT_TIMEOUT: 180
-          X_COMPOSE_HTTP_TIMEOUT: 180
+          X_DOCKER_CLIENT_TIMEOUT: 360
+          X_COMPOSE_HTTP_TIMEOUT: 360
 
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 
@@ -117,8 +117,8 @@ jobs:
           X_DB_PWD: ${{ secrets.DB_PWD_PROD }}
           X_DB_SCHEMA: "public"
 
-          X_DOCKER_CLIENT_TIMEOUT: 180
-          X_COMPOSE_HTTP_TIMEOUT: 180
+          X_DOCKER_CLIENT_TIMEOUT: 360
+          X_COMPOSE_HTTP_TIMEOUT: 360
 
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 

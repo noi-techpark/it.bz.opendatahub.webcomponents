@@ -83,8 +83,8 @@ jobs:
           X_SMTP_PORT: 587
           X_SMTP_DEBUG: "true"
 
-          X_DOCKER_CLIENT_TIMEOUT: 180
-          X_COMPOSE_HTTP_TIMEOUT: 180
+          X_DOCKER_CLIENT_TIMEOUT: 360
+          X_COMPOSE_HTTP_TIMEOUT: 360
 
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 
@@ -166,8 +166,8 @@ jobs:
           X_SMTP_PORT: 587
           X_SMTP_DEBUG: "true"
 
-          X_DOCKER_CLIENT_TIMEOUT: 180
-          X_COMPOSE_HTTP_TIMEOUT: 180
+          X_DOCKER_CLIENT_TIMEOUT: 360
+          X_COMPOSE_HTTP_TIMEOUT: 360
 
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 
