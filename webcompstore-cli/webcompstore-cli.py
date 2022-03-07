@@ -92,7 +92,7 @@ def post_webcomponent(token, wcs_manifest, image):
     print("POST " + url)
     print("Status Code", response.status_code)
     if response.status_code != 200:
-        print("Error message", response.reason)
+        print("Error message", response.text)
         exit(1)
     return data["uuid"]
 
@@ -128,7 +128,7 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag
     print("POST " + url)
     print("Status Code", response.status_code)
     if response.status_code != 200:
-        print("Error message", response.reason)
+        print("Error message", response.text)
         exit(2)
     # print("JSON Response ", response.json())
 
@@ -164,7 +164,7 @@ def put_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag)
     print("PUT " + url)
     print("Status Code", response.status_code)
     if response.status_code != 200:
-        print("Error message", response.reason)
+        print("Error message", response.text)
         exit(3)
 
 
@@ -279,5 +279,5 @@ if __name__ == '__main__':
         response = requests.delete(url, headers=headers)
         print("Status Code", response.status_code)
         if response.status_code != 200:
-            print("Error message", response.reason)
+            print("Error message", response.text)
             exit(4)
