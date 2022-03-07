@@ -1,5 +1,4 @@
 import argparse
-import dis
 import requests
 import json
 import base64
@@ -61,7 +60,7 @@ def lighthouse():
         "Authorization": "Bearer " + token
     }
     response = requests.patch(url, headers=headers)
-    print("Status Code", response.status_code)
+    print("Lighthouse Status Code", response.status_code)
 
 
 def size():
@@ -71,7 +70,7 @@ def size():
         "Authorization": "Bearer " + token
     }
     response = requests.patch(url, headers=headers)
-    print("Status Code", response.status_code)
+    print("Recalculate size Status Code", response.status_code)
 
 
 def post_webcomponent(token, wcs_manifest, image):
@@ -92,7 +91,9 @@ def post_webcomponent(token, wcs_manifest, image):
     data = response.json()
     print("POST " + url)
     print("Status Code", response.status_code)
-    print("JSON Response ", data["uuid"])
+    if response.status_code != 200:
+        print("Error message", response.reason)
+        exit(1)
     return data["uuid"]
 
 
@@ -126,6 +127,9 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag
     response = requests.post(url, headers=headers, json=wcs_manifest)
     print("POST " + url)
     print("Status Code", response.status_code)
+    if response.status_code != 200:
+        print("Error message", response.reason)
+        exit(2)
     # print("JSON Response ", response.json())
 
 
@@ -159,7 +163,9 @@ def put_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag)
     response = requests.put(url, headers=headers, json=wcs_manifest)
     print("PUT " + url)
     print("Status Code", response.status_code)
-    # print("JSON Response ", response.json())
+    if response.status_code != 200:
+        print("Error message", response.reason)
+        exit(3)
 
 
 def find_webcomp(repository_url):
@@ -272,3 +278,6 @@ if __name__ == '__main__':
         }
         response = requests.delete(url, headers=headers)
         print("Status Code", response.status_code)
+        if response.status_code != 200:
+            print("Error message", response.reason)
+            exit(4)
