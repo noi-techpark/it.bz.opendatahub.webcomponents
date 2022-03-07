@@ -15,6 +15,7 @@ on:
 env:
   PROJECT_NAME: odh-webcompstore-api
   DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-api
+  DOCKER_IMAGE_PROD: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-api-prod
   DOCKER_TAG: ${{ github.sha }}
   JAVA_VERSION: '8'
 
@@ -53,8 +54,8 @@ jobs:
           X_WORKSPACE_PATH: "/workspace"
 
           X_DB_URL: "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
-          X_DB_USR: ${{ secrets.DB_USR }}
-          X_DB_PWD: ${{ secrets.DB_PWD }}
+          X_DB_USR: ${{ secrets.DB_USR_TEST }}
+          X_DB_PWD: ${{ secrets.DB_PWD_TEST }}
           X_DB_SCHEMA: "public"
 
           # Endpoint from where we create a standalone preview inside a simple HTML skeleton
@@ -70,7 +71,7 @@ jobs:
           X_KEYCLOAK_SSL_REQUIRED: "none"
           X_KEYCLOAK_REALM: "noi"
           X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
-          X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET }}
+          X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET_TEST }}
 
           # SMTP configuration
           X_SMTP_PWD: ${{ secrets.SMTP_PWD }}
@@ -107,6 +108,89 @@ jobs:
         uses: noi-techpark/github-actions/docker-deploy@v2
         with:
           hosts: 'test'
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: 'noi-techpark-bot'
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
+          working-directory: ./backend/data-service/infrastructure/ansible
+
+  deploy-prod-data-service:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/prod'
+    needs: test
+    concurrency: deploy-prod-data-service
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE_PROD }}
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+          X_API_SERVER_PORT: 1200
+
+          # change with prod
+          X_LIGHTHOUSE_API_KEY: ${{ secrets.LIGHTHOUSE_API_KEY_TEST }}
+          X_DEBUG_LEVEL: "INFO"
+          X_WORKSPACE_PATH: "/workspace"
+
+          X_DB_URL: "jdbc:postgresql://postgres-prod.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+          X_DB_USR: ${{ secrets.DB_USR_PROD }}
+          X_DB_PWD: ${{ secrets.DB_PWD_PROD }}
+          X_DB_SCHEMA: "public"
+
+          # Endpoint from where we create a standalone preview inside a simple HTML skeleton
+          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.bz.it/preview"
+
+          # Base URL from where we will distribute build artifacts (javascript bundles and assets)
+          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.bz.it/dist"
+
+          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
+
+          # Security for CRUD operations
+          X_KEYCLOAK_URL: "https://auth.opendatahub.bz.it"
+          X_KEYCLOAK_SSL_REQUIRED: "none"
+          X_KEYCLOAK_REALM: "noi"
+          X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
+          X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET_PROD }}
+
+          # SMTP configuration
+          X_SMTP_PWD: ${{ secrets.SMTP_PWD }}
+          X_SMTP_USR: "no-reply@opendatahub.bz.it"
+          X_SMTP_TO: "help@opendatahub.bz.it"
+          X_SMTP_FROM: "no-reply@opendatahub.bz.it"
+          X_SMTP_SUBJECT: "Web Component Store: Contact form"
+          X_SMTP_HOST: "smtp.eu.mailgun.org"
+          X_SMTP_PORT: 587
+          X_SMTP_DEBUG: "true"
+
+          X_DOCKER_CLIENT_TIMEOUT: 180
+          X_COMPOSE_HTTP_TIMEOUT: 180
+
+      - name: Prepare application.properties
+        run: cp application-deployment.properties application.properties 
+        working-directory: ./backend/data-service/src/main/resources/
+
+      - name: Build project
+        uses: noi-techpark/github-actions/maven-build@v2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          build-command: 'mvn -B -DskipTests -DfinalName=ROOT --projects data-service --also-make package'
+          working-directory: backend
+
+      - name: Build and push 
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./backend/data-service/infrastructure/docker/
+
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          hosts: 'prod'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           docker-username: 'noi-techpark-bot'
           docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
