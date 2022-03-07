@@ -76,3 +76,50 @@ jobs:
           region: ${{ env.AWS_REGION }}
           s3-bucket-name: ${{ env.AWS_S3_BUCKET_NAME }}
           folder: ./frontend/dist
+
+  deploy-production-frontend:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/prod'
+    needs: test
+    concurrency: deploy-production-frontend
+    env:
+      AWS_S3_BUCKET_NAME : 'webcompstore-prod'
+      AWS_REGION : "eu-west-1"
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+
+          X_API_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
+          X_CDN_URL: "https://cdn.webcomponents.opendatahub.bz.it"
+          X_GOOGLE_ANALYTICS_ID: ${{ secrets.WEBCOMPSTORE_PROD_GOOGLE_ANALYTICS_ID }}
+          X_GOOGLE_ANALYTICS_DEBUG: false
+        with:
+          working-directory: frontend
+
+      - name: Setup node and yarn
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+          cache: 'yarn'
+          cache-dependency-path: frontend/yarn.lock
+
+      - name: Build 
+        run: |
+          yarn install
+          yarn run build
+        working-directory: frontend
+
+
+      - name: Sync to S3 bucket
+        uses: noi-techpark/github-actions/aws-s3-bucket-sync@v2
+        with:
+          access-key-id: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
+          region: ${{ env.AWS_REGION }}
+          s3-bucket-name: ${{ env.AWS_S3_BUCKET_NAME }}
+          folder: ./frontend/dist
