@@ -14,8 +14,6 @@ on:
 
 env:
   PROJECT_NAME: odh-webcompstore-cdn
-  DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-cdn
-  DOCKER_IMAGE_PROD: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-cdn-prod
   DOCKER_TAG: ${{ github.sha }}
   JAVA_VERSION: '8'
 
@@ -37,6 +35,8 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: test
     concurrency: deploy-test-delivery-service
+    env:
+        DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-cdn-test
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -76,6 +76,7 @@ jobs:
       - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
+          docker-host: 'ghcr.io'
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ./backend/delivery-service/infrastructure/docker/
@@ -85,6 +86,7 @@ jobs:
         with:
           hosts: 'test'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-host: 'ghcr.io'
           docker-username: 'noi-techpark-bot'
           docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           project-name: ${{ env.PROJECT_NAME }}
@@ -95,6 +97,8 @@ jobs:
     if: github.ref == 'refs/heads/prod'
     needs: test
     concurrency: deploy-prod-delivery-service
+    env:
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-cdn-prod
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -134,7 +138,7 @@ jobs:
       - name: Build and push images
         uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
-          # docker-host: 'ghcr.io'
+          docker-host: 'ghcr.io'
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
           working-directory: ./backend/delivery-service/infrastructure/docker/
@@ -144,7 +148,7 @@ jobs:
         with:
           hosts: 'prod'
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # docker-host: 'ghcr.io'
+          docker-host: 'ghcr.io'
           docker-username: 'noi-techpark-bot'
           docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
           project-name: ${{ env.PROJECT_NAME }}
