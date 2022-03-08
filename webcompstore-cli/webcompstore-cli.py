@@ -221,6 +221,7 @@ if __name__ == '__main__':
         keycloak_url = KEYCLOAK_CLIENT_ID_PROD
         keycloak_realm = KEYCLOAK_REALM_PROD
         keycloak_client_id = KEYCLOAK_CLIENT_ID_PROD
+        print("Pushing to production...")
 
     if(args.list):
         list = get_list()
