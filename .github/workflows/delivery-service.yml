@@ -37,7 +37,7 @@ jobs:
     needs: test
     concurrency: deploy-test-delivery-service
     env:
-      DOCKER_IMAGE: ${{ env.DOCKER_HOST }}/${{ github.repository }}/${{ github.event.repository.name }}-cdn-test
+      DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-cdn-test
       DOCKER_TAG: ${{ github.sha }}
     steps:
       - name: Checkout source code
@@ -100,7 +100,7 @@ jobs:
     needs: test
     concurrency: deploy-prod-delivery-service
     env:
-      DOCKER_IMAGE: ${{ env.DOCKER_HOST }}/${{ github.repository }}/${{ github.event.repository.name }}-cdn-prod
+      DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-cdn-prod
       DOCKER_TAG: ${{ github.sha }}
     steps:
       - name: Checkout source code

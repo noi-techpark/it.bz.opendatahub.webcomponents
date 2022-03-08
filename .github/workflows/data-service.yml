@@ -36,7 +36,7 @@ jobs:
     needs: test
     concurrency: deploy-test-data-service
     env:
-      DOCKER_IMAGE: ${{ env.DOCKER_HOST }}/${{ github.repository }}/${{ github.event.repository.name }}-api-test
+      DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-api-test
       DOCKER_TAG: ${{ github.sha }}
     steps:
       - name: Checkout source code
@@ -123,7 +123,7 @@ jobs:
     needs: test
     concurrency: deploy-prod-data-service
     env:
-      DOCKER_IMAGE: ${{ env.DOCKER_HOST }}/${{ github.repository }}/${{ github.event.repository.name }}-api-prod
+      DOCKER_IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}-api-prod
       DOCKER_TAG: ${{ github.sha }}
     steps:
       - name: Checkout source code
