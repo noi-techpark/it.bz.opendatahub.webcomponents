@@ -176,7 +176,7 @@ def find_webcomp(repository_url):
 
 
 def get_list():
-    url = api_url + "webcomponent"
+    url = api_url + "webcomponent?pageSize=1000000"
     response = requests.get(url)
     return response.json()
 
