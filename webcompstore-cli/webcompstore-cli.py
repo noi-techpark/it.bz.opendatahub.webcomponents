@@ -88,12 +88,14 @@ def post_webcomponent(token, wcs_manifest, image):
     wcs_manifest["imagePngBase64"] = image
 
     response = requests.post(url, headers=headers, json=wcs_manifest)
-    data = response.json()
+    
     print("POST " + url)
     print("Status Code", response.status_code)
     if response.status_code != 200:
         print("Error message", response.text)
         exit(1)
+        
+    data = response.json()
     return data["uuid"]
 
 
