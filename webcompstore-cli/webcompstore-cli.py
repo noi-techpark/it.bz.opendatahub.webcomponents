@@ -218,7 +218,7 @@ if __name__ == '__main__':
 
     if(args.production or str(PRODUCTION).upper() == 'TRUE'):
         api_url = API_URL_PROD
-        keycloak_url = KEYCLOAK_CLIENT_ID_PROD
+        keycloak_url = KEYCLOAK_URL_PROD
         keycloak_realm = KEYCLOAK_REALM_PROD
         keycloak_client_id = KEYCLOAK_CLIENT_ID_PROD
         print("Pushing to production...")
