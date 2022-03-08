@@ -147,13 +147,20 @@ jobs:
           X_DB_PWD: ${{ secrets.DB_PWD_PROD }}
           X_DB_SCHEMA: "public"
 
-          # Endpoint from where we create a standalone preview inside a simple HTML skeleton
-          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.bz.it/preview"
+          # # Endpoint from where we create a standalone preview inside a simple HTML skeleton
+          # X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.bz.it/preview"
+
+          # # Base URL from where we will distribute build artifacts (javascript bundles and assets)
+          # X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.bz.it/dist"
+
+          # X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
+
+          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.testingmachine.eu/preview"
 
           # Base URL from where we will distribute build artifacts (javascript bundles and assets)
-          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.bz.it/dist"
+          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
 
-          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
+          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.testingmachine.eu"
 
           # Security for CRUD operations
           X_KEYCLOAK_URL: "https://auth.opendatahub.bz.it"

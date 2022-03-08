@@ -117,7 +117,10 @@ jobs:
           X_DEBUG_LEVEL: "INFO"
           X_WORKSPACE_PATH: "/workspace"
 
-          X_CDN_SWAGGER_BASE_URL: "https://cdn.webcomponents.opendatahub.bz.it"
+          # X_CDN_SWAGGER_BASE_URL: "https://cdn.webcomponents.opendatahub.bz.it"
+          X_CDN_SWAGGER_BASE_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu"
+
+          
 
           X_DB_URL: "jdbc:postgresql://postgres-prod.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
           X_DB_USR: ${{ secrets.DB_USR_PROD }}
