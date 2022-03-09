@@ -188,6 +188,8 @@ def confirm(text=""):
         choice = input(f"Confirm {text}[y/N]?").lower()
         if choice in 'no' or not choice:
             exit()
+        elif choice in 'yes':
+            return True
 
 
 if __name__ == '__main__':
