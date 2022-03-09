@@ -157,7 +157,7 @@ jobs:
           
 
           # Security for CRUD operations
-          X_KEYCLOAK_URL: "https://auth.opendatahub.bz.it"
+          X_KEYCLOAK_URL: "https://auth.opendatahub.bz.it/auth/"
           X_KEYCLOAK_SSL_REQUIRED: "none"
           X_KEYCLOAK_REALM: "noi"
           X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
