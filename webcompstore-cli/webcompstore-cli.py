@@ -244,6 +244,12 @@ if __name__ == '__main__':
                 "fileName": file_name,
                 "fileDataBase64": dist_file
             })
+        
+        # check that repositoryUrl has .git in it
+        if not ".git" in wcs_manifest["repositoryUrl"]:
+            print("repositoryUrl in wcs-manifest.json needs '.git' ending.")
+            print("example: https://github.com/noi-techpark/webcomp-carsharing.git")
+            exit(5)
 
         webcomp = find_webcomp(wcs_manifest["repositoryUrl"])
 
