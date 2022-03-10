@@ -73,7 +73,7 @@ def size():
     print("Recalculate size Status Code", response.status_code)
 
 
-def post_webcomponent(token, wcs_manifest, image):
+def post(token, wcs_manifest, image):
     url = api_url + "admin/webcomponent"
 
     headers = {
@@ -98,8 +98,29 @@ def post_webcomponent(token, wcs_manifest, image):
     data = response.json()
     return data["uuid"]
 
+def patch_image(token, uuid, image):
+    url = api_url + "admin/webcomponent/" + uuid + "/logo"
 
-def post_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag):
+    headers = {
+        "Content": "application/json",
+        "Authorization": "Bearer " + token
+    }
+
+    data = {
+        "logoPngBase64": image
+    }
+
+
+    response = requests.patch(url, headers=headers, json=data)
+    
+    print("PATCH " + url)
+    print("Status Code", response.status_code)
+    if response.status_code != 200:
+        print("Error message", response.text)
+        exit(1)
+        
+
+def post_version(token, uuid, wcs_manifest, dist_files, version_tag):
     # prepare wcs_manifest data for pos
 
     del wcs_manifest["title"]
@@ -135,7 +156,7 @@ def post_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag
     # print("JSON Response ", response.json())
 
 
-def put_webcomponent_version(token, uuid, wcs_manifest, dist_files, version_tag):
+def put_version(token, uuid, wcs_manifest, dist_files, version_tag):
 
     url = api_url + "admin/webcomponent/" + uuid + "/" + version_tag
 
@@ -261,13 +282,14 @@ if __name__ == '__main__':
 
         if webcomp == None:
             # post for first time
-            uuid = post_webcomponent(token, copy.deepcopy(wcs_manifest), image)
-            post_webcomponent_version(token, uuid, copy.deepcopy(
+            uuid = post(token, copy.deepcopy(wcs_manifest), image)
+            post_version(token, uuid, copy.deepcopy(
                 wcs_manifest), dist_files, version_tag)
         else:
             # update webcomp
-            put_webcomponent_version(
+            put_version(
                 token, webcomp["uuid"], wcs_manifest, dist_files, version_tag)
+            patch_image(token, webcomp["uuid"],image)
 
         lighthouse()
         size()
