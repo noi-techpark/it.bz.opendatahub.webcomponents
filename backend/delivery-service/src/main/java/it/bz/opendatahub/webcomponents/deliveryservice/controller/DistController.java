@@ -22,7 +22,7 @@ public class DistController {
         this.distService = distService;
     }
 
-    @GetMapping(value = "/{webcomponentId}/{file}")
+    @GetMapping(value = {"/{webcomponentId}/{file}", "/{webcomponentId}/latest/{file}"})
     public ResponseEntity<byte[]> getDistLatest(@PathVariable String webcomponentId,
                                                 @PathVariable String file) {
 
