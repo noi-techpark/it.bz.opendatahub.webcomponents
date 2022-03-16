@@ -196,7 +196,7 @@
               <div class="d-table-cell pr-2">Latest Version:</div>
               <div class="d-table-cell font-weight-bold">
                 <template v-if="component.versions.length > 0">
-                  {{ component.versions[0].versionTag }}
+                  {{ component.versions[1].versionTag }}
                 </template>
                 <template v-else> n/a </template>
               </div>

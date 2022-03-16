@@ -229,7 +229,10 @@ export default Vue.extend({
       if (!this.component) {
         return false;
       }
-      return this.selectedVersion === this.component.versions[0].versionTag;
+      return (
+        this.selectedVersion === 'latest' ||
+        this.selectedVersion === this.component.versions[1].versionTag
+      );
     },
     component(): WebcomponentModel {
       return this.$store.state.webcomponent.webcomponent;

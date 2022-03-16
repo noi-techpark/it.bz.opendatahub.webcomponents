@@ -95,7 +95,10 @@ export const actions: ActionTree<RootState, RootState> = {
 
       fullReset = true;
 
-      const webcomponent = await $api.webcomponent.getOneById(uuid);
+      let webcomponent = await $api.webcomponent.getOneById(uuid);
+      let latestVersion = {...webcomponent.versions[0]};
+      latestVersion.versionTag = "latest";
+      webcomponent.versions.unshift(latestVersion);
       commit('SET_WEBCOMPONENT', webcomponent);
     }
 
@@ -136,8 +139,8 @@ export const actions: ActionTree<RootState, RootState> = {
     commit(
       'SET_SNIPPET_FROM_EDITOR',
       fromTransport(attribs) +
-        '\n' +
-        getDistIncludes(state.configuration).join('\n')
+      '\n' +
+      getDistIncludes(state.configuration).join('\n')
     );
   },
   resetSnippet({ commit, state }) {
@@ -184,28 +187,28 @@ function getDistIncludes(
         }
         scripts.push(
           '<script ' +
-            parameter +
-            'src="' +
-            config.deliveryBaseUrl +
-            '/' +
-            config.dist.basePath +
-            '/' +
-            item.file +
-            '"></scr' +
-            'ipt>'
+          parameter +
+          'src="' +
+          config.deliveryBaseUrl +
+          '/' +
+          config.dist.basePath +
+          '/' +
+          item.file +
+          '"></scr' +
+          'ipt>'
         );
       });
     } else {
       config.dist.files.forEach((item) => {
         scripts.push(
           '<script src="' +
-            config.deliveryBaseUrl +
-            '/' +
-            config.dist.basePath +
-            '/' +
-            item +
-            '"></scr' +
-            'ipt>'
+          config.deliveryBaseUrl +
+          '/' +
+          config.dist.basePath +
+          '/' +
+          item +
+          '"></scr' +
+          'ipt>'
         );
       });
     }
