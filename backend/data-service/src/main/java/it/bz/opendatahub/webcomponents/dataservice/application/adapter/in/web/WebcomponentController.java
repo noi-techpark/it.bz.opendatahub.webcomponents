@@ -102,7 +102,7 @@ public class WebcomponentController {
         return webcomponentWebConverter.convert(getWebcomponentUseCase.getWebcomponentById(uuid));
     }
 
-    @GetMapping("/{uuid}/config")
+    @GetMapping(values = {"/{uuid}/config", "/{uuid}/config/latest"})
     public WebcomponentConfigurationRest getConfiguration(@PathVariable String uuid) {
         val configuration = getWebcomponentConfigurationUseCase.getConfiguration(uuid);
 
