@@ -291,9 +291,6 @@ if __name__ == '__main__':
                 token, webcomp["uuid"], wcs_manifest, dist_files, version_tag)
             patch_image(token, webcomp["uuid"],image)
 
-        lighthouse()
-        size()
-
     if(args.lighthouse):
         lighthouse()
 
