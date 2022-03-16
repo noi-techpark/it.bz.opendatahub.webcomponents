@@ -75,7 +75,7 @@ jobs:
           X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET_TEST }}
 
           # SMTP configuration
-          X_SMTP_PWD: ${{ secrets.SMTP_PWD }}
+          X_SMTP_PWD: ${{ secrets.SMTP_PWD_TEST }}
           X_SMTP_USR: "no-reply@testingmachine.eu"
           X_SMTP_TO: "help@opendatahub.bz.it"
           X_SMTP_FROM: "no-reply@testingmachine.eu"
@@ -164,7 +164,7 @@ jobs:
           X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET_PROD }}
 
           # SMTP configuration
-          X_SMTP_PWD: ${{ secrets.SMTP_PWD }}
+          X_SMTP_PWD: ${{ secrets.SMTP_PWD_PROD }}
           X_SMTP_USR: "no-reply@opendatahub.bz.it"
           X_SMTP_TO: "help@opendatahub.bz.it"
           X_SMTP_FROM: "no-reply@opendatahub.bz.it"
