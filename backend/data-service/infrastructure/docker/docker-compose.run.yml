@@ -8,6 +8,7 @@ services:
       - .env
     environment:
       API_SERVER_PORT: ${API_SERVER_PORT}
+      _JAVA_OPTIONS: ${JAVA_OPTIONS}
     volumes: 
       - ../../odh-webcompstore-cdn/shared/workspace:/workspace
     # healthcheck:
