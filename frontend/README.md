@@ -3,22 +3,27 @@
 > FRONTEND
 
 - [ODH Webcomponents](#odh-webcomponents)
-	- [Source Code](#source-code)
-	- [Requirements](#requirements)
-	- [Configuration](#configuration)
-		- [Mode](#mode)
-		- [Configuration](#configuration-1)
-			- [ReCaptcha](#recaptcha)
-			- [API](#api)
-	- [Local Development with Docker](#local-development-with-docker)
-	- [Build Setup](#build-setup)
-	- [Adding pages](#adding-pages)
-	- [Deployment](#deployment)
-		- [Single Page Application](#single-page-application)
-		- [Universal Mode](#universal-mode)
-	- [Create new static content pages](#create-new-static-content-pages)
-	- [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
-	- [Create a new banner](#create-a-new-banner)
+  - [Source Code](#source-code)
+  - [Requirements](#requirements)
+  - [Configuration](#configuration)
+    - [Mode](#mode)
+    - [Configuration](#configuration-1)
+      - [ReCaptcha](#recaptcha)
+      - [API](#api)
+  - [Local Development with Docker](#local-development-with-docker)
+  - [Build Setup](#build-setup)
+  - [Adding pages](#adding-pages)
+  - [Deployment](#deployment)
+    - [Single Page Application](#single-page-application)
+    - [Universal Mode](#universal-mode)
+  - [Create new static content pages](#create-new-static-content-pages)
+  - [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
+  - [Create a new banner](#create-a-new-banner)
+  - [Information](#information)
+    - [Support](#support)
+    - [Contributing](#contributing)
+    - [Documentation](#documentation)
+    - [License](#license)
 
 ## Source Code
 
@@ -238,3 +243,25 @@ Include the following code and replace the url of your video inside the url para
         path="/contact"
       ></banner-slide>
 ```
+
+## Information
+
+### Support
+
+For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.it).
+
+### Contributing
+
+If you'd like to contribute, please follow the following instructions:
+
+https://docs.opendatahub.bz.it/en/latest/guidelines/contributors.html
+
+### Documentation
+
+More documentation can be found at
+[https://docs.opendatahub.bz.it](https://docs.opendatahub.bz.it).
+
+### License
+
+The code in this project is licensed under the GNU AFFERO GENERAL PUBLIC LICENSE
+Version 3 license. See the [LICENSE.md](LICENSE.md) file for more information.

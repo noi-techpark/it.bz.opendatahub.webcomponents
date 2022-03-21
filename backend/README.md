@@ -3,30 +3,30 @@
 Web component store for OpenDataHub.
 
 - [ODH: Webcomponents](#odh-webcomponents)
-	- [Getting started](#getting-started)
-		- [Prerequisites](#prerequisites)
-		- [Source code](#source-code)
-		- [Project Structure](#project-structure)
-	- [Building and Testing](#building-and-testing)
-		- [Build](#build)
-		- [Running tests](#running-tests)
-	- [Configuration](#configuration)
-	- [Deployment](#deployment)
-	- [API & swagger](#api--swagger)
-		- [data-service](#data-service)
-		- [delivery-service](#delivery-service)
-	- [General Usage](#general-usage)
-		- [Adding a webcomponent](#adding-a-webcomponent)
-		- [wcs-manifest.json](#wcs-manifestjson)
-	- [Docker environment](#docker-environment)
-		- [Installation](#installation)
-		- [Start and stop the containers](#start-and-stop-the-containers)
-		- [Keycloak](#keycloak)
-	- [Information](#information)
-		- [Support](#support)
-		- [Contributing](#contributing)
-		- [Documentation](#documentation)
-		- [License](#license)
+  - [Getting started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Source code](#source-code)
+    - [Project Structure](#project-structure)
+  - [Building and Testing](#building-and-testing)
+    - [Build](#build)
+    - [Running tests](#running-tests)
+  - [Configuration](#configuration)
+  - [Deployment](#deployment)
+  - [API & swagger](#api--swagger)
+    - [data-service](#data-service)
+    - [delivery-service](#delivery-service)
+  - [General Usage](#general-usage)
+    - [Adding a webcomponent](#adding-a-webcomponent)
+    - [wcs-manifest.json](#wcs-manifestjson)
+  - [Docker environment](#docker-environment)
+    - [Installation](#installation)
+    - [Start and stop the containers](#start-and-stop-the-containers)
+    - [Keycloak](#keycloak)
+  - [Information](#information)
+    - [Support](#support)
+    - [Contributing](#contributing)
+    - [Documentation](#documentation)
+    - [License](#license)
 
 ## Getting started
 
@@ -386,10 +386,7 @@ For support, please contact [help@opendatahub.bz.it](mailto:help@opendatahub.bz.
 
 If you'd like to contribute, please follow the following instructions:
 
-- Fork the repository.
-- Checkout a topic branch from the `development` branch.
-- Make sure the tests are passing.
-- Create a pull request against the `development` branch.
+https://docs.opendatahub.bz.it/en/latest/guidelines/contributors.html
 
 ### Documentation
 
