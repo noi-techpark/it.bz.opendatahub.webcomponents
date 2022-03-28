@@ -4,8 +4,7 @@ services:
     container_name: wcstore_api
     build:
       context: .
-      dockerfile: infrastructure/docker/java.dockerfile
-      target: dev
+      dockerfile: data-service/infrastructure/docker/Dockerfile
     volumes:
       - ./:/code
       - ./.m2:/code/.m2
@@ -32,7 +31,7 @@ services:
     container_name: wcstore_cdn
     build:
       context: .
-      dockerfile: infrastructure/docker/java.dockerfile
+      dockerfile: delivery-service/infrastructure/docker/Dockerfile
       target: dev
     volumes:
       - ./:/code
