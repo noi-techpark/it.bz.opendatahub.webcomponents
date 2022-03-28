@@ -171,26 +171,10 @@ webcomponents. it will also expose a swagger-ui (/swagger-ui.html)
 
 ### Adding a webcomponent
 
-Webcomponents can either be managed via the admin API or via the origins method
-using the crawler.
+Webcomponents can either be managed via the admin API ~~or via the origins method
+using the crawler.~~
 
-**NOTE:** While it is possible to manipulate webcomponents that are actively
-imported by the crawler via the api, the changes will get overwritten by the
-crawler.
-
-Adding a new webcomponent requires an entry in the main json file. This file can
-be found in the repository configured as "application.repository.origin.url".
-
-> origins.json
-
-1) Use a UUID-generator to create a new id
-2) Create a new entry in the origins file referencing the repository of the
-   webcomponent
-3) Add at least one version-tag to the reposotory of the webcomponent. Version
-   tags must look like this: v1.0
-
-The repository of the new webcomponent must have at least one version tag and
-contain a wcs-manifest.json file!
+**NOTE:** The crawler is deprecated. Use the webcompstore-cli python program to interact with the API.
 
 ### wcs-manifest.json
 
@@ -203,6 +187,7 @@ repository's root directory. A manifest file should look like this:
   "description": "Generic Map to access the Open Data Hub Mobility API v2",
   "descriptionAbstract": "Generic Map to access the Open Data Hub Mobility",
   "license": "GPL-3.0",
+  "repositoryUrl": "https://github.com/your-organization/your-webcomponent.git",
   "copyrightHolders": [
     {
       "name": "NOI",
