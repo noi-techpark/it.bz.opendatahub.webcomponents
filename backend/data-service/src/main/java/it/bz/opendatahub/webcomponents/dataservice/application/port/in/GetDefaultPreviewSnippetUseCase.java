@@ -4,4 +4,6 @@ import lombok.NonNull;
 
 public interface GetDefaultPreviewSnippetUseCase {
 	String getDefaultPreviewSnippet(@NonNull String webcomponentUuid, @NonNull String versionTag);
+	String getDefaultPreviewSnippet(@NonNull String webcomponentUuid);
+
 }

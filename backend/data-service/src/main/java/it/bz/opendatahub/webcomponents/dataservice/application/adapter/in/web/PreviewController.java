@@ -49,7 +49,12 @@ public class PreviewController {
 			snippet = new String(Base64.getDecoder().decode(attribs), StandardCharsets.UTF_8);
 		}
 		else {
-			snippet = getDefaultPreviewSnippetUseCase.getDefaultPreviewSnippet(uuid, versionTag);
+			if ("latest".equalsIgnoreCase(versionTag)){
+				snippet = getDefaultPreviewSnippetUseCase.getDefaultPreviewSnippet(uuid);
+			}
+			else {
+				snippet = getDefaultPreviewSnippetUseCase.getDefaultPreviewSnippet(uuid, versionTag);
+			}
 		}
 
 		if (!style.isEmpty()) {

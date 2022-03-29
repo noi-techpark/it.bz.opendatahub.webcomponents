@@ -29,6 +29,15 @@ public class WebcomponentPreviewService implements GetDefaultPreviewSnippetUseCa
 		return getAttributesFromConfig(webcomponentVersion);
 	}
 
+	@Override
+	public String getDefaultPreviewSnippet(@NonNull String webcomponentUuid) {
+		val webcomponentVersion = readWebcomponentVersionPort.getLatestVersionOfWebcomponent(
+			webcomponentUuid
+		);
+
+		return getAttributesFromConfig(webcomponentVersion);
+	}
+
 	private String getAttributesFromConfig(WebcomponentVersion webcomponentVersion) {
 		val options = webcomponentVersion.getConfiguration().getOptions();
 		val tagName = webcomponentVersion.getConfiguration().getTagName();
