@@ -137,7 +137,9 @@ jobs:
           X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
           X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
           X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
-          X_API_SERVER_PORT: 1088
+          #X_API_SERVER_PORT: 1088 # docker01
+          X_API_SERVER_PORT: 1090 # docker03
+
 
           # change with prod
           X_LIGHTHOUSE_API_KEY: ${{ secrets.LIGHTHOUSE_API_KEY_TEST }}
