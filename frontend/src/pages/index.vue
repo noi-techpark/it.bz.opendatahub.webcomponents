@@ -19,39 +19,31 @@
       ></b-form-radio-group>
     </div> -->
 
-    <WcLatest v-if="unfiltered"></WcLatest>
-    <WcFiltered
-      v-else
-      :tags="searchTags"
-      :term="searchTerm"
-      :return-to="returnTo"
-    />
+    <!-- <WcLatest v-if="newest"></WcLatest> -->
+    <WcFiltered :tags="searchTags" :term="searchTerm" :return-to="returnTo" />
   </div>
 </template>
 
 <script>
 import Searchbar from '~/components/searchbar.vue';
-import WcLatest from '~/components/wc-latest.vue';
+// import WcLatest from '~/components/wc-latest.vue';
 import WcFiltered from '~/components/wc-filtered';
 
 export default {
   components: {
     Searchbar,
-    WcLatest,
+    // WcLatest,
     WcFiltered,
   },
 
   data() {
     return {
-      viewMode: 'latest',
+      viewMode: 'filtered',
       timer: null,
     };
   },
 
   computed: {
-    unfiltered() {
-      return this.searchTags.length === 0 && !this.searchTerm;
-    },
     searchTerm() {
       if (!this.$route.query.term) {
         return '';
