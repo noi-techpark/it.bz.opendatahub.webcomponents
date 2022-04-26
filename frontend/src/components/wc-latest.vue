@@ -12,7 +12,7 @@
               <nuxt-link
                 :to="localePath({ name: 'index', query: { tags: 'any' } })"
               >
-                &gt;show all
+                &gt;show alphabetically
               </nuxt-link>
             </span>
           </h1>
@@ -43,7 +43,7 @@
             class="d-flex flex-column text-decoration-none"
           >
             <span data-testid="show-all"
-              >show all components
+              >show alphabetically
               <span class="chevron right ml-2"></span>
             </span>
           </nuxt-link>
@@ -64,7 +64,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      listLimit: 8,
+      listLimit: 16,
       moreEnabled: false,
     };
   },
@@ -86,7 +86,7 @@ export default Vue.extend({
   },
   mounted() {
     this.$store.dispatch('webcomponent-list/loadPage', {
-      pageRequest: new PageRequest(16, 0),
+      pageRequest: new PageRequest(32, 0),
       filter: {
         tags: null,
         searchTerm: null,
@@ -96,7 +96,7 @@ export default Vue.extend({
   },
   methods: {
     loadMore() {
-      this.listLimit = 16;
+      this.listLimit = 32;
       this.moreEnabled = true;
     },
   },
