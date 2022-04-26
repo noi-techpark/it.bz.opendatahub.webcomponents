@@ -2,15 +2,21 @@
   <div>
     <div class="bg-light">
       <div class="container container-extended p-4">
-        <paging-row
-          :current-page="currentPage"
-          :is-first="isFirst"
-          :is-last="isLast"
-          class="pb-4"
-          @toPage="toPage"
-          @previousPage="previousPage"
-          @nextPage="nextPage"
-        ></paging-row>
+        <h1 class="components-title d-flex flex-column" style="min-width: 40%">
+          <span>{{ currentPage.totalElements }} components</span>
+          <span style="font-size: small"
+            ><nuxt-link
+              :to="
+                localePath({
+                  query: {
+                    latest: true,
+                  },
+                })
+              "
+              >&gt;show newest</nuxt-link
+            ></span
+          >
+        </h1>
 
         <div v-if="hasContent" id="widget-componentcards" class="row">
           <div
@@ -24,14 +30,14 @@
         <div v-else class="container text-center" style="height: 400px">
           <h1>Your search came up empty.</h1>
         </div>
-        <paging-row
+        <!-- <paging-row
           :current-page="currentPage"
           :is-first="isFirst"
           :is-last="isLast"
           @toPage="toPage"
           @previousPage="previousPage"
           @nextPage="nextPage"
-        ></paging-row>
+        ></paging-row> -->
       </div>
     </div>
   </div>
@@ -40,12 +46,12 @@
 <script lang="ts">
 import Vue from 'vue';
 import { PageRequest } from '../domain/repository/PagingAndSorting';
-import PagingRow from './paging-row.vue';
+// import PagingRow from './paging-row.vue';
 import WebcomponentEntryCard from '~/components/webcomponent-entry-card.vue';
 
 export default Vue.extend({
   components: {
-    PagingRow,
+    // PagingRow,
     WebcomponentEntryCard,
   },
   props: {
@@ -63,7 +69,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      pageSize: 24,
+      pageSize: 1000,
       currentPageNumber: 0,
       timer: null,
     };

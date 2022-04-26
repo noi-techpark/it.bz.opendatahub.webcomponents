@@ -27,7 +27,7 @@
             <WebcomponentEntryCard :entry="entry" />
           </div>
         </div>
-        <div class="text-center">
+        <!-- <div class="text-center">
           <a
             v-if="!moreEnabled"
             href="javascript: void(0);"
@@ -47,7 +47,7 @@
               <span class="chevron right ml-2"></span>
             </span>
           </nuxt-link>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -64,7 +64,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      listLimit: 16,
+      listLimit: 1000,
       moreEnabled: false,
     };
   },
@@ -86,7 +86,7 @@ export default Vue.extend({
   },
   mounted() {
     this.$store.dispatch('webcomponent-list/loadPage', {
-      pageRequest: new PageRequest(32, 0),
+      pageRequest: new PageRequest(500, 0),
       filter: {
         tags: null,
         searchTerm: null,
@@ -96,7 +96,7 @@ export default Vue.extend({
   },
   methods: {
     loadMore() {
-      this.listLimit = 32;
+      this.listLimit = 500;
       this.moreEnabled = true;
     },
   },
