@@ -3,21 +3,19 @@
     <div class="bg-light">
       <div class="container container-extended p-4">
         <div class="d-flex justify-content-between align-items-center">
-          <h1>Newest</h1>
-          <div class="font-weight-bold d-flex align-items-center">
-            1
-            <div
-              class="m-2"
-              style="width: 58px; height: 1px; background-color: #707070"
-            ></div>
-            {{ visibleWebcomponents.length }}
-            <nuxt-link
-              :to="localePath({ name: 'index', query: { tags: 'any' } })"
-              class="d-flex flex-column text-decoration-none pl-3"
-            >
-              <span data-testid="show-all">show all </span>
-            </nuxt-link>
-          </div>
+          <h1
+            class="components-title d-flex flex-column"
+            style="min-width: 40%"
+          >
+            Newest
+            <span style="font-size: small">
+              <nuxt-link
+                :to="localePath({ name: 'index', query: { tags: 'any' } })"
+              >
+                &gt;show all
+              </nuxt-link>
+            </span>
+          </h1>
         </div>
 
         <div id="widget-componentcards" class="row">
