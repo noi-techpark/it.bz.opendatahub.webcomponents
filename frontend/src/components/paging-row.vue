@@ -2,15 +2,18 @@
   <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="components-title d-flex flex-column" style="min-width: 40%">
       <span>{{ currentPage.totalElements }} components</span>
-      <!-- <span style="font-size: small"
+      <span style="font-size: small"
         ><nuxt-link
           :to="
             localePath({
-              name: 'newest',
+              query: {
+                latest: true,
+              },
             })
           "
           >&gt;show newest</nuxt-link
-        ></span> -->
+        ></span
+      >
     </h1>
     <div>
       <Paginator
