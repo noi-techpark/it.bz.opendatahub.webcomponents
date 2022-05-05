@@ -1,0 +1,179 @@
+name: Build and push dev store docker image
+
+on: 
+  push:
+  pull_request:
+
+env:
+  PROJECT_NAME: odh-webcompstore-dev-docker
+  JAVA_VERSION: '8'
+  DOCKER_REGISTRY_HOST: ghcr.io
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04        
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test backend
+        uses: noi-techpark/github-actions/maven-test@v2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          test-command: 'mvn -B -U clean test'
+          working-directory: backend
+
+
+  deploy-test-data-service:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    concurrency: deploy-test-data-service
+    env:
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-api-test
+      DOCKER_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+          X_API_SERVER_PORT: 1200
+
+          X_LIGHTHOUSE_API_KEY: ${{ secrets.LIGHTHOUSE_API_KEY_TEST }}
+          X_DEBUG_LEVEL: "INFO"
+          X_WORKSPACE_PATH: "/workspace"
+
+          X_DB_URL: "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+          X_DB_USR: ${{ secrets.DB_USR_TEST }}
+          X_DB_PWD: ${{ secrets.DB_PWD_TEST }}
+          X_DB_SCHEMA: "public"
+
+          # Endpoint from where we create a standalone preview inside a simple HTML skeleton
+          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.testingmachine.eu/preview"
+
+          # Base URL from where we will distribute build artifacts (javascript bundles and assets)
+          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu/dist"
+
+          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.testingmachine.eu"
+
+          # Security for CRUD operations
+          X_KEYCLOAK_URL: "https://auth.opendatahub.testingmachine.eu/auth/"
+          X_KEYCLOAK_SSL_REQUIRED: "none"
+          X_KEYCLOAK_REALM: "noi"
+          X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
+          X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET_TEST }}
+
+          # SMTP configuration
+          X_SMTP_PWD: ${{ secrets.SMTP_PWD_TEST }}
+          X_SMTP_USR: "no-reply@testingmachine.eu"
+          X_SMTP_TO: "help@opendatahub.bz.it"
+          X_SMTP_FROM: "no-reply@testingmachine.eu"
+          X_SMTP_SUBJECT: "Web Component Store: Contact form (TEST PLEASE IGNORE)"
+          X_SMTP_HOST: "smtp.eu.mailgun.org"
+          X_SMTP_PORT: 587
+          X_SMTP_DEBUG: "true"
+
+          X_DOCKER_CLIENT_TIMEOUT: 360
+          X_COMPOSE_HTTP_TIMEOUT: 360
+
+          X_JAVA_OPTIONS: "-Xms128m -Xmx512m"
+
+      - name: Prepare application.properties
+        run: cp application-deployment.properties application.properties 
+        working-directory: ./backend/data-service/src/main/resources/
+
+      - name: Build project
+        uses: noi-techpark/github-actions/maven-build@v2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          build-command: 'mvn -B -DskipTests -DfinalName=ROOT --projects data-service --also-make package'
+          working-directory: backend
+
+      - name: Build and push 
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-host: ${{ env.DOCKER_REGISTRY_HOST }}
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./backend/data-service/infrastructure/docker/
+
+  deploy-prod-data-service:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/prod'
+    needs: test
+    concurrency: deploy-prod-data-service
+    env:
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-api-prod
+      DOCKER_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Create .env file
+        uses: noi-techpark/github-actions/env-file@v2
+        env:
+          X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
+          X_DOCKER_IMAGE: ${{ env.DOCKER_IMAGE }}
+          X_DOCKER_TAG: ${{ env.DOCKER_TAG }}
+          X_API_SERVER_PORT: 1088
+
+          # change with prod
+          X_LIGHTHOUSE_API_KEY: ${{ secrets.LIGHTHOUSE_API_KEY_TEST }}
+          X_DEBUG_LEVEL: "INFO"
+          X_WORKSPACE_PATH: "/workspace"
+
+          X_DB_URL: "jdbc:postgresql://postgres-prod.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+          X_DB_USR: ${{ secrets.DB_USR_PROD }}
+          X_DB_PWD: ${{ secrets.DB_PWD_PROD }}
+          X_DB_SCHEMA: "public"
+
+          # Endpoint from where we create a standalone preview inside a simple HTML skeleton
+          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.bz.it/preview"
+
+          # Base URL from where we will distribute build artifacts (javascript bundles and assets)
+          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.bz.it/dist"
+
+          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
+          
+
+          # Security for CRUD operations
+          X_KEYCLOAK_URL: "https://auth.opendatahub.bz.it/auth/"
+          X_KEYCLOAK_SSL_REQUIRED: "none"
+          X_KEYCLOAK_REALM: "noi"
+          X_KEYCLOAK_CLIENT_ID: "it.bz.opendatahub.webcomponents.api"
+          X_KEYCLOAK_CLIENT_SECRET: ${{ secrets.KEYCLOAK_CLIENT_SECRET_PROD }}
+
+          # SMTP configuration
+          X_SMTP_PWD: ${{ secrets.SMTP_PWD_PROD }}
+          X_SMTP_USR: "no-reply@opendatahub.bz.it"
+          X_SMTP_TO: "help@opendatahub.bz.it"
+          X_SMTP_FROM: "no-reply@opendatahub.bz.it"
+          X_SMTP_SUBJECT: "Web Component Store: Contact form"
+          X_SMTP_HOST: "smtp.eu.mailgun.org"
+          X_SMTP_PORT: 587
+          X_SMTP_DEBUG: "true"
+
+          X_DOCKER_CLIENT_TIMEOUT: 360
+          X_COMPOSE_HTTP_TIMEOUT: 360
+
+      - name: Prepare application.properties
+        run: cp application-deployment.properties application.properties 
+        working-directory: ./backend/data-service/src/main/resources/
+
+      - name: Build project
+        uses: noi-techpark/github-actions/maven-build@v2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          build-command: 'mvn -B -DskipTests -DfinalName=ROOT --projects data-service --also-make package'
+          working-directory: backend
+
+      - name: Build and push 
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-host: ${{ env.DOCKER_REGISTRY_HOST }}
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./backend/data-service/infrastructure/docker/
