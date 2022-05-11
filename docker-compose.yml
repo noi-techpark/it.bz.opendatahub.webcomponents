@@ -11,75 +11,72 @@ services:
     command: sh -c "test -d node_modules || yarn; yarn dev"
     environment:
       HOST: 0.0.0.0   # Make all IP addresses available to the outside
+    depends_on:
+        - api
+        - cdn
     ports:
       - "8999:3000"
     tty: true
 
-#   api:
-#     container_name: wcstore_api
-#     # image: ghcr.io/noi-techpark/it.bz.opendatahub.webcomponents/it.bz.opendatahub.webcomponents-api-test:4e4ce71fde0363c76b8e36851c855c5257fd81d2
-#     build:
-#       context: ./backend/data-service
-#       dockerfile: docker/dockerfile-node-local
-#     volumes:
-#       - ./backend:/code
-#       - ./backend/.m2:/code/.m2
-#       - ./workspace:/workspace
-#     env_file:
-#       - .env
-#     environment:
-#       MAVEN_CONFIG: /code/.m2
-#     # working_dir: /code
-#     # user: "1000"    # id of your local development user
-#     # command:
-#     #   - |
-#     #     mvn install -Duser.home=/code
-#     #     cd data-service
-#     #     mvn spring-boot:run -B -Dspring-boot.run.profiles=dev -Duser.home=/code
-#     depends_on:
-#       - postgres
-#     ports:
-#       - "${API_SERVER_PORT}:${API_SERVER_PORT}"
-#     tty: true
+  api:
+      container_name: wcstore_api
+      build:
+        context: backend
+        dockerfile: data-service/infrastructure/docker/Lockerfile
+      volumes:
+      #   - ./:/code
+      #   - ./.m2:/code/.m2
+        - ./workspace:/workspace
+      env_file:
+        - .env
+      # environment:
+      #   MAVEN_CONFIG: /code/.m2
+      # working_dir: /code
+      # user: "1000"    # id of your local development user
+          
+      depends_on:
+        - postgres
+      ports:
+        - "${API_SERVER_PORT}:${API_SERVER_PORT}"
+      tty: true
 
-#   cdn:
-#     container_name: wcstore_cdn
-#     # image: ghcr.io/noi-techpark/it.bz.opendatahub.webcomponents/it.bz.opendatahub.webcomponents-cdn-test:c99298284fcbd73df70864b19202e0219a259ad4
-#     build:
-#       context: backend/delivery-service
-#       dockerfile: infrastructure/docker/Dockerfile
-#     volumes:
-#       - ./backend:/code
-#       - ./backend/.m2:/code/.m2
-#       - ./workspace:/workspace
-#     env_file:
-#       - .env
-#     environment:
-#       MAVEN_CONFIG: /code/.m2
-#     # working_dir: /code
-#     # user: "1000"    # id of your local development user
-#     # command:
-#     #   - |
-#     #     mvn install -Duser.home=/code
-#     #     cd delivery-service
-#     #     mvn spring-boot:run -B -Dspring-boot.run.profiles=dev -Duser.home=/code
-#     depends_on:
-#       - postgres
-#     ports:
-#       - "${CDN_SERVER_PORT}:${CDN_SERVER_PORT}"
-#     tty: true
+  cdn:
+    container_name: wcstore_cdn
+    build:
+      context: backend
+      dockerfile: delivery-service/infrastructure/docker/Lockerfile
+    volumes:
+    #   - ./backend:/code
+    #   - ./backend/.m2:/code/.m2
+      - ./workspace:/workspace
+    env_file:
+      - .env
+    # environment:
+    #   MAVEN_CONFIG: /code/.m2
+    # working_dir: /code
+    # user: "1000"    # id of your local development user
+    # command:
+    #   - |
+    #     mvn install -Duser.home=/code
+    #     cd delivery-service
+    #     mvn spring-boot:run -B -Dspring-boot.run.profiles=dev -Duser.home=/code
+    depends_on:
+      - postgres
+    ports:
+      - "${CDN_SERVER_PORT}:${CDN_SERVER_PORT}"
+    tty: true
 
-#   postgres:
-#     container_name: wcstore_postgres
-#     image: postgres:13
-#     ports:
-#       - "5555:5432"
-#     environment:
-#       POSTGRES_USER: wcs
-#       POSTGRES_PASSWORD: wcs
-#       POSTGRES_DB: wcs
-#     volumes:
-#       - wcs_pgdata:/var/lib/postgresql/data
+  postgres:
+    container_name: wcstore_postgres
+    image: postgres:13
+    ports:
+      - "5555:5432"
+    environment:
+      POSTGRES_USER: wcs
+      POSTGRES_PASSWORD: wcs
+      POSTGRES_DB: wcs
+    volumes:
+      - wcs_pgdata:/var/lib/postgresql/data
 
 #   # Testing mail forms
 #   # mailhog:
@@ -89,5 +86,5 @@ services:
 #   #     - "1025:1025" #SMTP port
 #   #     - "8025:8025" #Web frontend
 
-# volumes:
-#   wcs_pgdata:
+volumes:
+  wcs_pgdata:
