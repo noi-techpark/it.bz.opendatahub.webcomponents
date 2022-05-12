@@ -1,6 +1,7 @@
 version: "3.4"
 services:
   frontend:
+    container_name: wcstore_frontend
     build:
       context: ./frontend
       dockerfile: docker/dockerfile-node-local
@@ -19,26 +20,26 @@ services:
     tty: true
 
   api:
-      container_name: wcstore_api
-      build:
-        context: backend
-        dockerfile: data-service/infrastructure/docker/Lockerfile
-      volumes:
-      #   - ./:/code
-      #   - ./.m2:/code/.m2
-        - ./workspace:/workspace
-      env_file:
-        - .env
-      # environment:
-      #   MAVEN_CONFIG: /code/.m2
-      # working_dir: /code
-      # user: "1000"    # id of your local development user
-          
-      depends_on:
-        - postgres
-      ports:
-        - "${API_SERVER_PORT}:${API_SERVER_PORT}"
-      tty: true
+    container_name: wcstore_api
+    build:
+      context: backend
+      dockerfile: data-service/infrastructure/docker/Lockerfile
+    volumes:
+    #   - ./:/code
+    #   - ./.m2:/code/.m2
+      - ./workspace:/workspace
+    env_file:
+      - .env
+    # environment:
+    #   MAVEN_CONFIG: /code/.m2
+    # working_dir: /code
+    # user: "1000"    # id of your local development user
+        
+    depends_on:
+      - postgres
+    ports:
+      - "5001:5001"
+    tty: true
 
   cdn:
     container_name: wcstore_cdn
@@ -78,13 +79,14 @@ services:
     volumes:
       - wcs_pgdata:/var/lib/postgresql/data
 
-#   # Testing mail forms
-#   # mailhog:
-#   #   container_name: wcstore_mail
-#   #   image: mailhog/mailhog
-#   #   ports:
-#   #     - "1025:1025" #SMTP port
-#   #     - "8025:8025" #Web frontend
-
+  wcstore-cli:
+    container_name: wcstore-cli
+    build:
+      context: webcompstore-cli
+      dockerfile: Dockerfile
+    # command: ["./wait-for","-s", "-t","10", "api:5001", "--", "python", "webcompstore-cli.py"]
+    command: ./wait-for -t 0 api:5001 -- python webcompstore-cli.py
+    depends_on:
+      - api
 volumes:
   wcs_pgdata:

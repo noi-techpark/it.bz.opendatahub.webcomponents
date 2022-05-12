@@ -8,3 +8,4 @@ application-testserver.properties
 /logs/
 docker-compose-local.yml
 webcompstore-cli/py-env
+workspace/

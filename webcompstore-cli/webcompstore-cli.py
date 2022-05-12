@@ -1,4 +1,5 @@
 import argparse
+from time import sleep
 import requests
 import json
 import base64
@@ -236,6 +237,14 @@ if __name__ == '__main__':
         '--version', help="Output version information and exits.", action="store_true")
 
     args = parser.parse_args()
+
+    testurl = "http://api:5001/webcomponent?pageNumber=0&pageSize=20&latest=false"
+
+    response = requests.get(testurl)
+    print("Status Code TESSTTTT", response.status_code)
+    if response.status_code != 200:
+        print("Error message", response.text)
+        exit(4)
 
     if(args.version):
         print(f"webcompstore-cli version {VERSION}")
