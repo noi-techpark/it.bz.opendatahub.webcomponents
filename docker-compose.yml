@@ -38,7 +38,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "5001:5001"
+      - "${API_SERVER_PORT}:${API_SERVER_PORT}"
     tty: true
 
   cdn:
@@ -76,17 +76,20 @@ services:
       POSTGRES_USER: wcs
       POSTGRES_PASSWORD: wcs
       POSTGRES_DB: wcs
-    volumes:
-      - wcs_pgdata:/var/lib/postgresql/data
+    # volumes:
+    #   - wcs_pgdata:/var/lib/postgresql/data
 
   wcstore-cli:
     container_name: wcstore-cli
     build:
       context: webcompstore-cli
       dockerfile: Dockerfile
+    env_file: .env
     # command: ["./wait-for","-s", "-t","10", "api:5001", "--", "python", "webcompstore-cli.py"]
-    command: ./wait-for -t 0 api:5001 -- python webcompstore-cli.py
+    command: ./wait-for -t 0 api:5001 -- python webcompstore-cli.py --push ${WC_VERSION}
     depends_on:
       - api
-volumes:
-  wcs_pgdata:
+    volumes:
+      - ${WC_PATH}:${WC_PATH}
+# volumes:
+#   wcs_pgdata:

@@ -10,8 +10,14 @@ from keycloak import KeycloakOpenID
 
 VERSION = 0.1
 
-API_URL_TEST = os.getenv("API_URL_TEST")
+API_URL_TEST = os.getenv("API_URL_TEST", "http://api:5001")
 API_URL_PROD = os.getenv("API_URL_PROD")
+
+WC_PATH = os.getenv("WC_PATH", "./")
+WC_PATH = os.getenv("WC_PATH", "./")
+
+print("WC_PATH: " + WC_PATH)
+
 
 KEYCLOAK_URL_TEST = os.getenv("KEYCLOAK_URL_TEST")
 KEYCLOAK_REALM_TEST = os.getenv("KEYCLOAK_REALM_TEST")
@@ -44,12 +50,12 @@ def get_token():
 
 
 def get_file_as_base64(file_path):
-    with open(file_path, "rb") as file:
+    with open(WC_PATH + file_path, "rb") as file:
         return base64.b64encode(file.read()).decode('utf-8')
 
 
 def get_file_as_json(file_path):
-    with open(file_path, 'r') as file:
+    with open(WC_PATH + file_path, 'r') as file:
         data = file.read()
     return json.loads(data)
 
@@ -237,14 +243,6 @@ if __name__ == '__main__':
         '--version', help="Output version information and exits.", action="store_true")
 
     args = parser.parse_args()
-
-    testurl = "http://api:5001/webcomponent?pageNumber=0&pageSize=20&latest=false"
-
-    response = requests.get(testurl)
-    print("Status Code TESSTTTT", response.status_code)
-    if response.status_code != 200:
-        print("Error message", response.text)
-        exit(4)
 
     if(args.version):
         print(f"webcompstore-cli version {VERSION}")
