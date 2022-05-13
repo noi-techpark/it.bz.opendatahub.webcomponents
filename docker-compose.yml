@@ -16,7 +16,7 @@ services:
         - api
         - cdn
     ports:
-      - "8999:3000"
+      - "${FRONTEND_PORT}:3000"
     tty: true
 
   api:
