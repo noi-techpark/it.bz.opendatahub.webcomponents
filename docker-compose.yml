@@ -10,8 +10,6 @@ services:
     working_dir: /code
     env_file: .env
     command: sh -c "test -d node_modules || yarn; yarn dev"
-    environment:
-      HOST: 0.0.0.0   # Make all IP addresses available to the outside
     depends_on:
         - api
         - cdn
@@ -23,17 +21,11 @@ services:
     container_name: wcstore_api
     build:
       context: backend
-      dockerfile: data-service/infrastructure/docker/Lockerfile
+      dockerfile: data-service/infrastructure/docker/Dockerfile-local
     volumes:
-    #   - ./:/code
-    #   - ./.m2:/code/.m2
       - ./workspace:/workspace
     env_file:
       - .env
-    # environment:
-    #   MAVEN_CONFIG: /code/.m2
-    # working_dir: /code
-    # user: "1000"    # id of your local development user
         
     depends_on:
       - postgres
@@ -45,22 +37,11 @@ services:
     container_name: wcstore_cdn
     build:
       context: backend
-      dockerfile: delivery-service/infrastructure/docker/Lockerfile
+      dockerfile: delivery-service/infrastructure/docker/Dockerfile-local
     volumes:
-    #   - ./backend:/code
-    #   - ./backend/.m2:/code/.m2
       - ./workspace:/workspace
     env_file:
       - .env
-    # environment:
-    #   MAVEN_CONFIG: /code/.m2
-    # working_dir: /code
-    # user: "1000"    # id of your local development user
-    # command:
-    #   - |
-    #     mvn install -Duser.home=/code
-    #     cd delivery-service
-    #     mvn spring-boot:run -B -Dspring-boot.run.profiles=dev -Duser.home=/code
     depends_on:
       - postgres
     ports:
@@ -76,8 +57,6 @@ services:
       POSTGRES_USER: wcs
       POSTGRES_PASSWORD: wcs
       POSTGRES_DB: wcs
-    # volumes:
-    #   - wcs_pgdata:/var/lib/postgresql/data
 
   wcstore-cli:
     container_name: wcstore-cli
@@ -85,11 +64,8 @@ services:
       context: webcompstore-cli
       dockerfile: Dockerfile
     env_file: .env
-    # command: ["./wait-for","-s", "-t","10", "api:5001", "--", "python", "webcompstore-cli.py"]
     command: ./wait-for -t 0 api:5001 -- python webcompstore-cli.py --push ${WC_VERSION}
     depends_on:
       - api
     volumes:
       - ${WC_PATH}:${WC_PATH}
-# volumes:
-#   wcs_pgdata:
