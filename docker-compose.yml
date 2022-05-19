@@ -5,6 +5,8 @@ services:
     build:
       context: ./frontend
       dockerfile: docker/dockerfile-node-local
+    environment:
+      HOST: 0.0.0.0 
     volumes:
       - ./frontend/:/code
     working_dir: /code
