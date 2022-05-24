@@ -17,6 +17,7 @@ jobs:
         uses: noi-techpark/github-actions/docker-build@v2
         with:
           docker-compose-file: docker-compose.yml
+          working-directory: ./
 
 
   deploy-test-wcstore-docker:
