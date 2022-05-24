@@ -1,5 +1,4 @@
 import argparse
-from time import sleep
 import requests
 import json
 import base64
@@ -27,7 +26,7 @@ KEYCLOAK_URL_PROD = os.getenv("KEYCLOAK_URL_PROD")
 KEYCLOAK_REALM_PROD = os.getenv("KEYCLOAK_REALM_PROD")
 KEYCLOAK_CLIENT_ID_PROD = os.getenv("KEYCLOAK_CLIENT_ID_PROD")
 
-KEYCLOAK_CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET")
+KEYCLOAK_CLIENT_SECRET = os.getenv("KEYCLOAK_CLIENT_SECRET", None)
 
 # use --production or set env variable PRODUCTION to true, to push to production store
 PRODUCTION = os.getenv("PRODUCTION")

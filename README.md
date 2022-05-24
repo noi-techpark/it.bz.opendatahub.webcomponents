@@ -28,9 +28,15 @@ To start it follow these steps:
 - Adjust .env with your values for WC_PATH (the absolute path of you webcomponent)
 - Adjust ports in .env if they have conflicts with services already running on your machine
 - `docker-compose up -d`
-- Wait until the containers are running
-- Access the store on `localhost:8999` (or the port you defined)
+- Wait until the containers are running. You can check the current state with  
+  `docker-compose logs --tail 400 -f`  
+  (or simply wait until your computer fan gets silent again ;-) )
+- Access the store on `localhost:8999` (or the port you defined) and you'll see your webcomponent
 
-To stop everything:
+To publish a new version of your webcomponent:
+- Increase version number WC_VERSION in your .env file
+- `docker-compose up wcstore-cli` 
+
+To stop and delete everything:
 - `docker-compose stop`
-- `rm -f workspace` (in case you want to delete your test)
+- in case you want to delete your test do `[sudo] rm -f workspace` and `docker-compose rm -f -v`
