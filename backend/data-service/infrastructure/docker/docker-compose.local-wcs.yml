@@ -6,5 +6,5 @@ services:
     # env_file:
     #   - ../../../../.env
     build:
-      context: ../../
-      dockerfile: infrastructure/docker/Dockerfile-local-wcs
+      context: ../../../
+      dockerfile: data-service/infrastructure/docker/Dockerfile-local-wcs

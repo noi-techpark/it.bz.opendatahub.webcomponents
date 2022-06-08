@@ -66,7 +66,7 @@ jobs:
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./frontend/infrastructure/docker
+          working-directory: frontend/infrastructure/docker
           docker-compose-file: docker-compose.local-wcs.yml
 
   build-cli:
