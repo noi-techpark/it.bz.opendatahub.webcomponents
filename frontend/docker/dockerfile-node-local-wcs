@@ -1,4 +1,6 @@
 FROM node:14
 
 COPY . .
-RUN yarn && yarn dev
+RUN yarn
+CMD ["yarn", "dev"]
+
