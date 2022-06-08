@@ -4,25 +4,11 @@ on:
   push:
   pull_request:
 
-env:
-  PROJECT_NAME: odh-webcompstore-docker
-
 
 jobs:
-  test:
-    runs-on: ubuntu-20.04        
-    steps:
-      - uses: actions/checkout@v2
-      - name: Test backend
-        uses: noi-techpark/github-actions/docker-build@v2
-        with:
-          docker-compose-file: docker-compose.yml
-          working-directory: ./
-
   build-api:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
-    needs: test
     concurrency: build-api
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-api
@@ -44,7 +30,6 @@ jobs:
   build-cdn:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
-    needs: test
     concurrency: build-cdn
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-cdn
@@ -66,7 +51,6 @@ jobs:
   build-frontend:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
-    needs: test
     concurrency: build-frontend
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-frontend
