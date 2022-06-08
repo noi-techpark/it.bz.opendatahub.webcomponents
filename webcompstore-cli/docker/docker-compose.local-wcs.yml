@@ -6,5 +6,5 @@ services:
     # env_file:
     #   - ../../../../.env
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../
+      dockerfile: docker/Dockerfile
