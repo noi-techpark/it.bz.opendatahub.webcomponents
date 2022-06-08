@@ -72,7 +72,6 @@ jobs:
   build-cli:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
-    needs: test
     concurrency: build-cli
     env:
       DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-cli
