@@ -4,7 +4,7 @@ services:
     image: ${DOCKER_IMAGE}:${DOCKER_TAG}
     build:
       context: .
-      dockerfile: docker/dockerfile-node-local-wcs
+      dockerfile: dockerfile-node-local-wcs
     environment:
       HOST: 0.0.0.0
     volumes:
