@@ -1,6 +1,6 @@
 FROM node:14-alpine
 
-COPY . .
-RUN yarn
-CMD ["yarn", "dev"]
+COPY . code
+RUN cd code && yarn
+CMD ["cd", "code", "&&", "yarn", "dev"]
 
