@@ -19,14 +19,13 @@ jobs:
           docker-compose-file: docker-compose.yml
           working-directory: ./
 
-
-  deploy-test-wcstore-docker:
+  build-api:
     runs-on: ubuntu-20.04
     if: github.ref == 'refs/heads/main'
     needs: test
-    concurrency: deploy-test-wcstore-docker
+    concurrency: build-api
     env:
-      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-webcompstore-docker-test
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-api
       DOCKER_TAG: ${{ github.sha }}
       DOCKER_TAG_LATEST: latest
 
@@ -39,16 +38,16 @@ jobs:
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./
-          docker-compose-file: docker-compose.yml
+          working-directory: ./backend/data-service/infrastructure/docker
+          docker-compose-file: docker-compose.local-wcs.yml
 
-  deploy-prod-wcstore-docker:
+  build-cdn:
     runs-on: ubuntu-20.04
-    if: github.ref == 'refs/heads/prod'
+    if: github.ref == 'refs/heads/main'
     needs: test
-    concurrency: deploy-prod-wcstore-docker
+    concurrency: build-cdn
     env:
-      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-webcompstore-docker
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-cdn
       DOCKER_TAG: ${{ github.sha }}
       DOCKER_TAG_LATEST: latest
 
@@ -61,5 +60,49 @@ jobs:
         with:
           docker-username: ${{ github.actor }}
           docker-password: ${{ secrets.GITHUB_TOKEN }}
-          working-directory: ./
-          docker-compose-file: docker-compose.yml
+          working-directory: ./backend/delivery-service/infrastructure/docker
+          docker-compose-file: docker-compose.local-wcs.yml
+
+  build-frontend:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    concurrency: build-frontend
+    env:
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-frontend
+      DOCKER_TAG: ${{ github.sha }}
+      DOCKER_TAG_LATEST: latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./frontend/infrastructure/docker
+          docker-compose-file: docker-compose.local-wcs.yml
+
+  build-cli:
+    runs-on: ubuntu-20.04
+    if: github.ref == 'refs/heads/main'
+    needs: test
+    concurrency: build-cli
+    env:
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-local-wcs-cli
+      DOCKER_TAG: ${{ github.sha }}
+      DOCKER_TAG_LATEST: latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
+        with:
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          working-directory: ./webcompstore-cli/docker
+          docker-compose-file: docker-compose.local-wcs.yml

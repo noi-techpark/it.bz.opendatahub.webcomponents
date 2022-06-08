@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+  wcs-cdn:
+    image: ${DOCKER_IMAGE}:${DOCKER_TAG}
+    env_file:
+      - ../../../../.env
+    build:
+      context: .
+      dockerfile: Dockerfile-local-wcs
