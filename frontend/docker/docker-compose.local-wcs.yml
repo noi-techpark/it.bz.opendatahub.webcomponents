@@ -9,4 +9,4 @@ services:
       HOST: 0.0.0.0
     volumes:
       - ./:/code
-    env_file: .../../.env
+    # env_file: .../../.env
