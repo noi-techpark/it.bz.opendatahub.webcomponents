@@ -14,6 +14,10 @@ API_URL_PROD = os.getenv("API_URL_PROD")
 
 WC_PATH = os.getenv("WC_PATH", "./")
 
+# check that WC_PATH terminates with /
+if WC_PATH[-1] != "/":
+    WC_PATH += "/"
+
 KEYCLOAK_URL_TEST = os.getenv("KEYCLOAK_URL_TEST")
 KEYCLOAK_REALM_TEST = os.getenv("KEYCLOAK_REALM_TEST")
 KEYCLOAK_CLIENT_ID_TEST = os.getenv("KEYCLOAK_CLIENT_ID_TEST")
