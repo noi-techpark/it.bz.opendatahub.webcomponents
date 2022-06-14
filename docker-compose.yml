@@ -4,7 +4,7 @@ services:
     container_name: wcstore_frontend
     build:
       context: ./frontend
-      dockerfile: docker/dockerfile-node-local
+      dockerfile: docker/dockerfile-node-local-wcs
     environment:
       HOST: 0.0.0.0 
     volumes:
@@ -23,7 +23,7 @@ services:
     container_name: wcstore_api
     build:
       context: backend
-      dockerfile: data-service/infrastructure/docker/Dockerfile-local
+      dockerfile: data-service/infrastructure/docker/Dockerfile-local-wcs
     volumes:
       - ./workspace:/workspace
     env_file:
@@ -39,7 +39,7 @@ services:
     container_name: wcstore_cdn
     build:
       context: backend
-      dockerfile: delivery-service/infrastructure/docker/Dockerfile-local
+      dockerfile: delivery-service/infrastructure/docker/Dockerfile-local-wcs
     volumes:
       - ./workspace:/workspace
     env_file:
@@ -66,7 +66,7 @@ services:
       context: webcompstore-cli
       dockerfile: Dockerfile
     env_file: .env
-    command: ./wait-for -t 0 api:5001 -- python webcompstore-cli.py --push ${WC_VERSION}
+    command: ./wait-for -t 0 api:${API_SERVER_PORT} -- python webcompstore-cli.py --push ${WC_VERSION}
     depends_on:
       - api
     volumes:
