@@ -7,14 +7,7 @@ services:
       dockerfile: docker/dockerfile-node-local-wcs
     environment:
       HOST: 0.0.0.0 
-    volumes:
-      - ./frontend/:/code
-    working_dir: /code
     env_file: .env
-    command: sh -c "test -d node_modules || yarn; yarn dev"
-    depends_on:
-        - api
-        - cdn
     ports:
       - "${FRONTEND_PORT}:3000"
     tty: true
@@ -28,7 +21,6 @@ services:
       - ./workspace:/workspace
     env_file:
       - .env
-        
     depends_on:
       - postgres
     ports:
@@ -64,9 +56,9 @@ services:
     container_name: wcstore-cli
     build:
       context: webcompstore-cli
-      dockerfile: Dockerfile
+      dockerfile: docker/Dockerfile
     env_file: .env
-    command: ./wait-for -t 0 api:${API_SERVER_PORT} -- python webcompstore-cli.py --push ${WC_VERSION}
+    command: ./wait-for -t 0 api:${API_SERVER_PORT} --  python webcompstore-cli.py --push ${WC_VERSION}
     depends_on:
       - api
     volumes:
