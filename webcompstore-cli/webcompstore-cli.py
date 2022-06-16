@@ -54,13 +54,17 @@ def get_file_as_base64(file_path):
             return base64.b64encode(file.read()).decode('utf-8')
     except IOError:
         print('Error while reading file: ' + file_path)
+        exit(6)
 
 
 def get_file_as_json(file_path):
-
-    with open(WC_PATH + file_path, 'r') as file:
-        data = file.read()
-    return json.loads(data)
+    try:
+        with open(WC_PATH + file_path, 'r') as file:
+            data = file.read()
+        return json.loads(data)
+    except IOError:
+        print('Error while reading file: ' + file_path)
+        exit(6)
 
 
 def lighthouse():
