@@ -3,14 +3,14 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker/dockerfile-node-local
+      dockerfile: docker/dockerfile-node
     volumes:
       - ./:/code
     working_dir: /code
-    env_file: ../.env
+    env_file: .env
     command: sh -c "test -d node_modules || yarn; yarn dev"
     environment:
-      HOST: 0.0.0.0   # Make all IP addresses available to the outside
+      HOST: 0.0.0.0 # Make all IP addresses available to the outside
     ports:
       - "8999:3000"
     tty: true
