@@ -12,6 +12,7 @@
       <nuxt />
     </main>
     <Footer />
+    <CookieBanner />
   </div>
 </template>
 
@@ -24,11 +25,13 @@ import Loading from 'vue-loading-overlay';
 
 import Header from './partials/header.vue';
 import Footer from './partials/footer.vue';
+import CookieBanner from './partials/cookie-banner.vue';
 
 export default Vue.extend({
   components: {
     Header,
     Footer,
+    CookieBanner,
     Loading: Loading as any,
   },
   computed: {
