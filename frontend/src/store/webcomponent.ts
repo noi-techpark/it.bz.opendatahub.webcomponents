@@ -32,8 +32,7 @@ export const getters: GetterTree<RootState, RootState> = {
     }
 
     return toTransport(
-      state.snippet,
-      state.configuration.configuration.tagName
+      state.snippet
     );
   },
   externalPreviewBaseUrl(state): string {
@@ -52,7 +51,7 @@ export const getters: GetterTree<RootState, RootState> = {
       '/' +
       state.versionTag +
       '?attribs=' +
-      toTransport(state.snippet, state.configuration.configuration.tagName)
+      toTransport(state.snippet)
     );
   },
 };
@@ -150,19 +149,25 @@ export const actions: ActionTree<RootState, RootState> = {
   },
 };
 
-function toTransport(snippet: string, tag: string): string {
-  // this regex brakes some webcomps like knowledge graph kg
-  // so imply using split for now
-  // const regex = new RegExp('<' + tag + ' .*<\\/' + tag + '>');
-  // const result = snippet.match(regex);
-
-  // removes script tag from snippet
-  const result = snippet.split('<script>')[0];
+function toTransport(snippet: string): string {
+  const result = stripScripts(snippet);
+  console.log(result);
 
   if (result) {
     return encodeURIComponent(btoa(result));
   }
   return '';
+}
+
+function stripScripts(s: string): string {
+  var div = document.createElement('div');
+  div.innerHTML = s;
+  var scripts = div.getElementsByTagName('script');
+  var i = scripts.length;
+  while (i--) {
+    scripts[i].parentNode.removeChild(scripts[i]);
+  }
+  return div.innerHTML;
 }
 
 function fromTransport(transport: string) {
