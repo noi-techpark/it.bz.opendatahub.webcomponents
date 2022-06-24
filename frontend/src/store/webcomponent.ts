@@ -25,7 +25,9 @@ export const getters: GetterTree<RootState, RootState> = {
     return null;
   },
   transportString(state): string {
+    console.log('transportString');
     if (!state.webcomponent || !state.configuration) {
+      console.log('transportString state error');
       return '';
     }
 
@@ -95,9 +97,9 @@ export const actions: ActionTree<RootState, RootState> = {
 
       fullReset = true;
 
-      let webcomponent = await $api.webcomponent.getOneById(uuid);
-      let latestVersion = {...webcomponent.versions[0]};
-      latestVersion.versionTag = "latest";
+      const webcomponent = await $api.webcomponent.getOneById(uuid);
+      const latestVersion = { ...webcomponent.versions[0] };
+      latestVersion.versionTag = 'latest';
       webcomponent.versions.unshift(latestVersion);
       commit('SET_WEBCOMPONENT', webcomponent);
     }
@@ -149,12 +151,16 @@ export const actions: ActionTree<RootState, RootState> = {
 };
 
 function toTransport(snippet: string, tag: string): string {
-  const regex = new RegExp('<' + tag + ' .*<\\/' + tag + '>');
+  // this regex brakes some webcomps like knowledge graph kg
+  // so imply using split for now
+  // const regex = new RegExp('<' + tag + ' .*<\\/' + tag + '>');
+  // const result = snippet.match(regex);
 
-  const result = snippet.match(regex);
+  // removes script tag from snippet
+  const result = snippet.split('<script>')[0];
 
   if (result) {
-    return encodeURIComponent(btoa(result[0]));
+    return encodeURIComponent(btoa(result));
   }
   return '';
 }
