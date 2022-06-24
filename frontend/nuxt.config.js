@@ -19,6 +19,23 @@ module.exports = {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: '/matomo/matomo-analytics.js',
+        type: 'text/plain',
+        "data-cookiecategory": "targeting"
+      },
+      {
+        src: '/cookieconsent/cookieconsent.js',
+        defer: true,
+        body: true
+      },
+      {
+        src: '/cookieconsent/cookieconsent-init.js',
+        defer: true,
+        body: true
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color
@@ -34,6 +51,7 @@ module.exports = {
     'prismjs/themes/prism.css',
     'vue-prism-editor/dist/prismeditor.min.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
+    '@/static/cookieconsent/cookieconsent.css'
   ],
 
   bootstrapVue: {
