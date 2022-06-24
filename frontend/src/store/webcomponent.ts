@@ -25,9 +25,7 @@ export const getters: GetterTree<RootState, RootState> = {
     return null;
   },
   transportString(state): string {
-    console.log('transportString');
     if (!state.webcomponent || !state.configuration) {
-      console.log('transportString state error');
       return '';
     }
 
@@ -118,7 +116,6 @@ export const actions: ActionTree<RootState, RootState> = {
 
     commit('SET_VERSION_TAG', selectedVersion);
 
-    console.log(oldVersion, selectedVersion);
     if (oldVersion !== selectedVersion) {
       fullReset = true;
     }
@@ -151,8 +148,6 @@ export const actions: ActionTree<RootState, RootState> = {
 
 function toTransport(snippet: string): string {
   const result = stripScripts(snippet);
-  console.log(result);
-
   if (result) {
     return encodeURIComponent(btoa(result));
   }
