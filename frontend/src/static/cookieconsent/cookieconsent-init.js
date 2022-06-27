@@ -21,9 +21,7 @@ cc.run({
 
     onFirstAction: function() {},
 
-    onAccept: function (cookie) {
-        if (cookie.categories[1] === "targeting") Vue.$ga.enable()
-    },
+    onAccept: function (cookie) {},
 
     onChange: function (cookie, changed_preferences) {},
 
