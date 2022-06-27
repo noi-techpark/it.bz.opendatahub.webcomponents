@@ -82,6 +82,39 @@ module.exports = {
       '@nuxtjs/google-analytics',
       {
         id: process.env.GOOGLE_ANALYTICS_ID,
+        disabled: () => {
+
+          
+          function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+              let c = ca[i];
+              while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+              }
+              if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+              }
+            }
+            return null;
+          }
+
+          return new Promise((resolve, reject) => {
+            const intervID = setInterval(() => {
+              const cookieString = getCookie("cc_cookie")
+              if (!cookieString) return;
+              const cookie = JSON.parse(cookieString)
+              clearInterval(intervID);
+              resolve(!(cookie.categories[1] === "targeting"))
+            }, 100)
+          });
+          
+
+          return true;
+
+        },
         debug: {
           enabled: process.env.GOOGLE_ANALYTICS_DEBUG || false,
           sendHitTask: process.env.GOOGLE_ANALYTICS_DEBUG || false,
