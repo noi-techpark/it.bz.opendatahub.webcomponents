@@ -21,17 +21,6 @@ module.exports = {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
-        src: 'https://www.googletagmanager.com/gtag/js?id=' + process.env.GOOGLE_ANALYTICS_ID,
-        async: true,
-        type: 'text/plain',
-        "data-cookiecategory": "targeting"
-      },
-      {
-        innerHTML: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', '${process.env.GOOGLE_ANALYTICS_ID}');`,
-        type: "text/plain",
-        "data-cookiecategory": "targeting"
-      },
-      {
         src: '/matomo/matomo-analytics.js',
         type: 'text/plain',
         "data-cookiecategory": "targeting"
