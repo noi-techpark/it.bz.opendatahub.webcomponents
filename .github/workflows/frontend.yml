@@ -49,8 +49,6 @@ jobs:
 
           X_API_BASE_URL: "https://api.webcomponents.opendatahub.testingmachine.eu"
           X_CDN_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu"
-          X_GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID_TEST }}
-          X_GOOGLE_ANALYTICS_DEBUG: false
 
           X_RECAPTCHA_PUBLIC_KEY: 6LeXMcoeAAAAAAmOczGetJyjKizTDqrDu1Km6LJK
         with:
@@ -98,8 +96,6 @@ jobs:
 
           X_API_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
           X_CDN_URL: "https://cdn.webcomponents.opendatahub.bz.it"
-          X_GOOGLE_ANALYTICS_ID: ${{ secrets.GOOGLE_ANALYTICS_ID_PROD }}
-          X_GOOGLE_ANALYTICS_DEBUG: false
 
           X_RECAPTCHA_PUBLIC_KEY: 6LeXMcoeAAAAAAmOczGetJyjKizTDqrDu1Km6LJK
         with:
