@@ -135,12 +135,12 @@ export default {
       let lineNumber = null;
 
       /* Firefox gives us the line number */
-      let match = /line ([0-9]+)/.exec(errorMsg);
+      let match = /line (\d+)/.exec(errorMsg);
       if (match) {
         lineNumber = match.length > 1 ? match[1] : match[0];
       } else {
         /* Other browsers just give a position in the JSON string */
-        match = /position ([0-9]+)/.exec(errorMsg);
+        match = /position (\d+)/.exec(errorMsg);
         if (match) {
           const position = match.length > 1 ? match[1] : match[0];
           const tmp = this.wcsManifest.substring(0, position);
@@ -171,14 +171,11 @@ export default {
           parentDataProperty,
           rootData
         ) {
-          if (
+          return (
             !!parentData.default &&
             !!parentData.values &&
             parentData.values.includes(parentData.default)
-          ) {
-            return true;
-          }
-          return false;
+          );
         },
         errors: true,
       });

@@ -248,6 +248,24 @@
 			"minimum": 1,
 			"default": []
 		},
+		"distScriptArray": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"file": {
+						"type": "string"
+					},
+					"parameter": {
+						"type": "string"
+					}
+				},
+				"required": ["file", "parameter"]
+			},
+			"uniqueItems": true,
+			"minimum": 1,
+			"default": []
+		},
 		"dist": {
 			"type": "object",
 			"properties": {
@@ -256,6 +274,9 @@
 				},
 				"files": {
 					"$ref": "#/definitions/stringArray"
+				},
+				"scripts": {
+					"$ref": "#/definitions/distScriptArray"
 				}
 			},
 			"required": ["basePath", "files"],
