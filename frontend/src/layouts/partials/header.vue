@@ -6,7 +6,7 @@
           <nuxt-link :to="localePath('index')">
             <img
               id="logo"
-              src="/logo-open-data-hub.png"
+              src="/logo-open-data-hub.svg"
               height="50px"
               style="max-width: 100%"
             />
@@ -110,3 +110,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+#logo {
+  margin-top: -7px;
+}
+</style>

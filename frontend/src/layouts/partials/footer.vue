@@ -41,24 +41,30 @@
     <div class="get-in-touch">
       <div class="p-1 p-md-5 text-center font-larger">
         <nuxt-link :to="localePath('/contact')"
-          ><h1 class="pt-5 text-uppercase footer-text">
+          ><h2 class="pt-5 text-uppercase footer-text">
             get in touch
-          </h1></nuxt-link
+          </h2></nuxt-link
         >
         <hr style="width: 50px; background-color: white" />
-        <h1 class="footer-text pb-5">
+        <h3 class="footer-text text pb-5">
           If you would like to become a member of the Open Data Hub Community as
           a Data Provider, Data Consumer, Web Component User or as a
           Contributer, you can meet us at our events, or get in touch with us
           through e-mail or contact form.
-        </h1>
+        </h3>
       </div>
     </div>
     <div class="bg-light" hidden>
       <div id="widget-tagcloud" class="container p-5 text-center">
         <h1>Categories</h1>
         <div
-          class="font-italic text-capitalize d-flex flex-wrap justify-content-center"
+          class="
+            font-italic
+            text-capitalize
+            d-flex
+            flex-wrap
+            justify-content-center
+          "
         >
           <nuxt-link
             v-for="tag in searchTags"
@@ -102,7 +108,16 @@ export default {
 }
 
 .get-in-touch {
-  background-color: $secondary;
+  background-color: #000;
+}
+
+.get-in-touch .pt-5 {
+  padding-top: 1rem !important;
+}
+
+.get-in-touch .pb-5 {
+  font-weight: normal !important;
+  padding-bottom: 1rem !important;
 }
 
 .footer-text {
