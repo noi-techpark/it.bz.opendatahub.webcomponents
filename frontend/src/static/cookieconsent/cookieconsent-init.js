@@ -72,7 +72,7 @@ cc.run({
                         }
                     }, {
                         title: 'More information',
-                        description: 'For any queries in relation to our policy on cookies and your choices, please contact us at help@opendatahub.com.',
+                        description: 'For any questions in relation to our policy on cookies and your choices, please contact us at help@opendatahub.com.',
                     }
                 ]
             }
