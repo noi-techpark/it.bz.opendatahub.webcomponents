@@ -140,5 +140,6 @@ module.exports = {
         exclude: /(node_modules)/,
       });
     },
+    babel: { compact: true },
   },
 };
