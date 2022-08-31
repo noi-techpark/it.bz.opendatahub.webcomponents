@@ -117,16 +117,18 @@
           </div>
           <div class="row">
             <div class="col-lg-5">
-              <vue-recaptcha
-                ref="recaptcha"
-                :sitekey="captchaSiteKey"
-                :load-recaptcha-script="true"
-                @verify="onVerify"
-                @expired="onTokenExpired"
-              ></vue-recaptcha>
+              <vue-hcaptcha
+                sitekey="588c5dd3-8bdd-4276-b708-d71be1915a3e"
+              ></vue-hcaptcha>
             </div>
             <div
-              class="col-lg-7 d-flex justify-content-end align-items-center pt-3 pt-lg-0"
+              class="
+                col-lg-7
+                d-flex
+                justify-content-end
+                align-items-center
+                pt-3 pt-lg-0
+              "
             >
               <b-button
                 type="reset"
@@ -138,7 +140,7 @@
                 type="submit"
                 variant="primary"
                 class="form-button"
-                :disabled="!recaptchaChecked"
+                :disabled="!verified"
                 >SUBMIT</b-button
               >
             </div>
@@ -200,12 +202,12 @@
 </template>
 <script lang="ts">
 import Vue from 'vue';
-import VueRecaptcha from 'vue-recaptcha';
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
 import { ContactFormRequest } from '../../domain/request/ContactFormRequest';
 
 export default Vue.extend({
   components: {
-    VueRecaptcha,
+    VueHcaptcha,
   },
   data() {
     return {
@@ -220,10 +222,13 @@ export default Vue.extend({
         'new webcomponent (idea)',
         'correction of data',
       ],
-      recaptchaChecked: false,
       showOverlay: false,
-      error: false,
       loading: false,
+      verified: false,
+      expired: false,
+      token: null,
+      eKey: null,
+      error: null,
     };
   },
   computed: {
@@ -232,19 +237,43 @@ export default Vue.extend({
     },
   },
   methods: {
-    onVerify(recaptchaToken: string): void {
-      if (recaptchaToken !== null) {
-        this.recaptchaChecked = true;
-      }
+    onVerify(token, ekey) {
+      this.verified = true;
+      this.token = token;
+      this.eKey = ekey;
+      console.log(`Callback token: ${token}, ekey: ${ekey}`);
     },
-    onTokenExpired(): void {
-      this.recaptchaChecked = false;
-      this.$refs.recaptcha.reset();
+    onExpire() {
+      this.verified = false;
+      this.token = null;
+      this.eKey = null;
+      this.expired = true;
+      console.log('Expired');
     },
+    onChallengeExpire() {
+      this.verified = false;
+      this.token = null;
+      this.eKey = null;
+      this.expired = true;
+      console.log(`Challenge expired`);
+    },
+    onError(err) {
+      this.token = null;
+      this.eKey = null;
+      this.error = err;
+      console.log(`Error: ${err}`);
+    },
+    // onSubmit() {
+    //   console.log(
+    //     'Submitting the invisible hCaptcha',
+    //     this.$refs.invisibleHcaptcha
+    //   );
+    //   this.$refs.invisibleHcaptcha.execute();
+    // },
     onSubmit(): void {
       this.error = false;
 
-      if (this.recaptchaChecked) {
+      if (this.verified) {
         this._sendForm();
       }
     },
@@ -274,7 +303,7 @@ export default Vue.extend({
         this.$refs.recaptcha.reset();
       }
 
-      this.recaptchaChecked = false;
+      this.verified = false;
       this.showOverlay = true;
       this.loading = false;
     },
