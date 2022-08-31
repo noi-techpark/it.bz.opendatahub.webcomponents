@@ -61,7 +61,7 @@
                   <b-form-input
                     id="input-lastname"
                     v-model="lastname"
-                    type="tel"
+                    type="text"
                     placeholder=""
                     required
                   ></b-form-input>
