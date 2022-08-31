@@ -114,7 +114,7 @@ module.exports = {
    */
   env: {
     API_LOCATION: process.env.API_BASE_URL || 'http://localhost:9030',
-    RECAPTCHA_PUBLIC_KEY: process.env.RECAPTCHA_PUBLIC_KEY || '',
+    HCAPTCHA_PUBLIC_KEY: process.env.HCAPTCHA_PUBLIC_KEY || '',
   },
 
   /*

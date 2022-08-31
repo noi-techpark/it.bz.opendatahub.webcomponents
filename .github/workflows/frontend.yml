@@ -50,7 +50,7 @@ jobs:
           X_API_BASE_URL: "https://api.webcomponents.opendatahub.testingmachine.eu"
           X_CDN_URL: "https://cdn.webcomponents.opendatahub.testingmachine.eu"
 
-          X_RECAPTCHA_PUBLIC_KEY: 6LeXMcoeAAAAAAmOczGetJyjKizTDqrDu1Km6LJK
+          X_HCAPTCHA_PUBLIC_KEY: 9f9020fc-605d-4f9a-b4d6-a80091e5abc8
         with:
           working-directory: frontend
 
@@ -97,7 +97,7 @@ jobs:
           X_API_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
           X_CDN_URL: "https://cdn.webcomponents.opendatahub.bz.it"
 
-          X_RECAPTCHA_PUBLIC_KEY: 6LeXMcoeAAAAAAmOczGetJyjKizTDqrDu1Km6LJK
+          X_HCAPTCHA_PUBLIC_KEY: 9f9020fc-605d-4f9a-b4d6-a80091e5abc8
         with:
           working-directory: frontend
 

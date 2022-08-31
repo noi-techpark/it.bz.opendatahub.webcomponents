@@ -3,27 +3,27 @@
 > FRONTEND
 
 - [ODH Webcomponents](#odh-webcomponents)
-  - [Source Code](#source-code)
-  - [Requirements](#requirements)
-  - [Configuration](#configuration)
-    - [Mode](#mode)
-    - [Configuration](#configuration-1)
-      - [ReCaptcha](#recaptcha)
-      - [API](#api)
-  - [Local Development with Docker](#local-development-with-docker)
-  - [Build Setup](#build-setup)
-  - [Adding pages](#adding-pages)
-  - [Deployment](#deployment)
-    - [Single Page Application](#single-page-application)
-    - [Universal Mode](#universal-mode)
-  - [Create new static content pages](#create-new-static-content-pages)
-  - [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
-  - [Create a new banner](#create-a-new-banner)
-  - [Information](#information)
-    - [Support](#support)
-    - [Contributing](#contributing)
-    - [Documentation](#documentation)
-    - [License](#license)
+	- [Source Code](#source-code)
+	- [Requirements](#requirements)
+	- [Configuration](#configuration)
+		- [Mode](#mode)
+		- [Configuration](#configuration-1)
+			- [hCaptcha](#hcaptcha)
+			- [API](#api)
+	- [Local Development with Docker](#local-development-with-docker)
+	- [Build Setup](#build-setup)
+	- [Adding pages](#adding-pages)
+	- [Deployment](#deployment)
+		- [Single Page Application](#single-page-application)
+		- [Universal Mode](#universal-mode)
+	- [Create new static content pages](#create-new-static-content-pages)
+	- [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
+	- [Create a new banner](#create-a-new-banner)
+	- [Information](#information)
+		- [Support](#support)
+		- [Contributing](#contributing)
+		- [Documentation](#documentation)
+		- [License](#license)
 
 ## Source Code
 
@@ -70,18 +70,16 @@ Spa mode (single-page-application) only requires node.js to build the project.
 This can be done through a `.env` file. Copy `.env.example` to `.env` and adjust
 the values as you like.
 
-#### ReCaptcha
+#### hCaptcha
 
-You must configure a ReCaptcha API key that is valid for the domain your
+You must configure a hCaptcha API key that is valid for the domain your
 frontend is exposed on. You can optain such a key here:
-https://www.google.com/recaptcha/admin/create
+https://www.hcaptcha.com/
 
-See [VUE reCaptcha module](https://www.npmjs.com/package/vue-recaptcha) for more
+See [VUE hCaptcha module](https://github.com/hCaptcha/vue-hcaptcha) for more
 details.
 
-IMPORTANT: Only captcha keys of Version2 are supported.
-
-Key inside `.env` is `RECAPTCHA_PUBLIC_KEY`.
+Key inside `.env` is `HCAPTCHA_PUBLIC_KEY`.
 
 #### API
 

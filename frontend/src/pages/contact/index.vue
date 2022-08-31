@@ -118,7 +118,7 @@
           <div class="row">
             <div class="col-lg-5">
               <vue-hcaptcha
-                sitekey="588c5dd3-8bdd-4276-b708-d71be1915a3e"
+                :sitekey="captchaSiteKey"
                 @verify="onVerify"
                 @expired="onExpire"
                 @challengeExpired="onChallengeExpire"
@@ -237,7 +237,7 @@ export default Vue.extend({
   },
   computed: {
     captchaSiteKey(): string {
-      return this.$env.RECAPTCHA_PUBLIC_KEY;
+      return this.$env.HCAPTCHA_PUBLIC_KEY;
     },
   },
   methods: {
@@ -245,40 +245,34 @@ export default Vue.extend({
       this.verified = true;
       this.token = token;
       this.eKey = ekey;
-      console.log(`Callback token: ${token}, ekey: ${ekey}`);
+      // console.log(`Callback token: ${token}, ekey: ${ekey}`);
     },
     onExpire() {
       this.verified = false;
       this.token = null;
       this.eKey = null;
       this.expired = true;
-      console.log('Expired');
+      // console.log('Expired');
     },
     onChallengeExpire() {
       this.verified = false;
       this.token = null;
       this.eKey = null;
       this.expired = true;
-      console.log(`Challenge expired`);
+      // console.log(`Challenge expired`);
     },
     onError(err) {
       this.token = null;
       this.eKey = null;
       this.error = err;
-      console.log(`Error: ${err}`);
+      // console.log(`Error: ${err}`);
     },
-    // onSubmit() {
-    //   console.log(
-    //     'Submitting the invisible hCaptcha',
-    //     this.$refs.invisibleHcaptcha
-    //   );
-    //   this.$refs.invisibleHcaptcha.execute();
-    // },
     onSubmit(): void {
       this.error = false;
 
       if (this.verified) {
         this._sendForm();
+        this.$refs.invisibleHcaptcha.execute();
       }
     },
     clickOverlay() {
@@ -304,7 +298,7 @@ export default Vue.extend({
 
       if (!this.error) {
         this.$refs.theForm.reset();
-        this.$refs.recaptcha.reset();
+        this.$refs.invisibleHcaptcha.execute();
       }
 
       this.verified = false;
