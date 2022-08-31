@@ -94,6 +94,7 @@ public class ContactFormController {
 
 		// Simple hack to see if valid. Check here for more info
 		// https://golb.hplar.ch/2020/05/hcaptcha.html
+		log.info("hCaptcha response: {}" , response);
 		return response != null && response.contains("\"success\":true\"");
 	}
 
