@@ -10,4 +10,6 @@ export interface ContactFormRequest {
   phone: string;
 
   text: string;
+
+  hCaptchaToken: string;
 }
