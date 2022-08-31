@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,7 +49,7 @@ public class ContactFormController {
 	@SneakyThrows
 	@PostMapping
 	public void sendContactForm(@RequestBody @Valid ContactFormRequest request) {
-		String hCaptchaToken = request.getHCaptchaToken();
+		String hCaptchaToken = request.getCaptchaToken();
 		log.info("Contact request received. Validating hCaptcha with token {}...", hCaptchaToken);
 
 		// hCaptchaSecretKey == null to pass tests, can't test hCaptcha token validation
@@ -115,6 +114,7 @@ public class ContactFormController {
 		@NotBlank
 		private String text;
 
-		private String hCaptchaToken;
+		@NotBlank
+		private String captchaToken;
 	}
 }

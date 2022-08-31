@@ -11,5 +11,5 @@ export interface ContactFormRequest {
 
   text: string;
 
-  hCaptchaToken: string;
+  captchaToken: string;
 }

@@ -290,8 +290,10 @@ export default Vue.extend({
         nameLast: this.lastname,
         phone: this.telephone,
         text: this.message,
-        hCaptchaToken: this.token,
+        captchaToken: this.token,
       };
+
+      console.log(request);
 
       await this.$api.contact.send(request, () => {
         this.error = true;
