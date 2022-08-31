@@ -50,7 +50,7 @@ public class ContactFormController {
 	@PostMapping
 	public void sendContactForm(@RequestBody @Valid ContactFormRequest request) {
 		String hCaptchaToken = request.getCaptchaToken();
-		log.info("Contact request received. Validating hCaptcha with token {}...", hCaptchaToken);
+		log.debug("Contact request received. Validating hCaptcha with token {}...", hCaptchaToken);
 
 		// hCaptchaSecretKey == null to pass tests, can't test hCaptcha token validation
 		// TODO replace with test keys
