@@ -119,6 +119,10 @@
             <div class="col-lg-5">
               <vue-hcaptcha
                 sitekey="588c5dd3-8bdd-4276-b708-d71be1915a3e"
+                @verify="onVerify"
+                @expired="onExpire"
+                @challengeExpired="onChallengeExpire"
+                @error="onError"
               ></vue-hcaptcha>
             </div>
             <div
