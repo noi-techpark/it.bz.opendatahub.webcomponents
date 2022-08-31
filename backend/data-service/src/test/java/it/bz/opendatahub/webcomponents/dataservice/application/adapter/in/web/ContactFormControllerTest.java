@@ -80,6 +80,7 @@ class ContactFormControllerTest {
 		request.setNameLast("theNameLast");
 		request.setText("theText");
 
+
 		contactFormController.sendContactForm(request);
 
 		Map<String, String> map = new ObjectMapper().convertValue(request, Map.class);
