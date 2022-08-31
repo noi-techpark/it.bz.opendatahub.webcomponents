@@ -50,11 +50,12 @@ public class ContactFormController {
 	@SneakyThrows
 	@PostMapping
 	public void sendContactForm(@RequestBody @Valid ContactFormRequest request) {
-		log.info("Contact request received. Validating hCaptcha...");
 		String hCaptchaToken = request.getHCaptchaToken();
+		log.info("Contact request received. Validating hCaptcha with token {}...", hCaptchaToken);
 
 		// hCaptchaSecretKey == null to pass tests, can't test hCaptcha token validation
-		// TODO replace with test keys https://docs.hcaptcha.com/#integration-testing-test-keys
+		// TODO replace with test keys
+		// https://docs.hcaptcha.com/#integration-testing-test-keys
 		if (hCaptchaSecretKey == null || hCpatchaTokenValidation(hCaptchaToken)) {
 			val requestAsText = "Category: " + nullToEmpty(request.getCategory()) + "\n" +
 					"First name: " + nullToEmpty(request.getNameFirst()) + "\n" +
@@ -86,15 +87,13 @@ public class ContactFormController {
 		map.add("response", hCaptchaToken);
 		map.add("secret", this.hCaptchaSecretKey);
 
-
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
 
-
-		String response = restTemplate.postForObject("https://hcaptcha.com/siteverify",request, String.class);
+		String response = restTemplate.postForObject("https://hcaptcha.com/siteverify", request, String.class);
 
 		// Simple hack to see if valid. Check here for more info
 		// https://golb.hplar.ch/2020/05/hcaptcha.html
-		log.info("hCaptcha response: {}" , response);
+		log.info("hCaptcha response: {}", response);
 		return response != null && response.contains("\"success\":true\"");
 	}
 
