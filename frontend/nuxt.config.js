@@ -18,7 +18,10 @@ module.exports = {
         content: 'ODH Webcomponents',
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.css' }
+    ],
     script: [
       {
         src: '/matomo/matomo-analytics.js',
@@ -26,12 +29,12 @@ module.exports = {
         "data-cookiecategory": "targeting"
       },
       {
-        src: '/cookieconsent/cookieconsent.js',
+        src: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.js',
         defer: true,
         body: true
       },
       {
-        src: '/cookieconsent/cookieconsent-init.js',
+        src: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent-init.js',
         defer: true,
         body: true
       }
@@ -51,9 +54,7 @@ module.exports = {
     'prismjs/themes/prism.css',
     'vue-prism-editor/dist/prismeditor.min.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
-    '@/static/cookieconsent/cookieconsent.css'
   ],
-
   bootstrapVue: {
     bootstrapCSS: false,
     bootstrapVueCSS: false,

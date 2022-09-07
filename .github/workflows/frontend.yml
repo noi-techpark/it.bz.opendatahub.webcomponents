@@ -85,6 +85,7 @@ jobs:
     env:
       AWS_S3_BUCKET_NAME : 'webcompstore-prod'
       AWS_REGION : "eu-west-1"
+      SCRIPTS_HOST: 'https://scripts.opendatahub.com'
 
     steps:
       - name: Checkout source code
@@ -107,6 +108,9 @@ jobs:
           node-version: '14.x'
           cache: 'yarn'
           cache-dependency-path: frontend/yarn.lock
+
+      - name: Change scripts host to prod
+        run: sed -i -e "s%https://scripts.opendatahub.testingmachine.eu%${{env.SCRIPTS_HOST}}%g" frontend/nuxt.config.js
 
       - name: Build 
         run: |
