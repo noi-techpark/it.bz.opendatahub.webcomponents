@@ -7,7 +7,14 @@
     >
       <div class="row">
         <div
-          class="col-lg-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-0"
+          class="
+            col-lg-8
+            d-flex
+            justify-content-between
+            flex-column flex-sm-row
+            w-100
+            pl-0
+          "
         >
           <div
             style="margin-right: 35px; min-width: 70px; min-height: 35px"
@@ -87,6 +94,50 @@
               >
             </div>
           </div>
+          <div>
+            Contact us at
+            <a href="mailto:help@opendatahub.com">help@opendatahub.com</a>
+          </div>
+          <div
+            v-if="
+              component.copyrightHolders &&
+              component.copyrightHolders.length > 0
+            "
+            class="d-table-row"
+          >
+            <div class="d-table-cell pr-2">Copyright holder:</div>
+            <div class="d-table-cell font-weight-bold">
+              <span
+                v-if="!detailedCopyright"
+                class="cursor-pointer text-underline"
+                @click="detailedCopyright = true"
+                >{{ copyrightHolders }}</span
+              >
+              <div v-else>
+                <div
+                  v-for="author in component.copyrightHolders"
+                  :key="'c::' + author"
+                >
+                  <div>
+                    {{ author.name }}
+                    <span v-if="author.email" class="font-weight-normal">{{
+                      author.email
+                    }}</span>
+                  </div>
+                  <div>
+                    {{ author.organization }}
+                    <a
+                      v-if="author.organizationUrl"
+                      :href="author.organizationUrl"
+                      target="_blank"
+                      class="font-weight-normal"
+                      >{{ author.organizationUrl }}</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="d-table w-100 mr-2 ml-2 m-sm-0">
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Author:</div>
@@ -122,46 +173,7 @@
                 </div>
               </div>
             </div>
-            <div
-              v-if="
-                component.copyrightHolders &&
-                component.copyrightHolders.length > 0
-              "
-              class="d-table-row"
-            >
-              <div class="d-table-cell pr-2">Copyright holder:</div>
-              <div class="d-table-cell font-weight-bold">
-                <span
-                  v-if="!detailedCopyright"
-                  class="cursor-pointer text-underline"
-                  @click="detailedCopyright = true"
-                  >{{ copyrightHolders }}</span
-                >
-                <div v-else>
-                  <div
-                    v-for="author in component.copyrightHolders"
-                    :key="'c::' + author"
-                  >
-                    <div>
-                      {{ author.name }}
-                      <span v-if="author.email" class="font-weight-normal">{{
-                        author.email
-                      }}</span>
-                    </div>
-                    <div>
-                      {{ author.organization }}
-                      <a
-                        v-if="author.organizationUrl"
-                        :href="author.organizationUrl"
-                        target="_blank"
-                        class="font-weight-normal"
-                        >{{ author.organizationUrl }}</a
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+
             <div class="d-table-row">
               <div class="d-table-cell pr-2">Category:</div>
               <div class="d-table-cell font-weight-bold text-capitalize">
@@ -223,7 +235,13 @@
       </div>
     </div>
     <div
-      class="container-fluid container-extended d-flex justify-content-center flex-row cursor-pointer"
+      class="
+        container-fluid container-extended
+        d-flex
+        justify-content-center
+        flex-row
+        cursor-pointer
+      "
       @click="toggleHeaderHeight"
     >
       <span v-if="!isHeaderExpanded" class="chevron bottom mr-2"></span>
@@ -231,7 +249,14 @@
     </div>
     <div class="container-fluid container-extended pl-4 pr-4">
       <div
-        class="col-md-8 d-flex justify-content-start flex-column flex-md-row w-100 p-0"
+        class="
+          col-md-8
+          d-flex
+          justify-content-start
+          flex-column flex-md-row
+          w-100
+          p-0
+        "
       >
         <div style="width: 105px"></div>
         <div class="d-flex flex-row tab-buttons">

@@ -14,7 +14,7 @@
         <div class="font-smaller">
           <div class="">
             ℗ 2021 Open Data Hub,
-            <a href="mailto:info@opendatahub.bz.it">info@opendatahub.bz.it</a>
+            <a href="mailto:info@opendatahub.com">info@opendatahub.com</a>
           </div>
           <a href="https://konverto.eu" target="_blank" class="text-muted"
             >web by KONVERTO</a

@@ -14,7 +14,7 @@
         <div class="">
           <div class="">
             &copy; {{ currentYear }} Open Data Hub,
-            <a href="mailto:info@opendatahub.bz.it">info@opendatahub.bz.it</a>
+            <a href="mailto:info@opendatahub.com">info@opendatahub.com</a>
           </div>
           <a
             href="https://konverto.eu"

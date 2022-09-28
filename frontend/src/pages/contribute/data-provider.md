@@ -1,6 +1,6 @@
 # Contribute as data provider
 
-To contribute as a Data Provider you can simply [contact](mailto:help@opendatahub.bz.it) us and we will work out whether and how your data can be included in the Open Data Hub.
+To contribute as a Data Provider you can simply [contact](mailto:help@opendatahub.com) us and we will work out whether and how your data can be included in the Open Data Hub.
 As a data provider, you can expect the following advantages:
 
 * Visibility of your data
@@ -13,4 +13,4 @@ As a data provider, you can expect the following advantages:
 * Ticket queue for handling customer requests and problems
 * Error monitoring and escalation
 
-To contribute as a Data provider, feel free to send us a contact request at [contact](mailto:help@opendatahub.bz.it).
+To contribute as a Data provider, feel free to send us a contact request at [contact](mailto:help@opendatahub.com).

@@ -15,8 +15,8 @@
           repository links and drop a comment their, or write us an e-mail.
         </p>
         <p>
-          <a class="text-secondary" href="mailto:help@opendatahub.bz.it"
-            >help@opendatahub.bz.it</a
+          <a class="text-secondary" href="mailto:help@opendatahub.com"
+            >help@opendatahub.com</a
           >
         </p>
       </div>
