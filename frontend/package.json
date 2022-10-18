@@ -29,7 +29,7 @@
 		"bootstrap": "^4.6.0",
 		"bootstrap-vue": "^2.21.2",
 		"i": "^0.3.6",
-		"npm": "^7.11.1",
+		"npm": "^8.11.0",
 		"nuxt": "^2.15.4",
 		"nuxt-i18n": "^6.23.0",
 		"odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v1.1.0",
