@@ -2,7 +2,16 @@
   <sidebar :is-panel-open="menuActive" @toggle-menu="toggleMenu">
     <div class="side-bar-container d-flex flex-column align-items-end h-100">
       <div
-        class="d-flex justify-content-end align-items-center container-fluid container-extended pt-4 pb-2 pl-4 pr-4"
+        class="
+          d-flex
+          justify-content-end
+          align-items-center
+          container-fluid container-extended
+          pt-4
+          pb-2
+          pl-4
+          pr-4
+        "
         style="min-height: 50px"
       >
         <div

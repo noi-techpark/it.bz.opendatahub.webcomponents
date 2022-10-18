@@ -2,7 +2,6 @@ $black: #000 !default;
 $gray-88: #888 !default;
 $gray-94: #949494 !default;
 $white: #fff !default;
-
 $primary: #2e3131 !default;
 $secondary: #50742F !default;
 //$success:       #33CC99 !default;
@@ -11,13 +10,12 @@ $secondary: #50742F !default;
 //$danger:        $red !default;
 $light: #e8ecf1 !default;
 $dark: $gray-88 !default;
-
 $body-bg: $white;
 $body-color: $primary;
 $link-color: $gray-88;
-
-$font-family-base: 'Source Sans Pro', arial, sans-serif;
+$font-family-base: 'Open Sans',
+arial,
+sans-serif;
 $font-size-base: 0.9rem;
-
 $enable-shadows: true;
 $enable-gradients: true;

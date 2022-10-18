@@ -1,6 +1,25 @@
 <template>
   <div>
     <!--    <banner></banner>-->
+    <div class="container pt-4">
+      <div class="title">
+        <h1>Web Components</h1>
+        Here you can find already developed Web Components with data from the
+        Open Data Hub, <strong>available and ready to be used.</strong> Filter
+        by category and find the Web Components you need for your website or
+        application, in the fields of tourism, weather, mobility and many more.
+      </div>
+      <iframe
+        class="title-video"
+        src="https://player.vimeo.com/video/734000845?h=2099fddb82"
+        width="480"
+        height="270"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+    </div>
+
     <Searchbar
       :search-term="searchTerm"
       :selected-tags="getSearchTags"

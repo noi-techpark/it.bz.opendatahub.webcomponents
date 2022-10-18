@@ -1,105 +1,88 @@
 .btn-circle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 70px;
-	width: 70px;
-	border-radius: 50%;
-	border: 2px solid $gray-88;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-
-	&.filled {
-		background-color: $gray-88;
-		border: unset;
-	}
-
-	&.filled-dark {
-		background-color: $body-color;
-		border: unset;
-	}
-
-	&.outline {
-		border: 2px solid $body-color;
-
-		svg .st0 {
-			fill: $body-color;
-		}
-	}
-
-	&.disabled {
-		border: 2px solid $gray-94;
-		cursor: unset;
-
-		svg .st0 {
-			fill: $gray-94;
-		}
-	}
-
-	img,
-	svg {
-		width: 30px;
-		height: 30px;
-	}
-
-	&.arrow-up img,
-	&.arrow-up svg {
-		transform: rotate(90deg);
-	}
-
-	&.arrow-down img,
-	&.arrow-down svg {
-		transform: rotate(-90deg);
-	}
-
-	&.arrow-right img,
-	&.arrow-right svg {
-		transform: rotate(180deg);
-	}
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 70px;
+    width: 70px;
+    border-radius: 50%;
+    border: 2px solid $gray-88;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    &.filled {
+        background-color: $gray-88;
+        border: unset;
+    }
+    &.filled-dark {
+        background-color: $body-color;
+        border: unset;
+    }
+    &.outline {
+        border: 2px solid $body-color;
+        svg .st0 {
+            fill: $body-color;
+        }
+    }
+    &.disabled {
+        border: 2px solid $gray-94;
+        cursor: unset;
+        svg .st0 {
+            fill: $gray-94;
+        }
+    }
+    img,
+    svg {
+        width: 30px;
+        height: 30px;
+    }
+    &.arrow-up img,
+    &.arrow-up svg {
+        transform: rotate(90deg);
+    }
+    &.arrow-down img,
+    &.arrow-down svg {
+        transform: rotate(-90deg);
+    }
+    &.arrow-right img,
+    &.arrow-right svg {
+        transform: rotate(180deg);
+    }
 }
 
 @media (max-width: 576px) {
-	.btn-circle {
-		height: 35px !important;
-		width: 35px !important;
-
-		&.arrow-right {
-			svg {
-				transform: scale(0.6) rotate(180deg) !important;
-			}
-		}
-
-		&.arrow-left {
-			svg {
-				transform: scale(0.6) !important;
-			}
-		}
-	}
-
-	.btn-circle-footer {
-		position: fixed;
-		height: 70px;
-		width: 70px;
-		bottom: 20px;
-		right: 20px;
-		box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
-	}
-
-	.btn-circle-footer-detail {
-		bottom: 60px;
-	}
-
-	.return-button {
-		height: 35px;
-		width: 35px;
-	}
-
-	.return-icon {
-		transform: scale(0.6) !important;
-	}
-
-	.return-icon-up {
-		transform: scale(0.6) rotate(90deg) !important;
-	}
+    .btn-circle {
+        height: 35px !important;
+        width: 35px !important;
+        &.arrow-right {
+            svg {
+                transform: scale(0.6) rotate(180deg) !important;
+            }
+        }
+        &.arrow-left {
+            svg {
+                transform: scale(0.6) !important;
+            }
+        }
+    }
+    .btn-circle-footer {
+        position: fixed;
+        height: 70px;
+        width: 70px;
+        bottom: 20px;
+        right: 20px;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+    }
+    .btn-circle-footer-detail {
+        bottom: 60px;
+    }
+    .return-button {
+        height: 35px;
+        width: 35px;
+    }
+    .return-icon {
+        transform: scale(0.6) !important;
+    }
+    .return-icon-up {
+        transform: scale(0.6) rotate(90deg) !important;
+    }
 }

@@ -1657,19 +1657,34 @@
           <div class="bs-component">
             <ul class="list-group">
               <li
-                class="list-group-item d-flex justify-content-between align-items-center"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                "
               >
                 Cras justo odio
                 <span class="badge badge-primary badge-pill">14</span>
               </li>
               <li
-                class="list-group-item d-flex justify-content-between align-items-center"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                "
               >
                 Dapibus ac facilisis in
                 <span class="badge badge-primary badge-pill">2</span>
               </li>
               <li
-                class="list-group-item d-flex justify-content-between align-items-center"
+                class="
+                  list-group-item
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                "
               >
                 Morbi leo risus
                 <span class="badge badge-primary badge-pill">1</span>
@@ -1699,7 +1714,12 @@
             <div class="list-group">
               <a
                 href="#"
-                class="list-group-item list-group-item-action flex-column align-items-start active"
+                class="
+                  list-group-item list-group-item-action
+                  flex-column
+                  align-items-start
+                  active
+                "
               >
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">List group item heading</h5>
@@ -1713,7 +1733,11 @@
               </a>
               <a
                 href="#"
-                class="list-group-item list-group-item-action flex-column align-items-start"
+                class="
+                  list-group-item list-group-item-action
+                  flex-column
+                  align-items-start
+                "
               >
                 <div class="d-flex w-100 justify-content-between">
                   <h5 class="mb-1">List group item heading</h5>

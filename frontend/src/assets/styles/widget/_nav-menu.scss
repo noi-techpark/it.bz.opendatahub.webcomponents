@@ -1,66 +1,72 @@
 @import 'src/assets/styles/bootstrap/bootstrap.scss';
-
 @media (max-width: 576px) {
-	.nav-content {
-		padding: 16px;
-	}
-
-	#logo {
-		height: 40px;
-	}
+    .nav-content {
+        padding: 16px;
+    }
+    #logo {
+        height: 40px;
+    }
 }
+
 @media (max-width: 747px) {
-	.nav-bar {
-		display: none;
-	}
+    .nav-bar {
+        display: none;
+    }
 }
 
 @media (min-width: 747px) {
-	.mobile-only {
-		display: none;
-	}
+    .mobile-only {
+        display: none;
+    }
 }
 
 @media (max-width: 830px) {
-	.home-menu-item {
-		display: none;
-	}
+    .home-menu-item {
+        display: none;
+    }
 }
 
 @media (min-width: 576px) {
-	.nav-content {
-		padding: 5rem !important;
-	}
+    .nav-content {
+        padding: 5rem !important;
+    }
 }
 
 .nav-item {
-	font-size: 14px;
+    font-size: 18px;
 }
 
 .side-menu-item-closed {
-	margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 
 .side-menu-item-open {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .side-menu-item {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .side-menu-item:hover {
-	color: black;
+    color: black;
 }
 
 a:hover {
-	text-decoration: none !important;
+    text-decoration: none !important;
 }
 
 .nav-content {
-	width: 100%;
+    width: 100%;
 }
 
 .dropdown-toggle::after {
-	display: none;
+    display: none;
+}
+
+.side-nav {
+    top: 0;
+    right: 0;
+    right: auto;
+    padding-top: 60px;
 }
