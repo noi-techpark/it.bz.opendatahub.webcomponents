@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--    <banner></banner>-->
-    <div class="container pt-4">
+    <div id="title-container" class="container pt-4">
       <div class="title">
         <h1>Web Components</h1>
         Here you can find already developed Web Components with data from the

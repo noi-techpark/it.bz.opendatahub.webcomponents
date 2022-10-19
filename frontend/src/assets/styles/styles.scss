@@ -328,10 +328,13 @@ main {
     margin-top: 7.5px;
 }
 
+#title-container{
+    display: flex;
+}
+
 .title-video {
     margin-left: auto;
     max-width: 50%;
-    display: flex;
     margin-bottom: 50px;
 }
 
