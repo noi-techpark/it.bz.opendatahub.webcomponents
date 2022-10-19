@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container">
+    <div class="container title-container">
       <div class="title pt-2">
         <h1>How to</h1>
         Everything you need to know to
