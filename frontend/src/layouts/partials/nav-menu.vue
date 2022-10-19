@@ -24,107 +24,26 @@
         style="overflow: scroll"
       >
         <div class="nav-content">
-          <div class="side-menu-item-closed menu-link">
+          <div class="side-menu-item-closed menu-link font-weight-bold">
             <nuxt-link :to="localePath('index')" @click.native="toggleMenu"
-              >Home</nuxt-link
+              >Web Components</nuxt-link
             >
           </div>
-          <div
-            :class="[
-              contributeActive
-                ? 'side-menu-item-open'
-                : 'side-menu-item-closed',
-            ]"
-            class="mobile-only side-menu-item"
-            @click="contributeActive = !contributeActive"
-          >
-            <div class="d-flex justify-content-between menu-link pr-4">
-              Contribute
-              <span
-                :class="[contributeActive ? 'chevron top' : 'chevron bottom']"
-              ></span>
-            </div>
+          <div class="side-menu-item side-menu-item-closed menu-link">
+            <nuxt-link :to="localePath('how-to')" @click.native="toggleMenu"
+              >How to</nuxt-link
+            >
           </div>
-          <b-collapse
-            id="collapse-1"
-            v-model="contributeActive"
-            class="pb-3 mobile-only"
-          >
-            <div class="pl-4 side-menu-item menu-sub-link">
-              <nuxt-link
-                :to="localePath('/contribute/developer')"
-                @click.native="toggleMenu"
-                >...as web component developer</nuxt-link
-              >
-            </div>
-            <div class="pl-4 side-menu-item menu-sub-link">
-              <nuxt-link
-                :to="localePath('/contribute/data-provider')"
-                @click.native="toggleMenu"
-                >...as data provider</nuxt-link
-              >
-            </div>
-          </b-collapse>
-          <!--
-          <div
-            :class="[
-              makeUseActive ? 'side-menu-item-open' : 'side-menu-item-closed',
-            ]"
-            class="mobile-only side-menu-item"
-            @click="makeUseActive = !makeUseActive"
-          >
-            <div class="d-flex justify-content-between menu-link pr-4">
-              Make use
-              <span
-                :class="[makeUseActive ? 'chevron top' : 'chevron bottom']"
-              ></span>
-            </div>
+          <div class="side-menu-item side-menu-item-closed menu-link">
+            <nuxt-link :to="localePath('validator')" @click.native="toggleMenu"
+              >Validator</nuxt-link
+            >
           </div>
-          <b-collapse
-            id="collapse-2"
-            v-model="makeUseActive"
-            class="pb-3 mobile-only"
-          >
-            <div class="pl-4 side-menu-item menu-sub-link">
-              <nuxt-link
-                :to="localePath('/make-use/technically')"
-                @click.native="toggleMenu"
-                >...technically</nuxt-link
-              >
-            </div>
-            <div class="pl-4 side-menu-item menu-sub-link">
-              <nuxt-link
-                :to="localePath('/make-use/legally')"
-                @click.native="toggleMenu"
-                >...legally</nuxt-link
-              >
-            </div>
-          </b-collapse>-->
           <div class="side-menu-item side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('contact')" @click.native="toggleMenu"
               >Contact</nuxt-link
             >
           </div>
-          <!--<div class="side-menu-item side-menu-item-closed menu-link">
-            <nuxt-link :to="localePath('community')" @click.native="toggleMenu"
-              >Community</nuxt-link
-            >
-          </div>-->
-          <div class="side-menu-item side-menu-item-closed menu-link">
-            <nuxt-link :to="localePath('validator')" @click.native="toggleMenu"
-              >Tools</nuxt-link
-            >
-          </div>
-          <!--<div class="side-menu-item-closed menu-link">
-            <nuxt-link :to="localePath('about')" @click.native="toggleMenu"
-              >About</nuxt-link
-            >
-          </div>
-          <div class="side-menu-item-closed menu-link">
-            <nuxt-link :to="localePath('faq')" @click.native="toggleMenu"
-              >FAQ</nuxt-link
-            >
-          </div>-->
           <div>
             <a href="https://noi.bz.it/" target="_blank">
               <img src="/NOI_1_BK.svg" height="50px" class="mt-2" />
