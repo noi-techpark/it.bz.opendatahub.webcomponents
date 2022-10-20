@@ -356,10 +356,18 @@ main {
 
 .float-right-text {
     max-width: 550px;
-    width: 60% !important;
-    float: right;
-    margin-right: 80px;
+    width: 100% !important;
     margin-top: 15px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: 0;
+    float: right;
+}
+
+@media (max-width: 900px) {
+    .float-right-text {
+        float: none;
+    }
 }
 
 .btn {

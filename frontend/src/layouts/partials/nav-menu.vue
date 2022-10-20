@@ -24,9 +24,9 @@
         style="overflow: scroll"
       >
         <div class="nav-content">
-          <div class="side-menu-item-closed menu-link font-weight-bold">
+          <div class="side-menu-item-closed menu-link">
             <nuxt-link :to="localePath('index')" @click.native="toggleMenu"
-              >Web Components</nuxt-link
+              >Home</nuxt-link
             >
           </div>
           <div class="side-menu-item side-menu-item-closed menu-link">
@@ -40,8 +40,10 @@
             >
           </div>
           <div class="side-menu-item side-menu-item-closed menu-link">
-            <nuxt-link :to="localePath('contact')" @click.native="toggleMenu"
-              >Contact</nuxt-link
+            <a
+              href="https://opendatahub.com/contact/"
+              @click.native="toggleMenu"
+              >Contact us</a
             >
           </div>
           <div>

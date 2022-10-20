@@ -4,7 +4,7 @@
       <div class="title pt-2">
         <h1>How to</h1>
         Everything you need to know to
-        <b>start creating your own Webcomponent!</b>
+        <b>start creating your own Web Component!</b>
         In the playlist below you can explore each step from start to finish, to
         develop your web component and contribute to the collection.
       </div>
@@ -18,8 +18,8 @@
         allowfullscreen
       ></iframe>
     </div>
-    <div class="bg-light">
-      <div class="container p-4 mb-5 font-larger">
+    <div class="bg-light ml-auto">
+      <div class="container p-4 mb-5">
         <iframe
           src="https://player.vimeo.com/video/734001070?h=c4447e1f5a"
           width="480"
@@ -32,6 +32,7 @@
           <strong>Start with the Boilerplate</strong> <br />The first step to
           create your own Web Component for the Open Data Hub Web Component
           Collection.
+          <br />
           <a
             href="https://github.com/noi-techpark/webcomp-boilerplate"
             target="_blank"
@@ -53,6 +54,7 @@
             <strong>Hello World </strong> <br />Explanation of the simple
             hello-world Web Component inside the Web Component Boilerplate
             provided by the Open Data Hub.
+            <br />
             <a
               href="https://github.com/noi-techpark/webcomp-boilerplate"
               target="_blank"
