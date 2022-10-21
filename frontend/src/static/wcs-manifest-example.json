@@ -3,6 +3,7 @@
 	"description": "This web component is used to test the validator",
 	"descriptionAbstract": "A widget that helps to test all configurable options.",
 	"license": "AGPL-3.0-or-later",
+	"repositoryUrl": "https://your-repository.git",
 	"copyrightHolders": [
 		{
 			"name": "NOI",

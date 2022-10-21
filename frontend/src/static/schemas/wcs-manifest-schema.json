@@ -406,6 +406,9 @@
 			},
 			"uniqueItems": true
 		},
+		"repositoryUrl": {
+			"type": "string"
+		},
 		"image": {
 			"type": "string"
 		},
@@ -423,6 +426,7 @@
 		"title",
 		"description",
 		"descriptionAbstract",
+		"repositoryUrl",
 		"license",
 		"copyrightHolders",
 		"authors",
