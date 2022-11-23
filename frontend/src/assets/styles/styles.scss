@@ -1,5 +1,6 @@
 @import 'bootstrap/bootstrap';
-@import 'fonts/roboto-slab/style.scss';
+@import './fonts/open-sans/style.css';
+
 @include media-breakpoint-down(xl) {
     .container-extended {
         max-width: 1478px !important;
