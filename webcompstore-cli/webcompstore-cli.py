@@ -241,7 +241,7 @@ if __name__ == '__main__':
     parser.add_argument('--delete', metavar='UUID',
                         help="Deletes a webcomponent with the give uuid.")
     parser.add_argument(
-        '--production', help="Use production URL for API: api.webcomponents.opendatahub.bz.it", action="store_true")
+        '--production', help="Use production URL for API: api.webcomponents.opendatahub.com", action="store_true")
     parser.add_argument(
         '--lighthouse', help="Refetches the lighthouse stats for every webcomponent.", action="store_true")
     parser.add_argument(
