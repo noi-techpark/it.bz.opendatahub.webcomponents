@@ -49,7 +49,7 @@
         <h3 class="footer-text text pb-5">
           If you would like to become a member of the Open Data Hub Community as
           a Data Provider, Data Consumer, Web Component User or as a
-          Contributer, you can meet us at our events, or get in touch with us
+          Contributor, you can meet us at our events, or get in touch with us
           through e-mail or contact form.
         </h3>
       </div>
