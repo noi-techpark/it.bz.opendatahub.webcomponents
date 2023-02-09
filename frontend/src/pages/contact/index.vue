@@ -4,12 +4,12 @@
       <div class="container contact p-4 font-large">
         <h1>
           #ContactOPENDATAHUB #becomeamember #DataProvider #Data Consumer
-          #WebComponent User #Contributer
+          #WebComponent User #Contributor
         </h1>
         <p>
           If you would like to become a member of the Open Data Hub Community as
           a Data Provider, Data Consumer, Web Component User or as a
-          Contributer, you can meet us at our events, or get in touch with us
+          Contributor, you can meet us at our events, or get in touch with us
           through e-mail. If you find a bug in a web component or like to share
           your ideas on how to improve them, have a look at the provided
           repository links and drop a comment their, or write us an e-mail.
