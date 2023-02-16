@@ -21,18 +21,23 @@ public class DistServiceImpl implements DistService {
 
     @Autowired
     public DistServiceImpl(final WorkspaceRepository workspaceRepository,
-                           final WebcomponentRepository webcomponentRepository) {
+            final WebcomponentRepository webcomponentRepository) {
         this.workspaceRepository = workspaceRepository;
         this.webcomponentRepository = webcomponentRepository;
     }
 
     @Override
     public DistFile getDistFile(String webcomponentId, String file, String version) {
-        if(version == null) {
+        if (version == null) {
             version = webcomponentRepository.getLatestVersionOfWebcomponent(webcomponentId);
         }
 
-        Path filePath = Paths.get(webcomponentId, version, "dist", file);
+        // don't allow parent directory lookup
+        file = file.replace("..", "");
+
+        String path = String.format("/%s/%s/%s", webcomponentId, version, file);
+
+        Path filePath = Paths.get(path);
 
         byte[] data = workspaceRepository.readFile(filePath);
 
@@ -41,24 +46,24 @@ public class DistServiceImpl implements DistService {
         return DistFile.of(file, mimetype, data);
     }
 
-	private String detectMimetype(String filename) {
-		Path path = new File(filename).toPath();
-		try {
-			String result = Files.probeContentType(path);
-			if(result == null) {
-				String result2 = URLConnection.guessContentTypeFromName(filename);
-				if(result2 == null) {
-					if (filename.endsWith(".svg")) {
-						return "image/svg+xml";
-					}
-					return "text/javascript";
-				}
+    private String detectMimetype(String filename) {
+        Path path = new File(filename).toPath();
+        try {
+            String result = Files.probeContentType(path);
+            if (result == null) {
+                String result2 = URLConnection.guessContentTypeFromName(filename);
+                if (result2 == null) {
+                    if (filename.endsWith(".svg")) {
+                        return "image/svg+xml";
+                    }
+                    return "text/javascript";
+                }
 
-				return result2;
-			}
-			return result;
-		} catch (IOException e) {
-			return "text/plain";
-		}
+                return result2;
+            }
+            return result;
+        } catch (IOException e) {
+            return "text/plain";
+        }
     }
 }
