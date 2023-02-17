@@ -1,4 +1,6 @@
-FROM node:14
+FROM node:14-alpine3.16
+
+RUN apk add --no-cache git
 
 COPY . code
 WORKDIR code
