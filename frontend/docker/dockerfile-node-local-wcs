@@ -8,6 +8,6 @@ WORKDIR code
 RUN echo "{'ext': 'js'}" >> nodemon.js
 
 RUN yarn
-RUN build
+RUN yarn build
 CMD ["yarn", "start"]
 
