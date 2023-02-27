@@ -26,7 +26,7 @@ public class WebcomponentSearchRepositoryImpl implements WebcomponentSearchRepos
 
     private static final String SEARCH_QUERY_BASE =
             "SELECT w.* FROM webcomponent AS w WHERE " +
-                    "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm)) " +
+                    "((LOWER(w.title) LIKE :searchTerm OR LOWER(w.description) LIKE :searchTerm OR LOWER(w.repository_url) LIKE :searchTerm)) " +
                     "AND w.deleted=false ";
 
     private static final String SEARCH_QUERY_TITLE =
