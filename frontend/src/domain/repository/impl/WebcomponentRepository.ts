@@ -46,6 +46,16 @@ export default class WebcomponentRepository extends ARepository {
     return this.$get(`/${id}/config/${version}`, errorHandler);
   }
 
+  search(
+    term: string,
+    errorHandler?: any
+  ): Promise<WebcomponentConfigurationModel> {
+    return this.$get(
+      `?searchTerm=${term}&pageNumber=0&pageSize=1&latest=false`,
+      errorHandler
+    );
+  }
+
   createCodeSandbox(snippet: string, errorHandler?: any): Promise<string> {
     const request: CodeSandboxRequest = {
       codeSnippet: snippet,
