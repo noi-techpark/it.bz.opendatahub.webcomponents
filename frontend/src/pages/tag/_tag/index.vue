@@ -5,29 +5,31 @@
         <h1 v-if="!this.tagNotFound">Tag aliases</h1>
         <h1 v-if="this.tagNotFound">404 tag not found</h1>
         <p>
-          Can't remember the long links of webcomponents? Use the tag with
-          /tag/webcomp-name
+          Can't remember the long links of webcomponents?<br />
+          Use the tag with <strong>/tag/name</strong>
         </p>
         <h2>Examples</h2>
-        <a href="/tag/carsharing">/tag/carsharing</a>
+        <strong><a href="/tag/carsharing">/tag/carsharing</a></strong>
         <br />
-        <a href="/tag/flight">/tag/flight</a>
+        <strong><a href="/tag/flight">/tag/flight</a></strong>
         <br />
         <p>
           You can also use the <strong>title</strong> of the webcomponent:<br />
-          <a href="/tag/Mobility E-Charging Map"
-            >/tag/Mobility E-Charging Map</a
+          <strong
+            ><a href="/tag/Mobility E-Charging Map"
+              >/tag/Mobility E-Charging Map</a
+            ></strong
           >
         </p>
-        <br />
         <h2>Warning</h2>
         <p>
-          Links might change and <strong>not work in the future</strong>, if for
-          example the title is used as a tag and the title gets changed.
+          Links might change and <strong>not work in the future</strong>, for
+          example if the title is used as a tag and gets changed. Keep this in
+          mind when sharing URLs with the tag.
           <br />
-          Keep this in ind when sharing URLs with the tag and for critical
-          occasions please use the normal always valid URL you get when opening
-          a webcomponent with the uuid.
+          For critical occasions, please use the normal
+          <strong>always valid URL</strong> with the unique id you get when
+          opening a webcomponent.
         </p>
       </div>
     </div>

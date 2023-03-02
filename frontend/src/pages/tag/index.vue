@@ -4,31 +4,31 @@
       <div class="title pt-2">
         <h1>Tag aliases</h1>
         <p>
-          Can't remember the long links of webcomponents? Use the tag with
-          /tag/webcomp-name
+          Can't remember the long links of webcomponents?<br />
+          Use the tag with <strong>/tag/name</strong>
         </p>
         <h2>Examples</h2>
-        <a href="/tag/carsharing">/tag/carsharing</a>
+        <strong><a href="/tag/carsharing">/tag/carsharing</a></strong>
         <br />
-        <a href="/tag/flight">/tag/flight</a>
+        <strong><a href="/tag/flight">/tag/flight</a></strong>
         <br />
-        <a href="/tag/flight">/tag/flight</a>
-        <br />
-        <a href="/tag/events">/tag/events</a>
-        <br />
-        <p>Note: You can also use the title</p>
-        <a href="/tag/Mobility E-Charging Map">/tag/Mobility E-Charging Map</a>
-
-        <br />
+        <p>
+          You can also use the <strong>title</strong> of the webcomponent:<br />
+          <strong
+            ><a href="/tag/Mobility E-Charging Map"
+              >/tag/Mobility E-Charging Map</a
+            ></strong
+          >
+        </p>
         <h2>Warning</h2>
         <p>
-          Links might change and not work in the future, if for example the
-          title is used and the title gets changed.
-        </p>
-        <p>
-          Keep this in ind when sharing URLs with the tag and for critical
-          occasions please use the normal always valid URL you et when opening a
-          webcomponent with the uuid.
+          Links might change and <strong>not work in the future</strong>, for
+          example if the title is used as a tag and gets changed. Keep this in
+          mind when sharing URLs with the tag.
+          <br />
+          For critical occasions, please use the normal
+          <strong>always valid URL</strong> with the unique id you get when
+          opening a webcomponent.
         </p>
       </div>
     </div>
