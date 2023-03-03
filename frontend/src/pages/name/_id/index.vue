@@ -45,16 +45,17 @@ export default {
     };
   },
   mounted() {
-    const paths = this.$route.path.split('/');
-    const tag = paths.pop();
-    this.getEvents(tag);
+    this.getEvents();
   },
   methods: {
-    async getEvents(tag) {
+    async getEvents() {
+      const paths = this.$route.path.split('/');
+      if (paths.length < 3) return;
+
+      const name = paths.pop();
       const notFound = await this.$api.webcomponent
-        .search(tag)
+        .search(name)
         .then(function (result) {
-          console.log(result);
           if (result.content && result.content.length > 0) {
             const id = result.content[0].uuid;
             console.log(id);
