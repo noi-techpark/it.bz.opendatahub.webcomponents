@@ -29,9 +29,7 @@ export const getters: GetterTree<RootState, RootState> = {
       return '';
     }
 
-    return toTransport(
-      state.snippet
-    );
+    return toTransport(state.snippet);
   },
   externalPreviewBaseUrl(state): string {
     if (!state.webcomponent || !state.configuration) {
@@ -87,6 +85,10 @@ export const actions: ActionTree<RootState, RootState> = {
   async loadWebcomponent({ commit, state }, { uuid, version }) {
     let fullReset = false;
 
+    // set uuid to real webcomp uuid, to be able to use short names
+    const webcomponent = await $api.webcomponent.getOneById(uuid);
+    uuid = webcomponent.uuid;
+
     if (!state.webcomponent || state.webcomponent.uuid !== uuid) {
       commit('SET_WEBCOMPONENT', null);
       commit('SET_CONFIGURATION', null);
@@ -94,7 +96,6 @@ export const actions: ActionTree<RootState, RootState> = {
 
       fullReset = true;
 
-      const webcomponent = await $api.webcomponent.getOneById(uuid);
       const latestVersion = { ...webcomponent.versions[0] };
       latestVersion.versionTag = 'latest';
       webcomponent.versions.unshift(latestVersion);
@@ -137,8 +138,8 @@ export const actions: ActionTree<RootState, RootState> = {
     commit(
       'SET_SNIPPET_FROM_EDITOR',
       fromTransport(attribs) +
-      '\n' +
-      getDistIncludes(state.configuration).join('\n')
+        '\n' +
+        getDistIncludes(state.configuration).join('\n')
     );
   },
   resetSnippet({ commit, state }) {
@@ -155,10 +156,10 @@ function toTransport(snippet: string): string {
 }
 
 function stripScripts(s: string): string {
-  var div = document.createElement('div');
+  let div = document.createElement('div');
   div.innerHTML = s;
-  var scripts = div.getElementsByTagName('script');
-  var i = scripts.length;
+  let scripts = div.getElementsByTagName('script');
+  let i = scripts.length;
   while (i--) {
     scripts[i].parentNode.removeChild(scripts[i]);
   }
@@ -193,28 +194,28 @@ function getDistIncludes(
         }
         scripts.push(
           '<script ' +
-          parameter +
-          'src="' +
-          config.deliveryBaseUrl +
-          '/' +
-          config.dist.basePath +
-          '/' +
-          item.file +
-          '"></scr' +
-          'ipt>'
+            parameter +
+            'src="' +
+            config.deliveryBaseUrl +
+            '/' +
+            config.dist.basePath +
+            '/' +
+            item.file +
+            '"></scr' +
+            'ipt>'
         );
       });
     } else {
       config.dist.files.forEach((item) => {
         scripts.push(
           '<script src="' +
-          config.deliveryBaseUrl +
-          '/' +
-          config.dist.basePath +
-          '/' +
-          item +
-          '"></scr' +
-          'ipt>'
+            config.deliveryBaseUrl +
+            '/' +
+            config.dist.basePath +
+            '/' +
+            item +
+            '"></scr' +
+            'ipt>'
         );
       });
     }
