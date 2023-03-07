@@ -103,13 +103,17 @@ export default {
       if (this.returnTo === null) {
         return this.localePath({
           name: 'webcomponent-id',
-          params: { id: this.entry.uuid },
+          params: {
+            id: this.entry.shortName ? this.entry.shortName : this.entry.uuid,
+          },
         });
       }
 
       return this.localePath({
         name: 'webcomponent-id',
-        params: { id: this.entry.uuid },
+        params: {
+          id: this.entry.shortName ? this.entry.shortName : this.entry.uuid,
+        },
         query: { from: this.returnTo },
       });
     },

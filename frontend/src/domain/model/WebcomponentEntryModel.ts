@@ -5,6 +5,8 @@ import { SpdxLicenseModel } from './SpdxLicenseModel';
 export interface WebcomponentEntryModel {
   uuid: string;
 
+  shortName: string;
+
   title: string;
 
   descriptionAbstract: string;

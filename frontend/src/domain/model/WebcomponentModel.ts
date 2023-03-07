@@ -5,6 +5,8 @@ import { WebcomponentVersionModel } from './WebcomponentVersionModel';
 export interface WebcomponentModel {
   uuid: string;
 
+  shortName: string;
+
   title: string;
 
   description: string;
