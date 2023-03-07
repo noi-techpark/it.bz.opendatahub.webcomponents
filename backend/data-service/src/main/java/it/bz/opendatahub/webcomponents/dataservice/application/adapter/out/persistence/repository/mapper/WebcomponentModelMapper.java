@@ -18,6 +18,7 @@ public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
         WebcomponentModel model = new WebcomponentModel();
 
         model.setUuid(resultSet.getString("uuid"));
+        model.setShortName(resultSet.getString("short_name"));
         model.setTitle(resultSet.getString("title"));
         model.setDescription(resultSet.getString("description"));
         model.setDescriptionAbstract(resultSet.getString("description_abstract"));
@@ -26,11 +27,12 @@ public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
         model.setLicense(resultSet.getString("license"));
 
         try {
-            model.setCopyrightHolders(Arrays.asList(objectMapper.readValue(resultSet.getBytes("copyright_holders"), Author[].class)));
+            model.setCopyrightHolders(
+                    Arrays.asList(objectMapper.readValue(resultSet.getBytes("copyright_holders"), Author[].class)));
             model.setAuthors(Arrays.asList(objectMapper.readValue(resultSet.getBytes("authors"), Author[].class)));
-            model.setSearchTags(Arrays.asList(objectMapper.readValue(resultSet.getBytes("search_tags"), String[].class)));
-        }
-        catch (IOException e) {
+            model.setSearchTags(
+                    Arrays.asList(objectMapper.readValue(resultSet.getBytes("search_tags"), String[].class)));
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
