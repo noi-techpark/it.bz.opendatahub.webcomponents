@@ -12,6 +12,8 @@ import java.util.List;
 public class WebcomponentRest {
     private String uuid;
 
+    private String shortName;
+
     private String title;
 
     private String description;
