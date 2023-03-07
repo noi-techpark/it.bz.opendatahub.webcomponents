@@ -24,6 +24,8 @@ public class WebcomponentModel {
     @Id
     private String uuid;
 
+    private String shortName;
+
     private String title;
 
     private String description;

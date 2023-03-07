@@ -11,20 +11,11 @@ import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsErrorEx
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsInvalidRequestException;
 import it.bz.opendatahub.webcomponents.dataservice.exception.impl.MetricsUnavailableException;
 import lombok.NonNull;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.LinkedHashMap;
 
 @Slf4j
 @Service
