@@ -20,6 +20,9 @@ public interface CreateWebcomponentUseCase {
 		private String title;
 
 		@NotBlank
+		private String shortName;
+
+		@NotBlank
 		private String description;
 
 		@NotBlank
