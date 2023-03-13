@@ -1,2 +1,2 @@
 alter table webcomponent
-    add unique short_name text not null;
+    add short_name text unique not null;
