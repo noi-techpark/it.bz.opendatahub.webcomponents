@@ -2,6 +2,7 @@
 	"$schema": "http://json-schema.org/draft-07/schema#",
 	"$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
 	"title": "WcsManifest",
+	"shortName": "WcsManifest",
 	"type": "object",
 	"additionalProperties": false,
 	"definitions": {
@@ -381,6 +382,9 @@
 		"title": {
 			"type": "string"
 		},
+		"shortName": {
+			"type": "string"
+		},
 		"description": {
 			"type": "string"
 		},
@@ -424,6 +428,7 @@
 	},
 	"required": [
 		"title",
+		"shortName",
 		"description",
 		"descriptionAbstract",
 		"repositoryUrl",
