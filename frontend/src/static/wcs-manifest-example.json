@@ -1,6 +1,6 @@
 {
 	"title": "Testable Web Component",
-	"shortName": "An immutable unique short name that will be used in the URL of the store as an id",
+	"shortName": "testable-web-component",
 	"description": "This web component is used to test the validator",
 	"descriptionAbstract": "A widget that helps to test all configurable options.",
 	"license": "AGPL-3.0-or-later",
