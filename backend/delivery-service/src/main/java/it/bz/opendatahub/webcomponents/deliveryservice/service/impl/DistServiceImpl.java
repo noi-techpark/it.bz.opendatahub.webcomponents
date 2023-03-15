@@ -32,12 +32,7 @@ public class DistServiceImpl implements DistService {
             version = webcomponentRepository.getLatestVersionOfWebcomponent(webcomponentId);
         }
 
-        // don't allow parent directory lookup
-        file = file.replace("..", "");
-
-        String path = String.format("/%s/%s/dist/%s", webcomponentId, version, file);
-
-        Path filePath = Paths.get(path);
+        Path filePath = Paths.get(webcomponentId, version, "dist", file);
 
         byte[] data = workspaceRepository.readFile(filePath);
 
