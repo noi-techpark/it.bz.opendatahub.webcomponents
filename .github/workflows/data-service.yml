@@ -87,7 +87,7 @@ jobs:
           X_DOCKER_CLIENT_TIMEOUT: 360
           X_COMPOSE_HTTP_TIMEOUT: 360
 
-          X_JAVA_OPTIONS: "-Xms128m -Xmx512m"
+          X_JAVA_OPTIONS: "-Xms128m -Xmx1024m"
 
           X_HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY }}
 
@@ -180,7 +180,7 @@ jobs:
           X_DOCKER_CLIENT_TIMEOUT: 360
           X_COMPOSE_HTTP_TIMEOUT: 360
 
-          X_JAVA_OPTIONS: "-Xms128m -Xmx512m"
+          X_JAVA_OPTIONS: "-Xms128m -Xmx1024m"
 
           X_HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY }}
 

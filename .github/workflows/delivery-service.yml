@@ -63,7 +63,7 @@ jobs:
           X_DOCKER_CLIENT_TIMEOUT: 360
           X_COMPOSE_HTTP_TIMEOUT: 360
 
-          X_JAVA_OPTIONS: "-Xms128m -Xmx512m"
+          X_JAVA_OPTIONS: "-Xms128m -Xmx1024m"
 
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 
@@ -126,7 +126,7 @@ jobs:
           X_DOCKER_CLIENT_TIMEOUT: 360
           X_COMPOSE_HTTP_TIMEOUT: 360
 
-          X_JAVA_OPTIONS: "-Xms128m -Xmx512m"
+          X_JAVA_OPTIONS: "-Xms128m -Xmx1024m"
 
 
       - name: Prepare application.properties
