@@ -26,9 +26,8 @@ public class WorkspaceRepositoryImpl implements WorkspaceRepository {
 
         try {
             return FileUtils.readFileToByteArray(localPath.toFile());
-        }
-        catch (IOException e) {
-            throw new NotFoundException("requested file is unavailable");
+        } catch (IOException e) {
+            throw new NotFoundException("requested file is unavailable: " + localPath.toFile());
         }
     }
 }
