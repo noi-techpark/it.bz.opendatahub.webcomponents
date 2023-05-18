@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WebcomponentRepository extends JpaRepository<WebcomponentModel, String> {
 
-    @Query(value = "SELECT * FROM webcomponent w WHERE (w.short_name = :id or w.uuid = :id) AND w.deleted = false", nativeQuery = true)
+    @Query(value = "SELECT * FROM webcomponent w WHERE (lower(w.short_name) = lower(:id) or w.uuid = :id) AND w.deleted = false", nativeQuery = true)
     Optional<WebcomponentModel> findById(String id);
 }
