@@ -19,7 +19,7 @@ public interface CreateWebcomponentUseCase {
 		@NotBlank
 		private String title;
 
-		// @NotBlank
+		@NotBlank
 		private String shortName;
 
 		@NotBlank
