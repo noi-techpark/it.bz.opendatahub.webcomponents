@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 try {
   const _paq = (window._paq = window._paq || []);
   /* tracker methods like "setCustomDimension" should be called before "trackPageView" */

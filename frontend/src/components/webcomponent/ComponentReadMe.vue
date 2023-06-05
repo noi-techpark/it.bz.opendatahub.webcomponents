@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <template>
   <div class="container-fluid container-extended pb-4 p-2 pl-4 pr-4 pt-sm-2">
     <div class="row">

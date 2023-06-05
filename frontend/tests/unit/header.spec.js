@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Header from '@/layouts/partials/header';
 import BootstrapVue from 'bootstrap-vue';

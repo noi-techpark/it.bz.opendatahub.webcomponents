@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # webcompstore cli tool
 A command line tool to interact with the API of the Webcomponent-Store.  
 It's mainly used in the webcomp-push GithubAction to push webcomponents to the store:  

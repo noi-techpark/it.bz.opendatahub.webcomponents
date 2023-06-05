@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import WebcomponentRepository from '~/domain/repository/impl/WebcomponentRepository';
 import SearchtagRepository from '~/domain/repository/impl/SearchtagRepository';
 import ContactRepository from '~/domain/repository/impl/ContactRepository';

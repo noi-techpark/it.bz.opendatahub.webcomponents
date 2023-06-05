@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 import { NuxtAxiosInstance } from '@nuxtjs/axios';
 import { PageRequest, Sort } from './PagingAndSorting';
 

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # Contribute as web component developer
 
 To contribute as a Webcomponent developer, you can use all the data available in the Open Data to create new Web components.

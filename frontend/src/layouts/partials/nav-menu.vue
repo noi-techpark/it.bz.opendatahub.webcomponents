@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <template>
   <sidebar :is-panel-open="menuActive" @toggle-menu="toggleMenu">
     <div class="side-bar-container d-flex flex-column align-items-end h-100">

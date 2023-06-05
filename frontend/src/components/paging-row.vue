@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <template>
   <div class="d-flex justify-content-between align-items-center flex-wrap">
     <h1 class="components-title d-flex flex-column" style="min-width: 40%">

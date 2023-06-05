@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <template>
   <div class="bg-light wc-detail" style="display: flex; flex-direction: column">
     <div v-if="!isHeaderExpanded" class="header-gradient"></div>

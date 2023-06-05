@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # Open Data Hub: Web Component Store
 
 This repository contains the source code of the Open Data Hub Web Component

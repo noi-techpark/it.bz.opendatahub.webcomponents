@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 # Contribute as data provider
 
 To contribute as a Data Provider you can simply [contact](mailto:help@opendatahub.com) us and we will work out whether and how your data can be included in the Open Data Hub.

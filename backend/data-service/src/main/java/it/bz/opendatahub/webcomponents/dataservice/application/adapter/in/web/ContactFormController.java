@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: NOI Techpark <digital@noi.bz.it>
+//
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 package it.bz.opendatahub.webcomponents.dataservice.application.adapter.in.web;
 
 import it.bz.opendatahub.webcomponents.common.stereotype.WebAdapter;
