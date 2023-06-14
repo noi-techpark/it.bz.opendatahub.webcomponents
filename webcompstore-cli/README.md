@@ -42,7 +42,7 @@ optional arguments:
   -y, --yes           Don't ask for confirmation on critical actions like deleting.
   --push VERSION_TAG  Push a webcomponent to the store with the given version-tag (usually the git commit sha).
   --delete UUID       Deletes a webcomponent with the give uuid.
-  --production        Use production URL for API: api.webcomponents.opendatahub.bz.it
+  --production        Use production URL for API: api.webcomponents.opendatahub.com
   --lighthouse        Refetches the lighthouse stats for every webcomponent.
   --size              Recalculates the size for every webcomponent.
   --version           Output version information and exits.
