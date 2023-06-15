@@ -1,6 +1,6 @@
 {
 	"$schema": "http://json-schema.org/draft-07/schema#",
-	"$id": "https://webcomponents.opendatahub.bz.it/schemas/v1/wcs-manifest",
+	"$id": "https://webcomponents.opendatahub.com/schemas/v1/wcs-manifest",
 	"title": "WcsManifest",
 	"shortName": "WcsManifest",
 	"type": "object",
