@@ -81,7 +81,7 @@ jobs:
           # SMTP configuration
           X_SMTP_PWD: ${{ secrets.SMTP_PWD_TEST }}
           X_SMTP_USR: "no-reply@testingmachine.eu"
-          X_SMTP_TO: "help@opendatahub.bz.it"
+          X_SMTP_TO: "help@opendatahub.com"
           X_SMTP_FROM: "no-reply@testingmachine.eu"
           X_SMTP_SUBJECT: "Web Component Store: Contact form (TEST PLEASE IGNORE)"
           X_SMTP_HOST: "smtp.eu.mailgun.org"
@@ -156,12 +156,12 @@ jobs:
           X_DB_SCHEMA: "public"
 
           # Endpoint from where we create a standalone preview inside a simple HTML skeleton
-          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.bz.it/preview"
+          X_API_PREVIEW_URL: "https://api.webcomponents.opendatahub.com/preview"
 
           # Base URL from where we will distribute build artifacts (javascript bundles and assets)
-          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.bz.it/dist"
+          X_CDN_DIST_URL: "https://cdn.webcomponents.opendatahub.com/dist"
 
-          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
+          X_API_SWAGGER_BASE_URL: "https://api.webcomponents.opendatahub.com"
           
 
           # Security for CRUD operations
@@ -173,9 +173,9 @@ jobs:
 
           # SMTP configuration
           X_SMTP_PWD: ${{ secrets.SMTP_PWD_PROD }}
-          X_SMTP_USR: "no-reply@opendatahub.bz.it"
-          X_SMTP_TO: "help@opendatahub.bz.it"
-          X_SMTP_FROM: "no-reply@opendatahub.bz.it"
+          X_SMTP_USR: "no-reply@opendatahub.com"
+          X_SMTP_TO: "help@opendatahub.com"
+          X_SMTP_FROM: "no-reply@opendatahub.com"
           X_SMTP_SUBJECT: "Web Component Store: Contact form"
           X_SMTP_HOST: "smtp.eu.mailgun.org"
           X_SMTP_PORT: 587
