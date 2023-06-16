@@ -99,8 +99,8 @@ jobs:
         env:
           X_COMPOSE_PROJECT_NAME: ${{ env.PROJECT_NAME }}
 
-          X_API_BASE_URL: "https://api.webcomponents.opendatahub.bz.it"
-          X_CDN_URL: "https://cdn.webcomponents.opendatahub.bz.it"
+          X_API_BASE_URL: "https://api.webcomponents.opendatahub.com"
+          X_CDN_URL: "https://cdn.webcomponents.opendatahub.com"
 
           X_HCAPTCHA_PUBLIC_KEY: 9f9020fc-605d-4f9a-b4d6-a80091e5abc8
         with:
