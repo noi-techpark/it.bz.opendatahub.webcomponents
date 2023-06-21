@@ -30,7 +30,7 @@
 		"bootstrap-vue": "^2.21.2",
 		"i": "^0.3.6",
 		"npm": "^7.11.1",
-		"nuxt": "^2.15.4",
+		"nuxt": "^3.4.3",
 		"nuxt-i18n": "^6.23.0",
 		"odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v1.1.0",
 		"prismjs": "^1.23.0",
