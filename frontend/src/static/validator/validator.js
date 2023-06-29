@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 
 import Ajv from 'ajv';
-import Schema from '../schemas/wcs-manifest-schema.json';
+import Schema from '../schemas/wcs-manifest-schema.json' assert { type: "json" };
 
 const Validator = {
   wcsManifest: '',
