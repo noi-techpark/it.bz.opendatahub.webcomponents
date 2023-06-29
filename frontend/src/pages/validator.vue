@@ -109,6 +109,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import WcsConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator';
 import Example from 'static/wcs-manifest-example.json';
 import AceEditor from 'vue2-ace-editor';
+import validate from 'static/validator/validator';
 
 export default {
   components: { WcsConfigTool, AceEditor },
@@ -138,22 +139,10 @@ export default {
     updateSnippet(data) {
       this.snipp = data;
     },
-    async parseJson() {
-      try {
-        const res = await fetch('/api/validator', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: this.wcsManifest,
-        });
+    parseJson() {
+      const validator = validate(this.wcsManifest);
 
-        const validator = await res.json();
-
-        ({ config: this.config, errors: this.errors } = validator);
-      } catch (e) {
-        console.error(`Fetching manifest validation resulted in error: ${e}`);
-      }
+      ({ config: this.config, errors: this.errors } = validator);
     },
   },
 };

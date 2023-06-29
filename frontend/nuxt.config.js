@@ -143,11 +143,4 @@ module.exports = {
         },
         babel: { compact: true },
     },
-
-    /*
-     * Provide API endpoint for manifest json validation
-     */
-    serverMiddleware: {
-        '/api/validator': '~/server-middleware/validator.js'
-    }
 };
