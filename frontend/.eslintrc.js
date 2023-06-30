@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: CC0-1.0
 
-module.exports = {
+/*module.exports = {
   root: true,
   env: {
     browser: true,
@@ -21,3 +21,4 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
   },
 };
+*/

@@ -14,14 +14,23 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       >
         <img :src="require('static/icons/ic_min_preview.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">minimize preview</div>
+
       </nuxt-link>
-      <nuxt-link
+           <nuxt-link
         v-else
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
         :to="toFullscreen"
       >
         <img :src="require('static/icons/ic_max_preview.svg')" class="p-1" />
         <div class="bottom-bar-button-text p-1">fullscreen preview</div>
+      </nuxt-link>
+
+      <nuxt-link
+        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+        :to="toFullscreenMode"
+      >
+        <img :src="require('static/icons/ic_max_preview.svg')" class="p-1" />
+        <div class="bottom-bar-button-text p-1">fullscreen mode</div>
       </nuxt-link>
       <nuxt-link
         v-if="selectedView === 'editing'"
@@ -112,6 +121,21 @@ export default {
       } else {
         return this.localePath({
           name: 'webcomponent-id-fullscreen',
+          params: { id: this.id },
+          query: { attribs: this.attribs },
+        });
+      }
+    },
+    toFullscreenMode() {
+      if (this.version) {
+        return this.localePath({
+          name: 'webcomponent-id-version-fullscreen-mode',
+          params: { id: this.id, version: this.version },
+          query: { attribs: this.attribs },
+        });
+      } else {
+        return this.localePath({
+          name: 'webcomponent-id-fullscreen-mode',
           params: { id: this.id },
           query: { attribs: this.attribs },
         });
