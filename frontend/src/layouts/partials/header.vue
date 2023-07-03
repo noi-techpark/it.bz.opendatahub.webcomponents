@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <b-nav-item
             id="home-item"
             :to="localePath('index')"
-            class="home-menu-item font-weight-bold"
+            class="home-menu-item"
             >Web Components</b-nav-item
           >
           <b-nav-item class="home-menu-item" :to="localePath('how-to')"
@@ -82,5 +82,9 @@ export default {
 <style scoped>
 #logo {
   margin-top: -7px;
+}
+
+.nuxt-link-exact-active {
+  font-weight: bold;
 }
 </style>
