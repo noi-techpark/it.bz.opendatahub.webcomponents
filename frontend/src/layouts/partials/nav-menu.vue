@@ -58,21 +58,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             </a>
           </div>
         </div>
-        <div style="min-height: 200px !important; background-color: #888">
-          <footer-info-menu></footer-info-menu>
-        </div>
       </div>
     </div>
   </sidebar>
 </template>
 
 <script>
-import FooterInfoMenu from '@/layouts/partials/footer-info-menu';
 import Sidebar from '~/components/menu/sidebar';
 
 export default {
   name: 'NavMenu',
-  components: { FooterInfoMenu, Sidebar },
+  components: { Sidebar },
   props: {
     menuActive: {
       type: Boolean,

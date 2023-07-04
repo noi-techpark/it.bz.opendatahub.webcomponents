@@ -24,7 +24,8 @@ module.exports = {
         ],
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: 'stylesheet', href: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.css' }
+            { rel: 'stylesheet', href: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.css' },
+            { rel: 'stylesheet', href: 'https://fonts.testingmachine.eu/source-sans-pro/style.css' }
         ],
         script: [{
                 src: '/matomo/matomo-analytics.js',

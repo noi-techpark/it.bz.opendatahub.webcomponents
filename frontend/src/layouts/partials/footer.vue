@@ -5,135 +5,146 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <footer>
-    <!--<div v-if="$route.path === '/'" class="p-5 text-center container">
-      <h1 class="text-uppercase">#Publishers #Contributors #Partners</h1>
-      <hr style="width: 50px; background-color: white" />
-      <b-row class="quote-row">
-        <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
-          <quote-item
-            title="Contributing"
-            image-src="/icons/publishers/publisher4.png"
-            quote="Often the best way to get them is to put our hands into starting new
-            projects or contributing to existing ones."
-          ></quote-item>
-        </b-col>
-        <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
-          <quote-item
-            title="Sharing"
-            image-src="/icons/publishers/publisher2.png"
-            quote="There are several reasons you might want to contribute to open source software."
-          ></quote-item>
-        </b-col>
-        <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
-          <quote-item
-            title="Knowledge"
-            image-src="/icons/publishers/publisher3.png"
-            quote="It's useful regardless of whether or not you're a student."
-          ></quote-item>
-        </b-col>
-        <b-col cols="6" lg="3" md="6" sm="6" style="display: flex">
-          <quote-item
-            title="Networking"
-            image-src="/icons/publishers/publisher1.png"
-            quote="The fulfilling feeling of giving back and contributing to society is unparalleled."
-          ></quote-item>
-        </b-col>
-      </b-row>
-      <nuxt-link :to="localePath('community')" class="text-secondary"
-        >learn more about our community</nuxt-link
-      >
-    </div>-->
-    <div class="get-in-touch">
-      <div class="p-1 p-md-5 text-center font-larger">
-        <nuxt-link :to="localePath('/contact')"
-          ><h2 class="pt-5 text-uppercase footer-text">
-            get in touch
-          </h2></nuxt-link
-        >
-        <hr style="width: 50px; background-color: white" />
-        <h3 class="footer-text text pb-5">
-          If you would like to become a member of the Open Data Hub Community as
-          a Data Provider, Data Consumer, Web Component User or as a
-          Contributor, you can meet us at our events, or get in touch with us
-          through e-mail or contact form.
-        </h3>
-      </div>
-    </div>
-    <div class="bg-light" hidden>
-      <div id="widget-tagcloud" class="container p-5 text-center">
-        <h1>Categories</h1>
-        <div
-          class="
-            font-italic
-            text-capitalize
-            d-flex
-            flex-wrap
-            justify-content-center
-          "
-        >
-          <nuxt-link
-            v-for="tag in searchTags"
-            :key="tag"
-            :to="
-              localePath({
-                name: 'search',
-                query: { tags: tag },
-              })
-            "
-            class="category"
-            >{{ tag }}</nuxt-link
-          >
+  <div>
+    <div class="bg py-3">
+      <div class="container">
+        <div class="row text-black text-semi-bold">
+          <div class="col-12 col-xl-4">
+            <a href="/">
+              <div class="card h-100 p-3 d-flex flex-row align-items-center">
+                <div class="flex-shrink-1">
+                  <img src="/icons/footer/open-data-hub.svg" alt="NOI Techpark">
+                </div>
+                <div class="mx-2 align-self-stretch border-black border-right"></div>
+                <ToolBadge class="mr-2" />
+                <span class="text-nowrap">Tool to access<br />open data</span>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-xl-4 mt-2 mt-xl-0">
+            <a href="https://opendatahub.com" target="_blank">
+              <div class="card h-100 p-3 d-flex flex-row align-items-center">
+                <div class="flex-shrink-1">
+                  <img class="mr-3" src="/icons/footer/open-data-hub.svg" alt="NOI Techpark">
+                </div>
+                <span>Place where data and<br />tech are shared</span>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-xl-4 mt-2 mt-xl-0">
+            <a href="https://noi.bz.it" target="_blank">
+              <div class="card h-100 p-3 d-flex flex-row align-items-center">
+                <div class="flex-shrink-1">
+                  <img class="mr-3" src="/icons/footer/noi.svg" alt="NOI Techpark">
+                </div>
+                <span>Innovation hub in<br />Südtirol/ Alto Aldige</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="hr-bold border-bottom border-black my-3"></div>
+        <div class="row">
+          <div class="col-12 col-lg-3">
+            <div class="d-flex flex-column">
+              <strong class="mb-1">Relevant links</strong>
+              <a href="/">Web Components</a>
+              <a href="/how-to">How To</a>
+              <a href="/validator">Validator</a>
+              <a href="https://opendatahub.com/contact" target="_blank">Contact</a>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3 mt-3 mt-lg-0">
+            <div class="d-flex flex-column">
+              <strong class="mb-1">Quickstart</strong>
+              <a href="https://opendatahub.com" target="_blank">Open Data Hub Website</a>
+              <a class="text-decoration-underline" href="/">Web Components</a>
+              <a href="https://databrowser.opendatahub.com" target="_blank">Databrowser</a>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3 mt-3 mt-lg-0">
+            <div class="d-flex flex-column">
+              <strong class="mb-1">Contributors</strong>
+              <span>The Data Browser is the result of a great collaboration between many awesome people! <a class="text-decoration-underline" href="https://opendatahub.com/community/contributors?project=wcs" target="_blank"> Check them out!</a></span>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3 mt-3 mt-lg-0">
+            <div class="d-flex flex-column">
+              <strong class="mb-1">Social Media</strong>
+              <a href="https://github.com/noi-techpark" target="_blank" class="d-flex align-items-center">
+                <img class="mr-2" src="/icons/footer/github.svg" alt="GitHub">
+                GitHub
+              </a>
+              <a href="https://t.me/OpenDataHub" target="_blank" class="d-flex align-items-center">
+                <img class="mr-2" src="/icons/footer/telegram.svg" alt="Telegram">
+                Telegram
+              </a>
+              <a href="https://app.element.io/#/room/#opendatahub:matrix.org" target="_blank" class="d-flex align-items-center">
+                <img class="mr-2" src="/icons/footer/element.svg" alt="element.io">
+                element.io
+              </a>
+              <a href="https://www.facebook.com/opendatahub/" target="_blank" class="d-flex align-items-center">
+                <img class="mr-2" src="/icons/footer/facebook.svg" alt="Facebook">
+                Facebook
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <footer-info :show-scroll-button="true"></footer-info>
-  </footer>
+    <div class="py-3 text-center">
+      <span class="text-muted text-small">
+        @Open Data Hub | <a class="text-decoration-underline" target="_blank" href="https://noi.bz.it/en/privacy">Privacy</a> | <a class="text-decoration-underline" href="/imprint">Imprint</a>
+      </span>
+    </div>
+  </div>
 </template>
 
 <script>
-import FooterInfo from '~/layouts/partials/footer-info';
+import ToolBadge from '~/components/menu/tool-badge.vue';
 
 export default {
-  components: { FooterInfo },
-  computed: {
-    searchTags() {
-      return this.$store.getters['searchtags/getSearchtags'];
-    },
-  },
-};
+  name: "Footer",
+  components: { ToolBadge }
+}
 </script>
 
-<style lang="scss">
-@import 'src/assets/styles/bootstrap/_variables.scss';
-#widget-imprint {
-  a {
-    margin-left: 1rem;
-    margin-right: 1rem;
+<style scoped>
+  * {    
+    font-family: "Source Sans Pro", "Open Sans", arial, sans-serif;
+    font-size: 20px;
+    line-height: 28px;
+    color: #3C4043;
   }
-}
 
-.get-in-touch {
-  background-color: #000;
-}
+  .bg {
+    background-color: #F4F8F9;
+  }
 
-.get-in-touch .pt-5 {
-  padding-top: 1rem !important;
-}
+  .text-muted,
+  .text-muted * {
+    color: #687182 !important;
+  }
 
-.get-in-touch .pb-5 {
-  font-weight: normal !important;
-  padding-bottom: 1rem !important;
-}
+  .text-black,
+  .text-black * {
+    color: black !important;
+  }
 
-.footer-text {
-  color: white;
-  margin-left: 10%;
-  margin-right: 10%;
-}
+  .text-decoration-underline {
+      text-decoration: underline !important;
+  }
 
-.quote-row {
-  margin-top: 30px;
-  margin-bottom: 50px;
-}
+  .text-small,
+  .text-small * {
+    font-size: 14px;
+  }
+
+  .text-semi-bold,
+  .text-semi-bold * {
+    font-weight: 600;
+  }
+
+  .border-black {
+    border-color: black !important;
+  }
 </style>
