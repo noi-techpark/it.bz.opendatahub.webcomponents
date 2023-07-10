@@ -13,7 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       background-color="#020202"
       :opacity="0.7"
     ></loading>
-    <Header />
+    <Nav />
     <main>
       <nuxt />
     </main>
@@ -28,12 +28,12 @@ import { mapGetters } from 'vuex';
 
 import Loading from 'vue-loading-overlay';
 
-import Header from './partials/header.vue';
+import Nav from './partials/nav.vue';
 import Footer from './partials/footer.vue';
 
 export default Vue.extend({
   components: {
-    Header,
+    Nav,
     Footer,
     Loading: Loading as any,
   },
