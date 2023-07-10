@@ -19,6 +19,7 @@ export default {
 <style scoped>
   * {
     font-family: "Source Sans Pro", "Open Sans", arial, sans-serif;
+    font-weight: 600 !important;
     font-size: 17px !important;
     line-height: 17px !important;
     color: black;
