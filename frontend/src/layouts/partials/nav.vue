@@ -5,15 +5,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <template>
-  <div class="sticky-top">
+  <div class="sticky-top nav-wrapper">
     <div v-if="showBadge" class="bg">
-      <div class="container py-2">
-        <div class="d-inline rounded custom-badge text-small"><span>TESTING</span></div>
+      <div class="container py-2 d-flex align-items-center justify-content-between">
+        <div class="d-inline rounded custom-badge text-small">TESTING</div>
+
+        <a class="ml-auto no-external-icon text-small d-lg-none" href="https://opendatahub.com" target="_blank">
+          presented by <img class="pl-2" src="/open-data-hub-sm.svg" alt="Open Data Hub">
+        </a>
       </div>
     </div>
     <nav class="border-bottom bg-white">
       <div class="container">
         <b-navbar class="px-0" toggleable="lg">
+
           <b-navbar-brand :to="localePath('index')">
             <div class="h-100 d-flex flex-row align-items-center">
               <div class="flex-shrink-1">
@@ -23,23 +28,33 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               <ToolBadge class="mr-2" />
             </div>
           </b-navbar-brand>
-          <b-navbar-nav class="flex-grow-1 align-items-center">
-            <b-nav-item :to="localePath('index')">
-              Web Components
-            </b-nav-item>
-            <b-nav-item :to="localePath('how-to')">
-              How to
-            </b-nav-item>
-            <b-nav-item :to="localePath('validator')">
-              Validator
-            </b-nav-item>
-            <b-nav-item href="https://opendatahub.com/contact" target="_blank">
-              Contact
-            </b-nav-item>
-            <b-nav-item class="ml-auto no-external-icon text-small" href="https://opendatahub.com" target="_blank">
-              presented by <img class="pl-2" src="/open-data-hub-sm.svg" alt="Open Data Hub">
-            </b-nav-item>
-          </b-navbar-nav>
+
+          <b-navbar-toggle class="border-0" @click="$emit('toggle-overlay')" target="navbar-collapse">
+            <template>
+              <img src="/icons/hamburger.svg" alt="Menu" />
+            </template>
+          </b-navbar-toggle>
+
+          <b-collapse is-nav id="navbar-collapse" class="py-2 p-lg-0">
+            <b-navbar-nav class="flex-grow-1 align-items-center">
+              <b-nav-item :to="localePath('index')" @click="$emit('hide-overlay')">
+                Web Components
+              </b-nav-item>
+              <b-nav-item :to="localePath('how-to')" @click="$emit('hide-overlay')">
+                How to
+              </b-nav-item>
+              <b-nav-item :to="localePath('validator')" @click="$emit('hide-overlay')">
+                Validator
+              </b-nav-item>
+              <b-nav-item href="https://opendatahub.com/contact" target="_blank">
+                Contact
+              </b-nav-item>
+              <a class="ml-auto no-external-icon text-small d-none d-lg-inline" href="https://opendatahub.com" target="_blank">
+                presented by <img class="pl-2" src="/open-data-hub-sm.svg" alt="Open Data Hub">
+              </a>
+            </b-navbar-nav>
+          </b-collapse>
+
         </b-navbar>
       </div>
     </nav>
@@ -54,8 +69,7 @@ export default {
   name: "Nav",
   data: () => {
     return {
-      buildEnv: process.env.BUILD_ENVIRONMENT,
-      showBadge: process.env.BUILD_ENVIRONMENT === "testing"
+      showBadge: process.env.BUILD_ENVIRONMENT === "testing",
     }
   }
 }
@@ -83,7 +97,8 @@ export default {
 
   .custom-badge {
     background-color: #FA00FF;
-    padding: 6px 12px
+    line-height: 20px;
+    padding: 6px 12px;
   }
 
   .border-black {
