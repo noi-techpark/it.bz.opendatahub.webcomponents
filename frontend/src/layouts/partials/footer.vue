@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div>
     <div class="bg py-3">
       <div class="container">
-        <div class="row text-black text-semi-bold">
+        <div class="row text-black text-semibold">
           <div class="col-12 col-xl-4">
             <a href="/">
               <div class="card h-100 p-3 d-flex flex-row align-items-center">
@@ -46,7 +46,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         <div class="row">
           <div class="col-12 col-lg-3">
             <div class="d-flex flex-column">
-              <strong class="mb-1">Relevant links</strong>
+              <span class="mb-1 text-semibold">Relevant links</span>
               <a href="/">Web Components</a>
               <a href="/how-to">How To</a>
               <a href="/validator">Validator</a>
@@ -55,7 +55,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </div>
           <div class="col-12 col-lg-3 mt-3 mt-lg-0">
             <div class="d-flex flex-column">
-              <strong class="mb-1">Quickstart</strong>
+              <span class="mb-1 text-semibold">Quickstart</span>
               <a href="https://opendatahub.com" target="_blank">Open Data Hub Website</a>
               <a class="text-decoration-underline" href="/">Web Components</a>
               <a href="https://databrowser.opendatahub.com" target="_blank">Databrowser</a>
@@ -63,13 +63,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           </div>
           <div class="col-12 col-lg-3 mt-3 mt-lg-0">
             <div class="d-flex flex-column">
-              <strong class="mb-1">Contributors</strong>
+              <span class="mb-1 text-semibold">Contributors</span>
               <span>The Data Browser is the result of a great collaboration between many awesome people! <a class="text-decoration-underline" href="https://opendatahub.com/community/contributors?project=wcs" target="_blank"> Check them out!</a></span>
             </div>
           </div>
           <div class="col-12 col-lg-3 mt-3 mt-lg-0">
             <div class="d-flex flex-column">
-              <strong class="mb-1">Social Media</strong>
+              <span class="mb-1 text-semibold">Social Media</span>
               <a href="https://github.com/noi-techpark" target="_blank" class="d-flex align-items-center">
                 <img class="mr-2" src="/icons/footer/github.svg" alt="GitHub">
                 GitHub
@@ -139,8 +139,8 @@ export default {
     font-size: 14px;
   }
 
-  .text-semi-bold,
-  .text-semi-bold * {
+  .text-semibold,
+  .text-semibold * {
     font-weight: 600;
   }
 
