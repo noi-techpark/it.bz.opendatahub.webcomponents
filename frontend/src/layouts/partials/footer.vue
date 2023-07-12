@@ -37,7 +37,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 <div class="flex-shrink-1">
                   <img class="mr-3" src="/icons/footer/noi.svg" alt="NOI Techpark">
                 </div>
-                <span>Innovation hub in<br />Südtirol/ Alto Aldige</span>
+                <span>Innovation hub in<br />Südtirol/ Alto Adige</span>
               </div>
             </a>
           </div>
