@@ -9,7 +9,7 @@ SPDX-License-Identifier: CC0-1.0
 This repository contains the source code of the Open Data Hub Web Component
 Store. It is a store to collect and preview our web components. 
 
-![REUSE Compliance](https://github.com/noi-techpark/it.bz.opendatahub.webcomponents/actions/workflows/reuse.yml/badge.svg)
+[![REUSE Compliance](https://github.com/noi-techpark/it.bz.opendatahub.webcomponents/actions/workflows/reuse.yml/badge.svg)](https://github.com/noi-techpark/odh-docs/wiki/REUSE#badges)
 
 [![CI/CD data-service (api)](https://github.com/noi-techpark/it.bz.opendatahub.webcomponents/actions/workflows/data-service.yml/badge.svg)](https://github.com/noi-techpark/it.bz.opendatahub.webcomponents/actions/workflows/data-service.yml)
 [![CI/CD delivery-service (cdn)](https://github.com/noi-techpark/it.bz.opendatahub.webcomponents/actions/workflows/delivery-service.yml/badge.svg)](https://github.com/noi-techpark/it.bz.opendatahub.webcomponents/actions/workflows/delivery-service.yml)
