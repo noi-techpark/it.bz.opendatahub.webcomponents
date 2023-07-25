@@ -21,7 +21,6 @@ import Vue from 'vue';
 
 
 import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
-import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
 
 export default Vue.extend({
   name: 'FullscreenMode',
@@ -57,9 +56,6 @@ export default Vue.extend({
     component(): WebcomponentModel {
       return this.$store.state.webcomponent.webcomponent;
     },
-    config(): WebcomponentConfigurationModel {
-      return this.$store.state.webcomponent.configuration;
-    },
     selectedVersion(): string {
       return this.$store.state.webcomponent.versionTag;
     },
@@ -67,7 +63,7 @@ export default Vue.extend({
       return this.$store.state.webcomponent.snippet;
     },
     externalPreviewUrl(): string {
-      if (!this.component || !this.config) {
+      if (!this.component) {
         return '';
       }
       return (
