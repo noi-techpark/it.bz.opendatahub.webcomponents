@@ -27,10 +27,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
       <nuxt-link
         class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        :to="toFullscreenMode"
+        :to="toFullscreenMode" target="_blank"
       >
         <img :src="require('static/icons/ic_max_preview.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">fullscreen mode</div>
+        <div class="bottom-bar-button-text p-1">open in new tab</div>
       </nuxt-link>
       <nuxt-link
         v-if="selectedView === 'editing'"
