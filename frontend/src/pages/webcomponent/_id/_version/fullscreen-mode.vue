@@ -25,11 +25,9 @@ import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfi
 
 export default Vue.extend({
   name: 'FullscreenMode',
-  //if i delete this the footer get generated
   layout(context) {
     return 'fullscreen';
   },
-  //the whole page become white
   data() {
     return {
       previewBaseURL: (this as any).$api.baseUrl,
@@ -37,7 +35,6 @@ export default Vue.extend({
     };
   },
 
-    //the whole page become white
   async fetch() {
     this.$store.commit('webcomponent/SET_EDIT_MODE', true);
 
@@ -56,7 +53,6 @@ export default Vue.extend({
     }
   },
 
-    //the whole page become white
   computed: {
     component(): WebcomponentModel {
       return this.$store.state.webcomponent.webcomponent;
@@ -85,7 +81,6 @@ export default Vue.extend({
       );
     },
   },
-    //the whole page become white
   watch: {
     externalPreviewUrl(url) {
       if (url) {
