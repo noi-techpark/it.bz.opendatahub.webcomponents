@@ -9,36 +9,19 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <iframe
       id="tframe"
       class="full-height full-width"
-      style="margin-bottom: 60px"
       title="iframe-preview"
       frameborder="0"
     ></iframe>
-    <detail-bottom-bar
-      selected-view="preview"
-      @updatePreview="updatePreview"
-      @copyCode="copySnippetToClipboard"
-    >
-    </detail-bottom-bar>
-    <WCSConfigTool
-      v-if="config"
-      :config="config.configuration"
-      style="display: none"
-      @snippet="updateSnippetFromTool"
-    ></WCSConfigTool>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import WCSConfigTool from 'odh-web-components-configurator/src/components/wcs-configurator.vue';
-import DetailBottomBar from '~/components/detail-bottom-bar.vue';
+
 import { WebcomponentModel } from '~/domain/model/WebcomponentModel';
-import { WebcomponentConfigurationModel } from '~/domain/model/WebcomponentConfigurationModel';
-import { copyToClipboard } from '~/utils/ClipboardUtils';
 
 export default Vue.extend({
   name: 'Fullscreen',
-  components: { DetailBottomBar, WCSConfigTool },
   layout(context) {
     return 'fullscreen';
   },
@@ -62,17 +45,13 @@ export default Vue.extend({
         'webcomponent/restoreSnippet',
         this.$route.query.attribs
       );
-    } else {
-      this.$store.commit('webcomponent/SET_EDIT_MODE', false);
     }
+    // this.$store.commit('webcomponent/SET_EDIT_MODE', false);
   },
 
   computed: {
     component(): WebcomponentModel {
       return this.$store.state.webcomponent.webcomponent;
-    },
-    config(): WebcomponentConfigurationModel {
-      return this.$store.state.webcomponent.configuration;
     },
     selectedVersion(): string {
       return this.$store.state.webcomponent.versionTag;
@@ -81,7 +60,7 @@ export default Vue.extend({
       return this.$store.state.webcomponent.snippet;
     },
     externalPreviewUrl(): string {
-      if (!this.component || !this.config) {
+      if (!this.component) {
         return '';
       }
       return (
@@ -95,7 +74,6 @@ export default Vue.extend({
       );
     },
   },
-
   watch: {
     externalPreviewUrl(url) {
       if (url) {
@@ -104,16 +82,7 @@ export default Vue.extend({
     },
   },
 
-  mounted() {
-    if (this.externalPreviewUrl) {
-      this.updatePreview();
-    }
-  },
-
   methods: {
-    updateSnippetFromTool(snippet: string) {
-      this.$store.commit('webcomponent/SET_SNIPPET_FROM_TOOL', snippet);
-    },
     updatePreview() {
       const src = this.externalPreviewUrl;
       if (!src) {
@@ -131,7 +100,7 @@ export default Vue.extend({
       if (width > 576) {
         newElement.setAttribute(
           'style',
-          'min-height: 100vh; padding-bottom: 65px;'
+          'min-height: 100vh; padding-bottom: 0px;'
         );
       } else {
         newElement.setAttribute(
@@ -146,9 +115,6 @@ export default Vue.extend({
 
       // newElement.contentDocument.write(this.snippet);
       newElement.contentDocument.close();
-    },
-    copySnippetToClipboard() {
-      copyToClipboard(this.snippet);
     },
   },
 });
