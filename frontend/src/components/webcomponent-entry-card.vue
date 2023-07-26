@@ -106,7 +106,7 @@ export default {
         return this.localePath('/');
       }
 
-      if (this.returnTo === null) {
+      if (this.returnTo === null || this.returnTo === '/') {
         return this.localePath({
           name: 'webcomponent-id',
           params: {
