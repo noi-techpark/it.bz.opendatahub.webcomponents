@@ -64,7 +64,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div class="col-12 col-lg-3 mt-3 mt-lg-0">
             <div class="d-flex flex-column">
               <span class="mb-1 text-semibold">Contributors</span>
-              <span>The Data Browser is the result of a great collaboration between many awesome people! <a class="text-decoration-underline" href="https://opendatahub.com/community#contributors" target="_blank"> Check them out!</a></span>
+              <span>The Web Component Store is the result of a great collaboration between many awesome people! <a class="text-decoration-underline" href="https://opendatahub.com/community#contributors" target="_blank"> Check them out!</a></span>
             </div>
           </div>
           <div class="col-12 col-lg-3 mt-3 mt-lg-0">
