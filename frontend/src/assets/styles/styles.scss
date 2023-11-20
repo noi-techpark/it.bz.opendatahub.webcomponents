@@ -374,9 +374,15 @@ main {
 @media (max-width: 900px) {
     .float-right-text {
         float: none;
+        margin: 0;
     }
 }
 
+@media (max-width: 900px) {
+    .title-video {
+        float: none;
+    }
+}
 .btn {
     border: none;
     border-radius: 0;
@@ -403,4 +409,36 @@ main {
 
 .btn-primary {
     color: white !important;
+}
+
+.container-w {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+.text-w {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.video-w {
+    flex: 1;
+    box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+    .container-w {
+        flex-direction: column;
+    }
+
+    .text-w,
+    .video-w {
+        width: 100%;
+        padding: 10px;
+    }
+    .video {
+            width: 100%;
+            min-width: 600px;
+    }
 }
