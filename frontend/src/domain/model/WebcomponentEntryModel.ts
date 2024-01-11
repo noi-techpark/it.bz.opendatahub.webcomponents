@@ -30,4 +30,8 @@ export interface WebcomponentEntryModel {
   searchTags: Array<string>;
 
   currentVersion: WebcomponentVersionModel;
+  
+  highlighted: boolean;
+
+  theme: string;
 }

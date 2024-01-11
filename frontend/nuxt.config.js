@@ -140,9 +140,15 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.md$/,
                 loader: 'raw-loader',
-                exclude: /(node_modules)/,
+                exclude: /(node_modules)/
             });
         },
         babel: { compact: true },
+        hotMiddleware: {
+            client: {
+                // turn off client overlay when errors are present
+                overlay: false
+            }
+        }
     },
 };

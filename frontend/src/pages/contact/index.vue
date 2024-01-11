@@ -299,7 +299,7 @@ export default Vue.extend({
         captchaToken: this.token,
       };
 
-      console.log(request);
+    //   console.log(request);
 
       await this.$api.contact.send(request, () => {
         this.error = true;

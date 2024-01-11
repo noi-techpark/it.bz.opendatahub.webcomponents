@@ -48,26 +48,31 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       ></b-form-radio-group>
     </div> -->
 
-    <WcLatest v-if="latest"></WcLatest>
+
+    <WcHighlighted></WcHighlighted>
+    <!-- <WcLatest v-if="latest"></WcLatest>
     <WcFiltered
       v-else
       :tags="searchTags"
       :term="searchTerm"
       :return-to="returnTo"
-    />
+    /> -->
+
   </div>
 </template>
 
 <script>
 import Searchbar from '~/components/searchbar.vue';
-import WcLatest from '~/components/wc-latest.vue';
-import WcFiltered from '~/components/wc-filtered';
+// import WcLatest from '~/components/wc-latest.vue';
+// import WcFiltered from '~/components/wc-filtered';
+import WcHighlighted from '~/components/wc-highlighted';
 
 export default {
   components: {
     Searchbar,
-    WcLatest,
-    WcFiltered,
+    WcHighlighted,
+    // WcLatest,
+    // WcFiltered,
   },
 
   data() {
