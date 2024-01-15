@@ -316,7 +316,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         .front-card-button{
             cursor: pointer;
             line-height: 17px;
-            border: 1px solid white;
+            // border: 1px solid white;
             border-radius: 3px;
             text-transform: uppercase;
             padding: 0.7rem;
@@ -326,15 +326,22 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             font-family: "Source Sans Pro", "Open Sans", arial, sans-serif;
             font-weight: 600;
             font-size: 17px;
-            color: white !important;
+            background-color: white;
+            color: #2e3131 !important;
+            opacity:0.8;
             
             a{
                 font-family: "Source Sans Pro", "Open Sans", arial, sans-serif;
                 font-weight: 600;
                 font-size: 17px;
-                color: white !important;
+                color: #2e3131 !important;
+            }
+
+            &:hover{
+                opacity:1;
             }
         }
+
     }
   }
   
