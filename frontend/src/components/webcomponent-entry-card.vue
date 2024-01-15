@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div class="flip-card-inner">
               <div class="flip-card-front">
                 <div class="overlay" v-if="!isFlipped"></div>
-                <div class="aspect-box">
+                <div class="aspect-box" v-if="!isFlipped">
                     <div
                         :style="
                         'background-image: url(' +
@@ -19,7 +19,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                         class="aspect-container"
                     ></div>
                 </div>
-                <div class="front-card-buttons-container">
+                <div class="front-card-buttons-container" v-if="!isFlipped">
                     <div class="front-card-button" @click="toggleFlipped()">
                         Live preview
                     </div>
@@ -36,7 +36,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                             {{ tag }}
                         </div>
                     </div>
-                    <div class="description">
+                    <div class="description" v-if="!isFlipped">
                         {{ entry.descriptionAbstract }}
                     </div>
                 </div>
@@ -52,7 +52,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 </div>
                 <div class="wc-command-bar container-fluid">
                     <div class="row back-card-buttons-container">
-                        <div class="col back-card-button" @click="toggleFlipped()">close</div>
+                        <div class="col back-card-button" @click="toggleFlipped()">back</div>
                         <div class="col back-card-button">
                             <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">details</nuxt-link>
                         </div>
