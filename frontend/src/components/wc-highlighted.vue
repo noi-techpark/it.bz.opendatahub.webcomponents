@@ -23,7 +23,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             :key="entry.uuid"
             class="col-md-6 col-lg-6 col-xl-4 mb-4"
           >
-            <WebcomponentEntryCard :entry="entry" />
+            <WebcomponentEntryCard :entry="entry" uuKey="highlighted"  />
           </div>
         </div>
         <!-- <div class="text-center">
@@ -84,7 +84,7 @@ export default Vue.extend({
         item.highlighted = true;
         // console.log(item)
         
-        return (item.highlighted)
+        return (item.highlighted && index < 3)
       });
     },
   },

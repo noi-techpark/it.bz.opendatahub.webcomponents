@@ -33,7 +33,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <Searchbar
       :search-term="searchTerm"
       :selected-tags="getSearchTags"
-      :focus-search="false"
+      :focus-search="true"
       @tags-updated="redirectSearchTerm($event)"
       @term-submitted="redirectSearchTerm($event)"
       @term-updated="updateSearchTerm($event)"
@@ -49,14 +49,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     </div> -->
 
 
-    <WcHighlighted></WcHighlighted>
-    <!-- <WcLatest v-if="latest"></WcLatest>
+    <WcHighlighted v-if="noFilters"></WcHighlighted>
+    <!-- <WcLatest v-if="latest"></WcLatest> -->
     <WcFiltered
-      v-else
       :tags="searchTags"
       :term="searchTerm"
       :return-to="returnTo"
-    /> -->
+    />
 
   </div>
 </template>
@@ -64,7 +63,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <script>
 import Searchbar from '~/components/searchbar.vue';
 // import WcLatest from '~/components/wc-latest.vue';
-// import WcFiltered from '~/components/wc-filtered';
+import WcFiltered from '~/components/wc-filtered';
 import WcHighlighted from '~/components/wc-highlighted';
 
 export default {
@@ -72,7 +71,7 @@ export default {
     Searchbar,
     WcHighlighted,
     // WcLatest,
-    // WcFiltered,
+    WcFiltered,
   },
 
   data() {
@@ -83,6 +82,12 @@ export default {
   },
 
   computed: {
+    noFilters(){
+        if ((!this.$route.query.term || this.$route.query.term == '') && (!this.$route.query.tags || this.$route.query.tags.length == 0)){
+            return true;
+        }
+        return false;
+    },
     latest() {
       return this.$route.query.latest;
     },

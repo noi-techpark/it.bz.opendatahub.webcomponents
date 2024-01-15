@@ -9,74 +9,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div>
       <div class="container container-extended p-4 pb-0">
         <div class="row">
-          <div class="col-6">
-            <div id="tags-zone">
-              <div
-                id="widget-tags"
-                :class="{
-                  active:
-                    userSelectedTags &&
-                    userSelectedTags.length > 0 &&
-                    userSelectedTags[0] !== 'any',
-                }"
-                style="cursor: pointer"
-                class="full-height d-flex justify-content-between font-large pb-2 align-items-center"
-                @click="searchTagsVisible = !searchTagsVisible"
-              >
-                <span v-if="userSelectedTags.length === 0" class="filter-text"
-                  >Filter by categories</span
-                >
-                <span v-else class="filter-text-light text-capitalize">{{
-                  userSelectedTags.join(', ')
-                }}</span>
-                <div style="height: 100%">
-                  <img
-                    v-if="selectedTags.length > 0"
-                    src="/icons/close_black.svg"
-                    class="clear-icon"
-                    style="margin-right: 15px"
-                    @click.stop="clearTags"
-                  />
-                  <span style="padding-top: 15px">
-                    <span
-                      class="chevron semi-bold mr-2"
-                      :class="[searchTagsVisible ? 'top' : 'bottom']"
-                    ></span>
-                  </span>
-                </div>
-              </div>
-              <b-collapse
-                id="tag-collapse"
-                v-model="searchTagsVisible"
-                style="
-                  position: absolute;
-                  border-left: 1px solid #e8ecf1;
-                  border-bottom: 1px solid #e8ecf1;
-                  border-right: 1px solid #e8ecf1;
-                  max-height: 500px;
-                  overflow-y: scroll;
-                "
-                class="shadow"
-              >
-                <div class="m-4">
-                  <b-form-checkbox-group
-                    id="checkbox-group-2"
-                    v-model="userSelectedTags"
-                    name="flavour-2"
-                    class="text-capitalize d-flex flex-column"
-                    @input="tagsUpdated"
-                  >
-                    <b-form-checkbox
-                      v-for="tag in availableSearchTags"
-                      :key="tag"
-                      :value="tag"
-                      >{{ tag }}</b-form-checkbox
-                    >
-                  </b-form-checkbox-group>
-                </div>
-              </b-collapse>
-            </div>
-          </div>
           <div class="col-6 mt-0">
             <form @submit.prevent="termSubmitted()">
               <div
@@ -150,6 +82,74 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 </svg>
               </div>
             </form>
+          </div>
+          <div class="col-6">
+            <div id="tags-zone">
+              <div
+                id="widget-tags"
+                :class="{
+                  active:
+                    userSelectedTags &&
+                    userSelectedTags.length > 0 &&
+                    userSelectedTags[0] !== 'any',
+                }"
+                style="cursor: pointer"
+                class="full-height d-flex justify-content-between font-large pb-2 align-items-center"
+                @click="searchTagsVisible = !searchTagsVisible"
+              >
+                <span v-if="userSelectedTags.length === 0" class="filter-text"
+                  >Filter by categories</span
+                >
+                <span v-else class="filter-text-light text-capitalize">{{
+                  userSelectedTags.join(', ')
+                }}</span>
+                <div style="height: 100%">
+                  <img
+                    v-if="selectedTags.length > 0"
+                    src="/icons/close_black.svg"
+                    class="clear-icon"
+                    style="margin-right: 15px"
+                    @click.stop="clearTags"
+                  />
+                  <span style="padding-top: 15px">
+                    <span
+                      class="chevron semi-bold mr-2"
+                      :class="[searchTagsVisible ? 'top' : 'bottom']"
+                    ></span>
+                  </span>
+                </div>
+              </div>
+              <b-collapse
+                id="tag-collapse"
+                v-model="searchTagsVisible"
+                style="
+                  position: absolute;
+                  border-left: 1px solid #e8ecf1;
+                  border-bottom: 1px solid #e8ecf1;
+                  border-right: 1px solid #e8ecf1;
+                  max-height: 500px;
+                  overflow-y: scroll;
+                "
+                class="shadow"
+              >
+                <div class="m-4">
+                  <b-form-checkbox-group
+                    id="checkbox-group-2"
+                    v-model="userSelectedTags"
+                    name="flavour-2"
+                    class="text-capitalize d-flex flex-column"
+                    @input="tagsUpdated"
+                  >
+                    <b-form-checkbox
+                      v-for="tag in availableSearchTags"
+                      :key="tag"
+                      :value="tag"
+                      >{{ tag }}</b-form-checkbox
+                    >
+                  </b-form-checkbox-group>
+                </div>
+              </b-collapse>
+            </div>
           </div>
         </div>
       </div>

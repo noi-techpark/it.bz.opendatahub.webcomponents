@@ -296,6 +296,8 @@ export default Vue.extend({
   },
 
   mounted() {
+    this.resetEditorSnippet();
+    
     if (this.externalPreviewUrl) {
       this.updatePreview();
     }
