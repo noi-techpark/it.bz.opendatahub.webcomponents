@@ -29,6 +29,9 @@ public class WebcomponentModelMapper implements RowMapper<WebcomponentModel> {
         model.setRepositoryUrl(resultSet.getString("repository_url"));
         model.setImage(resultSet.getString("image"));
         model.setLicense(resultSet.getString("license"));
+        model.setHighlighted(resultSet.getBoolean("highlighted"));
+        model.setTheme(resultSet.getString("theme"));
+
 
         try {
             model.setCopyrightHolders(

@@ -36,4 +36,8 @@ public class WebcomponentEntryRest {
     private List<String> searchTags;
 
     private WebcomponentVersionRest currentVersion;
+
+    private Boolean highlighted;
+
+	private String theme;
 }
