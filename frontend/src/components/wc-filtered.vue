@@ -63,6 +63,12 @@ export default Vue.extend({
     WebcomponentEntryCard,
   },
   props: {
+    sorting: {
+      default: () => {
+        return {};
+      },
+      type: Object,
+    },
     tags: {
       default: () => {
         return [];
@@ -85,7 +91,7 @@ export default Vue.extend({
   fetch() {},
   computed: {
     noFilters(){
-        if ((!this.term || this.term == '') && (!this.tags || this.tags.length == 0)){
+        if ((!this.term || this.term == '') && (!this.tags || this.tags.length == 0) && (!this.sorting && !this.sorting.condition && !this.sorting.order) ){
             return true;
         }
         return false;
@@ -125,20 +131,20 @@ export default Vue.extend({
     this.loadPage(this.currentPageNumber, this.pageSize);
   },
   methods: {
-    toPage(page) {
-      this.currentPageNumber = page;
-      this.loadPage(this.currentPageNumber, this.pageSize);
-    },
-    nextPage() {
-      if (this.isLast === false) {
-        this.loadPage(++this.currentPageNumber, this.pageSize);
-      }
-    },
-    previousPage() {
-      if (this.isFirst === false) {
-        this.loadPage(--this.currentPageNumber, this.pageSize);
-      }
-    },
+    // toPage(page) {
+    //   this.currentPageNumber = page;
+    //   this.loadPage(this.currentPageNumber, this.pageSize);
+    // },
+    // nextPage() {
+    //   if (this.isLast === false) {
+    //     this.loadPage(++this.currentPageNumber, this.pageSize);
+    //   }
+    // },
+    // previousPage() {
+    //   if (this.isFirst === false) {
+    //     this.loadPage(--this.currentPageNumber, this.pageSize);
+    //   }
+    // },
     update() {
       this.currentPageNumber = 0;
       this.loadPage(this.currentPageNumber, this.pageSize);
@@ -160,9 +166,10 @@ export default Vue.extend({
 
       this.$store.dispatch('webcomponent-list/loadPage', {
         pageRequest: new PageRequest(pageSize, pageNumber),
+        sorting:this.sorting,
         filter: {
-          tags,
-          searchTerm: term,
+            tags,
+            searchTerm: term,
         },
       });
     },

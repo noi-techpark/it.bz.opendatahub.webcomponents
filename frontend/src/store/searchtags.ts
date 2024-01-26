@@ -19,7 +19,9 @@ export const getters: GetterTree<RootState, RootState> = {
 
 export const mutations: MutationTree<RootState> = {
   SET_SEARCHTAGS: (state, searchtags: string[]) => {
-    state.searchtags = searchtags;
+      state.searchtags = searchtags.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
   },
 };
 

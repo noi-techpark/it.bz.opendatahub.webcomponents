@@ -38,6 +38,7 @@
 		"sass": "^1.55.0",
 		"sass-loader": "10.1.1",
 		"v-tooltip": "^2.0.2",
+		"vue-cookie": "^1.1.4",
 		"vue-loading-overlay": "^3.3.4",
 		"vue-markdown": "^2.2.4",
 		"vue-plyr": "^7.0.0",

@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div class="flip-card-inner">
               <div class="flip-card-front">
                 <div class="overlay" v-if="!isFlipped"></div>
-                <div class="aspect-box" v-if="!isFlipped">
+                <div class="aspect-box">
                     <div
                         :style="
                         'background-image: url(' +
@@ -21,14 +21,54 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 </div>
                 <div class="front-card-buttons-container" v-if="!isFlipped">
                     <div class="front-card-button" @click="toggleFlipped()">
-                        Live preview
+                        Preview
                     </div>
                     <div class="front-card-button">
                         <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">Details</nuxt-link>
                     </div>
+                    <!-- <div class="front-card-button">
+                        Share
+                    </div> -->
                 </div>
                 <div class="front-content-container" v-if="!isFlipped">
-                    <div class="title">{{ entry.title }}</div>
+                    <div class="title" :id="'more-options-zone'+uuKey+entry.uuid">
+                        {{ entry.title }}
+                        <div style="position: relative; display: inline;">
+                            <img src="/icons/three-dots.svg" alt="..." @click="openMoreOptions(uuKey+entry.uuid)" />
+                            <b-collapse
+                                :id="'sorting-collapse'+uuKey+entry.uuid"
+                                v-model="showMoreOptions"
+                                class="mode-option-container"
+                            >
+                                <div class="m-2">
+                                    <div class="row mb-1">
+                                        <div class="col cursor-pointer">
+                                            <img src="/icons/eye-outline.svg" class="mode-option-icon" alt="Show details"/>
+                                            <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">Details</nuxt-link>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1" @click="copyCode(uuKey+entry.uuid,false,$event)">
+                                        <div class="col cursor-pointer">
+                                            <img v-if="!showCheckIcon" src="/icons/content-copy.svg" class="mode-option-icon" alt="Copy details link"/>
+                                            <img v-else="showCheckIcon" src="/icons/check.svg" class="mode-option-icon" alt="Link copied"/>
+                                            Share
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1" @click="copyEmbedCode(uuKey+entry.uuid, false,$event)">
+                                        <div class="col cursor-pointer">
+                                            <img src="/icons/code-tags.svg" class="mode-option-icon" alt="Copy embed code"/>
+                                            <nuxt-link :to="returnEmbedPath" style="color: inherit; text-decoration: inherit">Embed</nuxt-link>
+                                        </div>
+                                        <!-- <div class="col cursor-pointer">
+                                            <img v-if="!showEmbedCheckIcon" src="/icons/code-tags.svg" class="mode-option-icon" alt="Copy embed code"/>
+                                            <img v-else="showEmbedCheckIcon" src="/icons/check.svg" class="mode-option-icon" alt="Embed code copied"/>
+                                            Embed
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </b-collapse>
+                        </div>
+                    </div>
                     <div class="categories">
                         <div v-for="tag in entry.searchTags"
                             :key="tag"
@@ -52,12 +92,41 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 </div>
                 <div class="wc-command-bar container-fluid">
                     <div class="row back-card-buttons-container">
-                        <div class="col back-card-button" @click="toggleFlipped()">back</div>
+                        <div class="col-2 back-card-button" style="padding-left:1rem; padding-top: 0.4rem;" @click="toggleFlipped()">
+                            <img src="/icons/back-icon.svg" alt="back" style="width:1.3rem;" />
+                        </div>
                         <div class="col back-card-button">
                             <nuxt-link :to="returnPath" style="color: inherit; text-decoration: inherit">details</nuxt-link>
                         </div>
-                        <div class="col back-card-button">share</div>
+                        <div :id="'copy-link'+uuKey+entry.uuid" class="col back-card-button" @click="copyCode(uuKey+entry.uuid,true,$event)">
+                            Share
+                        </div>                       
+                        <div class="col back-card-button" @click="copyEmbedCode(uuKey+entry.uuid,true,$event)">
+                            <nuxt-link :to="returnEmbedPath" style="color: inherit; text-decoration: inherit">embed</nuxt-link>
+                        </div>
+                        <!-- <div :id="'copy-embed-code'+uuKey+entry.uuid" class="col back-card-button" @click="copyEmbedCode(uuKey+entry.uuid,true,$event)">embed</div> -->
                     </div>
+
+                    <b-popover
+                        id="popover"
+                        :target="'copy-link'+uuKey+entry.uuid"
+                        :show.sync="showPopover"
+                        triggers="click"
+                        placement="top"
+                    >
+                        Copied to clipboard
+                    </b-popover>
+
+                    <!-- <b-popover
+                        id="popover"
+                        :target="'copy-embed-code'+uuKey+entry.uuid"
+                        :show.sync="showEmbedPopover"
+                        triggers="click"
+                        placement="top"
+                    >
+                        Copied to clipboard
+                    </b-popover> -->
+                    
                 </div>
 
               </div>
@@ -66,6 +135,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   </template>
   
   <script>
+  import { copyToClipboard } from '~/utils/ClipboardUtils';
+
   export default {
     props: {
       uuKey: {
@@ -83,11 +154,65 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     },
     data(){
         return {
+            showMoreOptions: false,
+            showPopover: false,
+            showEmbedPopover: false,
+            showCheckIcon: false,
+            showEmbedCheckIcon: false,
+            intervalId: 0,
             previewBaseURL: this.$api.baseUrl,
-            isFlipped:false
+            isFlipped:false,
+            editorCode:''
         }
     },
     methods:{
+        copyCode(key,hasPophover,ev) {
+            clearInterval(this.intervalId);
+            if(hasPophover){
+                this.showPopover = true;
+            }else{
+                this.showCheckIcon = true;
+            }
+            this.intervalId = setInterval(
+                function () {
+                    this.showCheckIcon = false;
+                    this.showPopover = false;
+                }.bind(this),
+                3000
+            );
+            
+            let url = window.location.origin+this.returnPath;
+            copyToClipboard(url);
+        },
+        copyEmbedCode(key,hasPophover,ev) {
+            clearInterval(this.intervalId);
+            if(hasPophover){
+                this.showEmbedPopover = true;
+            }else{
+                this.showEmbedCheckIcon = true;
+            }
+            this.intervalId = setInterval(
+                function () {
+                    this.showEmbedCheckIcon = false;
+                    this.showEmbedPopover = false;
+                }.bind(this),
+                3000
+            );
+            
+            copyToClipboard(this.editorCode);
+            console.log("this.editorCode",this.editorCode)
+        },
+        openMoreOptions(key,ev) {
+            this.showMoreOptions = key;
+        },
+        collapseAllMoreOptions(e){
+            if (!document.getElementById('more-options-zone'+this.showMoreOptions)) {
+                return;
+            }
+            if (!document.getElementById('more-options-zone'+this.showMoreOptions).contains(e.target)) {
+                this.showMoreOptions = false;
+            }
+        },
         toggleFlipped(){
             this.isFlipped = !this.isFlipped
             if(this.isFlipped){
@@ -138,12 +263,24 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             this.$store.dispatch('webcomponent/resetSnippet');
         }
     },
+    mounted(){
+        window.addEventListener('click', this.collapseAllMoreOptions);
+    },
     unmounted() {
         if(this.isFlipped){
             this.resetEditorSnippet();
         }
     },
+
+    watch: {
+        snippet(value) {
+            this.editorCode = value;
+        },
+    },
     computed: {
+        snippet() {
+            return this.$store.state.webcomponent.snippet;
+        },
         config() {
             return this.$store.state.webcomponent.configuration;
         },  
@@ -184,18 +321,40 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             }
     
             return this.localePath({
-            name: 'webcomponent-id',
-            params: {
-                id: this.entry.shortName ? this.entry.shortName : this.entry.uuid,
-            },
-            query: { from: this.returnTo },
+                name: 'webcomponent-id',
+                params: {
+                    id: this.entry.shortName ? this.entry.shortName : this.entry.uuid,
+                },
+                query: { from: this.returnTo },
             });
+        },
+        returnEmbedPath() {
+            return this.returnPath+'#chooseRightSidebarTabEmbed'
         },
     },
   };
   </script>
   
   <style lang="scss">
+  .mode-option-container{
+    position: absolute;
+    border-radius: 0.5rem;
+    left: 1.2rem;
+    top: 0;
+    width: 10rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: rgb(46, 49, 49);
+    background-color: white;
+    box-shadow: 0 0 5px rgb(46, 49, 49);
+    overflow-y: none;
+
+    .mode-option-icon{
+        width: 1.3rem;
+        margin-right: 0.3rem;
+    }
+  }
+
   /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
   .flip-card {
     background-color: transparent;

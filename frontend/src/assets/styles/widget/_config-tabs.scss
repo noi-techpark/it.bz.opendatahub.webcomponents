@@ -36,6 +36,13 @@
 	.nav-pills .nav-item:nth-child(2) {
 		border: 1px solid #cfcfcf;
 		border-left: none;
+		border-radius: none;
+		overflow: hidden;
+	}
+
+	.nav-pills .nav-item:nth-child(3) {
+		border: 1px solid #cfcfcf;
+		border-left: none;
 		border-radius: 0 0.25rem 0.25rem 0;
 		overflow: hidden;
 	}

@@ -78,13 +78,8 @@ export default Vue.extend({
 
       return this.$store.getters[
         'webcomponent-list/getLoadedPage'
-      ].content.filter((item, index) => {
-        
-        //dev
-        item.highlighted = true;
-        // console.log(item)
-        
-        return (item.highlighted && index < 3)
+      ].content.filter((item, index) => {        
+        return (item.highlighted)
       });
     },
   },

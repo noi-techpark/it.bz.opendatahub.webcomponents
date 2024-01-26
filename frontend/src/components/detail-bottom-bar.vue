@@ -7,60 +7,38 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 <template>
   <div class="bottom-bar-container d-flex justify-content-center">
     <div class="bottom-bar d-inline-flex justify-content-center">
-      <nuxt-link
-        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        :to="toFullscreen" target="_blank"
-      >
-        <img :src="require('static/icons/ic_max_preview.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">open in new tab</div>
-      </nuxt-link>
-      <nuxt-link
-        v-if="selectedView === 'editing'"
-        class="bottom-bar-button selected d-flex justify-content-center align-items-center text-uppercase"
-        :to="toDetails"
-      >
-        <img :src="require('static/icons/ic_min_editing.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">minimize editing</div>
-      </nuxt-link>
-      <nuxt-link
-        v-else
-        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        :to="toFullscreenEditing"
-      >
-        <img :src="require('static/icons/ic_max_editing.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">fullscreen editing</div>
-      </nuxt-link>
-      <div
-        id="copy-code"
-        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="copyCode"
-      >
-        <img :src="require('static/icons/ic_copy.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">copy code</div>
-      </div>
-      <b-popover
-        id="popover"
-        target="copy-code"
-        :show.sync="showPopover"
-        triggers="click"
-        placement="top"
-      >
-        Copied to clipboard
-      </b-popover>
-      <div
-        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="createCodeSandbox"
-      >
-        <img :src="require('static/icons/codesandbox.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">open codesandbox</div>
-      </div>
-      <div
-        class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
-        @click="$emit('updatePreview')"
-      >
-        <img :src="require('static/icons/ic_update.svg')" class="p-1" />
-        <div class="bottom-bar-button-text p-1">update preview</div>
-      </div>
+        <nuxt-link
+            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            :to="toFullscreen" target="_blank"
+        >
+            <img :src="require('static/icons/ic_max_preview.svg')" class="p-1" />
+            <div class="bottom-bar-button-text p-1">open in new tab</div>
+        </nuxt-link>
+
+        <div
+            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            @click="handleScroll('chooseRightSidebarTab',0)"
+        >
+            <img :src="require('static/icons/ic_max_editing.svg')" class="p-1" />
+            <div class="bottom-bar-button-text p-1">configure</div>
+        </div>
+      
+        <div
+            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            @click="handleScroll('chooseRightSidebarTab',1)"
+        >
+            <img :src="require('static/icons/ic_copy.svg')" class="p-1" />
+            <div class="bottom-bar-button-text p-1">share</div>
+        </div>
+
+        <div
+            class="bottom-bar-button d-flex justify-content-center align-items-center text-uppercase"
+            @click="handleScroll('chooseRightSidebarTab',2)"
+        >
+            <img :src="require('static/icons/information-outline.svg')" class="p-1" />
+            <div class="bottom-bar-button-text p-1">about</div>
+        </div>
+        
     </div>
   </div>
 </template>
@@ -76,8 +54,6 @@ export default {
   },
   data() {
     return {
-      showPopover: false,
-      intervalId: 0,
       id: this.$route.params.id,
       version: this.$route.params.version,
     };
@@ -108,19 +84,19 @@ export default {
         });
       }
     },
-    toFullscreenEditing() {
-      if (this.version) {
-        return this.localePath({
-          name: 'webcomponent-id-version-fullscreen-editing',
-          params: { id: this.id, version: this.version },
-        });
-      } else {
-        return this.localePath({
-          name: 'webcomponent-id-fullscreen-editing',
-          params: { id: this.id },
-        });
-      }
-    },
+    // toFullscreenEditing() {
+    //   if (this.version) {
+    //     return this.localePath({
+    //       name: 'webcomponent-id-version-fullscreen-editing',
+    //       params: { id: this.id, version: this.version },
+    //     });
+    //   } else {
+    //     return this.localePath({
+    //       name: 'webcomponent-id-fullscreen-editing',
+    //       params: { id: this.id },
+    //     });
+    //   }
+    // },
     toDetails() {
       if (this.version) {
         return this.localePath({
@@ -136,17 +112,41 @@ export default {
     },
   },
   methods: {
-    copyCode() {
-      clearInterval(this.intervalId);
-      this.showPopover = true;
-      this.intervalId = setInterval(
-        function () {
-          this.showPopover = false;
-        }.bind(this),
-        3000
-      );
-      this.$emit('copyCode');
+    changeTabIndex(tabIndex) {
+        this.$emit('changeTabIndex',tabIndex,true);
     },
+    handleScroll(anchorId,tabIndex) {
+        this.changeTabIndex(tabIndex)
+
+        const anchor = document.querySelector(`#${anchorId}`)
+        if (anchor) {
+            window.scrollTo({
+                top: anchor.getBoundingClientRect().top + window.pageYOffset
+            })
+        }
+    },
+    // copyLink() {
+    //   clearInterval(this.intervalId);
+    //   this.showPopover = true;
+    //   this.intervalId = setInterval(
+    //     function () {
+    //       this.showPopover = false;
+    //     }.bind(this),
+    //     3000
+    //   );
+    //   this.$emit('copyCode');
+    // },
+    // copyCode() {
+    //   clearInterval(this.intervalId);
+    //   this.showEmbedPopover = true;
+    //   this.intervalId = setInterval(
+    //     function () {
+    //       this.showEmbedPopover = false;
+    //     }.bind(this),
+    //     3000
+    //   );
+    //   this.$emit('copyCode');
+    // },
     async createCodeSandbox() {
       await this.$store.dispatch('loader/startLoading');
 
