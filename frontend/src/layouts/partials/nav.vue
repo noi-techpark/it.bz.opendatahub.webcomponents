@@ -6,26 +6,18 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div class="sticky-top nav-wrapper">
-    <div v-if="showBadge" class="bg">
-      <div class="container py-2 d-flex align-items-center justify-content-between">
-        <div class="d-inline rounded custom-badge text-small">TESTING</div>
-
-        <a class="ml-auto no-external-icon text-small d-lg-none" href="https://opendatahub.com" target="_blank">
-          presented by <img class="pl-2" src="/open-data-hub-sm.svg" alt="Open Data Hub">
-        </a>
-      </div>
-    </div>
     <nav class="border-bottom bg-white">
       <div class="container">
         <b-navbar class="px-0" toggleable="lg">
 
           <b-navbar-brand :to="localePath('index')">
             <div class="h-100 d-flex flex-row align-items-center">
-              <div class="flex-shrink-1">
+              <!-- <div class="flex-shrink-1">
                 <img src="/open-data-hub.svg" alt="Open Data Hub">
-              </div>
-              <div class="mx-2 align-self-stretch border-black border-right"></div>
-              <ToolBadge class="mr-2" />
+              </div> -->
+              <div class="mx-2 align-self-stretch border-black"></div>
+              <ToolBadge class="mr-2 wcs-logo" />
+              <div v-if="showBadge" class="d-inline rounded custom-badge text-small">TESTING</div>
             </div>
           </b-navbar-brand>
 
@@ -50,7 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 Contact
               </b-nav-item>
               <a class="ml-auto no-external-icon text-small d-none d-lg-inline" href="https://opendatahub.com" target="_blank">
-                presented by <img class="pl-2" src="/open-data-hub-sm.svg" alt="Open Data Hub">
+                <img class="pl-2 logo-open-data-hub" src="/open-data-hub-sm.svg" alt="Open Data Hub">
               </a>
             </b-navbar-nav>
           </b-collapse>
@@ -82,6 +74,15 @@ export default {
     line-height: 28px;
   }
 
+  .wcs-logo{
+    span{
+        padding:0.3rem;
+    }
+  }
+  .logo-open-data-hub{
+    width: 2.2rem;
+  }
+  
   .nav-item:not(.no-external-icon) [target="_blank"]::after {
     padding-left: 0.4rem;
     content: url(/icons/external.svg)

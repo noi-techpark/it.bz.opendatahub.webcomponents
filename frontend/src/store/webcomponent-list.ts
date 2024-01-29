@@ -8,6 +8,10 @@ import { Page } from '../domain/repository/PagingAndSorting';
 import { $api } from '~/utils/api-accessor';
 
 export const state = () => ({
+  sorting:{
+    condition:'name',
+    order:'asc',
+  },
   webcomponentsList: {
     empty: true,
     first: true,
@@ -29,14 +33,41 @@ export const getters: GetterTree<RootState, RootState> = {
 
 export const mutations: MutationTree<RootState> = {
   SET_LOADED_PAGE: (state, webcomponentsList: Page<WebcomponentEntryModel>) => {
+    if(state.sorting.condition && state.sorting.order){
+        webcomponentsList.content.sort((a,b)=>{
+            let evaluableA;
+            let evaluableB;
+            if(state.sorting.condition == 'releaseTimestamp'){
+                evaluableA = a.currentVersion.releaseTimestamp;
+                evaluableB = b.currentVersion.releaseTimestamp;
+            }else{
+                evaluableA = a[state.sorting.condition];
+                evaluableB = b[state.sorting.condition];
+            }
+            let orderingWeight = 1;
+            if(state.sorting.order == 'desc'){
+                orderingWeight = -1;
+            }
+            if(evaluableA < evaluableB){
+                return -orderingWeight;
+            }else if(evaluableA > evaluableB){
+                return orderingWeight;
+            }
+            return 0;
+        })
+    }
     state.webcomponentsList = webcomponentsList;
   },
+  SET_SORTING:(state,sorting) =>{
+    state.sorting = sorting;
+  }
 };
 
 export const actions: ActionTree<RootState, RootState> = {
-  async loadPage({ commit }, { pageRequest, filter }) {
-    const result = await $api.webcomponent.findAllPaged(pageRequest, filter);
+    async loadPage({ commit }, { pageRequest,sorting, filter }) {
+        commit('SET_SORTING', sorting);
+        const result = await $api.webcomponent.findAllPaged(pageRequest, filter);
 
-    commit('SET_LOADED_PAGE', result);
-  },
+        commit('SET_LOADED_PAGE', result);
+    },
 };

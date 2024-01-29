@@ -9,9 +9,11 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="bg-light">
       <div class="container container-extended p-4">
         <h1 class="components-title d-flex flex-column" style="min-width: 40%">
-          <span>{{ currentPage.totalElements }} components</span>
-          <span style="font-size: small"
-            ><nuxt-link
+          <span v-if="noFilters">all components</span>
+          <span v-else>components found</span>
+          <span style="font-size: small">
+            {{ currentPage.totalElements }} components
+            <!-- <nuxt-link
               :to="
                 localePath({
                   query: {
@@ -20,17 +22,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 })
               "
               >&gt;show newest</nuxt-link
-            ></span
-          >
+            > -->
+            </span>
         </h1>
 
         <div v-if="hasContent" id="widget-componentcards" class="row">
           <div
             v-for="entry in currentPage.content"
             :key="entry.uuid"
-            class="col-md-6 col-lg-4 col-xl-3 mb-4"
+            class="col-md-6 col-lg-6 col-xl-4 mb-4"
           >
-            <WebcomponentEntryCard :entry="entry" :return-to="returnTo" />
+            <WebcomponentEntryCard :entry="entry" :return-to="returnTo" uuKey="filtered" />
           </div>
         </div>
         <div v-else class="container text-center" style="height: 400px">
@@ -61,6 +63,12 @@ export default Vue.extend({
     WebcomponentEntryCard,
   },
   props: {
+    sorting: {
+      default: () => {
+        return {};
+      },
+      type: Object,
+    },
     tags: {
       default: () => {
         return [];
@@ -82,6 +90,12 @@ export default Vue.extend({
   },
   fetch() {},
   computed: {
+    noFilters(){
+        if ((!this.term || this.term == '') && (!this.tags || this.tags.length == 0) && (!this.sorting && !this.sorting.condition && !this.sorting.order) ){
+            return true;
+        }
+        return false;
+    },
     hasContent() {
       return !this.currentPage.empty;
     },
@@ -117,20 +131,20 @@ export default Vue.extend({
     this.loadPage(this.currentPageNumber, this.pageSize);
   },
   methods: {
-    toPage(page) {
-      this.currentPageNumber = page;
-      this.loadPage(this.currentPageNumber, this.pageSize);
-    },
-    nextPage() {
-      if (this.isLast === false) {
-        this.loadPage(++this.currentPageNumber, this.pageSize);
-      }
-    },
-    previousPage() {
-      if (this.isFirst === false) {
-        this.loadPage(--this.currentPageNumber, this.pageSize);
-      }
-    },
+    // toPage(page) {
+    //   this.currentPageNumber = page;
+    //   this.loadPage(this.currentPageNumber, this.pageSize);
+    // },
+    // nextPage() {
+    //   if (this.isLast === false) {
+    //     this.loadPage(++this.currentPageNumber, this.pageSize);
+    //   }
+    // },
+    // previousPage() {
+    //   if (this.isFirst === false) {
+    //     this.loadPage(--this.currentPageNumber, this.pageSize);
+    //   }
+    // },
     update() {
       this.currentPageNumber = 0;
       this.loadPage(this.currentPageNumber, this.pageSize);
@@ -152,9 +166,10 @@ export default Vue.extend({
 
       this.$store.dispatch('webcomponent-list/loadPage', {
         pageRequest: new PageRequest(pageSize, pageNumber),
+        sorting:this.sorting,
         filter: {
-          tags,
-          searchTerm: term,
+            tags,
+            searchTerm: term,
         },
       });
     },

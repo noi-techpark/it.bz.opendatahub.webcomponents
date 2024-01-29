@@ -4,6 +4,43 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
+#widget-sorting {
+	border-bottom: 2px solid #000;
+
+	&.active {
+		color: $secondary !important;
+		border-bottom: 2px solid $secondary !important;
+	}
+
+	.filter-text {
+		font-size: 24px;
+		font-weight: bold;
+	}
+
+	.filter-text-light {
+		font-size: 24px;
+		white-space:nowrap;
+		overflow:hidden;
+		text-overflow: ellipsis;
+	}
+	@media (max-width: 576px) {
+		border-bottom: 1px solid #000;
+
+		&.active {
+			border-bottom: 1px solid $secondary !important;
+		}
+
+		.filter-text {
+			font-size: 14px;
+			font-weight: normal;
+		}
+
+		.filter-text-light {
+			font-size: 14px;
+		}
+	}
+}
+
 #widget-tags {
 	border-bottom: 2px solid #000;
 
