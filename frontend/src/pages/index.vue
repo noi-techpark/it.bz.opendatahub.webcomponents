@@ -161,7 +161,6 @@ export default {
   },
   mounted(){
     let cookieValue = VueCookie.get('isHeaderExpanded');
-    console.log("mounted",cookieValue)
     if(cookieValue && cookieValue == 'true'){
        this.isHeaderExpanded = true; 
     }else{
@@ -193,7 +192,6 @@ export default {
       if(ev.sorting && ev.sorting.condition !== null && ev.sorting.order !== null){
         sortingCondition = ev.sorting.condition+"|"+ev.sorting.order;
       }
-      console.log("sortingCondition",ev.sorting,sortingCondition)
 
 
       let query = {}
