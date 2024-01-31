@@ -10,9 +10,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       <div class="container container-extended p-4">
         <h1 class="components-title d-flex flex-column" style="min-width: 40%">
           <span v-if="noFilters">all components</span>
-          <span v-else>components found</span>
+          <span v-else>components found </span>
           <span style="font-size: small">
-            {{ currentPage.totalElements }} components
+            {{ currentPage.totalElements }} components {{ getFilteringString }}
             <!-- <nuxt-link
               :to="
                 localePath({
@@ -30,7 +30,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div
             v-for="entry in currentPage.content"
             :key="entry.uuid"
-            class="col-md-6 col-lg-6 col-xl-4 mb-4"
+            class="col-md-6 col-lg-6 col-xl-4 mb-4" style="position: relative; z-index: 1;"
           >
             <WebcomponentEntryCard :entry="entry" :return-to="returnTo" uuKey="filtered" />
           </div>
@@ -90,8 +90,26 @@ export default Vue.extend({
   },
   fetch() {},
   computed: {
+    getFilteringString(){
+        let filteringStr = '';
+        if(this.term && this.term !== ''){
+            filteringStr += '"'+this.term+'"';
+        }
+        if(this.tags && this.tags.length !== 0 && this.tags[0] !== 'any'){
+            if(filteringStr !== ''){
+                filteringStr += ', ';
+            }
+            filteringStr += this.tags.join(', ')
+        }
+
+        if(filteringStr == ''){
+            return ''
+        }else{
+            return 'filtered by '+filteringStr
+        }
+    },
     noFilters(){
-        if ((!this.term || this.term == '') && (!this.tags || this.tags.length == 0) && (!this.sorting && !this.sorting.condition && !this.sorting.order) ){
+        if ((!this.term || this.term == '') && (!this.tags || this.tags.length == 0) && (!this.sorting || (this.sorting.condition == null && this.sorting.order == null)) ){
             return true;
         }
         return false;

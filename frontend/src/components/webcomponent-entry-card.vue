@@ -401,7 +401,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         z-index: 2;
         width: 100%;
         height: 100%;
-        background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(46,49,49,1) 95%);
+        background: linear-gradient(180deg, rgba(0,0,0,0) 10%, rgba(46,49,49,1) 95%);
         overflow: hidden;
         border-radius: 0.4rem;
     }

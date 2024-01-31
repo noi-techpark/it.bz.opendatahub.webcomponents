@@ -8,7 +8,7 @@
     <div style="min-height: 1000px">
         <div v-if="component && config" class="pb-5">
             <div class="bg-light" style="display: flex; flex-direction: column">
-                <div class="container-fluid container-extended pb-0 pt-3 pt-sm-5 pl-4 pr-4">
+                <div class="container-fluid container-extended pb-0 pt-3 pt-sm-5 pl-4 pr-4" id="chooseRightSidebarTab">
 
                     <div class="row">
                         <div class="col-lg-8 d-flex justify-content-between flex-column flex-sm-row w-100 pl-0">
@@ -104,7 +104,7 @@
                                     </b-card-text>
                                 </b-card>
                             </div>
-                            <div id="chooseRightSidebarTab" class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right">
+                            <div class="config-tabs col-lg-4 pt-3 pt-lg-0 detail-content-right">
                                 <div v-if="!collapsedRightSidebar" > 
                                     
                                     <div v-show="tabIndex == 1" title="SHARE">
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-lg-12">
+                                            <div class="col-lg-12 details-share-row" :class="{'active': showPopover}">
                                                 <b-card class="code-container white">
                                                     <b-card-text>
                                                         <prism-editor v-model="getDetailsLink" class="my-editor" :highlight="highlighter" style="border: 0; background-color: inherit"/>
@@ -124,7 +124,7 @@
                                                     Copy details link
                                                 </div>
                                             </div>
-                                            <div class="col-lg-12 pt-3">
+                                            <div class="col-lg-12 details-share-row" :class="{'active': showFullscreenPopover}"  id="chooseRightSidebarTabEmbed">
                                                 <b-card class="code-container white">
                                                     <b-card-text>
                                                         <prism-editor v-model="getFullscreenLink" class="my-editor" :highlight="highlighter" style="border: 0; background-color: inherit"/>
@@ -155,12 +155,12 @@
                                             Copied to clipboard
                                         </b-popover>
     
-                                        <div class="row" id="chooseRightSidebarTabEmbed">
+                                        <div class="row">
                                             <div class="col-lg-12 pt-5">
                                                 <h4>EMBED</h4>
                                             </div>
                                         </div>
-                                        <div>
+                                        <div class="details-share-row" :class="{'active': (showEmbedPopover || animateEmbedRow)}">
                                             <!-- <div class="text-uppercase font-weight-bold mb-2">
                                                 copy code
                                             </div> -->
@@ -297,6 +297,7 @@
                 showPopover: false,
                 showFullscreenPopover: false,
                 showEmbedPopover: false,
+                animateEmbedRow: false,
                 intervalId: 0,
             };
         },
@@ -490,6 +491,7 @@
 
             if(this.$route.hash == '#chooseRightSidebarTabEmbed'){
                 this.handleScroll(1)
+                this.animateSnippedBox()
             }
         },
         
@@ -504,11 +506,9 @@
                 }
                 const anchor = document.getElementById(`chooseRightSidebarTabEmbed`)
                 setTimeout(()=>{
-                    console.log("anchor anchor",anchor,loops)
                     if (anchor) {
-                        console.log("dadasdasdassaaa asdas asd asd as",window.pageYOffset)
                         window.scrollTo({
-                            top: anchor.getBoundingClientRect().top + window.pageYOffset -50
+                            top: anchor.getBoundingClientRect().top + window.pageYOffset
                         })
                     }else{
                         loops += 1;
@@ -517,6 +517,8 @@
                 },100);
             },
             collapseRightSidebar(){
+                return; //disabled for now
+
                 this.tabIndex = null;
                 this.collapsedRightSidebar = true;
             },
@@ -571,36 +573,56 @@
                 this.tabIndex = 0;
             },
             
-            copyLinkToClipboard(): void {
+            clearPopovers():void{
+                this.animateEmbedRow = false;
+                this.showPopover = false;
+                this.showFullscreenPopover = false;
+                this.showEmbedPopover = false;
+            },
+
+            copyLinkToClipboard():void {
+                this.clearPopovers()
                 copyToClipboard(this.getDetailsLink);
                 clearInterval(this.intervalId);
                 this.showPopover = true;
                 this.intervalId = setInterval(
                     function () {
-                    this.showPopover = false;
+                        this.showPopover = false;
                     }.bind(this),
                     3000
                 );
             },
 
             copyFullscreenLinkToClipboard(): void {
+                this.clearPopovers()
                 copyToClipboard(this.getFullscreenLink);
                 clearInterval(this.intervalId);
                 this.showFullscreenPopover = true;
                 this.intervalId = setInterval(
                     function () {
-                    this.showFullscreenPopover = false;
+                        this.showFullscreenPopover = false;
                     }.bind(this),
                     3000
                 );
             },
             copySnippetToClipboard(): void {
+                this.clearPopovers()
                 copyToClipboard(this.editorCode);
                 clearInterval(this.intervalId);
                 this.showEmbedPopover = true;
                 this.intervalId = setInterval(
                     function () {
-                    this.showEmbedPopover = false;
+                        this.showEmbedPopover = false;
+                    }.bind(this),
+                    3000
+                );
+            },
+            animateSnippedBox():void{
+                clearInterval(this.intervalId);
+                this.animateEmbedRow = true;
+                this.intervalId = setInterval(
+                    function () {
+                        this.animateEmbedRow = false;
                     }.bind(this),
                     3000
                 );
@@ -646,6 +668,44 @@
 </script>
 
 <style lang="scss">
+
+.details-share-row{
+    padding: 0.75rem 0.75rem;
+	background: white;
+	transform: scale(1);
+
+    &:hover{
+        background-color: #e8ecf1 ;   
+    }
+
+    &.active{
+        background-color: #e8ecf1 ;
+	    animation: pulse-div 0.4s 3;
+    }
+
+    
+    @keyframes pulse-div {
+        0% {
+            transform: scale(1);
+            // background-color: white ;
+            // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+        }
+        
+        70% {
+            transform: scale(1.05);
+            // background-color: #e8ecf1 ;
+            // box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+        
+        100% {
+            transform: scale(1);
+            // background-color: white ;
+            // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+
+}
+
 .wc-tabs{
     .tab-button{
         border-bottom:none;
