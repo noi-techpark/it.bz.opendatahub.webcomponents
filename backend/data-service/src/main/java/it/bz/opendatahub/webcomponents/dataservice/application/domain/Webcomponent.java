@@ -37,7 +37,5 @@ public class Webcomponent {
 
 	private Boolean deleted;
 
-	private Boolean highlighted;
-
 	private String theme;
 }
