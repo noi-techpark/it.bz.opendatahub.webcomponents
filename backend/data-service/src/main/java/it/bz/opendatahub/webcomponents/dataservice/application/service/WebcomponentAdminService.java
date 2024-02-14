@@ -51,6 +51,9 @@ public class WebcomponentAdminService implements CreateWebcomponentUseCase, Upda
 		);
 		webcomponent.setImage(WCS_LOGO_PNG);
 		webcomponent.setDeleted(false);
+		webcomponent.setHighlighted(false);
+		webcomponent.setTheme("dark");
+
 
 		ConverterUtils.copyProperties(request, webcomponent);
 

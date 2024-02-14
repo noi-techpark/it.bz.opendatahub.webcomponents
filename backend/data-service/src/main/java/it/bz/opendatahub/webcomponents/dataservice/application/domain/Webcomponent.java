@@ -36,4 +36,8 @@ public class Webcomponent {
 	private List<String> searchTags;
 
 	private Boolean deleted;
+
+	private Boolean highlighted;
+
+	private String theme;
 }
