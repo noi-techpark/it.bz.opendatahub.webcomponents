@@ -223,6 +223,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             }
         },
         async loadPreview() {
+            console.log("loading preview!!!");
             await this.$store.dispatch('webcomponent/loadWebcomponent', {
                 uuid: this.entry.uuid,
                 version: 'latest'
@@ -299,8 +300,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
         getLogo() {
             if (this.entry.image) {
             return (
-                this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo'
-                // this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo/thumb'
+                // this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo'
+                this.$api.baseUrl + '/webcomponent/' + this.entry.uuid + '/logo/thumb'
             );
             }
     
