@@ -95,8 +95,8 @@ jobs:
 
           X_HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY }}
 
-          X_THUMBNAIL_WIDTH: 600
-          X_THUMBNAIL_HEIGHT: 300
+          X_THUMBNAIL_WIDTH: 800
+          X_THUMBNAIL_HEIGHT: 600
 
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 
@@ -191,8 +191,8 @@ jobs:
 
           X_HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY }}
 
-          X_THUMBNAIL_WIDTH: 600
-          X_THUMBNAIL_HEIGHT: 300
+          X_THUMBNAIL_WIDTH: 800
+          X_THUMBNAIL_HEIGHT: 600
 
 
       - name: Prepare application.properties
