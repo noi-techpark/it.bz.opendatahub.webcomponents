@@ -19,6 +19,8 @@ import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcom
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.GetWebcomponentUseCase;
 import it.bz.opendatahub.webcomponents.dataservice.application.port.in.ListWebcomponentUseCase;
 import lombok.val;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -49,18 +51,29 @@ import java.util.Map;
 @RestController
 @RequestMapping("/webcomponent")
 public class WebcomponentController {
-    private final GetWebcomponentUseCase getWebcomponentUseCase;
-    private final ListWebcomponentUseCase listWebcomponentUseCase;
-    private final GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase;
-    private final GetWebcomponentLogoUseCase getWebcomponentLogoUseCase;
-    private final WebcomponentWebConverter webcomponentWebConverter;
-    private final WebcomponentEntryWebConverter webcomponentEntryWebConverter;
-    private final CreateCodingSandboxUseCase createCodingSandboxUseCase;
+
+	@Value("${thumbnail.width}")
+	private int thumbnailWidth;
+	@Value("${thumbnail.height}")
+	private int thumbnailHeight;
+
+	private final GetWebcomponentUseCase getWebcomponentUseCase;
+	private final ListWebcomponentUseCase listWebcomponentUseCase;
+	private final GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase;
+	private final GetWebcomponentLogoUseCase getWebcomponentLogoUseCase;
+	private final WebcomponentWebConverter webcomponentWebConverter;
+	private final WebcomponentEntryWebConverter webcomponentEntryWebConverter;
+	private final CreateCodingSandboxUseCase createCodingSandboxUseCase;
 
 	private final Map<String, byte[]> thumbCache = new HashMap<>();
 	private final Map<String, Long> thumbCacheTimer = new HashMap<>();
 
-	public WebcomponentController(GetWebcomponentUseCase getWebcomponentUseCase, ListWebcomponentUseCase listWebcomponentUseCase, GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase, GetWebcomponentLogoUseCase getWebcomponentLogoUseCase, WebcomponentWebConverter webcomponentWebConverter, WebcomponentEntryWebConverter webcomponentEntryWebConverter, CreateCodingSandboxUseCase createCodingSandboxUseCase) {
+	public WebcomponentController(GetWebcomponentUseCase getWebcomponentUseCase,
+			ListWebcomponentUseCase listWebcomponentUseCase,
+			GetWebcomponentConfigurationUseCase getWebcomponentConfigurationUseCase,
+			GetWebcomponentLogoUseCase getWebcomponentLogoUseCase, WebcomponentWebConverter webcomponentWebConverter,
+			WebcomponentEntryWebConverter webcomponentEntryWebConverter,
+			CreateCodingSandboxUseCase createCodingSandboxUseCase) {
 		this.getWebcomponentUseCase = getWebcomponentUseCase;
 		this.listWebcomponentUseCase = listWebcomponentUseCase;
 		this.getWebcomponentConfigurationUseCase = getWebcomponentConfigurationUseCase;
@@ -71,81 +84,82 @@ public class WebcomponentController {
 	}
 
 	@GetMapping
-    public Page<WebcomponentEntryRest> listPagedAndFiltered(
-                                                           @RequestParam(name = "tags", required = false) String[] tags,
-                                                           @RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
-                                                           @RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer requestPageNumber,
-                                                           @RequestParam(name = "pageSize", required = false, defaultValue = "20") Integer requestPageSize,
-                                                           @RequestParam(name = "latest", required = false, defaultValue = "false") Boolean latest
-                                                           ) {
+	public Page<WebcomponentEntryRest> listPagedAndFiltered(
+			@RequestParam(name = "tags", required = false) String[] tags,
+			@RequestParam(name = "searchTerm", required = false, defaultValue = "") String searchTerm,
+			@RequestParam(name = "pageNumber", required = false, defaultValue = "0") Integer requestPageNumber,
+			@RequestParam(name = "pageSize", required = false, defaultValue = "20") Integer requestPageSize,
+			@RequestParam(name = "latest", required = false, defaultValue = "false") Boolean latest) {
 
-        Pageable pageRequest;
-        if(latest) {
-            pageRequest = PageRequest.of(requestPageNumber, requestPageSize, Sort.by("latest"));
-        }
-        else {
-            pageRequest = PageRequest.of(requestPageNumber, requestPageSize);
-        }
+		Pageable pageRequest;
+		if (latest) {
+			pageRequest = PageRequest.of(requestPageNumber, requestPageSize, Sort.by("latest"));
+		} else {
+			pageRequest = PageRequest.of(requestPageNumber, requestPageSize);
+		}
 
-        List<String> tagList = Collections.emptyList();
-        if(tags != null) {
-            tagList = Arrays.asList(tags);
-        }
+		List<String> tagList = Collections.emptyList();
+		if (tags != null) {
+			tagList = Arrays.asList(tags);
+		}
 
-        val filter = new ListWebcomponentUseCase.WebcomponentFilter();
-        filter.setSearchTerm(searchTerm);
-        filter.setTags(tagList);
+		val filter = new ListWebcomponentUseCase.WebcomponentFilter();
+		filter.setSearchTerm(searchTerm);
+		filter.setTags(tagList);
 
-        val resultPage = listWebcomponentUseCase.listPagedAndFiltered(pageRequest, filter);
+		val resultPage = listWebcomponentUseCase.listPagedAndFiltered(pageRequest, filter);
 
-        return webcomponentEntryWebConverter.convert(resultPage);
-    }
+		return webcomponentEntryWebConverter.convert(resultPage);
+	}
 
-    @GetMapping("/{uuid}")
-    public WebcomponentRest getOne(@PathVariable String uuid) {
-        return webcomponentWebConverter.convert(getWebcomponentUseCase.getWebcomponentById(uuid));
-    }
+	@GetMapping("/{uuid}")
+	public WebcomponentRest getOne(@PathVariable String uuid) {
+		return webcomponentWebConverter.convert(getWebcomponentUseCase.getWebcomponentById(uuid));
+	}
 
-    @GetMapping(value = {"/{uuid}/config", "/{uuid}/config/latest"})
-    public WebcomponentConfigurationRest getConfiguration(@PathVariable String uuid) {
-        val configuration = getWebcomponentConfigurationUseCase.getConfiguration(uuid);
+	@GetMapping(value = { "/{uuid}/config", "/{uuid}/config/latest" })
+	public WebcomponentConfigurationRest getConfiguration(@PathVariable String uuid) {
+		val configuration = getWebcomponentConfigurationUseCase.getConfiguration(uuid);
 
 		return toRest(configuration);
-    }
+	}
 
-    @GetMapping("/{uuid}/config/{versionTag}")
-    public WebcomponentConfigurationRest getConfigurationForVersion(@PathVariable String uuid, @PathVariable String versionTag) {
+	@GetMapping("/{uuid}/config/{versionTag}")
+	public WebcomponentConfigurationRest getConfigurationForVersion(@PathVariable String uuid,
+			@PathVariable String versionTag) {
 		val configuration = getWebcomponentConfigurationUseCase.getConfiguration(uuid, versionTag);
 
 		return toRest(configuration);
-    }
+	}
 
-    @GetMapping(value = "/{uuid}/logo", produces = "image/png") //TODO: actually, the mimetype is never checked. might also be gif or webp
-    public byte[] getLogoImage(@PathVariable String uuid) {
-        return getWebcomponentLogoUseCase.getLogoImage(uuid);
+	@GetMapping(value = "/{uuid}/logo", produces = "image/png") // TODO: actually, the mimetype is never checked. might
+																// also be gif or webp
+	public byte[] getLogoImage(@PathVariable String uuid) {
+		return getWebcomponentLogoUseCase.getLogoImage(uuid);
 	}
 
 	@GetMapping(value = "/{uuid}/logo/thumb", produces = "image/jpg")
 	public byte[] getLogoImageThumb(@PathVariable String uuid) throws IOException {
-		if(thumbCacheTimer.containsKey(uuid) && thumbCacheTimer.get(uuid) < System.currentTimeMillis()) {
+		if (thumbCacheTimer.containsKey(uuid) && thumbCacheTimer.get(uuid) < System.currentTimeMillis()) {
 			thumbCacheTimer.remove(uuid);
 			thumbCache.remove(uuid);
 		}
 
-		if(thumbCache.containsKey(uuid)) {
+		if (thumbCache.containsKey(uuid)) {
 			return thumbCache.get(uuid);
 		}
 
 		val fullLogoData = getLogoImage(uuid);
 
-		val image = ThumbnailUtility.createThumbnailForImage(new ByteArrayInputStream(fullLogoData), 400, 250);
+		val image = ThumbnailUtility.createThumbnailForImage(new ByteArrayInputStream(fullLogoData), thumbnailWidth,
+				thumbnailHeight);
 
 		val data = ThumbnailUtility.toJpg(image).toByteArray();
 
 		val max = 100;
 		val min = 10;
 		val range = max - min + 1;
-		val rand = (int)(Math.random() * range) + min;
+		val rand = (int) (Math.random() * range) + min;
 
 		thumbCacheTimer.put(uuid, System.currentTimeMillis() + 60 * 60 * 1000L + rand * 1000L);
 		thumbCache.put(uuid, data);
@@ -157,13 +171,15 @@ public class WebcomponentController {
 		val rest = new WebcomponentConfigurationRest();
 
 		ConverterUtils.copyProperties(domain, rest);
-		rest.setScriptSources(domain.getScriptSources()); //TODO: check if that is even needed
+		rest.setScriptSources(domain.getScriptSources()); // TODO: check if that is even needed
 
 		return rest;
 	}
 
 	@PostMapping(value = "/createCodeSandbox")
-	public String createCodeSandbox(@RequestBody @Valid CreateCodingSandboxUseCase.CodeSandboxRequest request) throws JSONException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException, CertificateException {
+	public String createCodeSandbox(@RequestBody @Valid CreateCodingSandboxUseCase.CodeSandboxRequest request)
+			throws JSONException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException, IOException,
+			CertificateException {
 		return createCodingSandboxUseCase.createCodeSandbox(request);
 	}
 }

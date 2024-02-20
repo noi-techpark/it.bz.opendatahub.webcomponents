@@ -95,6 +95,9 @@ jobs:
 
           X_HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY }}
 
+          X_THUMBNAIL_WIDTH: 600
+          X_THUMBNAIL_HEIGHT: 300
+
       - name: Prepare application.properties
         run: cp application-deployment.properties application.properties 
         working-directory: ./backend/data-service/src/main/resources/
@@ -187,6 +190,9 @@ jobs:
           X_JAVA_OPTIONS: "-Xms128m -Xmx1024m"
 
           X_HCAPTCHA_SECRET_KEY: ${{ secrets.HCAPTCHA_SECRET_KEY }}
+
+          X_THUMBNAIL_WIDTH: 600
+          X_THUMBNAIL_HEIGHT: 300
 
 
       - name: Prepare application.properties
