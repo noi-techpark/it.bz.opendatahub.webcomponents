@@ -8,45 +8,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div>
     <!--    <banner></banner>-->
     <div class="ml-auto header-container">
-        <div :class="{ 'collapsed': !isHeaderExpanded, 'p-4 mb-5': isHeaderExpanded}" class="container container-w inner-header-container">
-            <div class="text-w p-2">
-            <h1>Web Components</h1>
-            Here you can find already developed Web Components with data from the
-            Open Data Hub, <strong>available and ready to be used.</strong> Filter
-            by category and find the Web Components you need for your website or
-            application, in the fields of tourism, weather, mobility and many
-            more.
-            </div>
-            <iframe
-            class="video-w"
-            title="video-player"
-            src="https://player.vimeo.com/video/734000845?h=2099fddb82"
-            width="480"
-            height="300"
-            frameborder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowfullscreen
-            ></iframe>
+      <div class="container container-w inner-header-container">
+        <div class="text-w p-2 mb-4">
+          Here you can find already developed Web Components with data from the
+          Open Data Hub, <strong>available and ready to be used.</strong> Filter
+          by category and find the Web Components you need for your website or
+          application, in the fields of tourism, weather, mobility and many
+          more.
         </div>
-        <div
-        class="
-            container-fluid container-extended
-            d-flex
-            justify-content-center
-            flex-row
-            cursor-pointer
-            toggle-header-container
-        "
-        @click="toggleHeaderHeight"
-        >
-        <div class="show-header-container" v-if="!isHeaderExpanded">
-            <div class="mb-3">"How to integrate"</div>
-            <span class="chevron semi-bold bottom" title="Expand"></span>
-        </div>
-        <div v-else>
-            <span class="chevron semi-bold top" title="Collapse"></span>
-        </div>
-        </div>
+      </div>
     </div>
 
     <Searchbar
@@ -67,7 +37,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       :term="searchTerm"
       :return-to="returnTo"
     />
-
   </div>
 </template>
 
@@ -75,14 +44,14 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 import Searchbar from '~/components/searchbar.vue';
 import WcFiltered from '~/components/wc-filtered';
 import WcHighlighted from '~/components/wc-highlighted';
-import VueCookie from 'vue-cookie'
+import VueCookie from 'vue-cookie';
 
 export default {
   components: {
     Searchbar,
     WcHighlighted,
     WcFiltered,
-    VueCookie
+    VueCookie,
   },
 
   data() {
@@ -94,21 +63,25 @@ export default {
   },
 
   computed: {
-    getDefaultSortingCondition(){
-        // return {
-        //     condition:'title',
-        //     order:'asc'
-        // }
-        return {
-            condition:null,
-            order:null
-        }
+    getDefaultSortingCondition() {
+      // return {
+      //     condition:'title',
+      //     order:'asc'
+      // }
+      return {
+        condition: null,
+        order: null,
+      };
     },
-    noFilters(){
-        if ((!this.$route.query.term || this.$route.query.term == '') && (!this.$route.query.tags || this.$route.query.tags.length == 0) && (!this.$route.query.sorting || this.$route.query.sorting == '') ){
-            return true;
-        }
-        return false;
+    noFilters() {
+      if (
+        (!this.$route.query.term || this.$route.query.term == '') &&
+        (!this.$route.query.tags || this.$route.query.tags.length == 0) &&
+        (!this.$route.query.sorting || this.$route.query.sorting == '')
+      ) {
+        return true;
+      }
+      return false;
     },
     searchTerm() {
       if (!this.$route.query.term) {
@@ -117,17 +90,17 @@ export default {
       return this.$route.query.term;
     },
     sortingCondition() {
-        const defaultSortingCondition = this.getDefaultSortingCondition; 
-        if (!this.$route.query.sorting) {
-            return defaultSortingCondition;
-        }
-        let els = this.$route.query.sorting.split('|');
-        if(els.length != 2){
-            return defaultSortingCondition; 
-        }
-        
-        let cond = {condition:els[0],order:els[1]}; 
-        return cond;
+      const defaultSortingCondition = this.getDefaultSortingCondition;
+      if (!this.$route.query.sorting) {
+        return defaultSortingCondition;
+      }
+      let els = this.$route.query.sorting.split('|');
+      if (els.length != 2) {
+        return defaultSortingCondition;
+      }
+
+      let cond = { condition: els[0], order: els[1] };
+      return cond;
     },
     searchTags() {
       if (!this.$route.query.tags) {
@@ -159,12 +132,12 @@ export default {
       });
     },
   },
-  mounted(){
+  mounted() {
     let cookieValue = VueCookie.get('isHeaderExpanded');
-    if(cookieValue && cookieValue == 'true'){
-       this.isHeaderExpanded = true; 
-    }else{
-        this.isHeaderExpanded = false; 
+    if (cookieValue && cookieValue == 'true') {
+      this.isHeaderExpanded = true;
+    } else {
+      this.isHeaderExpanded = false;
     }
   },
   methods: {
@@ -188,13 +161,16 @@ export default {
         tags = 'any';
       }
 
-      let sortingCondition = ''; 
-      if(ev.sorting && ev.sorting.condition !== null && ev.sorting.order !== null){
-        sortingCondition = ev.sorting.condition+"|"+ev.sorting.order;
+      let sortingCondition = '';
+      if (
+        ev.sorting &&
+        ev.sorting.condition !== null &&
+        ev.sorting.order !== null
+      ) {
+        sortingCondition = ev.sorting.condition + '|' + ev.sorting.order;
       }
 
-
-      let query = {}
+      let query = {};
       if (tags) {
         query.tags = tags;
       }
@@ -224,29 +200,28 @@ export default {
   }
 }
 
-.header-container{
-    box-shadow: 0 5px 5px -6px;
+.header-container {
+  // box-shadow: 0 5px 5px -6px;
 
-    .inner-header-container {
-        
-        &.collapsed {
-            margin-top: -52px;
-            margin-bottom: 0;
-            padding-bottom: 0;
-            max-height: 0;
-            overflow: hidden;
-        }
+  .inner-header-container {
+    &.collapsed {
+      margin-top: -52px;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      max-height: 0;
+      overflow: hidden;
     }
-    .toggle-header-container{
-        margin-bottom: 2rem;
-        padding-bottom: 1.5rem;
+  }
+  .toggle-header-container {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
 
-        .show-header-container{    
-            text-align: center;
-            font-size: 1rem;
-            font-weight: 600;
-        }
+    .show-header-container {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
     }
+  }
 }
 
 .implode:not(:first-child)::before {
