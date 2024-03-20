@@ -8,7 +8,10 @@ SPDX-License-Identifier: AGPL-3.0-or-later
   <div>
     <!--    <banner></banner>-->
     <div class="ml-auto header-container">
-      <div class="container container-w inner-header-container">
+      <div
+        :class="{ collapsed: !isHeaderExpanded, 'p-4 mb-5': isHeaderExpanded }"
+        class="container container-w inner-header-container"
+      >
         <div class="text-w p-2 mb-4">
           Here you can find already developed Web Components with data from the
           Open Data Hub, <strong>available and ready to be used.</strong> Filter
