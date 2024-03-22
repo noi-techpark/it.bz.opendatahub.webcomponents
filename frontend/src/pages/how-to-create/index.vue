@@ -9,7 +9,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="ml-auto">
       <div class="container container-w p-4 mb-5">
         <div class="text-w p-2">
-          <h1>How to</h1>
+          <h1>How to create a webcomponent</h1>
           Everything you need to know to
           <b>start creating your own Web Component!</b>
           In the playlist below you can explore each step from start to finish,

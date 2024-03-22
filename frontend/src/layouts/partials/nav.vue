@@ -37,12 +37,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
           <b-collapse is-nav id="navbar-collapse" class="py-2 p-lg-0">
             <b-navbar-nav class="flex-grow-1 align-items-center">
-              <b-nav-item
-                :to="localePath('how-to')"
-                @click="$emit('hide-overlay')"
-              >
-                How to
-              </b-nav-item>
+              <b-nav-item-dropdown text="How to">
+                <b-dropdown-item
+                  :to="localePath('how-to-add')"
+                  @click="$emit('hide-overlay')"
+                >
+                  Add
+                </b-dropdown-item>
+                <b-dropdown-item
+                  :to="localePath('how-to-create')"
+                  @click="$emit('hide-overlay')"
+                >
+                  Create
+                </b-dropdown-item>
+              </b-nav-item-dropdown>
               <b-nav-item
                 :to="localePath('validator')"
                 @click="$emit('hide-overlay')"
@@ -111,6 +119,12 @@ export default {
 
 .nav-item .nuxt-link-exact-active {
   font-weight: bold;
+}
+
+.dropdown-custom .dropdown-menu {
+  background-color: #f4f8f9 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .bg {
