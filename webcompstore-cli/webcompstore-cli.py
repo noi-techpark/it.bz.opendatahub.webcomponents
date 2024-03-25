@@ -139,20 +139,6 @@ def patch_image(token, uuid, image):
         
 
 def post_version(token, uuid, wcs_manifest, dist_files, version_tag):
-    # prepare wcs_manifest data for pos
-
-    del wcs_manifest["title"]
-    del wcs_manifest["description"]
-    del wcs_manifest["descriptionAbstract"]
-    del wcs_manifest["license"]
-    del wcs_manifest["repositoryUrl"]
-    del wcs_manifest["copyrightHolders"]
-    del wcs_manifest["authors"]
-    del wcs_manifest["searchTags"]
-
-    # wcs_manifest["readMe"] = None
-    # wcs_manifest["licenseAgreement"] = None
-
     wcs_manifest["versionTag"] = version_tag
     wcs_manifest["releaseTimestamp"] = datetime.now().strftime(
         "%Y-%m-%dT%H:%M:%SZ")
