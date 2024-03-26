@@ -159,6 +159,21 @@ def post_version(token, uuid, wcs_manifest, dist_files, version_tag):
         exit(2)
     # print("JSON Response ", response.json())
 
+def put_webcomp(token, uuid, wcs_manifest):
+
+    url = api_url + "admin/webcomponent/" + uuid
+
+    headers = {
+        "Content": "application/json",
+        "Authorization": "Bearer " + token
+    }
+
+    response = requests.put(url, headers=headers, json=wcs_manifest)
+    print("PUT " + url)
+    print("Status Code", response.status_code)
+    if response.status_code != 200:
+        print("Error message", response.text)
+        exit(3)
 
 def put_version(token, uuid, wcs_manifest, dist_files, version_tag):
 
@@ -281,6 +296,9 @@ if __name__ == '__main__':
                 wcs_manifest), dist_files, version_tag)
         else:
             # update webcomp
+            put_webcomp(
+                token, webcomp["uuid"], wcs_manifest,)
+            # put version
             put_version(
                 token, webcomp["uuid"], wcs_manifest, dist_files, version_tag)
             patch_image(token, webcomp["uuid"],image)
