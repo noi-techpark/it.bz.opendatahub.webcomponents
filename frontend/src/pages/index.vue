@@ -6,18 +6,27 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 <template>
   <div>
-    <!--    <banner></banner>-->
     <div class="ml-auto header-container">
-      <div
-        :class="{ collapsed: !isHeaderExpanded, 'p-4 mb-5': isHeaderExpanded }"
-        class="container container-w inner-header-container"
-      >
-        <div class="text-w p-2 mb-4">
+      <div class="container container-w inner-header-container text-center">
+        <div class="text-w mb-2">
           Here you can find already developed Web Components with data from the
           Open Data Hub, <strong>available and ready to be used.</strong> Filter
           by category and find the Web Components you need for your website or
           application, in the fields of tourism, weather, mobility and many
           more.
+        </div>
+      </div>
+      <div class="container container-w d-flex justify-content-center">
+        <div>
+          <a href="/how-to-add" target="_blank" class="btn btn-primary mb-2">
+            Add a webcomponent
+          </a>
+        </div>
+        <div>
+          <a href="/how-to-create" target="_blank" class="btn btn-primary">
+            <!-- Update this link to point to the appropriate page on your website -->
+            Create a webcomponent
+          </a>
         </div>
       </div>
     </div>

@@ -42,13 +42,13 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                   :to="localePath('how-to-add')"
                   @click="$emit('hide-overlay')"
                 >
-                  Add
+                  Add a webcomponent
                 </b-dropdown-item>
                 <b-dropdown-item
                   :to="localePath('how-to-create')"
                   @click="$emit('hide-overlay')"
                 >
-                  Create
+                  Create a webcomponent
                 </b-dropdown-item>
               </b-nav-item-dropdown>
               <b-nav-item
@@ -119,12 +119,6 @@ export default {
 
 .nav-item .nuxt-link-exact-active {
   font-weight: bold;
-}
-
-.dropdown-custom .dropdown-menu {
-  background-color: #f4f8f9 !important;
-  border: none !important;
-  box-shadow: none !important;
 }
 
 .bg {
