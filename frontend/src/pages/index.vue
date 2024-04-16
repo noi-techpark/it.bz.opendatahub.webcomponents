@@ -9,11 +9,15 @@ SPDX-License-Identifier: AGPL-3.0-or-later
     <div class="ml-auto header-container">
       <div class="container container-w inner-header-container text-center">
         <div class="text-w mb-2">
-          Here you can find already developed Web Components with data from the
-          Open Data Hub, <strong>available and ready to be used.</strong> Filter
-          by category and find the Web Components you need for your website or
-          application, in the fields of tourism, weather, mobility and many
-          more.
+          Explore the collection of pre-developed Web Components from the
+          <a
+            href="https://opendatahub.com/"
+            style="font-weight: bold; text-decoration: underline"
+            >Open Data Hub</a
+          >, designed for seamless integration into your projects. Filter by
+          category to find the ideal Web Components for your website or
+          application, spanning various domains such as tourism, weather,
+          mobility, and beyond.
         </div>
       </div>
       <div class="container container-w d-flex justify-content-center">
