@@ -8,28 +8,28 @@ SPDX-License-Identifier: CC0-1.0
 
 > FRONTEND
 
-- [ODH Webcomponents](#odh-webcomponents)
-	- [Source Code](#source-code)
-	- [Requirements](#requirements)
-	- [Configuration](#configuration)
-		- [Mode](#mode)
-		- [Configuration](#configuration-1)
-			- [hCaptcha](#hcaptcha)
-			- [API](#api)
-	- [Local Development with Docker](#local-development-with-docker)
-	- [Build Setup](#build-setup)
-	- [Adding pages](#adding-pages)
-	- [Deployment](#deployment)
-		- [Single Page Application](#single-page-application)
-		- [Universal Mode](#universal-mode)
-	- [Create new static content pages](#create-new-static-content-pages)
-	- [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
-	- [Create a new banner](#create-a-new-banner)
-	- [Information](#information)
-		- [Support](#support)
-		- [Contributing](#contributing)
-		- [Documentation](#documentation)
-		- [License](#license)
+-   [ODH Webcomponents](#odh-webcomponents)
+    -   [Source Code](#source-code)
+    -   [Requirements](#requirements)
+    -   [Configuration](#configuration)
+        -   [Mode](#mode)
+        -   [Configuration](#configuration-1)
+            -   [hCaptcha](#hcaptcha)
+            -   [API](#api)
+    -   [Local Development with Docker](#local-development-with-docker)
+    -   [Build Setup](#build-setup)
+    -   [Adding pages](#adding-pages)
+    -   [Deployment](#deployment)
+        -   [Single Page Application](#single-page-application)
+        -   [Universal Mode](#universal-mode)
+    -   [Create new static content pages](#create-new-static-content-pages)
+    -   [Embed a video in a static content page](#embed-a-video-in-a-static-content-page)
+    -   [Create a new banner](#create-a-new-banner)
+    -   [Information](#information)
+        -   [Support](#support)
+        -   [Contributing](#contributing)
+        -   [Documentation](#documentation)
+        -   [License](#license)
 
 ## Source Code
 
@@ -47,13 +47,13 @@ cd odh-web-components-store/frontend/
 
 ## Requirements
 
-* node.js
-* yarn
-* ODH Web Component Configurator: https://github.com/noi-techpark/webcomp-configtool.git
-  > NB: If you update `webcomp-configtool`, you need to tag that master branch and update
-  > the `package.json` of this repository accordingly.
-  > See "odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v0.9"
-  > and put the latest version tag to the end
+-   node.js
+-   yarn
+-   ODH Web Component Configurator: https://github.com/noi-techpark/webcomp-configtool.git
+    > NB: If you update `webcomp-configtool`, you need to tag that master branch and update
+    > the `package.json` of this repository accordingly.
+    > See "odh-web-components-configurator": "https://github.com/noi-techpark/webcomp-configtool.git#v0.9"
+    > and put the latest version tag to the end
 
 ## Configuration
 
@@ -98,6 +98,7 @@ axios: {
 Adjust the baseURL to where the API is running. The API is provided by "data-service" in the 'backend' package.
 
 ## Local Development with Docker
+
 We use [docker-compose](https://docs.docker.com/compose/) for local development.
 
 ```bash
@@ -121,7 +122,7 @@ See [Build Setup](#build-setup) for possible commands.
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 $ yarn install
 
@@ -182,71 +183,86 @@ from port 3000 to port 443 on your domain.
    new page. The directory structure corresponds to the structure of the url.
 2. Create a `.md` file with the same name in the same directory
 3. Import the md file in your vue file, for example:
+
 ```js
 import legally from './legally.md';
 ```
+
 4. Create a computed property with the content of the md file
+
 ```js
-  computed: {
-    md()
+computed: {
+	md();
 	{
-      return legally;
-    };
-  };
+		return legally;
+	}
+}
 ```
+
 5. Import the markdown page component
+
 ```js
 import MarkdownPage from '~/components/markdown-page';
 ```
+
 6. Include the markdown page component inside the html code and pass the computed property
+
 ```html
 <markdown-page :content="md"></markdown-page>
 ```
+
 7. Update the menues
-   - Go to `frontend/src/layouts/partials/header.vue` and see the code there for
-     how to do it, if you want to have it inside the main menue, which is only
-     visible for desktop web page layouts
-   - Go to `frontend/src/layouts/partials/nav-menu.vue` and see the code there.
-     Some menue items are only visible for mobile devices, if the class
-     `mobile-only` is present.
-   - In general make sure that items are not presented twice in the header and
-     nav-menu aka burger.
+    - Go to `frontend/src/layouts/partials/header.vue` and see the code there for
+      how to do it, if you want to have it inside the main menue, which is only
+      visible for desktop web page layouts
+    - Go to `frontend/src/layouts/partials/nav-menu.vue` and see the code there.
+      Some menue items are only visible for mobile devices, if the class
+      `mobile-only` is present.
+    - In general make sure that items are not presented twice in the header and
+      nav-menu aka burger.
 
 ## Embed a video in a static content page
 
 Include the following code and replace the url of your video inside the url parameter
 
 ```html
-    <video-player
-      url=""
-    ></video-player>
+<video-player url=""></video-player>
 ```
 
 ## Create a new banner
 
 1. Open `src/components/banner.vue`
 2. Add a new banner slide tag
+
 ```html
-<banner-slide><banner-slide>
+<banner-slide><banner-slide></banner-slide></banner-slide>
 ```
+
 3. Customize the banner with tag parameters
-- "title": Title of the banner
-- "subtitle": Subtitle below the title
-- "imgUrl": Url of the background image
-- "path": Path to the page inside the a tag
-- "linkText": Text of the link
+
+-   "title": Title of the banner
+-   "subtitle": Subtitle below the title
+-   "imgUrl": Url of the background image
+-   "path": Path to the page inside the a tag
+-   "linkText": Text of the link
+
 4. Example
+
 ```html
-      <banner-slide
-        img-url="https://picsum.photos/1024/480/?image=52"
-        title="Image"
-        subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+<banner-slide
+	img-url="https://picsum.photos/1024/480/?image=52"
+	title="Image"
+	subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           eros felis, tincidunt a tincidunt eget, convallis vel est. Ut
           pellentesque ut lacus vel interdum."
-        link-text="learn more"
-        path="/contact"
-      ></banner-slide>
+	link-text="learn more"
+	path="/contact"
+></banner-slide>
 ```
+
+## Update highlighted Webcomponents
+
+To modify the highlighted web components displayed, you'll need to adjust the boolean attribute `highlighted` within the web component database. However, to initiate this change, you must contact a software architect as they have the necessary access and expertise to perform this task.
 
 ## Information
 
