@@ -2,17 +2,12 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-version: "3"
 services:
   app:
     build:
       context: .
-      dockerfile: docker/dockerfile-node
-    volumes:
-      - ./:/code
-    working_dir: /code
+      dockerfile: infrastructure/docker/Dockerfile
     env_file: .env
-    command: sh -c "test -d node_modules || yarn; yarn dev"
     environment:
       HOST: 0.0.0.0 # Make all IP addresses available to the outside
     ports:

@@ -13,6 +13,10 @@ on:
       - '!backend/**'
 
 
+env:
+  NODE_VERSION: 14.x
+  PROJECT_NAME: odh-webcompstore-frontend
+
 jobs:
   test:
     runs-on: ubuntu-20.04        
@@ -25,7 +29,7 @@ jobs:
       - name: Test frontend
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
           cache-dependency-path: frontend/yarn.lock
       - run: |
@@ -40,8 +44,9 @@ jobs:
     needs: test
     concurrency: deploy-test-frontend
     env:
-      AWS_S3_BUCKET_NAME : 'webcompstore-test'
-      AWS_REGION : "eu-west-1"
+      SERVER_PORT: 1020
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-frontend-test
+      DOCKER_TAG: ${{ github.sha }}
 
     steps:
       - name: Checkout source code
@@ -64,7 +69,7 @@ jobs:
       - name: Setup node and yarn
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
           cache-dependency-path: frontend/yarn.lock
 
@@ -74,15 +79,23 @@ jobs:
           yarn run build
         working-directory: frontend
 
-
-      - name: Sync to S3 bucket
-        uses: noi-techpark/github-actions/aws-s3-bucket-sync@v2
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
-          access-key-id: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
-          region: ${{ env.AWS_REGION }}
-          s3-bucket-name: ${{ env.AWS_S3_BUCKET_NAME }}
-          folder: ./frontend/dist
+          working-directory: frontend/infrastructure
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          working-directory: infrastructure/ansible
+          hosts: "test"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: "noi-techpark-bot"
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
+
 
   deploy-production-frontend:
     runs-on: ubuntu-20.04
@@ -90,9 +103,10 @@ jobs:
     needs: test
     concurrency: deploy-production-frontend
     env:
-      AWS_S3_BUCKET_NAME : 'webcompstore-prod'
-      AWS_REGION : "eu-west-1"
       SCRIPTS_HOST: 'https://scripts.opendatahub.com'
+      SERVER_PORT: 1020
+      DOCKER_IMAGE: ghcr.io/${{ github.repository }}/${{ github.event.repository.name }}-frontend-prod
+      DOCKER_TAG: ${{ github.sha }}
 
     steps:
       - name: Checkout source code
@@ -115,7 +129,7 @@ jobs:
       - name: Setup node and yarn
         uses: actions/setup-node@v2
         with:
-          node-version: '14.x'
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
           cache-dependency-path: frontend/yarn.lock
 
@@ -128,12 +142,19 @@ jobs:
           yarn run build
         working-directory: frontend
 
-
-      - name: Sync to S3 bucket
-        uses: noi-techpark/github-actions/aws-s3-bucket-sync@v2
+      - name: Build and push images
+        uses: noi-techpark/github-actions/docker-build-and-push@v2
         with:
-          access-key-id: ${{ secrets.AWS_S3_ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.AWS_S3_SECRET_ACCESS_KEY }}
-          region: ${{ env.AWS_REGION }}
-          s3-bucket-name: ${{ env.AWS_S3_BUCKET_NAME }}
-          folder: ./frontend/dist
+          working-directory: frontend/infrastructure
+          docker-username: ${{ github.actor }}
+          docker-password: ${{ secrets.GITHUB_TOKEN }}
+            
+      - name: Deploy application
+        uses: noi-techpark/github-actions/docker-deploy@v2
+        with:
+          working-directory: infrastructure/ansible
+          hosts: "prod"
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          docker-username: "noi-techpark-bot"
+          docker-password: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          project-name: ${{ env.PROJECT_NAME }}
