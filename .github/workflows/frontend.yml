@@ -86,7 +86,7 @@ jobs:
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
         with:
-          working-directory: infrastructure/ansible
+          working-directory: frontend/infrastructure/ansible
           hosts: "test"
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           docker-username: "noi-techpark-bot"
@@ -149,7 +149,7 @@ jobs:
       - name: Deploy application
         uses: noi-techpark/github-actions/docker-deploy@v2
         with:
-          working-directory: infrastructure/ansible
+          working-directory: frontend/infrastructure/ansible
           hosts: "prod"
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           docker-username: "noi-techpark-bot"
