@@ -7,6 +7,6 @@ Files: .github/* .gitignore .env.example .pre-commit-config.yaml webcompstore-cl
 Copyright: (c) NOI Techpark <digital@noi.bz.it>
 License: CC0-1.0
 
-Files: frontend/tests/unit/wc-detail-block.spec.ts.broken frontend/tests/unit/wc-latest.spec.ts.broken
+Files: frontend/tests/unit/wc-detail-block.spec.ts.broken frontend/tests/unit/wc-latest.spec.ts.broken frontend/infrastructure/*
 Copyright: (c) NOI Techpark <digital@noi.bz.it>
 License: AGPL-3.0-or-later
