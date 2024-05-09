@@ -8,8 +8,6 @@ services:
       context: .
       dockerfile: infrastructure/docker/Dockerfile
     env_file: .env
-    environment:
-      HOST: 0.0.0.0 # Make all IP addresses available to the outside
     ports:
       - "8999:3000"
     tty: true

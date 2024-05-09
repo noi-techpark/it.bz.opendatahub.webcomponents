@@ -2,6 +2,6 @@ FROM node:14-alpine
 
 COPY . .
 
-EXPOSE 3000
+ENV NUXT_HOST=0.0.0.0
 
 ENTRYPOINT yarn start
