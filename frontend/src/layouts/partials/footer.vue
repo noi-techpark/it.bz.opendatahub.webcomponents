@@ -61,9 +61,9 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div class="d-flex flex-column">
               <span class="mb-1 text-semibold">Relevant links</span>
               <a href="/">Web Components</a>
-              <a href="/how-to-add">How To Add</a>
-              <a href="/how-to-create">How To Create</a>
-              <a href="/validator">Validator</a>
+              <a href="/how-to-add/">How To Add</a>
+              <a href="/how-to-create/">How To Create</a>
+              <a href="/validator/">Validator</a>
               <a href="https://opendatahub.com/contact" target="_blank"
                 >Contact</a
               >
@@ -158,7 +158,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           href="https://noi.bz.it/en/privacy"
           >Privacy</a
         >
-        | <a class="text-decoration-underline" href="/imprint">Imprint</a>
+        | <a class="text-decoration-underline" href="/imprint/">Imprint</a>
       </span>
     </div>
   </div>

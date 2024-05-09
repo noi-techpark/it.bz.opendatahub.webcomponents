@@ -22,12 +22,12 @@ SPDX-License-Identifier: AGPL-3.0-or-later
       </div>
       <div class="container container-w d-flex justify-content-center">
         <div>
-          <a href="/how-to-add" target="_blank" class="btn btn-primary mb-2">
+          <a href="/how-to-add/" target="_blank" class="btn btn-primary mb-2">
             Add a webcomponent
           </a>
         </div>
         <div>
-          <a href="/how-to-create" target="_blank" class="btn btn-primary">
+          <a href="/how-to-create/" target="_blank" class="btn btn-primary">
             <!-- Update this link to point to the appropriate page on your website -->
             Create a webcomponent
           </a>
