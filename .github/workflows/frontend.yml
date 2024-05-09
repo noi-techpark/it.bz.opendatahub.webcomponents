@@ -77,7 +77,7 @@ jobs:
       - name: Build 
         run: |
           yarn install
-          yarn run build
+          yarn run generate
         working-directory: frontend
 
       - name: Build and push images
@@ -144,7 +144,7 @@ jobs:
       - name: Build 
         run: |
           yarn install
-          yarn run build
+          yarn run generate
         working-directory: frontend
 
       - name: Build and push images
