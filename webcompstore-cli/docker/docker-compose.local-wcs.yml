@@ -1,5 +1,3 @@
-version: "3.4"
-
 services:
   wcs-cdn:
     image: ${DOCKER_IMAGE}:${DOCKER_TAG}

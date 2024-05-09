@@ -1,4 +1,3 @@
-version: "3"
 services:
   wcs-frontend:
     image: ${DOCKER_IMAGE}:${DOCKER_TAG}
