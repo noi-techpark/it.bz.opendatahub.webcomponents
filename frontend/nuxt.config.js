@@ -4,8 +4,8 @@
 
 // eslint-disable-next-line nuxt/no-cjs-in-config
 module.exports = {
-    ssr: true,
-    target: 'server',
+    ssr: false,
+    target: 'static',
     srcDir: 'src/',
 
     /*

@@ -1,7 +1,4 @@
-FROM node:14-alpine
+FROM nginx:1.23.4-alpine-slim
 
-COPY . .
-
-ENV NUXT_HOST=0.0.0.0
-
-ENTRYPOINT yarn start
+COPY ./dist /usr/share/nginx/html
+COPY ./infrastructure/nginx/default.conf /etc/nginx/conf.d/default.conf
