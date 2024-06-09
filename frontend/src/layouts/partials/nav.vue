@@ -39,20 +39,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <b-navbar-nav class="flex-grow-1 align-items-center">
               <b-nav-item-dropdown text="How to">
                 <b-dropdown-item
-                  :to="localePath('how-to-add/')"
+                  :to="localePath('/how-to-add/')"
                   @click="$emit('hide-overlay')"
                 >
                   Add a webcomponent
                 </b-dropdown-item>
                 <b-dropdown-item
-                  :to="localePath('how-to-create/')"
+                  :to="localePath('/how-to-create/')"
                   @click="$emit('hide-overlay')"
                 >
                   Create a webcomponent
                 </b-dropdown-item>
               </b-nav-item-dropdown>
               <b-nav-item
-                :to="localePath('validator/')"
+                :to="localePath('/validator/')"
                 @click="$emit('hide-overlay')"
               >
                 Validator
