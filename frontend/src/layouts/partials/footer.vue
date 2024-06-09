@@ -60,11 +60,16 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div class="col-12 col-lg-3">
             <div class="d-flex flex-column">
               <span class="mb-1 text-semibold">Relevant links</span>
-              <a href="/">Web Components</a>
-              <a href="/how-to-add/">How To Add</a>
-              <a href="/how-to-create/">How To Create</a>
-              <a href="/validator/">Validator</a>
-              <a href="https://opendatahub.com/contact" target="_blank"
+              <a class="text-underline-hover" href="/">Web Components</a>
+              <a class="text-underline-hover" href="/how-to-add/">How To Add</a>
+              <a class="text-underline-hover" href="/how-to-create/"
+                >How To Create</a
+              >
+              <a class="text-underline-hover" href="/validator/">Validator</a>
+              <a
+                class="text-underline-hover"
+                href="https://opendatahub.com/contact"
+                target="_blank"
                 >Contact</a
               >
             </div>
@@ -72,11 +77,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
           <div class="col-12 col-lg-3 mt-3 mt-lg-0">
             <div class="d-flex flex-column">
               <span class="mb-1 text-semibold">Quickstart</span>
-              <a href="https://opendatahub.com" target="_blank"
+              <a
+                class="text-underline-hover"
+                href="https://opendatahub.com"
+                target="_blank"
                 >Open Data Hub Website</a
               >
-              <a href="/">Web Components</a>
-              <a href="https://databrowser.opendatahub.com" target="_blank"
+              <a class="text-underline-hover" href="/">Web Components</a>
+              <a
+                class="text-underline-hover"
+                href="https://databrowser.opendatahub.com"
+                target="_blank"
                 >Databrowser</a
               >
             </div>
@@ -88,6 +99,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 >The Web Component Store is the result of a great collaboration
                 between many awesome people!
                 <a
+                  class="text-underline-hover"
                   href="https://opendatahub.com/community#contributors"
                   target="_blank"
                 >
@@ -210,5 +222,9 @@ export default {
 
 .border-black {
   border-color: black !important;
+}
+
+.underline-hover:hover {
+  text-decoration: underline;
 }
 </style>
