@@ -75,7 +75,7 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               <a href="https://opendatahub.com" target="_blank"
                 >Open Data Hub Website</a
               >
-              <a class="text-decoration-underline" href="/">Web Components</a>
+              <a href="/">Web Components</a>
               <a href="https://databrowser.opendatahub.com" target="_blank"
                 >Databrowser</a
               >
@@ -88,7 +88,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
                 >The Web Component Store is the result of a great collaboration
                 between many awesome people!
                 <a
-                  class="text-decoration-underline"
                   href="https://opendatahub.com/community#contributors"
                   target="_blank"
                 >
