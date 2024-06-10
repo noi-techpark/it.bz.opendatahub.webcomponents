@@ -39,20 +39,20 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <b-navbar-nav class="flex-grow-1 align-items-center">
               <b-nav-item-dropdown text="How to">
                 <b-dropdown-item
-                  :to="localePath('how-to-add/')"
+                  :to="localePath('/how-to-add/')"
                   @click="$emit('hide-overlay')"
                 >
                   Add a webcomponent
                 </b-dropdown-item>
                 <b-dropdown-item
-                  :to="localePath('how-to-create/')"
+                  :to="localePath('/how-to-create/')"
                   @click="$emit('hide-overlay')"
                 >
                   Create a webcomponent
                 </b-dropdown-item>
               </b-nav-item-dropdown>
               <b-nav-item
-                :to="localePath('validator/')"
+                :to="localePath('/validator/')"
                 @click="$emit('hide-overlay')"
               >
                 Validator
@@ -63,17 +63,6 @@ SPDX-License-Identifier: AGPL-3.0-or-later
               >
                 Contact
               </b-nav-item>
-              <a
-                class="ml-auto no-external-icon text-small d-none d-lg-inline"
-                href="https://opendatahub.com"
-                target="_blank"
-              >
-                <img
-                  class="pl-2 logo-open-data-hub"
-                  src="/open-data-hub-sm.svg"
-                  alt="Open Data Hub"
-                />
-              </a>
             </b-navbar-nav>
           </b-collapse>
         </b-navbar>
@@ -110,11 +99,6 @@ export default {
 }
 .logo-open-data-hub {
   width: 2.2rem;
-}
-
-.nav-item:not(.no-external-icon) [target='_blank']::after {
-  padding-left: 0.4rem;
-  content: url(/icons/external.svg);
 }
 
 .nav-item .nuxt-link-exact-active {
