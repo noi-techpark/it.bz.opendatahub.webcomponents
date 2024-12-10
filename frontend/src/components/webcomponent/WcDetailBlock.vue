@@ -22,9 +22,8 @@ SPDX-License-Identifier: AGPL-3.0-or-later
             <div class="d-flex">
               <div class="full-width mr-2">
 
-                {{ component.description }}
-
-                
+                <div v-html="component.description"></div>
+                <!-- {{ component.description }} -->                
               </div>
             </div>
           </div>
