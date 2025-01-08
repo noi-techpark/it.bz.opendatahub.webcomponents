@@ -21,7 +21,7 @@ module.exports = {
                 name: 'description',
                 content: 'ODH Webcomponents',
             },
-        ],
+        ], 
         link: [
             { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
             { rel: 'stylesheet', href: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.css' },
@@ -43,6 +43,15 @@ module.exports = {
                 body: true
             }
         ]
+    },
+    head() {
+        return {
+            meta: [
+                ...(process.env.BUILD_ENVIRONMENT === 'testing'
+                  ? [{ name: 'robots', content: 'noindex, nofollow' }]
+                  : []),
+              ],
+        };
     },
     /*
      ** Customize the progress-bar color
