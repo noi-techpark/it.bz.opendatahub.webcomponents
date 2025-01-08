@@ -101,6 +101,13 @@ Adjust the baseURL to where the API is running. The API is provided by "data-ser
 
 We use [docker-compose](https://docs.docker.com/compose/) for local development.
 
+Before starting the frontend using docker-compose it is necessary to build the application on **Node 14.\*** using:
+
+```bash
+yarn install
+yarn generate
+```
+
 ```bash
 # Change into directory
 $ cd odh-web-components-store/frontend/
