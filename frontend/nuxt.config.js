@@ -11,47 +11,43 @@ module.exports = {
     /*
      ** Headers of the page
      */
-    head: {
-        title: 'Open Data Hub Web Components',
-        meta: [
-            { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            {
-                hid: 'description',
-                name: 'description',
-                content: 'ODH Webcomponents',
-            },
-        ], 
-        link: [
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: 'stylesheet', href: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.css' },
-            { rel: 'stylesheet', href: 'https://fonts.testingmachine.eu/source-sans-pro/style.css' }
-        ],
-        script: [{
-                src: '/matomo/matomo-analytics.js',
-                type: 'text/plain',
-                "data-cookiecategory": "targeting"
-            },
-            {
-                src: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.js',
-                defer: true,
-                body: true
-            },
-            {
-                src: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent-init.js',
-                defer: true,
-                body: true
-            }
-        ]
-    },
-    head() {
+     head() {
         return {
+            title: 'Open Data Hub Web Components',
             meta: [
+                { charset: 'utf-8' },
+                { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+                {
+                    hid: 'description',
+                    name: 'description',
+                    content: 'ODH Webcomponents',
+                },
                 ...(process.env.BUILD_ENVIRONMENT === 'testing'
-                  ? [{ name: 'robots', content: 'noindex, nofollow' }]
-                  : []),
-              ],
-        };
+                    ? [{ name: 'robots', content: 'noindex, nofollow' }]
+                    : []),
+            ], 
+            link: [
+                { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+                { rel: 'stylesheet', href: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.css' },
+                { rel: 'stylesheet', href: 'https://fonts.testingmachine.eu/source-sans-pro/style.css' }
+            ],
+            script: [{
+                    src: '/matomo/matomo-analytics.js',
+                    type: 'text/plain',
+                    "data-cookiecategory": "targeting"
+                },
+                {
+                    src: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent.js',
+                    defer: true,
+                    body: true
+                },
+                {
+                    src: 'https://scripts.opendatahub.testingmachine.eu/cookieconsent/cookieconsent-init.js',
+                    defer: true,
+                    body: true
+                }
+            ]
+        }
     },
     /*
      ** Customize the progress-bar color

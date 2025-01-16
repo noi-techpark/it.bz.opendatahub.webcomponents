@@ -108,6 +108,12 @@ yarn install
 yarn generate
 ```
 
+Or you can use any Node version setting legacy openssl compatibility
+
+```bash
+NODE_OPTIONS=--openssl-legacy-provider yarn generate
+```
+
 ```bash
 # Change into directory
 $ cd odh-web-components-store/frontend/
