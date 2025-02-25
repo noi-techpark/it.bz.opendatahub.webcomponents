@@ -58,7 +58,7 @@ jobs:
           X_DEBUG_LEVEL: "INFO"
           X_WORKSPACE_PATH: "/workspace"
 
-          X_DB_URL: "jdbc:postgresql://test-pg-bdp.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
+          X_DB_URL: "jdbc:postgresql://test-pg-misc.co90ybcr8iim.eu-west-1.rds.amazonaws.com:5432/webcompstore"
           X_DB_USR: ${{ secrets.DB_USR_TEST }}
           X_DB_PWD: ${{ secrets.DB_PWD_TEST }}
           X_DB_SCHEMA: "public"
